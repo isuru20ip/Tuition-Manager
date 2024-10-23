@@ -1193,7 +1193,7 @@ public class Settings extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField15ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        // TODO add your handling code here:
+        System.out.println("hello-2");
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
