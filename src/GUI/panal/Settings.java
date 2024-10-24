@@ -1,12 +1,14 @@
 package GUI.panal;
 
-import java.lang.System.Logger.Level;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.logging.Logger;
 import modal.DB;
 import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 import modal.LogCenter;
 
 /**
@@ -18,9 +20,17 @@ public class Settings extends javax.swing.JPanel {
     // store hall fees <k:hallType,v:fee> 
     HashMap<String, String> hallMap = new HashMap<>();
 
+    // store emp salary <k:empType,v:salary> 
+    HashMap<String, String> empMap = new HashMap<>();
+
+    // store Institute Service Charges <k:sevice,v:fee> 
+    HashMap<String, String> serviceMap = new HashMap<>();
+
     public Settings() {
         initComponents();
         loardHallType();
+        loardEMPypes();
+        serviceCharge();
     }
 
     @SuppressWarnings("unchecked")
@@ -32,8 +42,8 @@ public class Settings extends javax.swing.JPanel {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        empType = new javax.swing.JComboBox<>();
+        empSalary = new javax.swing.JFormattedTextField();
         jButton2 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
@@ -42,7 +52,7 @@ public class Settings extends javax.swing.JPanel {
         hallBtn = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel5 = new javax.swing.JLabel();
-        jFormattedTextField4 = new javax.swing.JFormattedTextField();
+        sCharge = new javax.swing.JFormattedTextField();
         jButton4 = new javax.swing.JButton();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
@@ -96,11 +106,16 @@ public class Settings extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Meta", 1, 18)); // NOI18N
         jLabel3.setText("Employee Salary ");
 
-        jComboBox2.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EMP Type" }));
+        empType.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        empType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EMP Type" }));
+        empType.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                empTypeItemStateChanged(evt);
+            }
+        });
 
-        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
-        jFormattedTextField2.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
+        empSalary.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
+        empSalary.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
 
         jButton2.setBackground(new java.awt.Color(0, 51, 204));
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -135,8 +150,8 @@ public class Settings extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Meta", 1, 18)); // NOI18N
         jLabel5.setText("Institute Fee");
 
-        jFormattedTextField4.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
-        jFormattedTextField4.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
+        sCharge.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
+        sCharge.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
 
         jButton4.setBackground(new java.awt.Color(0, 51, 204));
         jButton4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -146,11 +161,24 @@ public class Settings extends javax.swing.JPanel {
 
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jRadioButton1.setSelected(true);
         jRadioButton1.setText("Class");
+        jRadioButton1.setActionCommand("1");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jRadioButton2.setText("Course");
+        jRadioButton2.setActionCommand("2");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(255, 102, 102));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -173,15 +201,15 @@ public class Settings extends javax.swing.JPanel {
                 .addGap(35, 35, 35)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jFormattedTextField2)
+                    .addComponent(empType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(empSalary)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(30, 30, 30)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
-                    .addComponent(jFormattedTextField4)
+                    .addComponent(sCharge)
                     .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jRadioButton1)
@@ -210,9 +238,9 @@ public class Settings extends javax.swing.JPanel {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(hallBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(empType, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(empSalary, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGap(53, 53, 53))
@@ -226,7 +254,7 @@ public class Settings extends javax.swing.JPanel {
                                         .addComponent(jRadioButton1)
                                         .addComponent(jRadioButton2))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(sCharge, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(53, 53, 53))
@@ -552,8 +580,22 @@ public class Settings extends javax.swing.JPanel {
         loardHallFee();
     }//GEN-LAST:event_hallTypesItemStateChanged
 
+    private void empTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_empTypeItemStateChanged
+        loardSalary();
+    }//GEN-LAST:event_empTypeItemStateChanged
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        setServiceFee();
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+        setServiceFee();
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JFormattedTextField empSalary;
+    private javax.swing.JComboBox<String> empType;
     private javax.swing.JButton hallBtn;
     private javax.swing.JFormattedTextField hallFee;
     private javax.swing.JComboBox<String> hallTypes;
@@ -567,10 +609,7 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
-    private javax.swing.JFormattedTextField jFormattedTextField4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -609,6 +648,7 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JFormattedTextField sCharge;
     // End of variables declaration//GEN-END:variables
 
     // loard hallType into combobox[hallType] & add hall type price into hallMap [HashMap]
@@ -622,7 +662,7 @@ public class Settings extends javax.swing.JPanel {
                 comboBoxModel.addElement(resultSet.getString("type"));
             }
             hallTypes.setModel(comboBoxModel);
-            buttonContaller();
+            buttonContaller(hallTypes, hallFee);
         } catch (ClassNotFoundException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
@@ -638,15 +678,66 @@ public class Settings extends javax.swing.JPanel {
         } else {
             hallFee.setText(hallMap.get(type));
         }
-        buttonContaller();
+        buttonContaller(hallTypes, hallFee);
     }
 
-    private void buttonContaller() {
-        String hall = (String) hallTypes.getSelectedItem();
-        if (hall.equals("Select Type")) {
-            hallFee.setEditable(false);
-        } else {
-            hallFee.setEditable(true);
+    // loard EMP types into combobox[empType] & add emp salary into hallMap [HashMap]
+    private void loardEMPypes() {
+        try {
+            ResultSet resultSet = DB.search("SELECT * FROM `emp_type`");
+            DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+            comboBoxModel.addElement("Select Type");
+            while (resultSet.next()) {
+                empMap.put(resultSet.getString("name"), resultSet.getString("salary"));
+                comboBoxModel.addElement(resultSet.getString("name"));
+            }
+            empType.setModel(comboBoxModel);
+            buttonContaller(empType, empSalary);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
+    }
+
+    // display emp salary on the jTextfield [empSalary]
+    private void loardSalary() {
+        String type = (String) empType.getSelectedItem();
+        if (type.equals("Select Type")) {
+            empSalary.setText("");
+        } else {
+            empSalary.setText(empMap.get(type));
+        }
+        buttonContaller(empType, empSalary);
+    }
+
+    private void buttonContaller(JComboBox box, JTextField field) {
+        String status = (String) box.getSelectedItem();
+        if (status.equals("Select Type")) {
+            field.setEditable(false);
+        } else {
+            field.setEditable(true);
+        }
+    }
+
+    // put service charge into hashMap [serviceMap]
+    private void serviceCharge() {
+        try {
+            ResultSet resultSet = DB.search("SELECT * FROM `service_charge`");
+            while (resultSet.next()) {
+                serviceMap.put(resultSet.getString("service_type_id"), resultSet.getString("fee"));
+            }
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+        setServiceFee();
+    }
+
+    // view [sCharge] Service charges that are get from teachers (n%)
+    private void setServiceFee() {
+        String redio = buttonGroup1.getSelection().getActionCommand();
+        sCharge.setText(serviceMap.get(redio));
     }
 }
