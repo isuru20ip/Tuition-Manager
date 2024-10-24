@@ -1,5 +1,9 @@
 package GUI.panal;
 
+/**
+ *
+ * @author isuru priyamntha
+ */
 public class PaymentManagement extends javax.swing.JPanel {
 
     public PaymentManagement() {
@@ -562,11 +566,6 @@ public class PaymentManagement extends javax.swing.JPanel {
         jButton5.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jButton5.setText("Add");
         jButton5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
 
         jLabel31.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
         jLabel31.setText("Paying Fee");
@@ -1009,10 +1008,6 @@ public class PaymentManagement extends javax.swing.JPanel {
                 .addComponent(jTabbedPane1))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
