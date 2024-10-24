@@ -1,5 +1,9 @@
 package modal;
 
+/**
+ *
+ * @author isuru priyamntha
+ */
 public class WordFormat {
 
     public static String capitalizeFirstLetter(String input) {

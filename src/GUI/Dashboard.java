@@ -14,6 +14,7 @@ import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import GUI.panal.EmployeeSalaryCalculation;
 import GUI.panal.EmployeeManagement;
 import GUI.panal.EnrollmentManagement;
+import GUI.panal.HallManagement;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -445,7 +446,7 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+    loadPanal(new HallManagement());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     //student management

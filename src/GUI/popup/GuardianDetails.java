@@ -4,11 +4,18 @@
  */
 package GUI.popup;
 
+import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+import modal.DB;
+
 /**
  *
  * @author pahan
  */
 public class GuardianDetails extends javax.swing.JDialog {
+      private static HashMap<String, String> guardianType = new HashMap<>();
 
     /**
      * Creates new form Student_Address
@@ -16,6 +23,7 @@ public class GuardianDetails extends javax.swing.JDialog {
     public GuardianDetails(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        loadGuardian();
     }
 
     /**
@@ -251,4 +259,28 @@ public class GuardianDetails extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
+private void loadGuardian() {
+
+        try {
+
+            ResultSet resultSet = DB.search("SELECT * FROM `guardian_type`");
+            Vector<String> v = new Vector<>();
+            v.add("Select");
+
+            while (resultSet.next()) {
+                v.add(resultSet.getString("type"));
+                guardianType.put(resultSet.getString("type"), resultSet.getString("id"));
+
+                DefaultComboBoxModel tModel = new DefaultComboBoxModel(v);
+                jComboBox1.setModel(tModel);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 }
