@@ -5,12 +5,12 @@ import java.sql.ResultSet;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ *
+ * @author isuru priyamntha
+ */
 public class DB {
 
-    // For Development 
-    /*
-    * easy swiched between Local & cloud DB
-     */
     private static enum DBState {
         Local, Cloud;
     }
