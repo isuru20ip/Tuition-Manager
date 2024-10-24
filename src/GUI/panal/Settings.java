@@ -4,8 +4,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import modal.DB;
 import java.sql.ResultSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -32,7 +30,7 @@ public class Settings extends javax.swing.JPanel {
         initComponents();
         loardHallType();
         loardEMPypes();
-        serviceCharge();
+        loardserviceCharge();
     }
 
     @SuppressWarnings("unchecked")
@@ -170,6 +168,11 @@ public class Settings extends javax.swing.JPanel {
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Save");
         jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -612,6 +615,10 @@ public class Settings extends javax.swing.JPanel {
         updateEmpSalary();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        updateServiseFee();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JFormattedTextField empSalary;
@@ -743,7 +750,7 @@ public class Settings extends javax.swing.JPanel {
     }
 
     // put service charge into hashMap [serviceMap]
-    private void serviceCharge() {
+    private void loardserviceCharge() {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `service_charge`");
             while (resultSet.next()) {
@@ -780,7 +787,7 @@ public class Settings extends javax.swing.JPanel {
                     LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
                 }
             } else {
-               loardHallFee();
+                loardHallFee();
             }
         } else {
             JOptionPane.showMessageDialog(this, "Invalid Fee", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -810,6 +817,30 @@ public class Settings extends javax.swing.JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "Invalid Salary", "Warning", JOptionPane.WARNING_MESSAGE);
             loardSalary();
+        }
+    }
+
+    private void updateServiseFee() {
+        String fee = sCharge.getText().replace(",", "");
+        if (Validator.AMOUNT.validate(fee)) {
+            int status = JOptionPane.showConfirmDialog(this, "Are you sure you want to change the Servise Charges ?", "Confirmation Message", JOptionPane.YES_NO_OPTION);
+            if (status == JOptionPane.YES_OPTION) {
+                try {
+                    DB.IUD("UPDATE `service_charge` SET `fee`='" + fee + "' WHERE `service_type_id`='" + buttonGroup1.getSelection().getActionCommand() + "'");
+                    loardserviceCharge();
+                    setServiceFee();
+                    JOptionPane.showMessageDialog(this, "Servise Charges Updated");
+                } catch (ClassNotFoundException ex) {
+                    LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+                } catch (SQLException ex) {
+                    LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+                }
+            } else {
+                setServiceFee();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid Fee", "Warning", JOptionPane.WARNING_MESSAGE);
+            setServiceFee();
         }
     }
 }
