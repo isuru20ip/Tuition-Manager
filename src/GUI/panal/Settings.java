@@ -44,7 +44,7 @@ public class Settings extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         empType = new javax.swing.JComboBox<>();
         empSalary = new javax.swing.JFormattedTextField();
-        jButton2 = new javax.swing.JButton();
+        salaryBtn = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
         hallTypes = new javax.swing.JComboBox<>();
@@ -53,10 +53,10 @@ public class Settings extends javax.swing.JPanel {
         jSeparator2 = new javax.swing.JSeparator();
         jLabel5 = new javax.swing.JLabel();
         sCharge = new javax.swing.JFormattedTextField();
-        jButton4 = new javax.swing.JButton();
+        serviceBtn = new javax.swing.JButton();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
-        jButton1 = new javax.swing.JButton();
+        clean = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -117,14 +117,14 @@ public class Settings extends javax.swing.JPanel {
         empSalary.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
         empSalary.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
 
-        jButton2.setBackground(new java.awt.Color(0, 51, 204));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Save");
-        jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        salaryBtn.setBackground(new java.awt.Color(0, 51, 204));
+        salaryBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        salaryBtn.setForeground(new java.awt.Color(255, 255, 255));
+        salaryBtn.setText("Save");
+        salaryBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        salaryBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                salaryBtnActionPerformed(evt);
             }
         });
 
@@ -163,14 +163,14 @@ public class Settings extends javax.swing.JPanel {
         sCharge.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
         sCharge.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
 
-        jButton4.setBackground(new java.awt.Color(0, 51, 204));
-        jButton4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Save");
-        jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        serviceBtn.setBackground(new java.awt.Color(0, 51, 204));
+        serviceBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        serviceBtn.setForeground(new java.awt.Color(255, 255, 255));
+        serviceBtn.setText("Save");
+        serviceBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        serviceBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                serviceBtnActionPerformed(evt);
             }
         });
 
@@ -195,13 +195,13 @@ public class Settings extends javax.swing.JPanel {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(255, 102, 102));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("Clear All");
-        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        clean.setBackground(new java.awt.Color(255, 102, 102));
+        clean.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        clean.setText("Clear All");
+        clean.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        clean.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                cleanActionPerformed(evt);
             }
         });
 
@@ -223,14 +223,14 @@ public class Settings extends javax.swing.JPanel {
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
                     .addComponent(empType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(empSalary)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(salaryBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(30, 30, 30)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
                     .addComponent(sCharge)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(serviceBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jRadioButton1)
                         .addGap(18, 18, 18)
@@ -238,7 +238,7 @@ public class Settings extends javax.swing.JPanel {
                 .addGap(45, 45, 45))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(clean, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -262,7 +262,7 @@ public class Settings extends javax.swing.JPanel {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(empSalary, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(salaryBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGap(53, 53, 53))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                             .addContainerGap()
@@ -276,13 +276,13 @@ public class Settings extends javax.swing.JPanel {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(sCharge, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(serviceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(53, 53, 53))
                                 .addComponent(jLabel3)
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 279, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(clean, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14))
         );
 
@@ -596,49 +596,55 @@ public class Settings extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    // Hall Type ComboBox
     private void hallTypesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hallTypesItemStateChanged
         loardHallFee();
     }//GEN-LAST:event_hallTypesItemStateChanged
 
+    // EMP ComboBox
     private void empTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_empTypeItemStateChanged
         loardSalary();
     }//GEN-LAST:event_empTypeItemStateChanged
 
+    // Class Redio
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        setServiceFee();
+        loardServiceFee();
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
+    // Course Redio
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-        setServiceFee();
+        loardServiceFee();
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
+    // Hall Fee Button
     private void hallBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hallBtnActionPerformed
         updateHallFee();
     }//GEN-LAST:event_hallBtnActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    // Sallary Button
+    private void salaryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salaryBtnActionPerformed
         updateEmpSalary();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_salaryBtnActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    // Service Button
+    private void serviceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serviceBtnActionPerformed
         updateServiseFee();
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_serviceBtnActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       cleanAll();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    // clear Button
+    private void cleanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanActionPerformed
+        cleanAll();
+    }//GEN-LAST:event_cleanActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton clean;
     private javax.swing.JFormattedTextField empSalary;
     private javax.swing.JComboBox<String> empType;
     private javax.swing.JButton hallBtn;
     private javax.swing.JFormattedTextField hallFee;
     private javax.swing.JComboBox<String> hallTypes;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
@@ -685,6 +691,8 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JFormattedTextField sCharge;
+    private javax.swing.JButton salaryBtn;
+    private javax.swing.JButton serviceBtn;
     // End of variables declaration//GEN-END:variables
 
     // loard hallType into combobox[hallType] & add hall type price into hallMap [HashMap]
@@ -714,7 +722,7 @@ public class Settings extends javax.swing.JPanel {
         } else {
             hallFee.setText(hallMap.get(type));
         }
-        buttonContaller(hallTypes, hallFee);
+        textFieldContaller(hallTypes, hallFee);
     }
 
     // loard EMP types into combobox[empType] & add emp salary into hallMap [HashMap]
@@ -746,10 +754,11 @@ public class Settings extends javax.swing.JPanel {
         } else {
             empSalary.setText(empMap.get(type));
         }
-        buttonContaller(empType, empSalary);
+        textFieldContaller(empType, empSalary);
     }
 
-    private void buttonContaller(JComboBox box, JTextField field) {
+    // set text feild active and inactive
+    private void textFieldContaller(JComboBox box, JTextField field) {
         String status = (String) box.getSelectedItem();
         if (status.equals("Select Type")) {
             field.setEditable(false);
@@ -770,15 +779,16 @@ public class Settings extends javax.swing.JPanel {
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
-        setServiceFee();
+        loardServiceFee();
     }
 
     // view [sCharge] Service charges that are get from teachers (n%)
-    private void setServiceFee() {
+    private void loardServiceFee() {
         String redio = buttonGroup1.getSelection().getActionCommand();
         sCharge.setText(serviceMap.get(redio));
     }
 
+    // update hall fees [btn : hallBtn]
     private void updateHallFee() {
         String fee = hallFee.getText().replace(",", "");
         String type = (String) hallTypes.getSelectedItem();
@@ -804,6 +814,7 @@ public class Settings extends javax.swing.JPanel {
         }
     }
 
+    // update EMP Salary fees [btn : salaryBtn]
     private void updateEmpSalary() {
         String salary = empSalary.getText().replace(",", "");
         String type = (String) empType.getSelectedItem();
@@ -829,6 +840,7 @@ public class Settings extends javax.swing.JPanel {
         }
     }
 
+    // update Service Fee [btn : salaryBtn]
     private void updateServiseFee() {
         String fee = sCharge.getText().replace(",", "");
         if (Validator.AMOUNT.validate(fee)) {
@@ -837,7 +849,7 @@ public class Settings extends javax.swing.JPanel {
                 try {
                     DB.IUD("UPDATE `service_charge` SET `fee`='" + fee + "' WHERE `service_type_id`='" + buttonGroup1.getSelection().getActionCommand() + "'");
                     loardserviceCharge();
-                    setServiceFee();
+                    loardServiceFee();
                     JOptionPane.showMessageDialog(this, "Servise Charges Updated");
                 } catch (ClassNotFoundException ex) {
                     LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
@@ -845,17 +857,18 @@ public class Settings extends javax.swing.JPanel {
                     LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
                 }
             } else {
-                setServiceFee();
+                loardServiceFee();
             }
         } else {
             JOptionPane.showMessageDialog(this, "Invalid Fee", "Warning", JOptionPane.WARNING_MESSAGE);
-            setServiceFee();
+            loardServiceFee();
         }
     }
 
+    // reaset data fiels [brn: clean]
     private void cleanAll() {
-     loardEMPypes();
-     loardHallType();
-     setServiceFee();
+        loardEMPypes();
+        loardHallType();
+        loardServiceFee();
     }
 }
