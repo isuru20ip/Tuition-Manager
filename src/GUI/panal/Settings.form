@@ -88,10 +88,10 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jFormattedTextField3" alignment="0" max="32767" attributes="0"/>
+                          <Component id="hallFee" alignment="0" max="32767" attributes="0"/>
                           <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jComboBox3" alignment="0" pref="240" max="32767" attributes="0"/>
-                          <Component id="jButton3" max="32767" attributes="0"/>
+                          <Component id="hallTypes" alignment="0" pref="240" max="32767" attributes="0"/>
+                          <Component id="hallBtn" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                       <Component id="jSeparator1" min="-2" max="-2" attributes="0"/>
@@ -135,11 +135,11 @@
                                       <Group type="102" alignment="1" attributes="0">
                                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                          <Component id="jComboBox3" min="-2" pref="35" max="-2" attributes="0"/>
+                                          <Component id="hallTypes" min="-2" pref="35" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jFormattedTextField3" min="-2" pref="35" max="-2" attributes="0"/>
+                                          <Component id="hallFee" min="-2" pref="35" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="jButton3" min="-2" pref="35" max="-2" attributes="0"/>
+                                          <Component id="hallBtn" min="-2" pref="35" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="1" attributes="0">
                                           <Component id="jComboBox2" min="-2" pref="35" max="-2" attributes="0"/>
@@ -247,7 +247,7 @@
                 <Property name="text" type="java.lang.String" value="Hall Fee "/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox3">
+            <Component class="javax.swing.JComboBox" name="hallTypes">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Meta" size="14" style="0"/>
@@ -258,11 +258,14 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="hallTypesItemStateChanged"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JFormattedTextField" name="jFormattedTextField3">
+            <Component class="javax.swing.JFormattedTextField" name="hallFee">
               <Properties>
                 <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
                   <Format format="#,##0" subtype="-1" type="0"/>
@@ -272,7 +275,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton3">
+            <Component class="javax.swing.JButton" name="hallBtn">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="cc" green="33" red="0" type="rgb"/>

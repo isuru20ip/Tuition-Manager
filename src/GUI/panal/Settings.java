@@ -1,13 +1,26 @@
 package GUI.panal;
 
+import java.lang.System.Logger.Level;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.logging.Logger;
+import modal.DB;
+import java.sql.ResultSet;
+import javax.swing.DefaultComboBoxModel;
+import modal.LogCenter;
+
 /**
  *
  * @author isuru priyamntha
  */
 public class Settings extends javax.swing.JPanel {
 
+    // store hall fees <k:hallType,v:fee> 
+    HashMap<String, String> hallMap = new HashMap<>();
+
     public Settings() {
         initComponents();
+        loardHallType();
     }
 
     @SuppressWarnings("unchecked")
@@ -24,9 +37,9 @@ public class Settings extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jFormattedTextField3 = new javax.swing.JFormattedTextField();
-        jButton3 = new javax.swing.JButton();
+        hallTypes = new javax.swing.JComboBox<>();
+        hallFee = new javax.swing.JFormattedTextField();
+        hallBtn = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel5 = new javax.swing.JLabel();
         jFormattedTextField4 = new javax.swing.JFormattedTextField();
@@ -100,17 +113,22 @@ public class Settings extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Meta", 1, 18)); // NOI18N
         jLabel4.setText("Hall Fee ");
 
-        jComboBox3.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hall Fee" }));
+        hallTypes.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        hallTypes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hall Fee" }));
+        hallTypes.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                hallTypesItemStateChanged(evt);
+            }
+        });
 
-        jFormattedTextField3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
-        jFormattedTextField3.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
+        hallFee.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
+        hallFee.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
 
-        jButton3.setBackground(new java.awt.Color(0, 51, 204));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Save");
-        jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        hallBtn.setBackground(new java.awt.Color(0, 51, 204));
+        hallBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        hallBtn.setForeground(new java.awt.Color(255, 255, 255));
+        hallBtn.setText("Save");
+        hallBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -146,10 +164,10 @@ public class Settings extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jFormattedTextField3, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(hallFee, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.Alignment.LEADING, 0, 240, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(hallTypes, javax.swing.GroupLayout.Alignment.LEADING, 0, 240, Short.MAX_VALUE)
+                    .addComponent(hallBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(35, 35, 35)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
@@ -186,11 +204,11 @@ public class Settings extends javax.swing.JPanel {
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel4)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(hallTypes, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(hallFee, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(hallBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -530,13 +548,18 @@ public class Settings extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void hallTypesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hallTypesItemStateChanged
+        loardHallFee();
+    }//GEN-LAST:event_hallTypesItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton hallBtn;
+    private javax.swing.JFormattedTextField hallFee;
+    private javax.swing.JComboBox<String> hallTypes;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -545,10 +568,8 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JFormattedTextField jFormattedTextField2;
-    private javax.swing.JFormattedTextField jFormattedTextField3;
     private javax.swing.JFormattedTextField jFormattedTextField4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -589,4 +610,43 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
+
+    // loard hallType into combobox[hallType] & add hall type price into hallMap [HashMap]
+    private void loardHallType() {
+        try {
+            ResultSet resultSet = DB.search("SELECT * FROM `room_type`");
+            DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+            comboBoxModel.addElement("Select Type");
+            while (resultSet.next()) {
+                hallMap.put(resultSet.getString("type"), resultSet.getString("fee"));
+                comboBoxModel.addElement(resultSet.getString("type"));
+            }
+            hallTypes.setModel(comboBoxModel);
+            buttonContaller();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+    }
+
+    // display hall Fee on the jTextfield [hallfee]
+    private void loardHallFee() {
+        String type = (String) hallTypes.getSelectedItem();
+        if (type.equals("Select Type")) {
+            hallFee.setText("");
+        } else {
+            hallFee.setText(hallMap.get(type));
+        }
+        buttonContaller();
+    }
+
+    private void buttonContaller() {
+        String hall = (String) hallTypes.getSelectedItem();
+        if (hall.equals("Select Type")) {
+            hallFee.setEditable(false);
+        } else {
+            hallFee.setEditable(true);
+        }
+    }
 }
