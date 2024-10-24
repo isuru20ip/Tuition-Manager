@@ -8,8 +8,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import modal.LogCenter;
+import modal.Validator;
 
 /**
  *
@@ -144,6 +146,11 @@ public class Settings extends javax.swing.JPanel {
         hallBtn.setForeground(new java.awt.Color(255, 255, 255));
         hallBtn.setText("Save");
         hallBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        hallBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hallBtnActionPerformed(evt);
+            }
+        });
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -592,6 +599,10 @@ public class Settings extends javax.swing.JPanel {
         setServiceFee();
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
+    private void hallBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hallBtnActionPerformed
+        updateHallFee();
+    }//GEN-LAST:event_hallBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JFormattedTextField empSalary;
@@ -662,7 +673,7 @@ public class Settings extends javax.swing.JPanel {
                 comboBoxModel.addElement(resultSet.getString("type"));
             }
             hallTypes.setModel(comboBoxModel);
-            buttonContaller(hallTypes, hallFee);
+            loardHallFee();
         } catch (ClassNotFoundException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
@@ -739,5 +750,27 @@ public class Settings extends javax.swing.JPanel {
     private void setServiceFee() {
         String redio = buttonGroup1.getSelection().getActionCommand();
         sCharge.setText(serviceMap.get(redio));
+    }
+
+    private void updateHallFee() {
+        String fee = hallFee.getText().replace(",", "");
+        if (Validator.AMOUNT.validate(fee)) {
+            int status = JOptionPane.showConfirmDialog(this, "Are you sure you want to change the Class Room charges? This action will affect all future transactions", "Confirmation Message", JOptionPane.YES_NO_OPTION);
+            if (status == JOptionPane.YES_OPTION) {
+                try {
+                    DB.IUD("UPDATE `room_type` SET `fee`= '" + fee + "' WHERE `type`='" + hallTypes.getSelectedItem() + "'");
+                    loardHallType();
+                    JOptionPane.showMessageDialog(this, "Hall Fee Updated");
+                } catch (ClassNotFoundException ex) {
+                    LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+                } catch (SQLException ex) {
+                    LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+                }
+            } else {
+                hallTypes.setSelectedIndex(0);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid Fee", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
     }
 }
