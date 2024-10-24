@@ -124,6 +124,11 @@ public class Settings extends javax.swing.JPanel {
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Save");
         jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -603,6 +608,10 @@ public class Settings extends javax.swing.JPanel {
         updateHallFee();
     }//GEN-LAST:event_hallBtnActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        updateEmpSalary();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JFormattedTextField empSalary;
@@ -699,11 +708,13 @@ public class Settings extends javax.swing.JPanel {
             DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
             comboBoxModel.addElement("Select Type");
             while (resultSet.next()) {
-                empMap.put(resultSet.getString("name"), resultSet.getString("salary"));
-                comboBoxModel.addElement(resultSet.getString("name"));
+                if (!resultSet.getString("name").equals("Master Admin")) {
+                    empMap.put(resultSet.getString("name"), resultSet.getString("salary"));
+                    comboBoxModel.addElement(resultSet.getString("name"));
+                }
             }
             empType.setModel(comboBoxModel);
-            buttonContaller(empType, empSalary);
+            loardSalary();
         } catch (ClassNotFoundException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
@@ -754,12 +765,14 @@ public class Settings extends javax.swing.JPanel {
 
     private void updateHallFee() {
         String fee = hallFee.getText().replace(",", "");
+        String type = (String) hallTypes.getSelectedItem();
         if (Validator.AMOUNT.validate(fee)) {
-            int status = JOptionPane.showConfirmDialog(this, "Are you sure you want to change the Class Room charges? This action will affect all future transactions", "Confirmation Message", JOptionPane.YES_NO_OPTION);
+            int status = JOptionPane.showConfirmDialog(this, "Are you sure you want to change the Class Room charges?", "Confirmation Message", JOptionPane.YES_NO_OPTION);
             if (status == JOptionPane.YES_OPTION) {
                 try {
-                    DB.IUD("UPDATE `room_type` SET `fee`= '" + fee + "' WHERE `type`='" + hallTypes.getSelectedItem() + "'");
+                    DB.IUD("UPDATE `room_type` SET `fee`= '" + fee + "' WHERE `type`='" + type + "'");
                     loardHallType();
+                    hallTypes.setSelectedItem(type);
                     JOptionPane.showMessageDialog(this, "Hall Fee Updated");
                 } catch (ClassNotFoundException ex) {
                     LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
@@ -767,10 +780,36 @@ public class Settings extends javax.swing.JPanel {
                     LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
                 }
             } else {
-                hallTypes.setSelectedIndex(0);
+               loardHallFee();
             }
         } else {
             JOptionPane.showMessageDialog(this, "Invalid Fee", "Warning", JOptionPane.WARNING_MESSAGE);
+            loardHallFee();
+        }
+    }
+
+    private void updateEmpSalary() {
+        String salary = empSalary.getText().replace(",", "");
+        String type = (String) empType.getSelectedItem();
+        if (Validator.AMOUNT.validate(salary)) {
+            int status = JOptionPane.showConfirmDialog(this, "Are you sure you want to change the Employee's Salary ?", "Confirmation Message", JOptionPane.YES_NO_OPTION);
+            if (status == JOptionPane.YES_OPTION) {
+                try {
+                    DB.IUD("UPDATE `emp_type` SET `salary`='" + salary + "' WHERE `name`='" + type + "'");
+                    loardEMPypes();
+                    empType.setSelectedItem(type);
+                    JOptionPane.showMessageDialog(this, "Employee's Salary Updated");
+                } catch (ClassNotFoundException ex) {
+                    LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+                } catch (SQLException ex) {
+                    LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+                }
+            } else {
+                loardSalary();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid Salary", "Warning", JOptionPane.WARNING_MESSAGE);
+            loardSalary();
         }
     }
 }
