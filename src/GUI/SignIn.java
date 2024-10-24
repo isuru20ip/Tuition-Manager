@@ -1,10 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package GUI;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import javax.swing.JOptionPane;
+import java.sql.ResultSet;
+import modal.DB;
+
+
 
 /**
  *
@@ -12,9 +13,17 @@ import com.formdev.flatlaf.themes.FlatMacLightLaf;
  */
 public class SignIn extends javax.swing.JFrame {
 
-    /**
-     * Creates new form SignIn
-     */
+    
+    private static String userName;
+    
+    public static String getUserName(){
+        return userName;
+    }
+    
+    public static void setUserName (String userName) {
+        SignIn.userName = userName;
+    }
+    
     public SignIn() {
         initComponents();
     }
@@ -55,6 +64,11 @@ public class SignIn extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setText("Sign-In");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 0, 0));
@@ -121,6 +135,11 @@ public class SignIn extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        signIn();
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -146,4 +165,47 @@ public class SignIn extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
+    public void signIn(){
+        
+        String uname = jTextField1.getText();
+        String password = String.valueOf(jPasswordField1.getPassword());
+        
+        if(uname.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter user name", "Warning",JOptionPane.WARNING_MESSAGE);
+        
+        }else if(password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter your Password", "Warning",JOptionPane.WARNING_MESSAGE);
+            
+        }else if(!password.matches("^(?=.*[a-z])(?=.*[A-Z])[A-Za-z\\d@$!%*?&]{8,12}$")){
+                JOptionPane.showMessageDialog(this,"Please enter Strong password","Warning",JOptionPane.WARNING_MESSAGE);
+            
+        }else {
+            
+            try {
+                
+                ResultSet resultSet = DB.search(("SELECT * FROM `emp_access` WHERE `user_name` = '"+uname+"' AND `password` = '"+password+"' "));
+                
+                if (resultSet.next()) {
+                    String userName = resultSet.getString("user_name");
+                    
+                    Dashboard dashboard = new Dashboard();
+                    dashboard.setVisible(true);
+                    this.dispose();
+                    
+                    setUserName(userName);
+                
+                }else {
+                    JOptionPane.showMessageDialog(this,"Invalid email or Password !!","Warning", JOptionPane.WARNING_MESSAGE);
+                    
+                }
+                
+            }catch (Exception e) {
+                
+            }
+            
+        }
+        
+    }
+    
 }
