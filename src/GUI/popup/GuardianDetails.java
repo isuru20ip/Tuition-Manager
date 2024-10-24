@@ -15,6 +15,8 @@ import modal.DB;
  * @author pahan
  */
 public class GuardianDetails extends javax.swing.JDialog {
+    
+     //Student Guardian <k:type , v:select>
       private static HashMap<String, String> guardianType = new HashMap<>();
 
     /**

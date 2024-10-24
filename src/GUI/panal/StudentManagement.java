@@ -19,8 +19,10 @@ import javax.swing.DefaultComboBoxModel;
  * @author pahan
  */
 public class StudentManagement extends javax.swing.JPanel {
-
+    
+    //Student Gender <k:gender , v:select>
     private static HashMap<String, String> studentGender = new HashMap<>();
+    //Student Status <k:status , v:select>
     private static HashMap<String, String> studentStatus = new HashMap<>();
 
     /**
@@ -596,12 +598,13 @@ public class StudentManagement extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    //Student Address View Button
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         StudentAddress st_address = new StudentAddress((JFrame) SwingUtilities.getWindowAncestor(this), true);
         st_address.setVisible(true);
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
+   //Guardian Details View Button
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         GuardianDetails g_details = new GuardianDetails((JFrame) SwingUtilities.getWindowAncestor(this), true);
         g_details.setVisible(true);
@@ -666,6 +669,8 @@ public class StudentManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
     
+    
+    //Student Gender load
     private void loadSGender() {
 
         try {
@@ -689,6 +694,7 @@ public class StudentManagement extends javax.swing.JPanel {
 
     }
 
+    //Student Status Load
     private void loadSStatus() {
 
         try {

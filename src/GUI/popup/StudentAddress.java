@@ -15,6 +15,8 @@ import modal.DB;
  * @author pahan
  */
 public class StudentAddress extends javax.swing.JDialog {
+    
+    //Student Gender <k:city , v:select>
     private static HashMap<String, String> ScityMap = new HashMap<>();
 
     /**
@@ -226,7 +228,11 @@ public class StudentAddress extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
-  private void loadSCity() {
+ 
+    
+   //Load Student Address City
+    
+    private void loadSCity() {
 
         try {
 
