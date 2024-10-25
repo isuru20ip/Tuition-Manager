@@ -4,12 +4,15 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import modal.DB;
 import java.sql.ResultSet;
+import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import modal.LogCenter;
 import modal.Validator;
+import modal.WordFormat;
 
 /**
  *
@@ -31,6 +34,8 @@ public class Settings extends javax.swing.JPanel {
         loardHallType();
         loardEMPypes();
         loardserviceCharge();
+        loardSubjects();
+        loardGrades();
     }
 
     @SuppressWarnings("unchecked")
@@ -60,17 +65,16 @@ public class Settings extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        subjectTable = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        gradeCombo = new javax.swing.JComboBox<>();
+        subjectName = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jButton6 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        gradeTable = new javax.swing.JTable();
+        addGrade = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jTextField5 = new javax.swing.JTextField();
@@ -281,7 +285,7 @@ public class Settings extends javax.swing.JPanel {
                                 .addComponent(jLabel3)
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 279, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 285, Short.MAX_VALUE)
                 .addComponent(clean, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14))
         );
@@ -293,76 +297,114 @@ public class Settings extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
         jLabel2.setText("Add New Subject");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        subjectTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Subject ID", "Subject"
+                "Subject"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
+        subjectTable.getTableHeader().setReorderingAllowed(false);
+        subjectTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                subjectTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(subjectTable);
+        if (subjectTable.getColumnModel().getColumnCount() > 0) {
+            subjectTable.getColumnModel().getColumn(0).setResizable(false);
+        }
 
         jButton5.setBackground(new java.awt.Color(193, 206, 255));
         jButton5.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jButton5.setText("Add New Subject");
         jButton5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton7.setBackground(new java.awt.Color(193, 255, 193));
         jButton7.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jButton7.setText("Update Subject");
         jButton7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
         jLabel6.setText("Grades");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gradeCombo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        gradeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        subjectName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                subjectNameKeyReleased(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         jLabel7.setText("Subject Name");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        gradeTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Grade"
+                "Grade"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(jTable2);
+        gradeTable.getTableHeader().setReorderingAllowed(false);
+        gradeTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gradeTableMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(gradeTable);
+        if (gradeTable.getColumnModel().getColumnCount() > 0) {
+            gradeTable.getColumnModel().getColumn(0).setResizable(false);
+        }
 
-        jButton6.setBackground(new java.awt.Color(193, 206, 255));
-        jButton6.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
-        jButton6.setText("Add Grade");
-        jButton6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        jButton8.setBackground(new java.awt.Color(255, 193, 193));
-        jButton8.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
-        jButton8.setText("Remove");
-        jButton8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        addGrade.setBackground(new java.awt.Color(193, 206, 255));
+        addGrade.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
+        addGrade.setText("Add Grade");
+        addGrade.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        addGrade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addGradeActionPerformed(evt);
+            }
+        });
 
         jButton9.setBackground(new java.awt.Color(255, 193, 193));
         jButton9.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jButton9.setText("Clear");
         jButton9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -371,64 +413,60 @@ public class Settings extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(26, 26, 26)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(subjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(gradeCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(addGrade, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
-                        .addGap(58, 58, 58))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(subjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(gradeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addGrade, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane1))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18))
         );
 
         jTabbedPane1.addTab("Subject Control", jPanel1);
@@ -591,8 +629,8 @@ public class Settings extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 606, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -636,21 +674,59 @@ public class Settings extends javax.swing.JPanel {
         cleanAll();
     }//GEN-LAST:event_cleanActionPerformed
 
+    //  subject Name Text Feild
+    private void subjectNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_subjectNameKeyReleased
+        loardSubjects();
+    }//GEN-LAST:event_subjectNameKeyReleased
+    // jTbale Selection [subjectTable]
+    private void subjectTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subjectTableMouseClicked
+        if (evt.getClickCount() == 2) {
+            selectSubject();
+        }
+    }//GEN-LAST:event_subjectTableMouseClicked
+
+    // Clear Button of Subject Panal Data
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        clearSubject();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    //addGrade Button
+    private void addGradeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addGradeActionPerformed
+        addGrade();
+    }//GEN-LAST:event_addGradeActionPerformed
+
+    // Tbale click Remove Grade on jTable [gradeTbale]
+    private void gradeTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gradeTableMouseClicked
+        if (evt.getClickCount() == 2) {
+            dropGrade();
+        }
+    }//GEN-LAST:event_gradeTableMouseClicked
+
+    //Update Subject Button
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        updateSubject();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    // Add new Subject Button
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        newSubject();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addGrade;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton clean;
     private javax.swing.JFormattedTextField empSalary;
     private javax.swing.JComboBox<String> empType;
+    private javax.swing.JComboBox<String> gradeCombo;
+    private javax.swing.JTable gradeTable;
     private javax.swing.JButton hallBtn;
     private javax.swing.JFormattedTextField hallFee;
     private javax.swing.JComboBox<String> hallTypes;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -679,9 +755,6 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
@@ -693,6 +766,8 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField sCharge;
     private javax.swing.JButton salaryBtn;
     private javax.swing.JButton serviceBtn;
+    private javax.swing.JTextField subjectName;
+    private javax.swing.JTable subjectTable;
     // End of variables declaration//GEN-END:variables
 
     // loard hallType into combobox[hallType] & add hall type price into hallMap [HashMap]
@@ -870,5 +945,165 @@ public class Settings extends javax.swing.JPanel {
         loardEMPypes();
         loardHallType();
         loardServiceFee();
+    }
+
+    //view Subjects In jTable [subjectTable]
+    private void loardSubjects() {
+        String name = subjectName.getText();
+        try {
+            ResultSet resultSet = DB.search("SELECT `name` FROM `subject` WHERE `name` LIKE '%" + name + "%' ");
+            DefaultTableModel model = (DefaultTableModel) subjectTable.getModel();
+            model.setRowCount(0);
+            while (resultSet.next()) {
+                Vector v = new Vector();
+                v.add(resultSet.getString("name"));
+                model.addRow(v);
+            }
+            subjectTable.setModel(model);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+    }
+
+    // View Grades on ComboBox [gradeCombo]
+    private void loardGrades() {
+        try {
+            ResultSet resultSet = DB.search("SELECT * FROM `grade`");
+            DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+            comboBoxModel.addElement("Select a Grade");
+            while (resultSet.next()) {
+                comboBoxModel.addElement(resultSet.getString("name"));
+            }
+            gradeCombo.setModel(comboBoxModel);
+            cleanGardes();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+    }
+
+    // View Subject on jTbale [gradeTable]
+    private void selectSubject() {
+        try {
+            int row = subjectTable.getSelectedRow();
+            String query = "SELECT * FROM `subject`"
+                    + "INNER JOIN `grade_has_subject` ON grade_has_subject.subject_id = subject.id "
+                    + "INNER JOIN `grade` ON grade_has_subject.grade_id = grade.id "
+                    + "WHERE `subject`.`name` = '" + subjectTable.getValueAt(row, 0) + "';";
+            ResultSet resultSet = DB.search(query);
+
+            DefaultTableModel model = (DefaultTableModel) gradeTable.getModel();
+            model.setRowCount(0);
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString(7)); // Grade Name
+                model.addRow(vector);
+            }
+            gradeTable.setModel(model);
+            loardGrades();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+    }
+
+    // Clear Action on Subject Panal 
+    private void clearSubject() {
+        subjectTable.clearSelection();
+        DefaultTableModel model = (DefaultTableModel) gradeTable.getModel();
+        model.setRowCount(0);
+        subjectName.setText("");
+        loardSubjects();
+        loardGrades();
+    }
+
+    // Remove Selected Subject Form ComboBox [gradeCombo]
+    private void cleanGardes() {
+        for (int row = 0; row < gradeTable.getRowCount(); row++) {
+            Object cellValue = gradeTable.getValueAt(row, 0);
+            gradeCombo.removeItem(cellValue);
+        }
+    }
+
+    // View Added Grade of a Subject on jTbale [gradeTbale]
+    private void addGrade() {
+        if (subjectTable.getSelectedRow() >= 0) {
+            if (gradeCombo.getSelectedItem().equals("Select a Grade")) {
+                JOptionPane.showMessageDialog(this, "Please Select a Grade");
+            } else {
+                Object[] garde = {(String) gradeCombo.getSelectedItem()};
+                DefaultTableModel model = (DefaultTableModel) gradeTable.getModel();
+                model.addRow(garde);
+                loardGrades();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please Select a Subject");
+        }
+    }
+
+    // Remove Grade of a Subject From jTbale [gradeTbale]
+    private void dropGrade() {
+        if (gradeTable.getSelectedRow() >= 0) {
+            int status = JOptionPane.showConfirmDialog(this, "Are you sure you want to Remove [" + gradeTable.getValueAt(gradeTable.getSelectedRow(), 0) + " ]", "Warning", JOptionPane.YES_NO_OPTION);
+            if (status == JOptionPane.YES_OPTION) {
+
+                DefaultTableModel model = (DefaultTableModel) gradeTable.getModel();
+                model.removeRow(gradeTable.getSelectedRow());
+                loardGrades();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please Select a Grade");
+        }
+    }
+
+    // Update Subject data on Database 
+    private void updateSubject() {
+        String subject = (String) subjectTable.getValueAt(subjectTable.getSelectedRow(), 0);
+        String delete = "DELETE `grade_has_subject` FROM `grade_has_subject` "
+                + "INNER JOIN `subject` ON `subject`.`id` = `grade_has_subject`.`subject_id` "
+                + "WHERE `subject`.`name` = '" + subject + "';";
+        int rowCount = gradeTable.getRowCount();
+        try {
+            DB.IUD(delete);
+            for (int row = 0; row < rowCount; row++) {
+                DB.IUD("INSERT INTO grade_has_subject (`subject_id`, `grade_id`) "
+                        + "SELECT subject.id, grade.id FROM subject `subject` "
+                        + "INNER JOIN `grade` ON subject.name = '" + subject + "' AND grade.name = '" + gradeTable.getValueAt(row, 0) + "'");
+            }
+            clearSubject();
+            cleanGardes();
+            JOptionPane.showMessageDialog(this, "Subject Update Success", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+
+    }
+
+    // add new Subject to database 
+    private void newSubject() {
+        int subjectCount = subjectTable.getRowCount();
+        System.out.println(subjectCount);
+        if (subjectCount == 0) {
+            try {
+                DB.IUD("INSERT INTO `subject` (`name`) VALUES ('" + WordFormat.capitalizedStart(subjectName.getText()) + "')");
+                JOptionPane.showMessageDialog(this, "New Subject Added [" + WordFormat.capitalizedStart(subjectName.getText()) + "]", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } catch (ClassNotFoundException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            } catch (SQLException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+            }
+        } else {
+            if (subjectName.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Subject Name is required", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "This subject already Exists", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+        }
     }
 }
