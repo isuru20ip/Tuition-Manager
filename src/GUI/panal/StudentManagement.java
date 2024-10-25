@@ -8,6 +8,11 @@ import GUI.popup.GuardianDetails;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import GUI.popup.StudentAddress;
+import java.util.HashMap;
+import modal.DB;
+import java.sql.ResultSet;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -15,11 +20,16 @@ import GUI.popup.StudentAddress;
  */
 public class StudentManagement extends javax.swing.JPanel {
 
+    private static HashMap<String, String> studentGender = new HashMap<>();
+    private static HashMap<String, String> studentStatus = new HashMap<>();
+
     /**
      * Creates new form Student_Registration
      */
     public StudentManagement() {
         initComponents();
+        loadSGender();
+        loadSStatus();
     }
 
     /**
@@ -261,11 +271,11 @@ public class StudentManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "First Name", "Last Name", "Birth Day", "NIC", "Mobile", "Email", "Gender", "Address", "Guardian"
+                "ID", "First Name", "Last Name", "Birth Day", "NIC", "Mobile", "Email", "Gender"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -587,14 +597,14 @@ public class StudentManagement extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       StudentAddress st_address = new StudentAddress((JFrame) SwingUtilities.getWindowAncestor(this), true);
+        StudentAddress st_address = new StudentAddress((JFrame) SwingUtilities.getWindowAncestor(this), true);
         st_address.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       GuardianDetails g_details = new GuardianDetails ((JFrame) SwingUtilities.getWindowAncestor(this), true);
-       g_details.setVisible(true);
+        GuardianDetails g_details = new GuardianDetails((JFrame) SwingUtilities.getWindowAncestor(this), true);
+        g_details.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
 
@@ -655,4 +665,51 @@ public class StudentManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
+    
+    private void loadSGender() {
+
+        try {
+
+            ResultSet resultSet = DB.search("SELECT * FROM `gender`");
+            Vector<String> v = new Vector<>();
+            v.add("Select");
+
+            while (resultSet.next()) {
+                v.add(resultSet.getString("name"));
+                studentGender.put(resultSet.getString("name"), resultSet.getString("id"));
+
+                DefaultComboBoxModel gModel = new DefaultComboBoxModel(v);
+                jComboBox1.setModel(gModel);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void loadSStatus() {
+
+        try {
+
+            ResultSet resultSet = DB.search("SELECT * FROM `customer_status`");
+            Vector<String> v = new Vector<>();
+            v.add("Select");
+
+            while (resultSet.next()) {
+                v.add(resultSet.getString("status"));
+                studentStatus.put(resultSet.getString("status"), resultSet.getString("id"));
+
+                DefaultComboBoxModel sModel = new DefaultComboBoxModel(v);
+                jComboBox2.setModel(sModel);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

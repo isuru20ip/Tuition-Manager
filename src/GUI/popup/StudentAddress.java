@@ -4,11 +4,18 @@
  */
 package GUI.popup;
 
+import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+import modal.DB;
+
 /**
  *
  * @author pahan
  */
 public class StudentAddress extends javax.swing.JDialog {
+    private static HashMap<String, String> ScityMap = new HashMap<>();
 
     /**
      * Creates new form Student_Address
@@ -16,6 +23,7 @@ public class StudentAddress extends javax.swing.JDialog {
     public StudentAddress(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        loadSCity();
     }
 
     /**
@@ -218,4 +226,27 @@ public class StudentAddress extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+  private void loadSCity() {
+
+        try {
+
+            ResultSet resultSet = DB.search("SELECT * FROM `city`");
+            Vector<String> v = new Vector<>();
+            v.add("Select");
+
+            while (resultSet.next()) {
+                v.add(resultSet.getString("name"));
+                ScityMap.put(resultSet.getString("name"), resultSet.getString("id"));
+
+                DefaultComboBoxModel cModel = new DefaultComboBoxModel(v);
+                jComboBox1.setModel(cModel);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

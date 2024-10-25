@@ -15,6 +15,7 @@ import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import GUI.panal.EmployeeSalaryCalculation;
 import GUI.panal.EmployeeManagement;
 import GUI.panal.EnrollmentManagement;
+import GUI.panal.HallManagement;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -30,7 +31,7 @@ import javax.swing.Timer;
 public class Dashboard extends javax.swing.JFrame {
 
     Dashboard_sub panel = new Dashboard_sub();
-    
+
     public Dashboard() {
         initComponents();
         time();
@@ -501,13 +502,23 @@ public class Dashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardActionPerformed
         loadPanal(new Dashboard_sub());
     }//GEN-LAST:event_dashboardActionPerformed
 
-    private void student_managementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_student_managementActionPerformed
+    private void student_managementActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        loadPanal(new HallManagement());
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    //student management
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {
+
         loadPanal(new StudentManagement());
-    }//GEN-LAST:event_student_managementActionPerformed
+    }
 
     private void teacher_managementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teacher_managementActionPerformed
         loadPanal(new TeacherManagement());
@@ -563,7 +574,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void dashboardMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardMousePressed
 
-        
+
     }//GEN-LAST:event_dashboardMousePressed
 
     private void dashboardMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardMouseEntered

@@ -6,6 +6,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ *
+ * @author isuru priyamntha
+ */
 public class SendSMS {
 
     public static HttpURLConnection conn;
