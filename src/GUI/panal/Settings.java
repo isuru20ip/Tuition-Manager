@@ -332,6 +332,11 @@ public class Settings extends javax.swing.JPanel {
         jButton7.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jButton7.setText("Update Subject");
         jButton7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
         jLabel6.setText("Grades");
@@ -694,6 +699,10 @@ public class Settings extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_gradeTableMouseClicked
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        updateSubject();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addGrade;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -1024,7 +1033,7 @@ public class Settings extends javax.swing.JPanel {
 
     private void dropGrade() {
         if (gradeTable.getSelectedRow() >= 0) {
-            int status = JOptionPane.showConfirmDialog(this, "Are you sure you want to Remove [" + gradeTable.getValueAt(gradeTable.getSelectedRow(), 0)+" ]","Warning",JOptionPane.YES_NO_OPTION);
+            int status = JOptionPane.showConfirmDialog(this, "Are you sure you want to Remove [" + gradeTable.getValueAt(gradeTable.getSelectedRow(), 0) + " ]", "Warning", JOptionPane.YES_NO_OPTION);
             if (status == JOptionPane.YES_OPTION) {
 
                 DefaultTableModel model = (DefaultTableModel) gradeTable.getModel();
@@ -1034,5 +1043,29 @@ public class Settings extends javax.swing.JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "Please Select a Grade");
         }
+    }
+
+    private void updateSubject() {
+        String subjectName = (String) subjectTable.getValueAt(subjectTable.getSelectedRow(), 0);
+        String delete = "DELETE `grade_has_subject` FROM `grade_has_subject` "
+                + "INNER JOIN `subject` ON `subject`.`id` = `grade_has_subject`.`subject_id` "
+                + "WHERE `subject`.`name` = '"+subjectName+"';";
+        int rowCount = gradeTable.getRowCount();
+        try {
+            DB.IUD(delete);
+            for (int row = 0; row < rowCount; row++) {
+                DB.IUD("INSERT INTO grade_has_subject (`subject_id`, `grade_id`) "
+                        + "SELECT subject.id, grade.id FROM subject `subject` "
+                        + "INNER JOIN `grade` ON subject.name = '" + subjectName + "' AND grade.name = '" + gradeTable.getValueAt(row, 0) + "'");
+            }
+            clearSubject();
+            cleanGardes();
+            JOptionPane.showMessageDialog(this, "Subject Update Success", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+
     }
 }
