@@ -5,8 +5,6 @@ import java.util.HashMap;
 import modal.DB;
 import java.sql.ResultSet;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -681,16 +679,18 @@ public class Settings extends javax.swing.JPanel {
         cleanAll();
     }//GEN-LAST:event_cleanActionPerformed
 
+    //  subject Name Text Feild
     private void subjectNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_subjectNameKeyReleased
         loardSubjects();
     }//GEN-LAST:event_subjectNameKeyReleased
-
+    // jTbale Selection [subjectTable]
     private void subjectTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subjectTableMouseClicked
         if (evt.getClickCount() == 2) {
             selectSubject();
         }
     }//GEN-LAST:event_subjectTableMouseClicked
 
+    // Clear Button of Subject Panal Data
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         clearSubject();
     }//GEN-LAST:event_jButton9ActionPerformed
@@ -700,17 +700,19 @@ public class Settings extends javax.swing.JPanel {
         addGrade();
     }//GEN-LAST:event_addGradeActionPerformed
 
-    // remove gaede [double click the grade in jTbale]
+    // Tbale click Remove Grade on jTable [gradeTbale]
     private void gradeTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gradeTableMouseClicked
         if (evt.getClickCount() == 2) {
             dropGrade();
         }
     }//GEN-LAST:event_gradeTableMouseClicked
 
+    //Update Subject Button
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         updateSubject();
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    // Add new Subject Button
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         newSubject();
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -970,6 +972,7 @@ public class Settings extends javax.swing.JPanel {
         }
     }
 
+    // View Grades on ComboBox [gradeCombo]
     private void loardGrades() {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `grade`");
@@ -987,12 +990,13 @@ public class Settings extends javax.swing.JPanel {
         }
     }
 
+    // View Subject on jTbale [gradeTable]
     private void selectSubject() {
         try {
             int row = subjectTable.getSelectedRow();
-            String query = "SELECT * FROM `subject` \n"
-                    + "INNER JOIN `grade_has_subject` ON grade_has_subject.subject_id = subject.id \n"
-                    + "INNER JOIN `grade` ON grade_has_subject.grade_id = grade.id\n"
+            String query = "SELECT * FROM `subject`"
+                    + "INNER JOIN `grade_has_subject` ON grade_has_subject.subject_id = subject.id "
+                    + "INNER JOIN `grade` ON grade_has_subject.grade_id = grade.id "
                     + "WHERE `subject`.`name` = '" + subjectTable.getValueAt(row, 0) + "';";
             ResultSet resultSet = DB.search(query);
 
@@ -1012,6 +1016,7 @@ public class Settings extends javax.swing.JPanel {
         }
     }
 
+    // Clear Action on Subject Panal 
     private void clearSubject() {
         subjectTable.clearSelection();
         DefaultTableModel model = (DefaultTableModel) gradeTable.getModel();
@@ -1021,6 +1026,7 @@ public class Settings extends javax.swing.JPanel {
         loardGrades();
     }
 
+    // Remove Selected Subject Form ComboBox [gradeCombo]
     private void cleanGardes() {
         for (int row = 0; row < gradeTable.getRowCount(); row++) {
             Object cellValue = gradeTable.getValueAt(row, 0);
@@ -1028,6 +1034,7 @@ public class Settings extends javax.swing.JPanel {
         }
     }
 
+    // View Added Grade of a Subject on jTbale [gradeTbale]
     private void addGrade() {
         if (subjectTable.getSelectedRow() >= 0) {
             if (gradeCombo.getSelectedItem().equals("Select a Grade")) {
@@ -1043,6 +1050,7 @@ public class Settings extends javax.swing.JPanel {
         }
     }
 
+    // Remove Grade of a Subject From jTbale [gradeTbale]
     private void dropGrade() {
         if (gradeTable.getSelectedRow() >= 0) {
             int status = JOptionPane.showConfirmDialog(this, "Are you sure you want to Remove [" + gradeTable.getValueAt(gradeTable.getSelectedRow(), 0) + " ]", "Warning", JOptionPane.YES_NO_OPTION);
@@ -1057,18 +1065,19 @@ public class Settings extends javax.swing.JPanel {
         }
     }
 
+    // Update Subject data on Database 
     private void updateSubject() {
-        String subjectName = (String) subjectTable.getValueAt(subjectTable.getSelectedRow(), 0);
+        String subject = (String) subjectTable.getValueAt(subjectTable.getSelectedRow(), 0);
         String delete = "DELETE `grade_has_subject` FROM `grade_has_subject` "
                 + "INNER JOIN `subject` ON `subject`.`id` = `grade_has_subject`.`subject_id` "
-                + "WHERE `subject`.`name` = '" + subjectName + "';";
+                + "WHERE `subject`.`name` = '" + subject + "';";
         int rowCount = gradeTable.getRowCount();
         try {
             DB.IUD(delete);
             for (int row = 0; row < rowCount; row++) {
                 DB.IUD("INSERT INTO grade_has_subject (`subject_id`, `grade_id`) "
                         + "SELECT subject.id, grade.id FROM subject `subject` "
-                        + "INNER JOIN `grade` ON subject.name = '" + subjectName + "' AND grade.name = '" + gradeTable.getValueAt(row, 0) + "'");
+                        + "INNER JOIN `grade` ON subject.name = '" + subject + "' AND grade.name = '" + gradeTable.getValueAt(row, 0) + "'");
             }
             clearSubject();
             cleanGardes();
@@ -1081,13 +1090,14 @@ public class Settings extends javax.swing.JPanel {
 
     }
 
+    // add new Subject to database 
     private void newSubject() {
         int subjectCount = subjectTable.getRowCount();
         System.out.println(subjectCount);
         if (subjectCount == 0) {
             try {
-            DB.IUD("INSERT INTO `subject` (`name`) VALUES ('" + WordFormat.capitalizedStart(subjectName.getText()) + "')");
-            JOptionPane.showMessageDialog(this, "New Subject Added [" + WordFormat.capitalizedStart(subjectName.getText()) + "]", "Success", JOptionPane.INFORMATION_MESSAGE);
+                DB.IUD("INSERT INTO `subject` (`name`) VALUES ('" + WordFormat.capitalizedStart(subjectName.getText()) + "')");
+                JOptionPane.showMessageDialog(this, "New Subject Added [" + WordFormat.capitalizedStart(subjectName.getText()) + "]", "Success", JOptionPane.INFORMATION_MESSAGE);
             } catch (ClassNotFoundException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
             } catch (SQLException ex) {
