@@ -5,6 +5,8 @@ import java.util.HashMap;
 import modal.DB;
 import java.sql.ResultSet;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -12,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modal.LogCenter;
 import modal.Validator;
+import modal.WordFormat;
 
 /**
  *
@@ -327,6 +330,11 @@ public class Settings extends javax.swing.JPanel {
         jButton5.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jButton5.setText("Add New Subject");
         jButton5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton7.setBackground(new java.awt.Color(193, 255, 193));
         jButton7.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
@@ -703,6 +711,10 @@ public class Settings extends javax.swing.JPanel {
         updateSubject();
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        newSubject();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addGrade;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -1049,7 +1061,7 @@ public class Settings extends javax.swing.JPanel {
         String subjectName = (String) subjectTable.getValueAt(subjectTable.getSelectedRow(), 0);
         String delete = "DELETE `grade_has_subject` FROM `grade_has_subject` "
                 + "INNER JOIN `subject` ON `subject`.`id` = `grade_has_subject`.`subject_id` "
-                + "WHERE `subject`.`name` = '"+subjectName+"';";
+                + "WHERE `subject`.`name` = '" + subjectName + "';";
         int rowCount = gradeTable.getRowCount();
         try {
             DB.IUD(delete);
@@ -1067,5 +1079,26 @@ public class Settings extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
 
+    }
+
+    private void newSubject() {
+        int subjectCount = subjectTable.getRowCount();
+        System.out.println(subjectCount);
+        if (subjectCount == 0) {
+            try {
+            DB.IUD("INSERT INTO `subject` (`name`) VALUES ('" + WordFormat.capitalizedStart(subjectName.getText()) + "')");
+            JOptionPane.showMessageDialog(this, "New Subject Added [" + WordFormat.capitalizedStart(subjectName.getText()) + "]", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } catch (ClassNotFoundException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            } catch (SQLException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+            }
+        } else {
+            if (subjectName.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Subject Name is required", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "This subject already Exists", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+        }
     }
 }
