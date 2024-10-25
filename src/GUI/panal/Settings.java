@@ -4,10 +4,12 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import modal.DB;
 import java.sql.ResultSet;
+import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import modal.LogCenter;
 import modal.Validator;
 
@@ -31,6 +33,8 @@ public class Settings extends javax.swing.JPanel {
         loardHallType();
         loardEMPypes();
         loardserviceCharge();
+        loardSubjects();
+        loardGrades();
     }
 
     @SuppressWarnings("unchecked")
@@ -60,15 +64,15 @@ public class Settings extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        subjectTable = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        gradeCombo = new javax.swing.JComboBox<>();
+        subjectName = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        gradeTable = new javax.swing.JTable();
         jButton6 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
@@ -293,7 +297,7 @@ public class Settings extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
         jLabel2.setText("Add New Subject");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        subjectTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -309,8 +313,13 @@ public class Settings extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
+        subjectTable.getTableHeader().setReorderingAllowed(false);
+        subjectTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                subjectTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(subjectTable);
 
         jButton5.setBackground(new java.awt.Color(193, 206, 255));
         jButton5.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
@@ -325,12 +334,18 @@ public class Settings extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
         jLabel6.setText("Grades");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gradeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        subjectName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                subjectNameKeyReleased(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         jLabel7.setText("Subject Name");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        gradeTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -346,8 +361,8 @@ public class Settings extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(jTable2);
+        gradeTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(gradeTable);
 
         jButton6.setBackground(new java.awt.Color(193, 206, 255));
         jButton6.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
@@ -363,6 +378,11 @@ public class Settings extends javax.swing.JPanel {
         jButton9.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jButton9.setText("Clear");
         jButton9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -387,11 +407,11 @@ public class Settings extends javax.swing.JPanel {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(subjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(gradeCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -411,10 +431,10 @@ public class Settings extends javax.swing.JPanel {
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(gradeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(subjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -636,11 +656,25 @@ public class Settings extends javax.swing.JPanel {
         cleanAll();
     }//GEN-LAST:event_cleanActionPerformed
 
+    private void subjectNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_subjectNameKeyReleased
+        loardSubjects();
+    }//GEN-LAST:event_subjectNameKeyReleased
+
+    private void subjectTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subjectTableMouseClicked
+        selectSubject();
+    }//GEN-LAST:event_subjectTableMouseClicked
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        clearSubject();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton clean;
     private javax.swing.JFormattedTextField empSalary;
     private javax.swing.JComboBox<String> empType;
+    private javax.swing.JComboBox<String> gradeCombo;
+    private javax.swing.JTable gradeTable;
     private javax.swing.JButton hallBtn;
     private javax.swing.JFormattedTextField hallFee;
     private javax.swing.JComboBox<String> hallTypes;
@@ -650,7 +684,6 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -679,9 +712,6 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
@@ -693,6 +723,8 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField sCharge;
     private javax.swing.JButton salaryBtn;
     private javax.swing.JButton serviceBtn;
+    private javax.swing.JTextField subjectName;
+    private javax.swing.JTable subjectTable;
     // End of variables declaration//GEN-END:variables
 
     // loard hallType into combobox[hallType] & add hall type price into hallMap [HashMap]
@@ -870,5 +902,78 @@ public class Settings extends javax.swing.JPanel {
         loardEMPypes();
         loardHallType();
         loardServiceFee();
+    }
+
+    //view Subjects In jTable [subjectTable]
+    private void loardSubjects() {
+        String name = subjectName.getText();
+        try {
+            String query = "SELECT * FROM `subject` WHERE `name` LIKE '%" + name + "%' ";
+            ResultSet resultSet = DB.search(query);
+            DefaultTableModel model = (DefaultTableModel) subjectTable.getModel();
+            model.setRowCount(0);
+            while (resultSet.next()) {
+                Vector v = new Vector();
+                v.add(resultSet.getString("id"));
+                v.add(resultSet.getString("name"));
+                model.addRow(v);
+            }
+            subjectTable.setModel(model);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+    }
+
+    private void loardGrades() {
+        try {
+            ResultSet resultSet = DB.search("SELECT * FROM `grade`");
+            DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+            comboBoxModel.addElement("Select Grade");
+            while (resultSet.next()) {
+                comboBoxModel.addElement(resultSet.getString("name"));
+            }
+            gradeCombo.setModel(comboBoxModel);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+    }
+
+    private void selectSubject() {
+        try {
+            int row = subjectTable.getSelectedRow();
+            String query = "SELECT * FROM `subject` \n"
+                    + "INNER JOIN `grade_has_subject` ON grade_has_subject.subject_id = subject.id \n"
+                    + "INNER JOIN `grade` ON grade_has_subject.grade_id = grade.id\n"
+                    + "WHERE `subject`.`name` = '" + subjectTable.getValueAt(row, 1) + "';";
+            ResultSet resultSet = DB.search(query);
+
+            DefaultTableModel model = (DefaultTableModel) gradeTable.getModel();
+            model.setRowCount(0);
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString(6)); // grade ID
+                vector.add(resultSet.getString(7)); // Grade Name
+                model.addRow(vector);
+            }
+            gradeTable.setModel(model);
+            loardGrades();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+    }
+
+    private void clearSubject() {
+        subjectTable.clearSelection();
+        DefaultTableModel model = (DefaultTableModel) gradeTable.getModel();
+        model.setRowCount(0);
+        subjectName.setText("");
+        loardSubjects();
+        loardGrades();
     }
 }
