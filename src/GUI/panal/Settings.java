@@ -1088,7 +1088,6 @@ public class Settings extends javax.swing.JPanel {
     // add new Subject to database 
     private void newSubject() {
         int subjectCount = subjectTable.getRowCount();
-        System.out.println(subjectCount);
         if (subjectCount == 0) {
             try {
                 DB.IUD("INSERT INTO `subject` (`name`) VALUES ('" + WordFormat.capitalizedStart(subjectName.getText()) + "')");
