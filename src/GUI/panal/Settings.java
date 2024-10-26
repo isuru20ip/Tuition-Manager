@@ -1227,7 +1227,6 @@ public class Settings extends javax.swing.JPanel {
             this.fax.setText(home.getFax());
             logo.setIcon(new ImageIcon(home.getLogo()));
             SwingUtilities.updateComponentTreeUI(logo);
-            System.out.println(home.getLogo());
         } catch (IOException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while Loarding Homeinfo", ex);
         } catch (ClassNotFoundException ex) {
