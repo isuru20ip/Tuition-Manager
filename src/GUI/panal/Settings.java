@@ -1,16 +1,15 @@
 package GUI.panal;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import modal.DB;
 import java.sql.ResultSet;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -34,6 +33,8 @@ public class Settings extends javax.swing.JPanel {
 
     // store Institute Service Charges <k:sevice,v:fee> 
     HashMap<String, String> serviceMap = new HashMap<>();
+
+    private String logopath;
 
     public Settings() {
         initComponents();
@@ -421,19 +422,21 @@ public class Settings extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(subjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(subjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
@@ -511,7 +514,6 @@ public class Settings extends javax.swing.JPanel {
 
         logo.setBackground(new java.awt.Color(0, 0, 0));
         logo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/Main logo.png"))); // NOI18N
         logo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         logo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         logo.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -731,7 +733,7 @@ public class Settings extends javax.swing.JPanel {
 
     // Click Logo
     private void logoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoMouseClicked
-      pickLogo();
+        pickLogo();
     }//GEN-LAST:event_logoMouseClicked
 
     // Home Data Save Button
@@ -1161,12 +1163,10 @@ public class Settings extends javax.swing.JPanel {
             String phone03 = this.phone03.getText();
             String webLink = this.webLink.getText();
             String fax = this.fax.getText();
-           // String logo = this.logo.getText();
-
-
-           new HomeInfo().setHome(new Home(homeName, line01, line02, city, phone01, phone02, phone03, webLink, fax, fax));
-           
-           System.out.println("Saved");
+            String logo = this.logopath;
+            
+            new HomeInfo().setHome(new Home(homeName, line01, line02, city, phone01, phone02, phone03, webLink, fax, logo));
+            System.out.println("Saved");
             loardHome();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -1186,7 +1186,12 @@ public class Settings extends javax.swing.JPanel {
             this.phone03.setText(home.getPhone03());
             this.webLink.setText(home.getWebLink());
             this.fax.setText(home.getFax());
-            //System.out.println("path : " + home.getLogo());
+            try {
+                logo.setIcon(new ImageIcon(home.getLogo()));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -1197,6 +1202,19 @@ public class Settings extends javax.swing.JPanel {
 
     //create folder and save Image
     private void pickLogo() {
-        
+        JFileChooser chooser = new JFileChooser();
+        int showOpenDialog = chooser.showOpenDialog(this);
+
+        if (showOpenDialog == 0) {
+            String filePath = chooser.getSelectedFile().getAbsolutePath();
+            if (filePath.endsWith(".png")) {
+
+                String path = filePath.replace("\\", "/");
+                logo.setIcon(new ImageIcon(filePath));
+                logopath = path;
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a PNG image file.", "Invalid File Type", JOptionPane.WARNING_MESSAGE);
+            }
+        }
     }
 }

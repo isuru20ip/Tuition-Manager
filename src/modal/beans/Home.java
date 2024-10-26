@@ -137,16 +137,16 @@ public class Home implements Serializable{
     /**
      * @return the logo
      */
-//    public String getLogo() {
-//        return logo;
-//    }
+    public String getLogo() {
+        return logo;
+    }
 
     /**
      * @param logo the logo to set
      */
-//    public void setLogo(String logo) {
-//        this.logo = logo;
-//    }
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
 
     public Home() {
     }
@@ -161,7 +161,7 @@ public class Home implements Serializable{
         this.phone03 = phone03;
         this.webLink = webLink;
         this.fax = fax;
-      //  this.logo = logo;
+        this.logo = logo;
     }
     
     
@@ -175,6 +175,6 @@ public class Home implements Serializable{
     private String phone03;
     private String webLink;
     private String fax;
-   // private String logo;
+    private String logo;
     
 }
