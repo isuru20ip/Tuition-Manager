@@ -1,6 +1,10 @@
 package GUI.panal;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.HashMap;
 import modal.DB;
@@ -1152,27 +1156,30 @@ public class Settings extends javax.swing.JPanel {
         }
     }
 
+    // update homeifo.ser file
     private void SaveHomeData() {
         try {
-            String homeName = this.homeName.getText();
-            String line01 = this.line01.getText();
-            String line02 = this.line02.getText();
-            String city = (String) this.city.getSelectedItem();
-            String phone01 = this.phone01.getText();
-            String phone02 = this.phone02.getText();
-            String phone03 = this.phone03.getText();
-            String webLink = this.webLink.getText();
-            String fax = this.fax.getText();
-            String logo = this.logopath;
+            String name = this.homeName.getText();
+            String line1 = this.line01.getText();
+            String line2 = this.line02.getText();
+            String homeCity = (String) this.city.getSelectedItem();
+            String phone1 = this.phone01.getText();
+            String phone2 = this.phone02.getText();
+            String phone3 = this.phone03.getText();
+            String weblink = this.webLink.getText();
+            String homeFax = this.fax.getText();
+            String image = setLogo();
             
-            new HomeInfo().setHome(new Home(homeName, line01, line02, city, phone01, phone02, phone03, webLink, fax, logo));
-            System.out.println("Saved");
-            loardHome();
+                new HomeInfo().setHome(new Home(name, line1, line2, homeCity, phone1, phone2, phone3, weblink, homeFax, image));
+                loardHome();
+                JOptionPane.showMessageDialog(this, "Home Information Update Success", "Data Update", JOptionPane.INFORMATION_MESSAGE);
+            
         } catch (IOException ex) {
-            ex.printStackTrace();
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while Updating Homeinfo", ex);
         }
     }
 
+    // getdata from homenfo.ser
     private void loardHome() {
         try {
             Home home = new HomeInfo().getHome();
@@ -1186,35 +1193,55 @@ public class Settings extends javax.swing.JPanel {
             this.phone03.setText(home.getPhone03());
             this.webLink.setText(home.getWebLink());
             this.fax.setText(home.getFax());
-            try {
-                logo.setIcon(new ImageIcon(home.getLogo()));
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            logo.setIcon(new ImageIcon(home.getLogo()));
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while Loarding Homeinfo", ex);
         } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while Loarding Homeinfo", ex);
         }
     }
 
-    //create folder and save Image
+    //validate and pic a image
     private void pickLogo() {
         JFileChooser chooser = new JFileChooser();
         int showOpenDialog = chooser.showOpenDialog(this);
 
         if (showOpenDialog == 0) {
             String filePath = chooser.getSelectedFile().getAbsolutePath();
-            if (filePath.endsWith(".png")) {
-
+            if (filePath.endsWith(".jpg") || filePath.endsWith(".png") || filePath.endsWith(".jpeg")) {
                 String path = filePath.replace("\\", "/");
                 logo.setIcon(new ImageIcon(filePath));
                 logopath = path;
             } else {
-                JOptionPane.showMessageDialog(this, "Please select a PNG image file.", "Invalid File Type", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please select a PNG,JPG,JPEG image file.", "Invalid File Type", JOptionPane.WARNING_MESSAGE);
             }
         }
+    }
+
+    //  copy picked image into system data folders
+    private String setLogo() {
+        try {
+            // Delete Old Image
+            String oldImage = new HomeInfo().getHome().getLogo();
+            new File(oldImage).delete();
+
+            // create img Folder
+            Files.createDirectories(Path.of(System.getProperty("user.dir") + "\\img\\"));
+
+            //Copy New Image and Send Path
+            Path sourcePath = Path.of(logopath);
+            String[] imageName = logopath.split("/");
+            String newPath = System.getProperty("user.dir") + "\\img\\" + imageName[imageName.length - 1];
+            Path targetPath = Path.of(newPath);
+            Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+            return newPath;
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while copying image", ex);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while copying image", ex);
+
+        }
+        return logopath;
     }
 }
