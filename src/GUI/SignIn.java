@@ -5,6 +5,7 @@
 package GUI;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import java.awt.Toolkit;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import modal.DB;
@@ -27,6 +28,8 @@ public class SignIn extends javax.swing.JFrame {
     
     public SignIn() {
         initComponents();
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/source/Main logo.png")));
+
     }
 
     /**
@@ -189,8 +192,8 @@ public class SignIn extends javax.swing.JFrame {
                 if (resultSet.next()) {
                     String userName = resultSet.getString("user_name");
                     
-                    Dashboard dashboard = new Dashboard();
-                    dashboard.setVisible(true);
+//                    Dashboard dashboard = new Dashboard(userName);
+//                    dashboard.setVisible(true);
                     this.dispose();
                     
                     setUserName(userName);
@@ -208,5 +211,4 @@ public class SignIn extends javax.swing.JFrame {
         
     }
     
-
 }
