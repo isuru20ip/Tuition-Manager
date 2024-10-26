@@ -164,6 +164,18 @@ public class Home implements Serializable{
         this.logo = logo;
     }
     
+       public Home(String homeName, String line01, String line02, String City, String phone01, String phone02, String phone03, String webLink, String fax) {
+        this.homeName = homeName;
+        this.line01 = line01;
+        this.line02 = line02;
+        this.City = City;
+        this.phone01 = phone01;
+        this.phone02 = phone02;
+        this.phone03 = phone03;
+        this.webLink = webLink;
+        this.fax = fax;
+    }
+    
     
     
     private String homeName;

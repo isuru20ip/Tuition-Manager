@@ -38,6 +38,7 @@ public class Settings extends javax.swing.JPanel {
     // store Institute Service Charges <k:sevice,v:fee> 
     HashMap<String, String> serviceMap = new HashMap<>();
 
+    // Store user added Image Path [before copy]
     private String logopath;
 
     public Settings() {
@@ -1168,12 +1169,63 @@ public class Settings extends javax.swing.JPanel {
             String phone3 = this.phone03.getText();
             String weblink = this.webLink.getText();
             String homeFax = this.fax.getText();
-            String image = setLogo();
-            
-                new HomeInfo().setHome(new Home(name, line1, line2, homeCity, phone1, phone2, phone3, weblink, homeFax, image));
+            String image = null;
+            if (logopath != null) {
+                image = setLogo();
+            }
+
+            if (name.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Institute name required",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+            } else if (line1.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Address Line-01 required",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+            } else if (line2.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Address Line-02 required",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+            } else if (homeCity.equals("Select City")) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "City required",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+            } else if (phone1.isEmpty() & phone2.isEmpty() & phone3.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Least one mobile number required",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+            } else if (!phone1.isEmpty()) {
+                if (!Validator.MOBILE_NUMBER.validate(phone1)) {
+                    JOptionPane.showMessageDialog(this, "Invalide Mobile Number [phone-01]", "Waning", JOptionPane.WARNING_MESSAGE);
+                }
+            } else if (!phone2.isEmpty()) {
+                if (!Validator.MOBILE_NUMBER.validate(phone2)) {
+                    JOptionPane.showMessageDialog(this, "Invalide Mobile Number [phone-02]", "Waning", JOptionPane.WARNING_MESSAGE);
+                }
+            } else if (!phone3.isEmpty()) {
+                if (!Validator.MOBILE_NUMBER.validate(phone3)) {
+                    JOptionPane.showMessageDialog(this, "Invalide Mobile Number [phone-03]", "Waning", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                if (image == null) {
+                    new HomeInfo().setHome(new Home(name, line1, line2, homeCity, phone1, phone2, phone3, weblink, homeFax));
+                } else {
+                    new HomeInfo().setHome(new Home(name, line1, line2, homeCity, phone1, phone2, phone3, weblink, homeFax, image));
+                }
                 loardHome();
                 JOptionPane.showMessageDialog(this, "Home Information Update Success", "Data Update", JOptionPane.INFORMATION_MESSAGE);
-            
+            }
+
         } catch (IOException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while Updating Homeinfo", ex);
         }
@@ -1181,7 +1233,9 @@ public class Settings extends javax.swing.JPanel {
 
     // getdata from homenfo.ser
     private void loardHome() {
+        
         try {
+            //new File("homeinfo.ser").createNewFile();
             Home home = new HomeInfo().getHome();
 
             this.homeName.setText(home.getHomeName());
@@ -1193,7 +1247,10 @@ public class Settings extends javax.swing.JPanel {
             this.phone03.setText(home.getPhone03());
             this.webLink.setText(home.getWebLink());
             this.fax.setText(home.getFax());
-            logo.setIcon(new ImageIcon(home.getLogo()));
+            String image = home.getLogo();
+            if (image != null) {
+                this.logo.setIcon(new ImageIcon());
+            }
 
         } catch (IOException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while Loarding Homeinfo", ex);
@@ -1224,6 +1281,9 @@ public class Settings extends javax.swing.JPanel {
         try {
             // Delete Old Image
             String oldImage = new HomeInfo().getHome().getLogo();
+            if (logopath.isEmpty()) {
+                return logopath;
+            }
             new File(oldImage).delete();
 
             // create img Folder
@@ -1242,6 +1302,6 @@ public class Settings extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while copying image", ex);
 
         }
-        return logopath;
+        return null;
     }
 }
