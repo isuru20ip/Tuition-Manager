@@ -390,18 +390,18 @@ public class StudentAddress extends javax.swing.JDialog {
             ResultSet resultSet;
 
             if (Sid1 != null && !Sid1.isEmpty()) {
-                // Query to get the specific address using Eid1
+                // Query to get the specific address using Sid1
                 resultSet = DB.search("SELECT address.id, address.line_01, address.line_02, city.name "
                         + "FROM address "
                         + "INNER JOIN city ON address.city_id = city.id "
                         + "WHERE address.id = '" + Sid1 + "'");
             } else {
-                // If no specific Eid1 is given, get the latest address entry
+                // If no specific Sid1 is given, get the latest address entry
                 resultSet = DB.search("SELECT address.id, address.line_01, address.line_02, city.name "
                         + "FROM address "
                         + "INNER JOIN city ON address.city_id = city.id "
                         + "ORDER BY address.id DESC "
-                        + "LIMIT 1");
+                        + "LIMIT 0");
             }
 
             // Add the query result to the table if found
