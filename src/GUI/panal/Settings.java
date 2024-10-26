@@ -36,6 +36,7 @@ public class Settings extends javax.swing.JPanel {
         loardserviceCharge();
         loardSubjects();
         loardGrades();
+        loardCity();
     }
 
     @SuppressWarnings("unchecked")
@@ -77,26 +78,26 @@ public class Settings extends javax.swing.JPanel {
         addGrade = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jTextField5 = new javax.swing.JTextField();
+        homeName = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        line01 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        line02 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
+        webLink = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField11 = new javax.swing.JTextField();
+        phone01 = new javax.swing.JTextField();
+        phone02 = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        city = new javax.swing.JComboBox<>();
         jLabel15 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
+        phone03 = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        jTextField13 = new javax.swing.JTextField();
-        jLabel17 = new javax.swing.JLabel();
-        jButton10 = new javax.swing.JButton();
+        fax = new javax.swing.JTextField();
+        logo = new javax.swing.JLabel();
+        saveHome = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(234, 238, 244));
 
@@ -423,7 +424,6 @@ public class Settings extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(subjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -494,24 +494,29 @@ public class Settings extends javax.swing.JPanel {
         jLabel14.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
         jLabel14.setText("Phone-02");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        city.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel15.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
-        jLabel15.setText("Phone-02");
+        jLabel15.setText("Phone-03");
 
         jLabel16.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
         jLabel16.setText("Fax");
 
-        jLabel17.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/Main logo.png"))); // NOI18N
-        jLabel17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jLabel17.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        logo.setBackground(new java.awt.Color(0, 0, 0));
+        logo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/Main logo.png"))); // NOI18N
+        logo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        logo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        logo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoMouseClicked(evt);
+            }
+        });
 
-        jButton10.setBackground(new java.awt.Color(0, 0, 204));
-        jButton10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton10.setForeground(new java.awt.Color(255, 255, 255));
-        jButton10.setText("SAVE");
+        saveHome.setBackground(new java.awt.Color(0, 0, 204));
+        saveHome.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        saveHome.setForeground(new java.awt.Color(255, 255, 255));
+        saveHome.setText("SAVE");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -522,7 +527,7 @@ public class Settings extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
+                            .addComponent(homeName, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(590, 590, 590))
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -531,50 +536,50 @@ public class Settings extends javax.swing.JPanel {
                             .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jTextField9, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField10, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.LEADING)))
+                                .addComponent(webLink, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(phone01, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(line01, javax.swing.GroupLayout.Alignment.LEADING)))
                         .addGap(75, 75, 75)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField13)
-                            .addComponent(jTextField7)
-                            .addComponent(jTextField11))
+                            .addComponent(fax)
+                            .addComponent(line02)
+                            .addComponent(phone02))
                         .addGap(75, 75, 75)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(city, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField12, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(phone03, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(saveHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(36, 36, 36))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(phone03, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47)
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(saveHome, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(homeName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(line01, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel13))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
@@ -582,29 +587,29 @@ public class Settings extends javax.swing.JPanel {
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addComponent(jLabel11)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(city, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addComponent(jLabel10)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(line02, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel14)
                                     .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(phone01, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(phone02, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel12)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(webLink, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(fax, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(132, 132, 132))
         );
 
@@ -712,22 +717,28 @@ public class Settings extends javax.swing.JPanel {
         newSubject();
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    // Click Logo
+    private void logoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logoMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addGrade;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> city;
     private javax.swing.JButton clean;
     private javax.swing.JFormattedTextField empSalary;
     private javax.swing.JComboBox<String> empType;
+    private javax.swing.JTextField fax;
     private javax.swing.JComboBox<String> gradeCombo;
     private javax.swing.JTable gradeTable;
     private javax.swing.JButton hallBtn;
     private javax.swing.JFormattedTextField hallFee;
     private javax.swing.JComboBox<String> hallTypes;
-    private javax.swing.JButton jButton10;
+    private javax.swing.JTextField homeName;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -736,7 +747,6 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -755,19 +765,19 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField line01;
+    private javax.swing.JTextField line02;
+    private javax.swing.JLabel logo;
+    private javax.swing.JTextField phone01;
+    private javax.swing.JTextField phone02;
+    private javax.swing.JTextField phone03;
     private javax.swing.JFormattedTextField sCharge;
     private javax.swing.JButton salaryBtn;
+    private javax.swing.JButton saveHome;
     private javax.swing.JButton serviceBtn;
     private javax.swing.JTextField subjectName;
     private javax.swing.JTable subjectTable;
+    private javax.swing.JTextField webLink;
     // End of variables declaration//GEN-END:variables
 
     // loard hallType into combobox[hallType] & add hall type price into hallMap [HashMap]
@@ -1103,6 +1113,23 @@ public class Settings extends javax.swing.JPanel {
             } else {
                 JOptionPane.showMessageDialog(this, "This subject already Exists", "Warning", JOptionPane.WARNING_MESSAGE);
             }
+        }
+    }
+
+    // loard City into comboBox [city]
+    private void loardCity() {
+        try {
+            ResultSet resultSet = DB.search("SELECT * FROM `city`");
+            DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
+            comboBoxModel.addElement("Select City");
+            while (resultSet.next()) {
+                comboBoxModel.addElement(resultSet.getString("name"));
+            }
+            city.setModel(comboBoxModel);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
     }
 }
