@@ -5,12 +5,14 @@
 package GUI.popup;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
+import modal.LogCenter;
 
 /**
  *
@@ -225,8 +227,10 @@ public class StudentAddress extends javax.swing.JDialog {
                     loadAddress(lastInsertedId);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
 
 
@@ -292,8 +296,10 @@ public class StudentAddress extends javax.swing.JDialog {
                         refresh();
                     }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            } catch (SQLException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -375,8 +381,10 @@ public class StudentAddress extends javax.swing.JDialog {
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
 
     }
@@ -414,8 +422,10 @@ public class StudentAddress extends javax.swing.JDialog {
                 model.addRow(vector);
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
     }
 

@@ -11,8 +11,10 @@ import GUI.popup.StudentAddress;
 import java.util.HashMap;
 import modal.DB;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import modal.LogCenter;
 
 /**
  *
@@ -688,8 +690,10 @@ public class StudentManagement extends javax.swing.JPanel {
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
 
     }
@@ -712,8 +716,10 @@ public class StudentManagement extends javax.swing.JPanel {
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
 
     }
