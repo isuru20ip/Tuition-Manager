@@ -1,5 +1,6 @@
 package modal.systemData;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -13,6 +14,13 @@ import modal.beans.Home;
  * @author isuru Priyamantha
  */
 public class HomeInfo {
+
+    public HomeInfo() throws IOException {
+        File file = new File(System.getProperty("user.dir")+"\\homeinfo.ser");
+        file.createNewFile();
+    }
+    
+    
 
     public Home getHome() throws FileNotFoundException, IOException, ClassNotFoundException {
         FileInputStream inputStream = new FileInputStream("homeinfo.ser");
