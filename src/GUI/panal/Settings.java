@@ -16,6 +16,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import modal.LogCenter;
 import modal.Validator;
@@ -1225,6 +1226,8 @@ public class Settings extends javax.swing.JPanel {
             this.webLink.setText(home.getWebLink());
             this.fax.setText(home.getFax());
             logo.setIcon(new ImageIcon(home.getLogo()));
+            SwingUtilities.updateComponentTreeUI(logo);
+            System.out.println(home.getLogo());
         } catch (IOException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while Loarding Homeinfo", ex);
         } catch (ClassNotFoundException ex) {
