@@ -600,7 +600,7 @@ public class StudentManagement extends javax.swing.JPanel {
 
     //Student Address View Button
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        StudentAddress st_address = new StudentAddress((JFrame) SwingUtilities.getWindowAncestor(this), true);
+        StudentAddress st_address = new StudentAddress((JFrame) SwingUtilities.getWindowAncestor(this), true,null);
         st_address.setVisible(true);
 
     }//GEN-LAST:event_jButton1ActionPerformed

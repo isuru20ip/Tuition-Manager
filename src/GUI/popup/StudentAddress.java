@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import modal.DB;
 
 /**
@@ -15,17 +17,22 @@ import modal.DB;
  * @author pahan
  */
 public class StudentAddress extends javax.swing.JDialog {
-    
+
     //Student Gender <k:city , v:select>
     private static HashMap<String, String> ScityMap = new HashMap<>();
+
+    private String Sid;
 
     /**
      * Creates new form Student_Address
      */
-    public StudentAddress(java.awt.Frame parent, boolean modal) {
+    public StudentAddress(java.awt.Frame parent, boolean modal, String id) {
         super(parent, modal);
         initComponents();
+        this.Sid = id;
         loadSCity();
+
+        loadAddress(Sid);
     }
 
     /**
@@ -74,6 +81,11 @@ public class StudentAddress extends javax.swing.JDialog {
         jButton1.setBackground(new java.awt.Color(102, 204, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jButton1.setText("Add");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(0, 102, 204));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
@@ -170,48 +182,100 @@ public class StudentAddress extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        try {
+
+            String line1 = jTextField1.getText();
+            String line2 = jTextField2.getText();
+            String city = String.valueOf(jComboBox1.getSelectedItem());
+
+            if (line1.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Address Line1", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (line2.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Address Line2", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (city.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select a City", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else {
+
+                boolean isFound = false;
+
+                for (int i = 0; i < jTable1.getRowCount(); i++) {
+
+                    String getLine1 = String.valueOf(jTable1.getValueAt(i, 1));
+                    String getLine2 = String.valueOf(jTable1.getValueAt(i, 2));
+                    String getCity = String.valueOf(jTable1.getValueAt(i, 3));
+
+                    if (getLine1.equals(line1) && getLine2.equals(line2) && getCity.equals(city)) {
+
+                        JOptionPane.showMessageDialog(this, "Address already added", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                        isFound = true;
+                        break;
+                    }
+
+                }
+                if (!isFound) {
+
+                    DB.IUD("INSERT INTO `address` (`line_01`, `line_02`, `city_id`) VALUES ('" + line1 + "', '" + line2 + "', '" + this.ScityMap.get(city) + "')");
+
+                    JOptionPane.showMessageDialog(this, "Address Saved Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    loadSCity();
+                    loadAddress(Sid);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StudentAddress.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StudentAddress.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StudentAddress.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StudentAddress.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                StudentAddress dialog = new StudentAddress(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    //    public static void main(String args[]) {
+    //        /* Set the Nimbus look and feel */
+    //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+    //        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+    //         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+    //         */
+    //        try {
+    //            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+    //                if ("Nimbus".equals(info.getName())) {
+    //                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+    //                    break;
+    //                }
+    //            }
+    //        } catch (ClassNotFoundException ex) {
+    //            java.util.logging.Logger.getLogger(StudentAddress.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    //        } catch (InstantiationException ex) {
+    //            java.util.logging.Logger.getLogger(StudentAddress.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    //        } catch (IllegalAccessException ex) {
+    //            java.util.logging.Logger.getLogger(StudentAddress.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    //        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+    //            java.util.logging.Logger.getLogger(StudentAddress.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    //        }
+    //        //</editor-fold>
+    //        //</editor-fold>
+    //
+    //        /* Create and display the dialog */
+    //        java.awt.EventQueue.invokeLater(new Runnable() {
+    //            public void run() {
+    //                StudentAddress dialog = new StudentAddress(new javax.swing.JFrame(), true);
+    //                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+    //                    @Override
+    //                    public void windowClosing(java.awt.event.WindowEvent e) {
+    //                        System.exit(0);
+    //                    }
+    //                });
+    //                dialog.setVisible(true);
+    //            }
+    //        });
+    //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -228,10 +292,8 @@ public class StudentAddress extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
- 
-    
-   //Load Student Address City
-    
+
+    //Load Student Address City
     private void loadSCity() {
 
         try {
@@ -253,6 +315,56 @@ public class StudentAddress extends javax.swing.JDialog {
             e.printStackTrace();
         }
 
+    }
+
+    private void loadAddress(String Sid1) {
+
+        if (Sid1 != null) {
+            try {
+
+                ResultSet resultSet = DB.search("SELECT * FROM `address` INNER JOIN `city`"
+                        + " ON `address`.`city_id` = `city`.`id` WHERE `address`.`id` = '" + this.Sid + "'");
+
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0);
+
+                while (resultSet.next()) {
+                    Vector vector = new Vector();
+                    vector.add(resultSet.getString("id"));
+                    vector.add(resultSet.getString("line_01"));
+                    vector.add(resultSet.getString("line_02"));
+                    vector.add(resultSet.getString("city.name"));
+
+                    model.addRow(vector);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+
+                ResultSet resultSet = DB.search("SELECT * FROM `address` INNER JOIN `city`"
+                        + " ON `address`.`city_id` = `city`.`id`");
+
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0);
+
+                while (resultSet.next()) {
+                    Vector vector = new Vector();
+                    vector.add(resultSet.getString("id"));
+                    vector.add(resultSet.getString("line_01"));
+                    vector.add(resultSet.getString("line_02"));
+                    vector.add(resultSet.getString("city.name"));
+
+                    model.addRow(vector);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
 }
