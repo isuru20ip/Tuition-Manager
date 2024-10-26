@@ -1,10 +1,14 @@
 package GUI.panal;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import modal.DB;
 import java.sql.ResultSet;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -13,6 +17,8 @@ import javax.swing.table.DefaultTableModel;
 import modal.LogCenter;
 import modal.Validator;
 import modal.WordFormat;
+import modal.beans.Home;
+import modal.systemData.HomeInfo;
 
 /**
  *
@@ -37,6 +43,7 @@ public class Settings extends javax.swing.JPanel {
         loardSubjects();
         loardGrades();
         loardCity();
+        loardHome();
     }
 
     @SuppressWarnings("unchecked")
@@ -517,6 +524,11 @@ public class Settings extends javax.swing.JPanel {
         saveHome.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         saveHome.setForeground(new java.awt.Color(255, 255, 255));
         saveHome.setText("SAVE");
+        saveHome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveHomeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -719,8 +731,13 @@ public class Settings extends javax.swing.JPanel {
 
     // Click Logo
     private void logoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoMouseClicked
-        // TODO add your handling code here:
+      pickLogo();
     }//GEN-LAST:event_logoMouseClicked
+
+    // Home Data Save Button
+    private void saveHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveHomeActionPerformed
+        SaveHomeData();
+    }//GEN-LAST:event_saveHomeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addGrade;
@@ -1131,5 +1148,55 @@ public class Settings extends javax.swing.JPanel {
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
+    }
+
+    private void SaveHomeData() {
+        try {
+            String homeName = this.homeName.getText();
+            String line01 = this.line01.getText();
+            String line02 = this.line02.getText();
+            String city = (String) this.city.getSelectedItem();
+            String phone01 = this.phone01.getText();
+            String phone02 = this.phone02.getText();
+            String phone03 = this.phone03.getText();
+            String webLink = this.webLink.getText();
+            String fax = this.fax.getText();
+           // String logo = this.logo.getText();
+
+
+           new HomeInfo().setHome(new Home(homeName, line01, line02, city, phone01, phone02, phone03, webLink, fax, fax));
+           
+           System.out.println("Saved");
+            loardHome();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void loardHome() {
+        try {
+            Home home = new HomeInfo().getHome();
+
+            this.homeName.setText(home.getHomeName());
+            this.line01.setText(home.getLine01());
+            this.line02.setText(home.getLine02());
+            this.city.setSelectedItem(home.getCity());
+            this.phone01.setText(home.getLine01());
+            this.phone02.setText(home.getPhone02());
+            this.phone03.setText(home.getPhone03());
+            this.webLink.setText(home.getWebLink());
+            this.fax.setText(home.getFax());
+            //System.out.println("path : " + home.getLogo());
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    //create folder and save Image
+    private void pickLogo() {
+        
     }
 }
