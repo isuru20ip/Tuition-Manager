@@ -273,11 +273,11 @@ public class StudentManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "First Name", "Last Name", "Birth Day", "NIC", "Mobile", "Email", "Gender"
+                "ID", "First Name", "Last Name", "Birth Day", "NIC", "Mobile", "Email", "Gender", "Address", "Guardian", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
