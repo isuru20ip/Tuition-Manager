@@ -20,8 +20,6 @@ public class HomeInfo {
         file.createNewFile();
     }
     
-    
-
     public Home getHome() throws FileNotFoundException, IOException, ClassNotFoundException {
         FileInputStream inputStream = new FileInputStream("homeinfo.ser");
         ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
