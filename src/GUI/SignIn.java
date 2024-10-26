@@ -11,13 +11,20 @@ import modal.DB;
 
 /**
  *
- * @author isuru
+ * @author kaveesha
  */
 public class SignIn extends javax.swing.JFrame {
 
-    /**
-     * Creates new form SignIn
-     */
+    private static String userName;
+    
+    public static String getUserName(){
+        return userName;
+    }
+    
+    public static void setUserName (String userName) {
+        SignIn.userName = userName;
+    }
+    
     public SignIn() {
         initComponents();
     }
@@ -186,7 +193,7 @@ public class SignIn extends javax.swing.JFrame {
                     dashboard.setVisible(true);
                     this.dispose();
                     
-//                    setUserName(userName);
+                    setUserName(userName);
                 
                 }else {
                     JOptionPane.showMessageDialog(this,"Invalid email or Password !!","Warning", JOptionPane.WARNING_MESSAGE);
