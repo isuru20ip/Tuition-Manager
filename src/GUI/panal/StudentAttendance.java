@@ -488,11 +488,13 @@ public class StudentAttendance extends javax.swing.JPanel {
     private void employee_ID_FieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_employee_ID_FieldKeyReleased
         searchEmployee();
     }//GEN-LAST:event_employee_ID_FieldKeyReleased
-
+ 
+    // Mark employee Attendance
     private void markAttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markAttnActionPerformed
         markAttendance();
     }//GEN-LAST:event_markAttnActionPerformed
 
+    // Update employee Attendance
     private void updateAttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateAttnActionPerformed
         updateAttendance();
     }//GEN-LAST:event_updateAttnActionPerformed
@@ -668,6 +670,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         }
     }
 
+    // Load Employee Attendance Table
     private void loadTabel() {
 
         try {
