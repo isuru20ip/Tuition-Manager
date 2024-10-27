@@ -4,10 +4,14 @@
  */
 package GUI.popup;
 
+import GUI.panal.StudentManagement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import modal.DB;
 
 /**
@@ -15,17 +19,24 @@ import modal.DB;
  * @author pahan
  */
 public class GuardianDetails extends javax.swing.JDialog {
-    
-     //Student Guardian <k:type , v:select>
-      private static HashMap<String, String> guardianType = new HashMap<>();
+
+    //Student Guardian <k:type , v:select>
+    private static HashMap<String, String> guardianTypeMap = new HashMap<>();
 
     /**
      * Creates new form Student_Address
      */
-    public GuardianDetails(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    private String Gid;
+
+    StudentManagement sm;
+
+    public GuardianDetails(StudentManagement parent, boolean modal, String id) {
+        //super(parent, modal);
         initComponents();
-        loadGuardian();
+        this.Gid = id;
+        loadGuardian(Gid);
+        sm = (StudentManagement) parent;
+        loadGuardianType();
     }
 
     /**
@@ -77,6 +88,11 @@ public class GuardianDetails extends javax.swing.JDialog {
         jButton1.setBackground(new java.awt.Color(102, 204, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jButton1.setText("Add");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(0, 102, 204));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
@@ -198,50 +214,75 @@ public class GuardianDetails extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GuardianDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GuardianDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GuardianDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GuardianDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+            String Gfname = jTextField3.getText().trim();
+            String Glname = jTextField1.getText().trim();
+            String Gmobile = jTextField2.getText().trim();
+            String Gtype = (String) jComboBox1.getSelectedItem();
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                GuardianDetails dialog = new GuardianDetails(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+            // Input validation
+            if (Gfname.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please nter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+                return; // Exit if validation fails
             }
-        });
-    }
+            if (Glname.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+                return; // Exit if validation fails
+            }
+            if (Gmobile.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+                return; // Exit if validation fails
+            }
+            if (!Gmobile.matches("^07[012345678]{1}[0-9]{7}$")) {
+                JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+                return; // Exit if validation fails
+            }
+            if (Gtype == null || Gtype.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please select a Guardian Type", "Warning", JOptionPane.WARNING_MESSAGE);
+                return; // Exit if validation fails
+            }
+
+            // Database operations
+            try {
+                // Check if the guardian is already registered using mobile number
+                String checkSQL = "SELECT * FROM `guardian` WHERE `mobile` = '" + Gmobile + "'";
+                ResultSet resultSet = DB.search(checkSQL);
+
+                if (resultSet.next()) {
+                    JOptionPane.showMessageDialog(this, "Guardian Already Registered", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    int confirmation = JOptionPane.showConfirmDialog(this, "Are You Sure Want To add", "Alert!", JOptionPane.YES_NO_OPTION);
+
+                    if (confirmation == JOptionPane.YES_OPTION) {
+                        // Build the SQL statement for insertion
+                        String insertSQL = "INSERT INTO `guardian` (`fname`, `lname`, `mobile`, `guardian_type_id`) VALUES ('"
+                                + Gfname + "', '" + Glname + "', '" + Gmobile + "', '" + this.guardianTypeMap.get(Gtype) + "')";
+
+                        // Execute the insert
+                        DB.IUD(insertSQL);
+                        JOptionPane.showMessageDialog(this, "Guardian Registered Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                        // Now get the last inserted ID
+                        ResultSet rs = DB.search("SELECT LAST_INSERT_ID() AS last_id");
+                        if (rs.next()) {
+                            String lastInsertedId = rs.getString("last_id");
+
+                            // Load only the newly added address using the last inserted ID
+                            loadGuardian(lastInsertedId);
+                            jButton2.setEnabled(false);
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Error checking registration: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "An unexpected error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -261,7 +302,7 @@ public class GuardianDetails extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
-private void loadGuardian() {
+private void loadGuardianType() {
 
         try {
 
@@ -271,7 +312,7 @@ private void loadGuardian() {
 
             while (resultSet.next()) {
                 v.add(resultSet.getString("type"));
-                guardianType.put(resultSet.getString("type"), resultSet.getString("id"));
+                guardianTypeMap.put(resultSet.getString("type"), resultSet.getString("id"));
 
                 DefaultComboBoxModel tModel = new DefaultComboBoxModel(v);
                 jComboBox1.setModel(tModel);
@@ -284,5 +325,51 @@ private void loadGuardian() {
 
     }
 
+    private void loadGuardian(String Gid1) {
+        try {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0); // Clear all previous rows in the table
+
+            ResultSet resultSet;
+
+            if (Gid1 != null && !Gid1.isEmpty()) {
+                // Query to get the specific address using Eid1
+                resultSet = DB.search("SELECT guardian.id, guardian.fname, guardian.lname,guardian.mobile, guardian_type.type "
+                        + "FROM guardian "
+                        + "INNER JOIN guardian_type ON guardian.guardian_type_id = guardian_type.id "
+                        + "WHERE guardian.id = '" + Gid1 + "'");
+            } else {
+                // If no specific Eid1 is given, get the latest address entry
+                resultSet = DB.search("SELECT guardian.id, guardian.fname, guardian.lname,guardian.mobile,guardian_type.type "
+                        + "FROM guardian "
+                        + "INNER JOIN guardian_type ON guardian.guardian_type_id = guardian_type.id "
+                        + "ORDER BY guardian.id DESC "
+                        + "LIMIT 0"); // Adjusted to 1 row
+            }
+
+            // Add the query result to the table if found
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("id"));
+                vector.add(resultSet.getString("fname"));
+                vector.add(resultSet.getString("lname"));
+                vector.add(resultSet.getString("mobile"));
+                vector.add(resultSet.getString("type"));
+                model.addRow(vector);
+            }
+
+            if (model.getRowCount() > 0) {
+                jButton1.setEnabled(false); // Show the button if more than one row
+                jButton2.setEnabled(true);
+            } else {
+                jButton1.setEnabled(true); // Hide the button if there's one or no rows
+                jButton2.setEnabled(false);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }

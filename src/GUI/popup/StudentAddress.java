@@ -212,20 +212,28 @@ public class StudentAddress extends javax.swing.JDialog {
             } else if (city.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Please select a city", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
-                // Insert the address into the database and retrieve the last inserted ID
-                String insertQuery = "INSERT INTO `address` (`line_01`, `line_02`, `city_id`) VALUES ('" + line1 + "', '" + line2 + "', (SELECT id FROM city WHERE name = '" + city + "'))";
-                DB.IUD(insertQuery);
 
-                // Now get the last inserted ID
-                ResultSet rs = DB.search("SELECT LAST_INSERT_ID() AS last_id");
-                if (rs.next()) {
-                    String lastInsertedId = rs.getString("last_id");
+                int confirmation = JOptionPane.showConfirmDialog(this, "Are You Sure Want To add", "Alert!", JOptionPane.YES_NO_OPTION);
 
-                    JOptionPane.showMessageDialog(this, "Address saved successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                if (confirmation == JOptionPane.YES_OPTION) {
 
-                    // Load only the newly added address using the last inserted ID
-                    loadAddress(lastInsertedId);
+                    // Insert the address into the database and retrieve the last inserted ID
+                    String insertQuery = "INSERT INTO address (line_01, line_02, city_id) VALUES ('" + line1 + "', '" + line2 + "', (SELECT id FROM city WHERE name = '" + city + "'))";
+                    DB.IUD(insertQuery);
+
+                    // Now get the last inserted ID
+                    ResultSet rs = DB.search("SELECT LAST_INSERT_ID() AS last_id");
+                    if (rs.next()) {
+                        String lastInsertedId = rs.getString("last_id");
+
+                        JOptionPane.showMessageDialog(this, "Address saved successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                        // Load only the newly added address using the last inserted ID
+                        loadAddress(lastInsertedId);
+                        jButton2.setEnabled(false);
+                    }
                 }
+
             }
         } catch (ClassNotFoundException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
@@ -304,48 +312,6 @@ public class StudentAddress extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    //    public static void main(String args[]) {
-    //        /* Set the Nimbus look and feel */
-    //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-    //        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-    //         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-    //         */
-    //        try {
-    //            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-    //                if ("Nimbus".equals(info.getName())) {
-    //                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-    //                    break;
-    //                }
-    //            }
-    //        } catch (ClassNotFoundException ex) {
-    //            java.util.logging.Logger.getLogger(StudentAddress.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    //        } catch (InstantiationException ex) {
-    //            java.util.logging.Logger.getLogger(StudentAddress.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    //        } catch (IllegalAccessException ex) {
-    //            java.util.logging.Logger.getLogger(StudentAddress.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    //        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-    //            java.util.logging.Logger.getLogger(StudentAddress.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    //        }
-    //        //</editor-fold>
-    //        //</editor-fold>
-    //
-    //        /* Create and display the dialog */
-    //        java.awt.EventQueue.invokeLater(new Runnable() {
-    //            public void run() {
-    //                StudentAddress dialog = new StudentAddress(new javax.swing.JFrame(), true);
-    //                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-    //                    @Override
-    //                    public void windowClosing(java.awt.event.WindowEvent e) {
-    //                        System.exit(0);
-    //                    }
-    //                });
-    //                dialog.setVisible(true);
-    //            }
-    //        });
-    //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -413,7 +379,7 @@ public class StudentAddress extends javax.swing.JDialog {
             }
 
             // Add the query result to the table if found
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 Vector<String> vector = new Vector<>();
                 vector.add(resultSet.getString("id"));
                 vector.add(resultSet.getString("line_01"));
@@ -421,7 +387,14 @@ public class StudentAddress extends javax.swing.JDialog {
                 vector.add(resultSet.getString("name")); // City name column
                 model.addRow(vector);
             }
-
+//Add Button Set Enable True and False
+            if (model.getRowCount() > 0) {
+                jButton1.setEnabled(false); // Show the button if more than one row
+                jButton2.setEnabled(true);
+            } else {
+                jButton1.setEnabled(true); // Hide the button if there's one or no rows
+                jButton2.setEnabled(false);
+            }
         } catch (ClassNotFoundException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
@@ -438,7 +411,7 @@ public class StudentAddress extends javax.swing.JDialog {
         jTextField1.grabFocus();
         jButton1.setEnabled(true);
         loadSCity();
-        loadAddress(Sid);
+       // loadAddress(Sid);
     }
 
 }
