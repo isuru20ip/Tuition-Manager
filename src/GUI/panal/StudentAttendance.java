@@ -5,12 +5,18 @@
 package GUI.panal;
 
 import GUI.popup.SearchAttendance;
-import modal.DB;import java.sql.Connection;
+import modal.DB;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Vector;
 import javax.swing.JOptionPane;
-
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -23,9 +29,8 @@ public class StudentAttendance extends javax.swing.JPanel {
      */
     public StudentAttendance() {
         initComponents();
-        
+
         pageStart();
-        
 
     }
 
@@ -65,8 +70,8 @@ public class StudentAttendance extends javax.swing.JPanel {
         employee_Name_Field = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        employee_OnTime_Field = new javax.swing.JFormattedTextField();
+        employee_OffTime_Field = new javax.swing.JFormattedTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -74,18 +79,17 @@ public class StudentAttendance extends javax.swing.JPanel {
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jButton3 = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
-        jButton4 = new javax.swing.JButton();
+        markAttn = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JSeparator();
-        jButton5 = new javax.swing.JButton();
+        updateAttn = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jSeparator5 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        employee_attn_table = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(234, 238, 244));
         setPreferredSize(new java.awt.Dimension(967, 668));
 
-        jTabbedPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jTabbedPane1.setFont(new java.awt.Font("SchulbuchNord", 1, 14)); // NOI18N
 
         jPanel2.setBackground(new java.awt.Color(102, 102, 102));
@@ -178,7 +182,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
+                                .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
                             .addComponent(nameField))
                         .addGap(36, 36, 36)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,19 +218,19 @@ public class StudentAttendance extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 965, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Student", jPanel2);
@@ -260,11 +264,11 @@ public class StudentAttendance extends javax.swing.JPanel {
         jLabel10.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel10.setText("Off Time :");
 
-        jFormattedTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jFormattedTextField1.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        employee_OnTime_Field.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        employee_OnTime_Field.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
 
-        jFormattedTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jFormattedTextField2.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        employee_OffTime_Field.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        employee_OffTime_Field.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
 
         jPanel4.setBackground(new java.awt.Color(234, 238, 244));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -291,7 +295,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
                 .addGap(44, 44, 44))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
@@ -326,14 +330,24 @@ public class StudentAttendance extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton4.setBackground(new java.awt.Color(0, 153, 102));
-        jButton4.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Marck Attendance");
+        markAttn.setBackground(new java.awt.Color(0, 153, 102));
+        markAttn.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
+        markAttn.setForeground(new java.awt.Color(255, 255, 255));
+        markAttn.setText("Marck Attendance");
+        markAttn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                markAttnActionPerformed(evt);
+            }
+        });
 
-        jButton5.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(0, 153, 102));
-        jButton5.setText("Update Attendance");
+        updateAttn.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
+        updateAttn.setForeground(new java.awt.Color(0, 153, 102));
+        updateAttn.setText("Update Attendance");
+        updateAttn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateAttnActionPerformed(evt);
+            }
+        });
 
         jButton6.setBackground(new java.awt.Color(255, 204, 0));
         jButton6.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
@@ -344,7 +358,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        employee_attn_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -360,7 +374,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(employee_attn_table);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -390,15 +404,15 @@ public class StudentAttendance extends javax.swing.JPanel {
                                     .addComponent(jLabel10))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                                    .addComponent(jFormattedTextField2))
+                                    .addComponent(employee_OnTime_Field, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                                    .addComponent(employee_OffTime_Field))
                                 .addGap(14, 14, 14))
                             .addComponent(jSeparator4)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(23, 23, 23)
-                                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(markAttn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(updateAttn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(12, 12, 12)))
@@ -420,26 +434,26 @@ public class StudentAttendance extends javax.swing.JPanel {
                             .addComponent(jLabel7)
                             .addComponent(employee_ID_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(employee_OnTime_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
                             .addComponent(employee_Name_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10)
-                            .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(employee_OffTime_Field, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(markAttn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(updateAttn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(13, 13, 13)))
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -474,24 +488,33 @@ public class StudentAttendance extends javax.swing.JPanel {
     private void employee_ID_FieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_employee_ID_FieldKeyReleased
         searchEmployee();
     }//GEN-LAST:event_employee_ID_FieldKeyReleased
+ 
+    // Mark employee Attendance
+    private void markAttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markAttnActionPerformed
+        markAttendance();
+    }//GEN-LAST:event_markAttnActionPerformed
+
+    // Update employee Attendance
+    private void updateAttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateAttnActionPerformed
+        updateAttendance();
+    }//GEN-LAST:event_updateAttnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField employee_ID_Field;
     private javax.swing.JTextField employee_Name_Field;
+    private javax.swing.JFormattedTextField employee_OffTime_Field;
+    private javax.swing.JFormattedTextField employee_OnTime_Field;
+    private javax.swing.JTable employee_attn_table;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -517,50 +540,176 @@ public class StudentAttendance extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JButton markAttn;
     private javax.swing.JTextField nameField;
+    private javax.swing.JButton updateAttn;
     // End of variables declaration//GEN-END:variables
 
-    
-    
     // page start 
-    private void pageStart (){
+    private void pageStart() {
         employee_Name_Field.setEditable(false);
         nameField.setEditable(false);
+        employee_OnTime_Field.setEditable(false);
+        employee_OffTime_Field.setEditable(false);
+
+        loadTabel();
     }
-    
-    
+
     // Search Employee Details
-  private void searchEmployee(){
-      
-      try {
-          
-          String empId = employee_ID_Field.getText();
-          
-          if (empId.length() == 4) {
-                
-             ResultSet resultSet = DB.search("SELECT * FROM `employee` WHERE `id`= '"+empId+"'");
-            
-              if (resultSet.next()) {
-                  
-                  String fname = resultSet.getString("fname");
-                  String lname = resultSet.getString("lname");
-                  
-                  employee_Name_Field.setText(fname + " " + lname);
-                  
-              }else{
-                  JOptionPane.showMessageDialog(this, "Invalid Employee ID or Not Registerd Employee", "Warning", JOptionPane.WARNING_MESSAGE); 
-              }
-  
-          }else{
-              employee_Name_Field.setText("");
-          }
-          
-      } catch (Exception e) {
-          e.printStackTrace();
-      }
-      
-  }
-    
+    private void searchEmployee() {
+
+        try {
+
+            String empID = employee_ID_Field.getText();
+
+            String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+            if (empID.length() == 4) {
+
+                ResultSet resultSet = DB.search("SELECT * FROM `employee` WHERE `id`= '" + empID + "'");
+
+                if (resultSet.next()) {
+
+                    String fname = resultSet.getString("fname");
+                    String lname = resultSet.getString("lname");
+
+                    employee_Name_Field.setText(fname + " " + lname);
+
+                    ResultSet resultSet1 = DB.search("SELECT * FROM `emp_attendance` "
+                            + "WHERE `employee_id`= '" + empID + "' AND `date`='" + dateFormat + "'");
+
+                    if (resultSet1.next()) {
+                        String offtime = resultSet1.getString("offtime");
+
+                        if ("00:00:00".equals(offtime)) {
+                            updateAttn.setEnabled(true);
+                            updateAttn.grabFocus();
+                            markAttn.setEnabled(false);
+
+                            employee_OnTime_Field.setText(String.valueOf(resultSet1.getString("ontime")));
+                        } else {
+                            employee_OnTime_Field.setText(String.valueOf(resultSet1.getString("ontime")));
+                            employee_OffTime_Field.setText(String.valueOf(resultSet1.getString("offtime")));
+                            updateAttn.setEnabled(false);
+                            markAttn.setEnabled(false);
+                        }
+
+                    } else {
+                        updateAttn.setEnabled(false);
+                        markAttn.setEnabled(true);
+                        markAttn.grabFocus();
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "Invalid Employee ID or Not Registerd Employee", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+
+            } else {
+                employee_Name_Field.setText("");
+                employee_OnTime_Field.setText("");
+                employee_OffTime_Field.setText("");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    // mark attendance
+    private void markAttendance() {
+
+        try {
+
+            String empID = employee_ID_Field.getText();
+            String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            String timeFormat = new SimpleDateFormat("HH:mm:ss").format(new Date());
+
+            if (empID.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Employee ID", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+
+                DB.IUD("INSERT INTO emp_attendance "
+                        + "(`date`,`ontime`,`offtime`,`employee_id`) "
+                        + "VALUES('" + dateFormat + "','" + timeFormat + "','00:00:00','" + empID + "')");
+
+                loadTabel();
+                resetEmployeePage();
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    // Update emloyee attendance 
+    private void updateAttendance() {
+        try {
+
+            String empID = employee_ID_Field.getText();
+            String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            String timeFormat = new SimpleDateFormat("HH:mm:ss").format(new Date());
+
+            if (empID.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Employee ID", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+
+                DB.IUD("UPDATE `emp_attendance` SET "
+                        + "`offtime`='" + timeFormat + "' WHERE employee_id= '" + empID + "' AND `date`='" + dateFormat + "'");
+
+                loadTabel();
+                resetEmployeePage();
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Load Employee Attendance Table
+    private void loadTabel() {
+
+        try {
+            String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+            ResultSet resultSet = DB.search("SELECT * FROM `emp_attendance`"
+                    + " INNER JOIN `employee` ON `emp_attendance`.`employee_id` = `employee`.`id`"
+                    + " WHERE `date`= '" + dateFormat + "' ORDER BY `emp_attendance`.`ontime` ASC");
+
+            DefaultTableModel tableModel = (DefaultTableModel) employee_attn_table.getModel();
+            tableModel.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("date"));
+                vector.add(resultSet.getString("employee_id"));
+                vector.add(resultSet.getString("fname") + " " + resultSet.getString("lname"));
+                vector.add(resultSet.getString("ontime"));
+                vector.add(resultSet.getString("offtime"));
+
+                tableModel.addRow(vector);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    // Reset Employee page
+    private void resetEmployeePage() {
+
+        employee_ID_Field.setText("");
+        employee_Name_Field.setText("");
+        employee_OnTime_Field.setText("");
+        employee_OffTime_Field.setText("");
+
+        markAttn.setEnabled(true);
+        updateAttn.setEnabled(true);
+    }
+
 }
