@@ -2,13 +2,34 @@ package GUI.panal;
 
 import GUI.popup.Employee_Address;
 import java.awt.Color;
+import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import modal.DB;
 
 public class EmployeeManagement extends javax.swing.JPanel {
 
+    HashMap<String, String> genderMap = new HashMap<>();
+    HashMap<String, String> employeeTypeMap = new HashMap<>();
+    HashMap<String, String> employeeStatusMap = new HashMap<>();
+
     public EmployeeManagement() {
         initComponents();
+        loadGender();
+        loadEmployeeType();
+        loadEmployeeStatus();
+        loadEmployee();
+    }
+
+    private String AddressId;
+
+    public void setAddressId(String aid) {
+        this.AddressId = aid;
     }
 
     @SuppressWarnings("unchecked")
@@ -259,7 +280,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Employee Id", "First Name", "Last Name", "Mobile", "Gender", "Employee Type", "Employee Status", "Address"
+                "Employee Id", "First Name", "Last Name", "Mobile", "Address", "Employee Status", "Gender", "Employee Type"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -273,6 +294,11 @@ public class EmployeeManagement extends javax.swing.JPanel {
         jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jTable1.getTableHeader().setFont(new java.awt.Font("Poppins", java.awt.Font.PLAIN, 14)); // Change 14 to desired size
         jTable1.setRowHeight(25);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/icons8-print-48.png"))); // NOI18N
@@ -373,11 +399,18 @@ public class EmployeeManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+
+        String fname = jTextField1.getText();
+        String lname = jTextField2.getText();
+        String mobile = jTextField3.getText();
+        String gender = String.valueOf(jComboBox1.getSelectedItem());
+        String employee_type = String.valueOf(jComboBox2.getSelectedItem());
+        String employee_status = String.valueOf(jComboBox3.getSelectedItem());
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Employee_Address employee_Address = new Employee_Address((JFrame) SwingUtilities.getWindowAncestor(this), true);
+        Employee_Address employee_Address = new Employee_Address(this, true, null);
         employee_Address.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -392,6 +425,37 @@ public class EmployeeManagement extends javax.swing.JPanel {
     private void jLabel8MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseExited
         jLabel8.setForeground(Color.BLACK);
     }//GEN-LAST:event_jLabel8MouseExited
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+
+        if (evt.getClickCount() == 2) {
+            int row = jTable1.getSelectedRow();
+
+            if (row != -1) {
+
+                String id = String.valueOf(jTable1.getValueAt(row, 0));
+
+                try {
+                    ResultSet rs = DB.search("SELECT * FROM `employee` WHERE `id` = '" + id + "'");
+
+                    if (rs.next()) {
+                        String adId = rs.getString("address_id");
+
+                        Employee_Address employee_Address = new Employee_Address(this, true, adId);
+                        employee_Address.setVisible(true);
+
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a row to view the address.", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+
+    }//GEN-LAST:event_jTable1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -423,4 +487,96 @@ public class EmployeeManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
+
+    private void loadEmployee() {
+        try {
+
+            ResultSet resultSet = DB.search("SELECT * FROM `employee` INNER JOIN `address` ON `employee`.`address_id` = `address`.`id`"
+                    + "INNER JOIN `emp_status` ON `employee`.`emp_status_id` = `emp_status`.`id` INNER JOIN `gender` ON `employee`.`gender_id` = `gender`.`id`"
+                    + "INNER JOIN `emp_type` ON `employee`.`emp_type_id` = `emp_type`.`id`");
+
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector vector = new Vector();
+                vector.add(resultSet.getString("id"));
+                vector.add(resultSet.getString("fname"));
+                vector.add(resultSet.getString("lname"));
+                vector.add(resultSet.getString("mobile"));
+                vector.add(resultSet.getString("address.line_01") + resultSet.getString("address.line_02"));
+                vector.add(resultSet.getString("emp_status.status"));
+                vector.add(resultSet.getString("gender.name"));
+                vector.add(resultSet.getString("emp_type.name"));
+
+                model.addRow(vector);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadGender() {
+        try {
+            ResultSet resultSet = DB.search("SELECT * FROM `gender`");
+
+            Vector<String> vector = new Vector<>();
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("name"));
+                genderMap.put(resultSet.getString("name"), resultSet.getString("id"));
+            }
+
+            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            jComboBox1.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadEmployeeType() {
+        try {
+            ResultSet resultSet = DB.search("SELECT * FROM `emp_type`");
+
+            Vector<String> vector = new Vector<>();
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("name"));
+                employeeTypeMap.put("name", "id");
+            }
+
+            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            jComboBox2.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void loadEmployeeStatus() {
+
+        try {
+            ResultSet resultSet = DB.search("SELECT * FROM `emp_status`");
+
+            Vector<String> vector = new Vector<>();
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("status"));
+                employeeStatusMap.put("status", "id");
+            }
+
+            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            jComboBox3.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
