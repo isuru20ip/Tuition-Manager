@@ -7,7 +7,7 @@ package modal;
 import java.util.regex.Pattern;
 
 public enum Validator {
-    
+
     NAME {
         @Override
         public boolean validate(String value) {
@@ -15,15 +15,13 @@ public enum Validator {
             return value != null && !value.trim().isEmpty() && value.matches("^[A-Za-z\\s]+$");
         }
     },
-    
     MOBILE_NUMBER {
         @Override
         public boolean validate(String value) {
             // Validate if the mobile number (starts with +94 or 07 and has 9 digits)
-            return value != null && value.matches("^(\\+94|0)?7\\d{8}$");
+            return value != null && value.matches("^(\\+94|0)?7[01245678]\\d{7}$");
         }
     },
-    
     AMOUNT {
         @Override
         public boolean validate(String value) {
@@ -36,7 +34,6 @@ public enum Validator {
             }
         }
     },
-    
     EMAIL {
         @Override
         public boolean validate(String value) {
@@ -48,4 +45,3 @@ public enum Validator {
 
     public abstract boolean validate(String value);
 }
-
