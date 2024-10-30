@@ -21,24 +21,17 @@ import modal.LogCenter;
  */
 public class StudentAddress extends javax.swing.JDialog {
 
-    //Student Gender <k:city , v:select>
-    private static HashMap<String, String> ScityMap = new HashMap<>();
-
-    private String Sid;
-
-    StudentManagement sm;
-
     /**
      * Creates new form Student_Address
      */
     public StudentAddress(StudentManagement parent, boolean modal, String id) {
-       // super(parent, modal);
+        // super(parent, modal);
         initComponents();
         this.Sid = id;
         loadSCity();
 
         loadAddress(Sid);
-         sm = (StudentManagement) parent;
+        sm = (StudentManagement) parent;
     }
 
     /**
@@ -125,6 +118,12 @@ public class StudentAddress extends javax.swing.JDialog {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setHeaderValue("Id");
+            jTable1.getColumnModel().getColumn(1).setHeaderValue("Line 1");
+            jTable1.getColumnModel().getColumn(2).setHeaderValue("Line 2");
+            jTable1.getColumnModel().getColumn(3).setHeaderValue("City");
+        }
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jButton3.setText("Clear");
@@ -204,6 +203,78 @@ public class StudentAddress extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        InsertAddress(); // Insert Button Process jButton1
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+//Update Button Process
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int row = jTable1.getSelectedRow();
+
+// Check if a row is actually selected
+        if (row != -1) {
+            // Ensure no `NullPointerException` when accessing jTable1 values
+            jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 1)));
+            jTextField2.setText(String.valueOf(jTable1.getValueAt(row, 2)));
+            jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(row, 3)));
+            //jButton1.setEnabled(false);
+
+            // Check for double-click event
+            if (evt.getClickCount() == 2) {
+                String Said = String.valueOf(jTable1.getValueAt(row, 0));
+
+                // Ensure `em` is not null before calling `setAddressId`
+                if (sm != null) {
+                    sm.setStudentAddressId(Said);
+
+                } else {
+//                    System.out.println("Error: Employee object (em) is null. Cannot set address ID.");
+                    JOptionPane.showMessageDialog(this, "Employee Object is null", "WARNING", JOptionPane.WARNING_MESSAGE);
+                }
+
+                // Close the current window
+                this.dispose();
+                
+            }
+        } else {
+            System.out.println("No row selected in the table.");
+        }
+
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        refresh(); // Refresh SAddress Table
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        UpdateAddress(); //Update Button Process jButton2
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    // End of variables declaration//GEN-END:variables
+
+    //Student Gender <k:city , v:select>
+    private static HashMap<String, String> ScityMap = new HashMap<>();
+
+    private String Sid; //student id catch
+
+    StudentManagement sm;
+    
+    //Insert Address Code
+    private void InsertAddress() {
         try {
             String line1 = jTextField1.getText().trim();
             String line2 = jTextField2.getText().trim();
@@ -245,48 +316,12 @@ public class StudentAddress extends javax.swing.JDialog {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
 
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-//Update Button Process
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        int row = jTable1.getSelectedRow();
-
-// Check if a row is actually selected
-        if (row != -1) {
-            // Ensure no `NullPointerException` when accessing jTable1 values
-            jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 1)));
-            jTextField2.setText(String.valueOf(jTable1.getValueAt(row, 2)));
-            jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(row, 3)));
-            //jButton1.setEnabled(false);
-
-            // Check for double-click event
-            if (evt.getClickCount() == 2) {
-                String Said = String.valueOf(jTable1.getValueAt(row, 0));
-
-                // Ensure `em` is not null before calling `setAddressId`
-                if (sm != null) {
-                    sm.setStudentAddressId(Said);
-
-                } else {
-//                    System.out.println("Error: Employee object (em) is null. Cannot set address ID.");
-                    JOptionPane.showMessageDialog(this, "Employee Object is null", "WARNING", JOptionPane.WARNING_MESSAGE);
-                }
-
-                // Close the current window
-                this.dispose();
-            }
-        } else {
-            System.out.println("No row selected in the table.");
-        }
-
-    }//GEN-LAST:event_jTable1MouseClicked
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        refresh(); // Refresh SAddress Table
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        int row = jTable1.getSelectedRow();
+    }
+    
+    //Update Address Code
+    private void UpdateAddress(){
+        
+         int row = jTable1.getSelectedRow();
 
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Please Select a Row", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -326,7 +361,8 @@ public class StudentAddress extends javax.swing.JDialog {
                                 + " `city_id`='" + ScityMap.get(city) + "' WHERE `id`='" + id + "'");
 
                         JOptionPane.showMessageDialog(this, "Address Successfully Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
-
+                        
+                        
                         loadAddress(Sid);
                         refresh();
                     }
@@ -337,24 +373,8 @@ public class StudentAddress extends javax.swing.JDialog {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
             }
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    // End of variables declaration//GEN-END:variables
+    
+    }
 
     //Load Student Address City
     private void loadSCity() {
@@ -438,7 +458,7 @@ public class StudentAddress extends javax.swing.JDialog {
         jTextField1.grabFocus();
         jButton1.setEnabled(true);
         loadSCity();
-        // loadAddress(Sid);
+         loadAddress(Sid);
     }
 
 }
