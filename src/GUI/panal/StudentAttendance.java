@@ -75,10 +75,10 @@ public class StudentAttendance extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jButton3 = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        fromDate = new com.toedter.calendar.JDateChooser();
+        toDate = new com.toedter.calendar.JDateChooser();
+        searchRecorButton = new javax.swing.JButton();
+        ifrecordCheckBox = new javax.swing.JCheckBox();
         markAttn = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JSeparator();
         updateAttn = new javax.swing.JButton();
@@ -279,15 +279,20 @@ public class StudentAttendance extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel12.setText("To :");
 
-        jDateChooser1.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        fromDate.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
 
-        jDateChooser2.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        toDate.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
 
-        jButton3.setBackground(new java.awt.Color(204, 204, 255));
-        jButton3.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
-        jButton3.setText("Search");
+        searchRecorButton.setBackground(new java.awt.Color(204, 204, 255));
+        searchRecorButton.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
+        searchRecorButton.setText("Search");
 
-        jCheckBox1.setText("Search past attendance record if required");
+        ifrecordCheckBox.setText("Search past attendance record if required");
+        ifrecordCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ifrecordCheckBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -295,7 +300,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                .addComponent(ifrecordCheckBox, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
                 .addGap(44, 44, 44))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
@@ -304,10 +309,10 @@ public class StudentAttendance extends javax.swing.JPanel {
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(fromDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(toDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(searchRecorButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,18 +320,18 @@ public class StudentAttendance extends javax.swing.JPanel {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jCheckBox1)
+                        .addComponent(ifrecordCheckBox)
                         .addGap(8, 8, 8)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(fromDate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(14, 14, 14)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(toDate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(49, 49, 49)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(searchRecorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -488,7 +493,7 @@ public class StudentAttendance extends javax.swing.JPanel {
     private void employee_ID_FieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_employee_ID_FieldKeyReleased
         searchEmployee();
     }//GEN-LAST:event_employee_ID_FieldKeyReleased
- 
+
     // Mark employee Attendance
     private void markAttnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markAttnActionPerformed
         markAttendance();
@@ -499,6 +504,10 @@ public class StudentAttendance extends javax.swing.JPanel {
         updateAttendance();
     }//GEN-LAST:event_updateAttnActionPerformed
 
+    private void ifrecordCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ifrecordCheckBoxActionPerformed
+        ifcheckrecord();
+    }//GEN-LAST:event_ifrecordCheckBoxActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField employee_ID_Field;
@@ -506,15 +515,13 @@ public class StudentAttendance extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField employee_OffTime_Field;
     private javax.swing.JFormattedTextField employee_OnTime_Field;
     private javax.swing.JTable employee_attn_table;
+    private com.toedter.calendar.JDateChooser fromDate;
+    private javax.swing.JCheckBox ifrecordCheckBox;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton6;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -543,6 +550,8 @@ public class StudentAttendance extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JButton markAttn;
     private javax.swing.JTextField nameField;
+    private javax.swing.JButton searchRecorButton;
+    private com.toedter.calendar.JDateChooser toDate;
     private javax.swing.JButton updateAttn;
     // End of variables declaration//GEN-END:variables
 
@@ -552,6 +561,9 @@ public class StudentAttendance extends javax.swing.JPanel {
         nameField.setEditable(false);
         employee_OnTime_Field.setEditable(false);
         employee_OffTime_Field.setEditable(false);
+        searchRecorButton.setEnabled(false);
+        fromDate.setEnabled(false);
+        toDate.setEnabled(false);
 
         loadTabel();
     }
@@ -698,6 +710,16 @@ public class StudentAttendance extends javax.swing.JPanel {
             e.printStackTrace();
         }
 
+    }
+
+    private void ifcheckrecord() {
+       
+            if (ifrecordCheckBox.isSelected()) {
+                searchRecorButton.setEnabled(true);
+                fromDate.setEnabled(true);
+                toDate.setEnabled(true);
+            }
+        
     }
 
     // Reset Employee page
