@@ -4,6 +4,7 @@
  */
 package GUI.popup;
 
+import GUI.panal.StudentManagement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -25,16 +26,19 @@ public class StudentAddress extends javax.swing.JDialog {
 
     private String Sid;
 
+    StudentManagement sm;
+
     /**
      * Creates new form Student_Address
      */
-    public StudentAddress(java.awt.Frame parent, boolean modal, String id) {
-        super(parent, modal);
+    public StudentAddress(StudentManagement parent, boolean modal, String id) {
+       // super(parent, modal);
         initComponents();
         this.Sid = id;
         loadSCity();
 
         loadAddress(Sid);
+         sm = (StudentManagement) parent;
     }
 
     /**
@@ -247,10 +251,33 @@ public class StudentAddress extends javax.swing.JDialog {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int row = jTable1.getSelectedRow();
 
-        jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 1)));
-        jTextField2.setText(String.valueOf(jTable1.getValueAt(row, 2)));
-        jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(row, 3)));
-        jButton1.setEnabled(false);//Add Button Disable
+// Check if a row is actually selected
+        if (row != -1) {
+            // Ensure no `NullPointerException` when accessing jTable1 values
+            jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 1)));
+            jTextField2.setText(String.valueOf(jTable1.getValueAt(row, 2)));
+            jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(row, 3)));
+            //jButton1.setEnabled(false);
+
+            // Check for double-click event
+            if (evt.getClickCount() == 2) {
+                String Said = String.valueOf(jTable1.getValueAt(row, 0));
+
+                // Ensure `em` is not null before calling `setAddressId`
+                if (sm != null) {
+                    sm.setStudentAddressId(Said);
+
+                } else {
+//                    System.out.println("Error: Employee object (em) is null. Cannot set address ID.");
+                    JOptionPane.showMessageDialog(this, "Employee Object is null", "WARNING", JOptionPane.WARNING_MESSAGE);
+                }
+
+                // Close the current window
+                this.dispose();
+            }
+        } else {
+            System.out.println("No row selected in the table.");
+        }
 
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -411,7 +438,7 @@ public class StudentAddress extends javax.swing.JDialog {
         jTextField1.grabFocus();
         jButton1.setEnabled(true);
         loadSCity();
-       // loadAddress(Sid);
+        // loadAddress(Sid);
     }
 
 }

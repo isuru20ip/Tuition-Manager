@@ -180,6 +180,11 @@ public class GuardianDetails extends javax.swing.JDialog {
             }
         });
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -282,6 +287,38 @@ public class GuardianDetails extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int row = jTable1.getSelectedRow();
+
+// Check if a row is actually selected
+        if (row != -1) {
+            // Ensure no `NullPointerException` when accessing jTable1 values
+            jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 1)));
+            jTextField2.setText(String.valueOf(jTable1.getValueAt(row, 2)));
+            jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(row, 3)));
+            //jButton1.setEnabled(false);
+
+            // Check for double-click event
+            if (evt.getClickCount() == 2) {
+                String Gid = String.valueOf(jTable1.getValueAt(row, 0));
+
+                // Ensure `em` is not null before calling `setAddressId`
+                if (sm != null) {
+                    sm.setGuardianId(Gid);
+
+                } else {
+//                    System.out.println("Error: Employee object (em) is null. Cannot set address ID.");
+                    JOptionPane.showMessageDialog(this, "Employee Object is null", "WARNING", JOptionPane.WARNING_MESSAGE);
+                }
+
+                // Close the current window
+                this.dispose();
+            }
+        } else {
+            System.out.println("No row selected in the table.");
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

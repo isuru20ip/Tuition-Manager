@@ -12,10 +12,13 @@ import java.util.HashMap;
 import modal.DB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modal.IDGenarator;
 import modal.LogCenter;
 
 /**
@@ -29,6 +32,20 @@ public class StudentManagement extends javax.swing.JPanel {
     //Student Status <k:status , v:select>
     private static HashMap<String, String> studentStatus = new HashMap<>();
 
+    private String StudentAddressId; // Can be used to store student Address Id
+
+    private String GuardianId; // Can be used to store student Guardian  Id
+
+    public void setStudentAddressId(String Said) {
+        this.StudentAddressId = Said;
+
+    }
+
+    public void setGuardianId(String Gid) {
+        this.GuardianId = Gid;
+
+    }
+
     /**
      * Creates new form Student_Registration
      */
@@ -36,6 +53,7 @@ public class StudentManagement extends javax.swing.JPanel {
         initComponents();
         loadSGender();
         loadSStatus();
+        loadStudent();
     }
 
     /**
@@ -177,7 +195,7 @@ public class StudentManagement extends javax.swing.JPanel {
             }
         });
 
-        jDateChooser1.setDateFormatString("yyyy,MM,dd");
+        jDateChooser1.setDateFormatString("yyyy-MM-dd");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -323,6 +341,11 @@ public class StudentManagement extends javax.swing.JPanel {
         jButton5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton5.setText("Clear");
         jButton5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -609,67 +632,34 @@ public class StudentManagement extends javax.swing.JPanel {
 
     //Student Address View Button
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        StudentAddress st_address = new StudentAddress((JFrame) SwingUtilities.getWindowAncestor(this), true, null);
-        st_address.setVisible(true);
+        StudentAddress Student_Address = new StudentAddress(this, true, null);
+        if (StudentAddressId != null) {
+            JOptionPane.showMessageDialog(this, "Address ID already exists", "Warning", JOptionPane.WARNING_MESSAGE);
+            Student_Address.setVisible(false); // This will prevent the dialog from showing if there's an ID
+        } else {
+            Student_Address.setVisible(true); // Show the dialog if there's no ID
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
     //Guardian Details View Button
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       GuardianDetails Guardian_Details = new GuardianDetails(this, true, null);
-        Guardian_Details.setVisible(true);
+        GuardianDetails Guardian_Details = new GuardianDetails(this, true, null);
+        if (GuardianId != null) {
+            JOptionPane.showMessageDialog(this, "Guardian Details already exists", "Warning", JOptionPane.WARNING_MESSAGE);
+            Guardian_Details.setVisible(false); // This will prevent the dialog from showing if there's an ID
+        } else {
+            Guardian_Details.setVisible(true); // Show the dialog if there's no ID
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try {
-
-            String fname = jTextField1.getText();
-            String lname = jTextField2.getText();
-            String nic = jTextField3.getText();
-            String gender = String.valueOf(jComboBox1.getSelectedItem());
-            Date dob = jDateChooser1.getDate(); // BirthDay
-            String mobile = jTextField4.getText();
-            String email = jTextField5.getText();
-            String status = String.valueOf(jComboBox2.getSelectedItem());
-
-            if (fname.isEmpty()) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (lname.isEmpty()) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter Your Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (nic.isEmpty()) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter Your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (gender.equals("Select")) {
-
-                JOptionPane.showMessageDialog(this, "Please Select a Gender", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (mobile.isEmpty()) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (email.isEmpty()) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
-
-                JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else {
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        InsertStudent(); // Add Button Process jButton3
 
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        clearAll(); // clearAll Button jButton5
+    }//GEN-LAST:event_jButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -779,6 +769,141 @@ public class StudentManagement extends javax.swing.JPanel {
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
+
+    }
+
+    //Student Details Load Table jTable1
+    private void loadStudent() {
+        try {
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            dtm.setRowCount(0);
+
+            ResultSet resultSet = DB.search("SELECT * FROM `student`"
+                    + "INNER JOIN `gender` ON `student`.`gender_id`=`gender`.`id`"
+                    + "INNER JOIN `guardian` ON `student`.`guardian_id`=`guardian`.`id`"
+                    + "INNER JOIN `address` ON `student`.`address_id`=`address`.`id`"
+                    + "INNER JOIN `employee` ON `student`.`employee_id`=`employee`.`id`"
+                    + "INNER JOIN `customer_status` ON `student`.`customer_status_id`=`customer_status`.`id`");
+
+            while (resultSet.next()) {
+                Vector<String> v = new Vector();
+                v.add(resultSet.getString("id"));
+                v.add(resultSet.getString("fname"));
+                v.add(resultSet.getString("lname"));
+                v.add(resultSet.getString("birthday"));
+                v.add(resultSet.getString("nic"));
+                v.add(resultSet.getString("mobile"));
+                v.add(resultSet.getString("email"));
+                v.add(resultSet.getString("gender.name"));
+                v.add(resultSet.getString("address.line_01"));
+                v.add(resultSet.getString("guardian.fname"));
+                v.add(resultSet.getString("customer_status.status"));
+                dtm.addRow(v);
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+
+    }
+
+    private void InsertStudent() {
+
+        try {
+
+            String fname = jTextField1.getText();
+            String lname = jTextField2.getText();
+            String nic = jTextField3.getText();
+            String gender = String.valueOf(jComboBox1.getSelectedItem());
+            Date dob = jDateChooser1.getDate(); // BirthDay
+            String mobile = jTextField4.getText();
+            String email = jTextField5.getText();
+            String status = String.valueOf(jComboBox2.getSelectedItem());
+
+            if (fname.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (lname.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (nic.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (gender.equals("Select")) {
+
+                JOptionPane.showMessageDialog(this, "Please Select a Gender", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (dob == null) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your Date of Birth", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (mobile.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (email.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
+
+                JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (status.equals("Select")) {
+
+                JOptionPane.showMessageDialog(this, "Please Select a Status", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (StudentAddressId == null) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter an Address", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (GuardianId == null) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Guardian Information", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                String Dob = sdf.format(dob);
+                String joinDate = sdfDateTime.format(new Date());
+                String sampleEmployeeID = "0126";
+
+                Vector<String> IDS = new Vector<>();
+
+                String generatedID = IDGenarator.generateID("ST", IDS);
+
+                DB.IUD("INSERT INTO `student`(`id`,`fname`,`lname`,`birthday`,`nic`,`mobile`,`email`,`join_date`,`gender_id`,`guardian_id`,`address_id`,`employee_id`,`customer_status_id`)"
+                        + "VALUES ('" + generatedID + "','" + fname + "','" + lname + "','" + Dob + "','" + nic + "','" + mobile + "','" + email + "','" + joinDate + "',"
+                        + "'" + studentGender.get(gender) + "','" + GuardianId + "','" + StudentAddressId + "',"
+                        + "'" + sampleEmployeeID + "','" + studentStatus.get(status) + "')");
+                loadStudent();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    
+    private void clearAll(){
+    jTextField1.setText("");
+    jTextField2.setText("");
+    jTextField3.setText("");
+    jComboBox1.setSelectedItem("Select");
+    jDateChooser1.setDate(null);
+    jTextField4.setText("");
+    jTextField5.setText("");
+    jComboBox2.setSelectedItem("Select");
+    StudentAddressId = null;
+    GuardianId = null;
 
     }
 
