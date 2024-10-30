@@ -1,15 +1,24 @@
 package GUI.panal;
 
+import modal.DB;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import modal.LogCenter;
+
 /**
- *
  * @author isuru priyamntha
  */
 public class PaymentManagement extends javax.swing.JPanel {
-
+    
     public PaymentManagement() {
         initComponents();
+        cleanClass();
+        studentID.setText("ST00000");
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -20,18 +29,18 @@ public class PaymentManagement extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        studentID = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        stName = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        classCount = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        classIdCombo = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
         jTextField8 = new javax.swing.JTextField();
@@ -141,8 +150,12 @@ public class PaymentManagement extends javax.swing.JPanel {
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Student Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
         jPanel4.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField1.setText("ST123456");
+        studentID.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        studentID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                studentIDKeyReleased(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
         jLabel2.setText("Student ID");
@@ -150,20 +163,25 @@ public class PaymentManagement extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
         jLabel3.setText("Full Name");
 
-        jTextField2.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
-        jTextField2.setText("Isuru Priyamantha");
+        stName.setEditable(false);
+        stName.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
         jLabel4.setText("Classes count");
 
-        jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField3.setText("03");
+        classCount.setEditable(false);
+        classCount.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        classCount.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jButton1.setBackground(new java.awt.Color(255, 102, 102));
         jButton1.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jButton1.setText("Clear");
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -177,14 +195,14 @@ public class PaymentManagement extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                            .addComponent(stName, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(studentID, javax.swing.GroupLayout.Alignment.LEADING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(classCount, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
@@ -197,17 +215,17 @@ public class PaymentManagement extends javax.swing.JPanel {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(studentID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(classCount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(jTextField2))
+                    .addComponent(stName))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -220,29 +238,33 @@ public class PaymentManagement extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
         jLabel7.setText("Subject");
 
+        jTextField6.setEditable(false);
         jTextField6.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         jTextField6.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextField6.setText("Sinhala");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        classIdCombo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                classIdComboItemStateChanged(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
         jLabel8.setText("Teacher Name");
 
+        jTextField7.setEditable(false);
         jTextField7.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         jTextField7.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextField7.setText("Isuru Priyamantha");
 
+        jTextField8.setEditable(false);
         jTextField8.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         jTextField8.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextField8.setText("Grade-10");
 
         jLabel9.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
         jLabel9.setText("Grade");
 
+        jTextField9.setEditable(false);
         jTextField9.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         jTextField9.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextField9.setText("January");
 
         jLabel10.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
         jLabel10.setText("Due Month");
@@ -266,7 +288,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                                 .addGap(90, 90, 90)
                                 .addComponent(jLabel7))
                             .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(classIdCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel10)
@@ -301,7 +323,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                             .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(classIdCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -347,6 +369,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         jLabel12.setText("Balance");
         jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        jFormattedTextField3.setEditable(false);
         jFormattedTextField3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
         jFormattedTextField3.setText("200");
         jFormattedTextField3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -365,6 +388,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         jLabel6.setText("Total");
         jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        jFormattedTextField1.setEditable(false);
         jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
         jFormattedTextField1.setText("4800");
         jFormattedTextField1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -1009,8 +1033,23 @@ public class PaymentManagement extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void studentIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_studentIDKeyReleased
+        findStudent();
+    }//GEN-LAST:event_studentIDKeyReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        studentID.setText("");
+        cleanClass();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void classIdComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_classIdComboItemStateChanged
+        selectClass();
+    }//GEN-LAST:event_classIdComboItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField classCount;
+    private javax.swing.JComboBox<String> classIdCombo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
@@ -1021,7 +1060,6 @@ public class PaymentManagement extends javax.swing.JPanel {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JFormattedTextField jFormattedTextField1;
@@ -1081,7 +1119,6 @@ public class PaymentManagement extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
@@ -1092,14 +1129,67 @@ public class PaymentManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
     private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField20;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField stName;
+    private javax.swing.JTextField studentID;
     // End of variables declaration//GEN-END:variables
+
+    // seach student and view data by ID
+    private void findStudent() {
+        String sid = this.studentID.getText();
+        if (sid.length() >= 8) {
+            
+            try {
+                ResultSet rs = DB.search("SELECT `fname`, `lname` FROM `student` "
+                        + "WHERE `student`.`id` = '" + sid + "'");
+                
+                if (rs.next()) {
+                    ResultSet classData = DB.search("SELECT `class_enrollment`.`class_id` FROM `class_enrollment` WHERE `class_enrollment`.`student_id` = '" + sid + "' ");
+                    int classCont = 0;
+                    Vector<String> v = new Vector<>();
+                    v.add("Select Class");
+                    while (classData.next()) {
+                        v.add(classData.getString("class_id"));
+                    }
+                    DefaultComboBoxModel boxModel = new DefaultComboBoxModel(v);
+                    
+                    classIdCombo.setModel(boxModel);
+                    classCount.setText(String.valueOf(classCont));
+                    stName.setText(rs.getString("fname") + " " + rs.getString("fname"));
+                    classIdCombo.setEnabled(true);
+                } else {
+                    JOptionPane.showMessageDialog(PaymentManagement.this, "Student Not Found", "Wrong ID", JOptionPane.WARNING_MESSAGE);
+                    cleanClass();
+                }
+            } catch (ClassNotFoundException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            } catch (SQLException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+            }
+            
+        } else {
+            cleanClass();
+        }
+    }
+    
+    private void cleanClass() {
+        classIdCombo.setEnabled(false);
+        //studentID.setText("");
+        classCount.setText("");
+        stName.setText("");
+        classIdCombo.removeAllItems();
+    }
+    
+    private void selectClass() {
+        final String classID = (String) classIdCombo.getSelectedItem();
+        if (classID.equals("Select Class")) {
+            
+        }
+    }
 }
