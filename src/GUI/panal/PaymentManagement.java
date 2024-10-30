@@ -4,6 +4,8 @@ import modal.DB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import modal.LogCenter;
@@ -12,13 +14,13 @@ import modal.LogCenter;
  * @author isuru priyamntha
  */
 public class PaymentManagement extends javax.swing.JPanel {
-    
+
     public PaymentManagement() {
         initComponents();
         cleanClass();
         studentID.setText("ST00000");
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -1144,11 +1146,11 @@ public class PaymentManagement extends javax.swing.JPanel {
     private void findStudent() {
         String sid = this.studentID.getText();
         if (sid.length() >= 8) {
-            
+
             try {
                 ResultSet rs = DB.search("SELECT `fname`, `lname` FROM `student` "
                         + "WHERE `student`.`id` = '" + sid + "'");
-                
+
                 if (rs.next()) {
                     ResultSet classData = DB.search("SELECT `class_enrollment`.`class_id` FROM `class_enrollment` WHERE `class_enrollment`.`student_id` = '" + sid + "' ");
                     int classCont = 0;
@@ -1158,7 +1160,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                         v.add(classData.getString("class_id"));
                     }
                     DefaultComboBoxModel boxModel = new DefaultComboBoxModel(v);
-                    
+
                     classIdCombo.setModel(boxModel);
                     classCount.setText(String.valueOf(classCont));
                     stName.setText(rs.getString("fname") + " " + rs.getString("fname"));
@@ -1172,12 +1174,12 @@ public class PaymentManagement extends javax.swing.JPanel {
             } catch (SQLException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
             }
-            
+
         } else {
             cleanClass();
         }
     }
-    
+
     private void cleanClass() {
         classIdCombo.setEnabled(false);
         //studentID.setText("");
@@ -1185,11 +1187,44 @@ public class PaymentManagement extends javax.swing.JPanel {
         stName.setText("");
         classIdCombo.removeAllItems();
     }
-    
+
     private void selectClass() {
         final String classID = (String) classIdCombo.getSelectedItem();
-        if (classID.equals("Select Class")) {
-            
+        if (!classID.equals("Select Class")) {
+            try {
+                ResultSet rs = DB.search("SELECT "
+                        + "`class`.`id`,"
+                        + " `subject`.`name` AS `subject`, "
+                        + "`grade`.`name` AS `grade`,"
+                        + "CONCAT(`teacher`.`fname`, ' ', `teacher`.`lname`) AS `teacher`, "
+                        + "`class`.`fee` AS `fee`, "
+                        + "`room_type`.`fee` AS `room_fee`,"
+                        + "MAX(`class_pay`.`due_month`) AS `latest_due_month`"
+                        + "FROM `class`"
+                        + "INNER JOIN `subject` ON `subject`.`id` = `class`.`subject_id`"
+                        + "INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
+                        + "INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic`"
+                        + "INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id`"
+                        + "INNER JOIN `class_pay` ON `class_pay`.`class_id` = `class`.`id` "
+                        + "WHERE `class`.`id` = '"+classID+"'"
+                        + "GROUP BY "
+                        + "`class`.`id`,"
+                        + " `subject`.`name`, "
+                        + "`grade`.`name`,"
+                        + " `teacher`.`fname`,"
+                        + " `teacher`.`lname`,"
+                        + " `class`.`fee`,"
+                        + " `room_type`.`fee`;");
+                if (rs.next()) {
+                    System.out.println("TT");
+                }else{
+                    System.out.println("VV");
+                }
+            } catch (ClassNotFoundException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            } catch (SQLException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+            }
         }
     }
 }
