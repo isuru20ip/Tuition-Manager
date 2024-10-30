@@ -1102,9 +1102,4 @@ public class PaymentManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
-
-    private void test(){
-        System.out.println("test");
-    }
-
 }
