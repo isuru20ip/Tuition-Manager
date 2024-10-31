@@ -926,7 +926,7 @@ public class StudentManagement extends javax.swing.JPanel {
                 v.add(resultSet.getString("mobile"));
                 v.add(resultSet.getString("email"));
                 v.add(resultSet.getString("gender.name"));
-                v.add(resultSet.getString("address.line_01"));
+                v.add(resultSet.getString("address.line_01") + " , " + resultSet.getString("address.line_02"));
                 v.add(resultSet.getString("guardian.fname"));
                 v.add(resultSet.getString("customer_status.status"));
                 dtm.addRow(v);
@@ -1009,9 +1009,8 @@ public class StudentManagement extends javax.swing.JPanel {
                 String joinDate = sdfDateTime.format(new Date());
                 String sampleEmployeeID = "0126";
 
-                Vector<String> IDS = new Vector<>();
-
-                String generatedID = IDGenarator.generateID("ST", IDS);
+                // Vector<String> IDS = new Vector<>();
+                String generatedID = IDGenarator.generateID("ST", "student"); //Generate Student ID
 
                 DB.IUD("INSERT INTO `student`(`id`,`fname`,`lname`,`birthday`,`nic`,`mobile`,`email`,`join_date`,`gender_id`,`guardian_id`,`address_id`,`employee_id`,`customer_status_id`)"
                         + "VALUES ('" + generatedID + "','" + fname + "','" + lname + "','" + Dob + "','" + nic + "','" + mobile + "','" + email + "','" + joinDate + "',"
