@@ -35,7 +35,7 @@ public class StudentManagement extends javax.swing.JPanel {
         initComponents();
         loadSGender();
         loadSStatus();
-        loadStudent();
+        loadStudent("");
     }
 
     /**
@@ -153,9 +153,15 @@ public class StudentManagement extends javax.swing.JPanel {
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField6KeyReleased(evt);
+            }
+        });
+
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Search by ID");
+        jLabel11.setText("Search Student");
 
         jButton1.setBackground(new java.awt.Color(0, 204, 204));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -710,7 +716,7 @@ public class StudentManagement extends javax.swing.JPanel {
                             guardian_Details.addWindowListener(new java.awt.event.WindowAdapter() {
                                 @Override
                                 public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                                    loadStudent(); // Refresh student data when dialog closes
+                                    loadStudent(""); // Refresh student data when dialog closes
                                 }
                             });
                             guardian_Details.setVisible(true); // Set the dialog visible
@@ -720,7 +726,7 @@ public class StudentManagement extends javax.swing.JPanel {
                             studentAddressDialog.addWindowListener(new java.awt.event.WindowAdapter() {
                                 @Override
                                 public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                                    loadStudent(); // Refresh student data when dialog closes
+                                    loadStudent(""); // Refresh student data when dialog closes
                                 }
                             });
                             studentAddressDialog.setVisible(true);
@@ -744,6 +750,10 @@ public class StudentManagement extends javax.swing.JPanel {
         UpdateStudent(); //Update Process Student
 
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTextField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyReleased
+        SearchStudent();
+    }//GEN-LAST:event_jTextField6KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -803,7 +813,7 @@ public class StudentManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
- //Student Gender <k:gender , v:select>
+    //Student Gender <k:gender , v:select>
     private static HashMap<String, String> studentGender = new HashMap<>();
     //Student Status <k:status , v:select>
     private static HashMap<String, String> studentStatus = new HashMap<>();
@@ -811,6 +821,12 @@ public class StudentManagement extends javax.swing.JPanel {
     private String StudentAddressId; // Can be used to store student Address Id
 
     private String GuardianId; // Can be used to store student Guardian  Id
+
+    // Class-level variable to check if the dialog is open
+    private StudentAddress studentAddressDialog;
+
+    // Class-level variable to check if the dialog is open
+    private GuardianDetails studentGuardianDialog;
 
     public void setStudentAddressId(String Said) {
         this.StudentAddressId = Said;
@@ -875,17 +891,30 @@ public class StudentManagement extends javax.swing.JPanel {
     }
 
     //Student Details Load Table jTable1
-    private void loadStudent() {
+    private void loadStudent(String value) {
         try {
-            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
-            dtm.setRowCount(0);
 
-            ResultSet resultSet = DB.search("SELECT * FROM `student`"
+            String query = "SELECT * FROM `student`"
                     + "INNER JOIN `gender` ON `student`.`gender_id`=`gender`.`id`"
                     + "INNER JOIN `guardian` ON `student`.`guardian_id`=`guardian`.`id`"
                     + "INNER JOIN `address` ON `student`.`address_id`=`address`.`id`"
                     + "INNER JOIN `employee` ON `student`.`employee_id`=`employee`.`id`"
-                    + "INNER JOIN `customer_status` ON `student`.`customer_status_id`=`customer_status`.`id`");
+                    + "INNER JOIN `customer_status` ON `student`.`customer_status_id`=`customer_status`.`id`";
+
+            if (value.matches("\\d+")) {
+                query += " WHERE student.mobile LIKE '%" + value + "%'";
+
+            } else if (value.matches("^ST\\d*$")) {
+                query += " WHERE student.id LIKE '%" + value + "%'";
+
+            } else {
+                query += " WHERE student.fname LIKE '%" + value + "%'";
+            }
+
+            ResultSet resultSet = DB.search(query);
+
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            dtm.setRowCount(0);
 
             while (resultSet.next()) {
                 Vector<String> v = new Vector();
@@ -988,7 +1017,7 @@ public class StudentManagement extends javax.swing.JPanel {
                         + "VALUES ('" + generatedID + "','" + fname + "','" + lname + "','" + Dob + "','" + nic + "','" + mobile + "','" + email + "','" + joinDate + "',"
                         + "'" + studentGender.get(gender) + "','" + GuardianId + "','" + StudentAddressId + "',"
                         + "'" + sampleEmployeeID + "','" + studentStatus.get(status) + "')");
-                loadStudent();
+                loadStudent("");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -996,7 +1025,7 @@ public class StudentManagement extends javax.swing.JPanel {
 
     }
 
- //Update Student
+    //Update Student
     private void UpdateStudent() {
 
         int row = jTable1.getSelectedRow();
@@ -1076,7 +1105,7 @@ public class StudentManagement extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(this, "Student Details Successfully Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                         // Refresh table data and clear input fields
-                        loadStudent();
+                        loadStudent("");
                         clearAll();
                     }
                 }
@@ -1092,26 +1121,47 @@ public class StudentManagement extends javax.swing.JPanel {
 // Viwe Address Button
     private void ViweSTAddress() {
 
-        StudentAddress Student_Address = new StudentAddress(this, true, null);
+        // Check if the Address ID already exists
         if (StudentAddressId != null) {
             JOptionPane.showMessageDialog(this, "Address ID already exists", "Warning", JOptionPane.WARNING_MESSAGE);
-            Student_Address.setVisible(false); // This will prevent the dialog from showing if there's an ID
+            return; // Exit if the ID exists
+        }
+
+        // If the dialog is already created, just bring it to the front
+        if (studentAddressDialog != null && studentAddressDialog.isVisible()) {
+            studentAddressDialog.toFront(); // Bring the dialog to the front if it's already visible
         } else {
-            Student_Address.setVisible(true); // Show the dialog if there's no ID
+            // Otherwise, create and show a new dialog
+            studentAddressDialog = new StudentAddress(this, true, null);
+            studentAddressDialog.setVisible(true);
+        }
+    }
+// Viwe Guardian Button
+
+    private void ViweGuardian() {
+        // Check if the Guardian ID already exists
+        if (GuardianId != null) {
+            JOptionPane.showMessageDialog(this, "Guradian ID already exists", "Warning", JOptionPane.WARNING_MESSAGE);
+            return; // Exit if the ID exists
+        }
+
+        // If the dialog is already created, just bring it to the front
+        if (studentGuardianDialog != null && studentGuardianDialog.isVisible()) {
+            studentGuardianDialog.toFront(); // Bring the dialog to the front if it's already visible
+        } else {
+            // Otherwise, create and show a new dialog
+            studentGuardianDialog = new GuardianDetails(this, true, null);
+            studentGuardianDialog.setVisible(true);
         }
 
     }
 
-// Viwe Guardian Button
-    private void ViweGuardian() {
+    //Search Student   
+    private void SearchStudent() {
 
-        GuardianDetails Guardian_Details = new GuardianDetails(this, true, null);
-        if (GuardianId != null) {
-            JOptionPane.showMessageDialog(this, "Guardian Details already exists", "Warning", JOptionPane.WARNING_MESSAGE);
-            Guardian_Details.setVisible(false); // This will prevent the dialog from showing if there's an ID
-        } else {
-            Guardian_Details.setVisible(true); // Show the dialog if there's no ID
-        }
+        String value = jTextField6.getText();
+
+        loadStudent(value);
 
     }
 
