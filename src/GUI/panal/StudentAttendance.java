@@ -75,8 +75,8 @@ public class StudentAttendance extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        fromDate = new com.toedter.calendar.JDateChooser();
-        toDate = new com.toedter.calendar.JDateChooser();
+        fromDateChooser = new com.toedter.calendar.JDateChooser();
+        toDateChooser = new com.toedter.calendar.JDateChooser();
         searchRecorButton = new javax.swing.JButton();
         ifrecordCheckBox = new javax.swing.JCheckBox();
         markAttn = new javax.swing.JButton();
@@ -279,13 +279,18 @@ public class StudentAttendance extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel12.setText("To :");
 
-        fromDate.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        fromDateChooser.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
 
-        toDate.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        toDateChooser.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
 
         searchRecorButton.setBackground(new java.awt.Color(204, 204, 255));
         searchRecorButton.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         searchRecorButton.setText("Search");
+        searchRecorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchRecorButtonActionPerformed(evt);
+            }
+        });
 
         ifrecordCheckBox.setText("Search past attendance record if required");
         ifrecordCheckBox.addActionListener(new java.awt.event.ActionListener() {
@@ -309,8 +314,8 @@ public class StudentAttendance extends javax.swing.JPanel {
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fromDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(toDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(fromDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(toDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(searchRecorButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -324,11 +329,11 @@ public class StudentAttendance extends javax.swing.JPanel {
                         .addGap(8, 8, 8)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fromDate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(fromDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(14, 14, 14)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(toDate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(toDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(49, 49, 49)
                         .addComponent(searchRecorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -508,6 +513,10 @@ public class StudentAttendance extends javax.swing.JPanel {
         ifcheckrecord();
     }//GEN-LAST:event_ifrecordCheckBoxActionPerformed
 
+    private void searchRecorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchRecorButtonActionPerformed
+        searchRecord();
+    }//GEN-LAST:event_searchRecorButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField employee_ID_Field;
@@ -515,7 +524,7 @@ public class StudentAttendance extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField employee_OffTime_Field;
     private javax.swing.JFormattedTextField employee_OnTime_Field;
     private javax.swing.JTable employee_attn_table;
-    private com.toedter.calendar.JDateChooser fromDate;
+    private com.toedter.calendar.JDateChooser fromDateChooser;
     private javax.swing.JCheckBox ifrecordCheckBox;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -551,7 +560,7 @@ public class StudentAttendance extends javax.swing.JPanel {
     private javax.swing.JButton markAttn;
     private javax.swing.JTextField nameField;
     private javax.swing.JButton searchRecorButton;
-    private com.toedter.calendar.JDateChooser toDate;
+    private com.toedter.calendar.JDateChooser toDateChooser;
     private javax.swing.JButton updateAttn;
     // End of variables declaration//GEN-END:variables
 
@@ -562,8 +571,8 @@ public class StudentAttendance extends javax.swing.JPanel {
         employee_OnTime_Field.setEditable(false);
         employee_OffTime_Field.setEditable(false);
         searchRecorButton.setEnabled(false);
-        fromDate.setEnabled(false);
-        toDate.setEnabled(false);
+        fromDateChooser.setEnabled(false);
+        toDateChooser.setEnabled(false);
 
         loadTabel();
     }
@@ -714,31 +723,96 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     // Search past attendance record if required (check box)
     private void ifcheckrecord() {
-       
-            if (ifrecordCheckBox.isSelected()) {
-                searchRecorButton.setEnabled(true);
-                fromDate.setEnabled(true);
-                toDate.setEnabled(true);
-            }
-        
+
+        if (ifrecordCheckBox.isSelected()) {
+            searchRecorButton.setEnabled(true);
+            fromDateChooser.setEnabled(true);
+            toDateChooser.setEnabled(true);
+        }else{
+            searchRecorButton.setEnabled(false);
+            fromDateChooser.setEnabled(false);
+            toDateChooser.setEnabled(false);
+        }
+
     }
-    
-    private void searchRecord(){
-        
+
+    // Search Attendance Record
+    private void searchRecord() {
+
         try {
+            String emp_name = employee_Name_Field.getText();
+            String emp_id = employee_ID_Field.getText();
+
+            String query = "SELECT * FROM `emp_attendance` "
+                    + "INNER JOIN `employee` ON `emp_attendance`.`employee_id` = `employee`.`id` "
+                    + "WHERE `emp_attendance`.`date` BETWEEN ";
+
+            Date fromDate;
+            Date toDate;
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+            if (emp_name.isEmpty()) {
+                if (fromDateChooser.getDate() != null) {
+                    fromDate = fromDateChooser.getDate();
+                    query += "'" + format.format(fromDate) + "' AND ";
+                } else {
+                    query += "'2024-01-01' AND ";
+                }
+
+                if (toDateChooser.getDate() != null) {
+                    toDate = toDateChooser.getDate();
+                    query += "'" + format.format(toDate) + "' ";
+                } else {
+                    query += "'" + format.format(new Date()) + "' ";
+                }
+
+            } else {
+                if (fromDateChooser.getDate() != null) {
+                    fromDate = fromDateChooser.getDate();
+                    query += "'" + format.format(fromDate) + "' AND ";
+                } else {
+                    query += "'2024-01-01' AND ";
+                }
+
+                if (toDateChooser.getDate() != null) {
+                    toDate = toDateChooser.getDate();
+                    query += "'" + format.format(toDate) + "' AND ";
+                } else {
+                    query += "'" + format.format(new Date()) + "' AND ";
+                }
+
+                query += "`emp_attendance`.`employee_id` = '" + emp_id + "' ";
+            }
+
+            query += "ORDER BY `emp_attendance`.`date` ASC, `emp_attendance`.`employee_id` ASC";
+
+            ResultSet resultSet = DB.search(query);
+
+            DefaultTableModel defaultTableModel = (DefaultTableModel) employee_attn_table.getModel();
+            defaultTableModel.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("date"));
+                vector.add(resultSet.getString("employee_id"));
+                vector.add(resultSet.getString("employee.fname") + " " + resultSet.getString("employee.lname"));
+                vector.add(resultSet.getString("ontime"));
+                vector.add(resultSet.getString("offtime"));
+
+                defaultTableModel.addRow(vector);
+            }
             
+            resetEmployeePage();
             
-            
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
-    }
-    
-    
 
-    // Reset Employee page
+    }
+
+    
+    // Reset Employee page  
     private void resetEmployeePage() {
 
         employee_ID_Field.setText("");
@@ -748,6 +822,10 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         markAttn.setEnabled(true);
         updateAttn.setEnabled(true);
+
+        fromDateChooser.setDate(null);
+        toDateChooser.setDate(null);
+
     }
 
 }
