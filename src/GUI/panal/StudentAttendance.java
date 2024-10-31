@@ -712,6 +712,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     }
 
+    // Search past attendance record if required (check box)
     private void ifcheckrecord() {
        
             if (ifrecordCheckBox.isSelected()) {
@@ -721,6 +722,21 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
         
     }
+    
+    private void searchRecord(){
+        
+        try {
+            
+            
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
+    
 
     // Reset Employee page
     private void resetEmployeePage() {
