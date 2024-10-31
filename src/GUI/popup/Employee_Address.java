@@ -19,7 +19,7 @@ public class Employee_Address extends javax.swing.JDialog {
     private String Eid;
     EmployeeManagement em;
 
-    public Employee_Address(EmployeeManagement  parent, boolean modal, String id) {
+    public Employee_Address(EmployeeManagement parent, boolean modal, String id) {
         initComponents();
         this.Eid = id;
 
@@ -225,7 +225,7 @@ public class Employee_Address extends javax.swing.JDialog {
         try {
             String line1 = jTextField1.getText().trim();
             String line2 = jTextField2.getText().trim();
-            String city = (String) jComboBox1.getSelectedItem();
+            String city = String.valueOf(jComboBox1.getSelectedItem());
 
             if (line1.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter Address Line 1", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -239,20 +239,29 @@ public class Employee_Address extends javax.swing.JDialog {
 
                 if (confirmation == JOptionPane.YES_OPTION) {
 
-                    // Insert the address into the database and retrieve the last inserted ID
-                    String insertQuery = "INSERT INTO `address` (`line_01`, `line_02`, `city_id`) VALUES ('" + line1 + "', '" + line2 + "', (SELECT id FROM city WHERE name = '" + city + "'))";
-                    DB.IUD(insertQuery);
+                    ResultSet resultSet = DB.search("SELECT * FROM `address` WHERE `line_01` = '" + line1 + "' AND `line_02` = '" + line2 + "' AND `city_id` = (SELECT `id` FROM `city` WHERE `name` = '" + city + "')");
 
-                    // Now get the last inserted ID
-                    ResultSet rs = DB.search("SELECT LAST_INSERT_ID() AS last_id");
-                    if (rs.next()) {
-                        String lastInsertedId = rs.getString("last_id");
+                    if (resultSet.next()) {
+                        JOptionPane.showMessageDialog(this, "This Address Alreday Registered", "Warning", JOptionPane.WARNING_MESSAGE);
+                        refresh();
 
-                        JOptionPane.showMessageDialog(this, "Address saved successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
 
-                        // Load only the newly added address using the last inserted ID
-                        loadAddress(lastInsertedId);
-                        jButton2.setEnabled(false);
+                        // Insert the address into the database and retrieve the last inserted ID
+                        String insertQuery = "INSERT INTO `address` (`line_01`, `line_02`, `city_id`) VALUES ('" + line1 + "', '" + line2 + "', (SELECT id FROM city WHERE name = '" + city + "'))";
+                        DB.IUD(insertQuery);
+
+                        // Now get the last inserted ID
+                        ResultSet rs = DB.search("SELECT LAST_INSERT_ID() AS last_id");
+                        if (rs.next()) {
+                            String lastInsertedId = rs.getString("last_id");
+
+                            JOptionPane.showMessageDialog(this, "Address saved successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                            // Load only the newly added address using the last inserted ID
+                            loadAddress(lastInsertedId);
+                            jButton2.setEnabled(false);
+                        }
                     }
                 }
 
@@ -314,6 +323,8 @@ public class Employee_Address extends javax.swing.JDialog {
 
                         loadAddress(Eid);
                         refresh();
+                       
+
                     }
 
                 }
