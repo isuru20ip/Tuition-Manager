@@ -11,18 +11,19 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import modal.LogCenter;
+import modal.beans.classData;
 
 /**
  * @author isuru priyamntha
  */
 public class PaymentManagement extends javax.swing.JPanel {
-    
+
     public PaymentManagement() {
         initComponents();
         cleanClass();
         studentID.setText("ST00000");
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -52,6 +53,10 @@ public class PaymentManagement extends javax.swing.JPanel {
         jLabel10 = new javax.swing.JLabel();
         class_add = new javax.swing.JButton();
         dueM_01 = new javax.swing.JComboBox<>();
+        jLabel32 = new javax.swing.JLabel();
+        classFee01 = new javax.swing.JTextField();
+        jLabel33 = new javax.swing.JLabel();
+        hallfee01 = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         jFormattedTextField3 = new javax.swing.JFormattedTextField();
@@ -273,6 +278,25 @@ public class PaymentManagement extends javax.swing.JPanel {
         class_add.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         class_add.setText("Add");
         class_add.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        class_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                class_addActionPerformed(evt);
+            }
+        });
+
+        jLabel32.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
+        jLabel32.setText("class Fee");
+
+        classFee01.setEditable(false);
+        classFee01.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        classFee01.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+
+        jLabel33.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
+        jLabel33.setText("Hall Fee");
+
+        hallfee01.setEditable(false);
+        hallfee01.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        hallfee01.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -290,9 +314,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                             .addGroup(jPanel7Layout.createSequentialGroup()
                                 .addComponent(classIdCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel10)
-                                    .addComponent(subject01, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(subject01, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
@@ -301,13 +323,22 @@ public class PaymentManagement extends javax.swing.JPanel {
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(grade01, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(dueM_01, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(grade01, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(class_add, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(dueM_01, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel32)
+                            .addComponent(classFee01, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel33)
+                            .addComponent(hallfee01, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(class_add, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,15 +358,25 @@ public class PaymentManagement extends javax.swing.JPanel {
                             .addComponent(classIdCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(subject01, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(grade01, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(class_add, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(dueM_01))
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(grade01, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(class_add, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(dueM_01)))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel32)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(classFee01, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jLabel33)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(hallfee01, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
@@ -1048,13 +1089,19 @@ public class PaymentManagement extends javax.swing.JPanel {
         selectClass();
     }//GEN-LAST:event_classIdComboItemStateChanged
 
+    private void class_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_class_addActionPerformed
+        addPayment();
+    }//GEN-LAST:event_class_addActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField classCount;
+    private javax.swing.JTextField classFee01;
     private javax.swing.JComboBox<String> classIdCombo;
     private javax.swing.JButton class_add;
     private javax.swing.JComboBox<String> dueM_01;
     private javax.swing.JTextField grade01;
+    private javax.swing.JTextField hallfee01;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton3;
@@ -1099,6 +1146,8 @@ public class PaymentManagement extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1142,6 +1191,8 @@ public class PaymentManagement extends javax.swing.JPanel {
     private javax.swing.JTextField teacher01;
     // End of variables declaration//GEN-END:variables
 
+    Vector<classData> v = new Vector<>();
+
     // seach student and view data by ID
     private void findStudent() {
         String sid = this.studentID.getText();
@@ -1149,7 +1200,7 @@ public class PaymentManagement extends javax.swing.JPanel {
             try {
                 ResultSet rs = DB.search("SELECT `fname`, `lname` FROM `student` "
                         + "WHERE `student`.`id` = '" + sid + "'");
-                
+
                 if (rs.next()) {
                     ResultSet classData = DB.search("SELECT `class_enrollment`.`class_id` FROM `class_enrollment` WHERE `class_enrollment`.`student_id` = '" + sid + "' ");
                     int classCont = 0;
@@ -1159,7 +1210,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                         v.add(classData.getString("class_id"));
                     }
                     DefaultComboBoxModel boxModel = new DefaultComboBoxModel(v);
-                    
+
                     classIdCombo.setModel(boxModel);
                     classCount.setText(String.valueOf(classCont));
                     stName.setText(rs.getString("fname") + " " + rs.getString("fname"));
@@ -1177,9 +1228,11 @@ public class PaymentManagement extends javax.swing.JPanel {
             cleanClass();
         }
     }
-    
+
     private void cleanClass() {
         classIdCombo.setEnabled(false);
+        classFee01.setText("");
+        hallfee01.setText("");
         dueM_01.removeAllItems();
         dueM_01.setEnabled(false);
         //studentID.setText("");
@@ -1190,9 +1243,8 @@ public class PaymentManagement extends javax.swing.JPanel {
         grade01.setText("");
         classIdCombo.removeAllItems();
         class_add.setEnabled(false);
-        
     }
-    
+
     private void selectClass() {
         final String classID = String.valueOf(classIdCombo.getSelectedItem());
         if (classID == null || !classID.equals("Select Class")) {
@@ -1212,6 +1264,8 @@ public class PaymentManagement extends javax.swing.JPanel {
                         + "WHERE `class`.`id` = '" + classID + "'");
                 if (rs.next()) {
                     loardDue(classID);
+                    classFee01.setText(rs.getString("fee"));
+                    hallfee01.setText(rs.getString("room_fee"));
                     subject01.setText(rs.getString("subject"));
                     teacher01.setText(rs.getString("teacher"));
                     grade01.setText(rs.getString("grade"));
@@ -1224,6 +1278,8 @@ public class PaymentManagement extends javax.swing.JPanel {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Date Problem", ex);
             }
         } else {
+            classFee01.setText("");
+            hallfee01.setText("");
             subject01.setText("");
             teacher01.setText("");
             grade01.setText("");
@@ -1231,14 +1287,14 @@ public class PaymentManagement extends javax.swing.JPanel {
             dueM_01.setEnabled(false);
         }
     }
-    
+
     private void loardDue(String ID) throws ClassNotFoundException, SQLException, ParseException {
-        
+
         dueM_01.setEnabled(true);
         //select last due date
         ResultSet lastPayment = DB.search("SELECT MAX(`class_pay`.`due_month`) AS `lastdue` FROM `class_pay` WHERE `class_pay`.`class_id` = '" + ID + "'");
         lastPayment.next();
-        
+
         if (lastPayment.getString("lastdue") != null) {
             //get last due year and month
             String date = lastPayment.getString("lastdue").substring(0, 7);
@@ -1251,28 +1307,41 @@ public class PaymentManagement extends javax.swing.JPanel {
             // if not last and curent month are not equal
             if (!lastDue.equals(thisMonth)) {
                 class_add.setEnabled(true);
-                
+
                 Vector<YearMonth> monthsBetween = new Vector<>();
-                
+
                 YearMonth current = lastDue;
-                
+
                 while (!current.isAfter(thisMonth)) {
                     if (!current.equals(lastDue)) {
                         monthsBetween.add(current);
                     }
                     current = current.plusMonths(1);
                 }
-                
+
                 DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel(monthsBetween);
                 dueM_01.setModel(comboBoxModel);
-                
+
             } else {
                 dueM_01.removeAllItems();
                 dueM_01.addItem("Payment Completed");
                 class_add.setEnabled(false);
             }
-            
+
         }
     }
-    
+
+    private void addPayment() {
+
+        new classData(
+                String.valueOf(classIdCombo.getSelectedItem()),
+                subject01.getText(),
+                grade01.getText(),
+                teacher01.getText(),
+                String.valueOf(dueM_01.getSelectedItem()),
+                hallfee01.getText(),
+                classFee01.getText());
+
+    }
+
 }

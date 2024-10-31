@@ -1,5 +1,7 @@
 package modal.beans;
 
+import java.time.YearMonth;
+
 /**
  * @author isuru priyamantha
  */
@@ -62,20 +64,6 @@ public class classData {
     }
 
     /**
-     * @return the lastDueMonth
-     */
-    public String getLastDueMonth() {
-        return lastDueMonth;
-    }
-
-    /**
-     * @param lastDueMonth the lastDueMonth to set
-     */
-    public void setLastDueMonth(String lastDueMonth) {
-        this.lastDueMonth = lastDueMonth;
-    }
-
-    /**
      * @return the dueMonth
      */
     public String getDueMonth() {
@@ -120,33 +108,22 @@ public class classData {
     public classData() {
     }
 
-    public classData(String classId, String subject, String grade, String teacherName, String lastDueMonth, String hallFee, String classFee) {
+    public classData(String classId, String subject, String grade, String teacherName, String dueMonth, String hallFee, String classFee) {
         this.classId = classId;
         this.subject = subject;
         this.grade = grade;
         this.teacherName = teacherName;
-        this.lastDueMonth = lastDueMonth;
-        this.hallFee = hallFee;
-        this.classFee = classFee;
-    }
-
-    public classData(String classId, String subject, String grade, String teacherName, String lastDueMonth, String dueMonth, String hallFee, String classFee) {
-        this.classId = classId;
-        this.subject = subject;
-        this.grade = grade;
-        this.teacherName = teacherName;
-        this.lastDueMonth = lastDueMonth;
         this.dueMonth = dueMonth;
         this.hallFee = hallFee;
         this.classFee = classFee;
     }
     
     
+
     private String classId;
     private String subject;
     private String grade;
     private String teacherName;
-    private String lastDueMonth;
     private String dueMonth;
     private String hallFee;
     private String classFee;
