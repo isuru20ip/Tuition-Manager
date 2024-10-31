@@ -11,8 +11,12 @@ import GUI.popup.StudentAddress;
 import java.util.HashMap;
 import modal.DB;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import modal.LogCenter;
 
 /**
  *
@@ -20,7 +24,9 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class StudentManagement extends javax.swing.JPanel {
 
+    //Student Gender <k:gender , v:select>
     private static HashMap<String, String> studentGender = new HashMap<>();
+    //Student Status <k:status , v:select>
     private static HashMap<String, String> studentStatus = new HashMap<>();
 
     /**
@@ -271,11 +277,11 @@ public class StudentManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "First Name", "Last Name", "Birth Day", "NIC", "Mobile", "Email", "Gender"
+                "ID", "First Name", "Last Name", "Birth Day", "NIC", "Mobile", "Email", "Gender", "Address", "Guardian", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -302,6 +308,11 @@ public class StudentManagement extends javax.swing.JPanel {
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton3.setText("Add");
         jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setBackground(new java.awt.Color(0, 102, 204));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -596,16 +607,69 @@ public class StudentManagement extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    //Student Address View Button
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        StudentAddress st_address = new StudentAddress((JFrame) SwingUtilities.getWindowAncestor(this), true);
+        StudentAddress st_address = new StudentAddress((JFrame) SwingUtilities.getWindowAncestor(this), true, null);
         st_address.setVisible(true);
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    //Guardian Details View Button
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        GuardianDetails g_details = new GuardianDetails((JFrame) SwingUtilities.getWindowAncestor(this), true);
-        g_details.setVisible(true);
+       GuardianDetails Guardian_Details = new GuardianDetails(this, true, null);
+        Guardian_Details.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+
+            String fname = jTextField1.getText();
+            String lname = jTextField2.getText();
+            String nic = jTextField3.getText();
+            String gender = String.valueOf(jComboBox1.getSelectedItem());
+            Date dob = jDateChooser1.getDate(); // BirthDay
+            String mobile = jTextField4.getText();
+            String email = jTextField5.getText();
+            String status = String.valueOf(jComboBox2.getSelectedItem());
+
+            if (fname.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (lname.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (nic.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (gender.equals("Select")) {
+
+                JOptionPane.showMessageDialog(this, "Please Select a Gender", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (mobile.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (email.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
+
+                JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -665,7 +729,8 @@ public class StudentManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
-    
+
+    //Student Gender load
     private void loadSGender() {
 
         try {
@@ -683,12 +748,15 @@ public class StudentManagement extends javax.swing.JPanel {
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
 
     }
 
+    //Student Status Load
     private void loadSStatus() {
 
         try {
@@ -706,8 +774,10 @@ public class StudentManagement extends javax.swing.JPanel {
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
 
     }
