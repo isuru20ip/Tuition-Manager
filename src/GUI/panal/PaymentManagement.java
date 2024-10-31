@@ -1180,6 +1180,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     
     private void cleanClass() {
         classIdCombo.setEnabled(false);
+        dueM_01.removeAllItems();
         dueM_01.setEnabled(false);
         //studentID.setText("");
         classCount.setText("");
@@ -1226,6 +1227,7 @@ public class PaymentManagement extends javax.swing.JPanel {
             subject01.setText("");
             teacher01.setText("");
             grade01.setText("");
+            dueM_01.removeAllItems();
             dueM_01.setEnabled(false);
         }
     }
