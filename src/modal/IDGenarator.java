@@ -1,15 +1,24 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package modal;
 
-import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.sql.*;
 
+
+/**
+ *
+ * @author pahan
+ */
 public class IDGenarator {
 
-    // Generate a new ID based on prefix and validate against the database
-    public static String generateID(String prefix) throws SQLException {
-        Set<String> existingIDs = getExistingIDsFromDB(); // Fetch all existing IDs
-        String lastID = getLastID(prefix, existingIDs);   // Get the latest used ID
+    // Generate a new ID based on prefix and table name
+    public static String generateID(String prefix, String tableName) throws SQLException {
+        Set<String> existingIDs = getExistingIDsFromDB(tableName); // Fetch all existing IDs from the specified table
+        String lastID = getLastID(prefix, existingIDs);            // Get the latest used ID
 
         String newID = incrementID(lastID, prefix); // Generate the next ID
 
@@ -21,12 +30,12 @@ public class IDGenarator {
         return newID;
     }
 
-    // Retrieve all employee IDs from the database to ensure uniqueness
-    private static Set<String> getExistingIDsFromDB() throws SQLException {
+    // Retrieve all IDs from the specified table to ensure uniqueness
+    private static Set<String> getExistingIDsFromDB(String tableName) throws SQLException {
         Set<String> existingIDs = new HashSet<>();
 
         try {
-            String query = "SELECT id FROM employee"; // Update with your table name if needed
+            String query = "SELECT id FROM " + tableName; // Query the specified table
 
             ResultSet rs = DB.search(query);
 
@@ -40,7 +49,7 @@ public class IDGenarator {
         return existingIDs;
     }
 
-// Find the highest existing ID based on the prefix
+    // Find the highest existing ID based on the prefix
     private static String getLastID(String prefix, Set<String> existingIDs) {
         String lastID = prefix + "000000"; // Default ID if no IDs exist
 
@@ -54,7 +63,7 @@ public class IDGenarator {
 
     // Increment the numeric part of the ID
     private static String incrementID(String currentID, String prefix) {
-        // Extract the numeric part (e.g., "EMP00123" -> "00123")
+        // Extract the numeric part (e.g., "STU00123" -> "00123")
         String numericPart = currentID.substring(prefix.length());
 
         // Parse the numeric part and increment it
@@ -66,7 +75,7 @@ public class IDGenarator {
         }
 
         // Format the new number with leading zeros (e.g., 123 -> "00123")
-        String newNumericPart = String.format("%05d", number);
+        String newNumericPart = String.format("%06d", number);
 
         // Return the new ID with the prefix
         return prefix + newNumericPart;

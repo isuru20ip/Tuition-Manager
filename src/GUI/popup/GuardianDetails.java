@@ -13,6 +13,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
+import modal.LogCenter;
 
 /**
  *
@@ -97,12 +98,22 @@ public class GuardianDetails extends javax.swing.JDialog {
         jButton2.setBackground(new java.awt.Color(0, 102, 204));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jButton2.setText("Update");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("First Name");
 
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton4.setText("Clear");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -180,6 +191,11 @@ public class GuardianDetails extends javax.swing.JDialog {
             }
         });
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -215,73 +231,56 @@ public class GuardianDetails extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            String Gfname = jTextField3.getText().trim();
-            String Glname = jTextField1.getText().trim();
-            String Gmobile = jTextField2.getText().trim();
-            String Gtype = (String) jComboBox1.getSelectedItem();
 
-            // Input validation
-            if (Gfname.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please nter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-                return; // Exit if validation fails
-            }
-            if (Glname.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-                return; // Exit if validation fails
-            }
-            if (Gmobile.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
-                return; // Exit if validation fails
-            }
-            if (!Gmobile.matches("^07[012345678]{1}[0-9]{7}$")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
-                return; // Exit if validation fails
-            }
-            if (Gtype == null || Gtype.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please select a Guardian Type", "Warning", JOptionPane.WARNING_MESSAGE);
-                return; // Exit if validation fails
-            }
-
-            // Database operations
-            try {
-                // Check if the guardian is already registered using mobile number
-                String checkSQL = "SELECT * FROM `guardian` WHERE `mobile` = '" + Gmobile + "'";
-                ResultSet resultSet = DB.search(checkSQL);
-
-                if (resultSet.next()) {
-                    JOptionPane.showMessageDialog(this, "Guardian Already Registered", "Warning", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    int confirmation = JOptionPane.showConfirmDialog(this, "Are You Sure Want To add", "Alert!", JOptionPane.YES_NO_OPTION);
-
-                    if (confirmation == JOptionPane.YES_OPTION) {
-                        // Build the SQL statement for insertion
-                        String insertSQL = "INSERT INTO `guardian` (`fname`, `lname`, `mobile`, `guardian_type_id`) VALUES ('"
-                                + Gfname + "', '" + Glname + "', '" + Gmobile + "', '" + this.guardianTypeMap.get(Gtype) + "')";
-
-                        // Execute the insert
-                        DB.IUD(insertSQL);
-                        JOptionPane.showMessageDialog(this, "Guardian Registered Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-                        // Now get the last inserted ID
-                        ResultSet rs = DB.search("SELECT LAST_INSERT_ID() AS last_id");
-                        if (rs.next()) {
-                            String lastInsertedId = rs.getString("last_id");
-
-                            // Load only the newly added address using the last inserted ID
-                            loadGuardian(lastInsertedId);
-                            jButton2.setEnabled(false);
-                        }
-                    }
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Error checking registration: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "An unexpected error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        InsertGuardian(); // Insert Process Guardian
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int row = jTable1.getSelectedRow();
+
+// Check if a row is actually selected
+        if (row != -1) {
+            // Ensure no `NullPointerException` when accessing jTable1 values
+            jTextField3.setText(String.valueOf(jTable1.getValueAt(row, 1)));//Fname
+            jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 2)));//Lname
+            jTextField2.setText(String.valueOf(jTable1.getValueAt(row, 3)));//Mobile
+            jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(row, 4)));//Type
+            //jButton1.setEnabled(false);
+
+            // Check for double-click event
+            if (evt.getClickCount() == 2) {
+                String Gid = String.valueOf(jTable1.getValueAt(row, 0));
+
+                // Ensure `sm` is not null before calling `setGuardianId`
+                if (sm != null) {
+                    sm.setGuardianId(Gid);
+
+                } else {
+//                    System.out.println("Error: Employee object (em) is null. Cannot set address ID.");
+                    JOptionPane.showMessageDialog(this, "Guardian Object is null", "WARNING", JOptionPane.WARNING_MESSAGE);
+                }
+
+                // Close the current window
+                this.dispose();
+
+            }
+        } else {
+            System.out.println("No row selected in the table.");
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        UpdateGuardian(); // Update Process
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+
+        clearAll();
+
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -372,4 +371,144 @@ private void loadGuardianType() {
 
     }
 
+    private void InsertGuardian() {
+
+        try {
+            String Gfname = jTextField3.getText().trim();
+            String Glname = jTextField1.getText().trim();
+            String Gmobile = jTextField2.getText().trim();
+            String Gtype = (String) jComboBox1.getSelectedItem();
+
+            // Input validation
+            if (Gfname.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please nter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+                return; // Exit if validation fails
+            }
+            if (Glname.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+                return; // Exit if validation fails
+            }
+            if (Gmobile.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+                return; // Exit if validation fails
+            }
+            if (!Gmobile.matches("^07[012345678]{1}[0-9]{7}$")) {
+                JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+                return; // Exit if validation fails
+            }
+            if (Gtype == null || Gtype.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please select a Guardian Type", "Warning", JOptionPane.WARNING_MESSAGE);
+                return; // Exit if validation fails
+            }
+
+            // Database operations
+            try {
+                // Check if the guardian is already registered using mobile number
+                String checkSQL = "SELECT * FROM `guardian` WHERE `mobile` = '" + Gmobile + "'";
+                ResultSet resultSet = DB.search(checkSQL);
+
+                if (resultSet.next()) {
+                    JOptionPane.showMessageDialog(this, "Guardian Already Registered", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    int confirmation = JOptionPane.showConfirmDialog(this, "Are You Sure Want To add", "Alert!", JOptionPane.YES_NO_OPTION);
+
+                    if (confirmation == JOptionPane.YES_OPTION) {
+                        // Build the SQL statement for insertion
+                        String insertSQL = "INSERT INTO `guardian` (`fname`, `lname`, `mobile`, `guardian_type_id`) VALUES ('"
+                                + Gfname + "', '" + Glname + "', '" + Gmobile + "', '" + this.guardianTypeMap.get(Gtype) + "')";
+
+                        // Execute the insert
+                        DB.IUD(insertSQL);
+                        JOptionPane.showMessageDialog(this, "Guardian Registered Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                        // Now get the last inserted ID
+                        ResultSet rs = DB.search("SELECT LAST_INSERT_ID() AS last_id");
+                        if (rs.next()) {
+                            String lastInsertedId = rs.getString("last_id");
+
+                            // Load only the newly added address using the last inserted ID
+                            loadGuardian(lastInsertedId);
+                            jButton2.setEnabled(false);
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Error checking registration: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "An unexpected error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    private void UpdateGuardian() {
+
+        int row = jTable1.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Please Select a Row", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            String id = String.valueOf(jTable1.getValueAt(row, 0));
+
+            try {
+                String fname = jTextField3.getText();
+                String lname = jTextField1.getText();
+                String mobile = jTextField2.getText();
+                String type = String.valueOf(jComboBox1.getSelectedItem());
+
+                if (fname.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (lname.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (mobile.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please Enter Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (type.equals("Select")) {
+                    JOptionPane.showMessageDialog(this, "Please Select a Type", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+
+                    //check if the address already exists
+                    boolean isFound = false;
+
+                    for (int i = 0; i < jTable1.getRowCount(); i++) {
+                        String getFname = String.valueOf(jTable1.getValueAt(i, 1));
+                        String getLname = String.valueOf(jTable1.getValueAt(i, 2));
+                        String getMobile = String.valueOf(jTable1.getValueAt(i, 3));
+                        String getType = String.valueOf(jTable1.getValueAt(i, 4));
+
+                        if (getFname.equals(fname) && getLname.equals(lname) && getMobile.equals(mobile) && getType.equals(type)) {
+                            JOptionPane.showMessageDialog(this, "This Guardian has been already used", "Warning", JOptionPane.WARNING_MESSAGE);
+                            isFound = true;
+                            break;
+                        }
+                    }
+                    // If no duplicate Update is found, proceed with the update
+                    if (!isFound) {
+                        DB.IUD("UPDATE `guardian` SET `fname`='" + fname + "', `lname` = '" + lname + "',"
+                                + " `mobile` ='" + mobile + "', `guardian_type_id`='" + guardianTypeMap.get(type) + "' WHERE `id`='" + id + "'");
+
+                        JOptionPane.showMessageDialog(this, "Guardian Details Successfully Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                        loadGuardian(Gid);
+
+                    }
+                }
+            } catch (ClassNotFoundException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            } catch (SQLException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+            }
+        }
+
+    }
+
+    private void clearAll() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jComboBox1.setSelectedIndex(0);
+        jTable1.clearSelection();
+        jTextField1.grabFocus();
+        loadGuardianType();
+
+    }
 }
