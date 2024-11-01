@@ -5,7 +5,7 @@ import java.time.YearMonth;
 /**
  * @author isuru priyamantha
  */
-public class classData {
+public class ClassData {
 
     /**
      * @return the classId
@@ -105,10 +105,10 @@ public class classData {
         this.classFee = classFee;
     }
 
-    public classData() {
+    public ClassData() {
     }
 
-    public classData(String classId, String subject, String grade, String teacherName, String dueMonth, String hallFee, String classFee) {
+    public ClassData(String classId, String subject, String grade, String teacherName, String dueMonth, String hallFee, String classFee) {
         this.classId = classId;
         this.subject = subject;
         this.grade = grade;
