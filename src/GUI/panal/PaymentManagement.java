@@ -1191,8 +1191,6 @@ public class PaymentManagement extends javax.swing.JPanel {
     private javax.swing.JTextField teacher01;
     // End of variables declaration//GEN-END:variables
 
-    HashMap<String, ClassData> classMap = new HashMap<>();
-
     // seach student and view data by ID
     private void findStudent() {
         String sid = this.studentID.getText();
@@ -1344,41 +1342,27 @@ public class PaymentManagement extends javax.swing.JPanel {
 
         if (status == JOptionPane.YES_OPTION) {
 
-            ClassData classPay = new ClassData(
-                    String.valueOf(classIdCombo.getSelectedItem()),
-                    subject01.getText(),
-                    grade01.getText(),
-                    teacher01.getText(),
-                    String.valueOf(dueM_01.getSelectedItem()),
-                    hallfee01.getText(),
-                    classFee01.getText());
-            classMap.put(classIdCombo.getSelectedItem() + "_" + dueM_01.getSelectedItem(), classPay);
-            loardTable();
-            updateCombo(dueM_01.getSelectedItem(),);
-        }
-    }
+            DefaultTableModel dtm = (DefaultTableModel) classTable.getModel();
 
-    private void loardTable() {
-        DefaultTableModel dtm = (DefaultTableModel) classTable.getModel();
-        dtm.setRowCount(0);
-        for (ClassData value : classMap.values()) {
             Vector v = new Vector();
-            v.add(value.getClassId());
-            v.add(value.getSubject());
-            v.add(value.getGrade());
-            v.add(value.getTeacherName());
-            v.add(value.getDueMonth());
-            v.add(value.getHallFee());
-            v.add(value.getClassFee());
-
-            double total = Double.parseDouble(value.getHallFee()) + Double.parseDouble(value.getClassFee());
+            v.add(String.valueOf(classIdCombo.getSelectedItem()));
+            v.add(subject01.getText());
+            v.add(grade01.getText());
+            v.add(teacher01.getText());
+            v.add(String.valueOf(dueM_01.getSelectedItem()));
+            v.add(hallfee01.getText());
+            v.add(classFee01.getText());
+            double total = Double.parseDouble(hallfee01.getText()) + Double.parseDouble(classFee01.getText());
             v.add(total);
             dtm.addRow(v);
+            classTable.setModel(dtm);
+            claculate();
+
+            updateCombo(dueM_01.getSelectedItem(),String.valueOf(classIdCombo.getSelectedItem()));
         }
-        classTable.setModel(dtm);
-        claculate();
     }
 
+    // calculate the grand total
     private void claculate() {
         classBalance.setText("");
         classPayment.setText("");
@@ -1390,9 +1374,9 @@ public class PaymentManagement extends javax.swing.JPanel {
         classTotal.setText(String.valueOf(grandTotal));
     }
 
+    // calculate the balance
     private void makeBalace() {
         String paymet = classPayment.getText();
-
         if (!paymet.isEmpty()) {
             if (Validator.AMOUNT.validate(paymet)) {
                 double pay = Double.parseDouble(paymet);
@@ -1409,11 +1393,12 @@ public class PaymentManagement extends javax.swing.JPanel {
         }
     }
 
-    private void updateCombo(Object due,String classID) {
+    private void updateCombo(Object due, String classID) {
         dueM_01.removeItem(due);
         if (dueM_01.getItemCount() == 0) {
             dueM_01.setEnabled(false);
-            classIdCombo.removeItem();
+            classIdCombo.removeItem(classID);
+            classIdCombo.setSelectedIndex(0);
         } else {
             dueM_01.setEnabled(true);
         }
