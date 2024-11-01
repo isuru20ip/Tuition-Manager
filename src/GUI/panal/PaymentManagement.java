@@ -7,14 +7,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.YearMonth;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modal.LogCenter;
 import modal.Validator;
-import modal.beans.ClassData;
 
 /**
  * @author isuru priyamntha
@@ -474,11 +472,11 @@ public class PaymentManagement extends javax.swing.JPanel {
                                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(classPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(classTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(classTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -1253,12 +1251,14 @@ public class PaymentManagement extends javax.swing.JPanel {
                         + "`grade`.`name` AS `grade`,"
                         + "CONCAT(`teacher`.`fname`, ' ', `teacher`.`lname`) AS `teacher`, "
                         + "`class`.`fee` AS `fee`, "
-                        + "`room_type`.`fee` AS `room_fee`"
+                        + "`room_type`.`fee` AS `room_fee`,"
+                        + "`class_enrollment`.`payment_modal_id` AS `is_free`"
                         + "FROM `class`"
                         + "INNER JOIN `subject` ON `subject`.`id` = `class`.`subject_id`"
                         + "INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
                         + "INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic`"
                         + "INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id`"
+                        + "INNER JOIN `class_enrollment` ON `class_enrollment`.`class_id` = `class`.`id`"
                         + "WHERE `class`.`id` = '" + classID + "'");
                 if (rs.next()) {
                     loardDue(classID);
@@ -1267,6 +1267,8 @@ public class PaymentManagement extends javax.swing.JPanel {
                     subject01.setText(rs.getString("subject"));
                     teacher01.setText(rs.getString("teacher"));
                     grade01.setText(rs.getString("grade"));
+                    jCheckBox1.setSelected(rs.getString("is_free").equals("2"));
+
                 }
             } catch (ClassNotFoundException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
@@ -1338,14 +1340,14 @@ public class PaymentManagement extends javax.swing.JPanel {
                 "Are you sure you want to make the payment?",
                 "Confirmation", JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);
-         int ODstatus = JOptionPane.YES_OPTION;
+        int ODstatus = JOptionPane.YES_OPTION;
         if (checkOverDue()) {
-           ODstatus = JOptionPane.showConfirmDialog(
+            ODstatus = JOptionPane.showConfirmDialog(
                     this,
                     "You Have overdue payment, You need to Complete them Fist",
                     "Confirmation", JOptionPane.YES_NO_OPTION,
                     JOptionPane.INFORMATION_MESSAGE);
-           dueM_01.setSelectedIndex(0);
+            dueM_01.setSelectedIndex(0);
         }
 
         if (status == JOptionPane.YES_OPTION && ODstatus == JOptionPane.YES_OPTION) {
@@ -1358,10 +1360,18 @@ public class PaymentManagement extends javax.swing.JPanel {
             v.add(grade01.getText());
             v.add(teacher01.getText());
             v.add(String.valueOf(dueM_01.getSelectedItem()));
-            v.add(hallfee01.getText());
-            v.add(classFee01.getText());
-            double total = Double.parseDouble(hallfee01.getText()) + Double.parseDouble(classFee01.getText());
-            v.add(total);
+
+            if (CheckIsFree(String.valueOf(dueM_01.getSelectedItem()))) {
+                v.add(hallfee01.getText());
+                v.add(classFee01.getText());
+                double total = Double.parseDouble(hallfee01.getText()) + Double.parseDouble(classFee01.getText());
+                v.add(total);
+            } else {
+                v.add("N/L");
+                v.add("N/L");
+                v.add("Free Card");
+            }
+
             dtm.addRow(v);
             classTable.setModel(dtm);
             claculate();
@@ -1377,7 +1387,10 @@ public class PaymentManagement extends javax.swing.JPanel {
         int rows = classTable.getRowCount();
         double grandTotal = 0.0;
         for (int i = 0; i < rows; i++) {
-            grandTotal = grandTotal + Double.parseDouble(String.valueOf(classTable.getValueAt(i, 7)));
+            String total = String.valueOf(classTable.getValueAt(i, 7));
+            if (!total.equals("Free Card")) {
+                grandTotal = grandTotal + Double.parseDouble(total);
+            }
         }
         classTotal.setText(String.valueOf(grandTotal));
     }
@@ -1414,5 +1427,11 @@ public class PaymentManagement extends javax.swing.JPanel {
 
     private boolean checkOverDue() {
         return dueM_01.getSelectedIndex() != 0;
+    }
+
+    private boolean CheckIsFree(String dueDate) {
+        YearMonth today = YearMonth.now();
+        YearMonth date = YearMonth.parse(dueDate);
+        return today.isAfter(date); // return false if this == due month
     }
 }
