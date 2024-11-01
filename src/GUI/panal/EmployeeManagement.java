@@ -636,7 +636,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
                             
                             @Override
                             public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                                loadEmployee(""); // Refresh student data when dialog closes
+                                loadEmployee(""); // Refresh employee data when dialog closes
                             }
                         });
                         
