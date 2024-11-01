@@ -12,6 +12,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modal.LogCenter;
+import modal.SetDate;
 import modal.Validator;
 
 /**
@@ -1095,7 +1096,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_classPaymentKeyReleased
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       makePayment();
+        makePayment();
     }//GEN-LAST:event_jButton3ActionPerformed
 
 
@@ -1435,7 +1436,8 @@ public class PaymentManagement extends javax.swing.JPanel {
             }
         }
     }
- // update due motnhs combobox when staging the payment
+    // update due motnhs combobox when staging the payment
+
     private void updateCombo(Object due, String classID) {
         dueM_01.removeItem(due);
         if (dueM_01.getItemCount() == 0) {
@@ -1465,7 +1467,38 @@ public class PaymentManagement extends javax.swing.JPanel {
         cleanClass();
     }
 
+    // make payments
     private void makePayment() {
+        try {
+            String EMP = "0127";
+            String currentTime = SetDate.getDate("yyyy-MM-dd hh:MM:ss");
+            DB.IUD("INSERT INTO `payment` (`total`, `date`, `student_id`, `employee_id`) VALUES ('" + classTotal.getText() + "', '" + currentTime + "', '" + studentID.getText() + "', '" + EMP + "')");
+
+            ResultSet rs = DB.search("SELECT LAST_INSERT_ID() AS id");
+            
+            if (rs.next()) {
+                int paymentID = rs.getInt("id");
+                for (int i = 0; i < classTable.getRowCount(); i++) {
+                    String classID = (String) classTable.getValueAt(i, 0);
+                    String due_month = (String) classTable.getValueAt(i, 4);
+                    String hall_fee = (String) classTable.getValueAt(i, 5);
+                    if (hall_fee.equals("N/L")) {
+                     hall_fee = "0";   
+                    }
+                    DB.IUD("INSERT INTO `class_pay` (`class_id`, `due_month`, `payment_id`, `hall_fee`) VALUES ('" + classID + "', '" + due_month + "', '" + paymentID + "','" + hall_fee + "')");
+                    printReport();
+                    clear();
+                }
+            }
+            
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+    }
+
+    private void printReport() {
     
     }
 }
