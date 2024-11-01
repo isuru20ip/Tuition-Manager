@@ -476,7 +476,6 @@ public class PaymentManagement extends javax.swing.JPanel {
                                 .addComponent(classPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(classTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1339,8 +1338,17 @@ public class PaymentManagement extends javax.swing.JPanel {
                 "Are you sure you want to make the payment?",
                 "Confirmation", JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);
+         int ODstatus = JOptionPane.YES_OPTION;
+        if (checkOverDue()) {
+           ODstatus = JOptionPane.showConfirmDialog(
+                    this,
+                    "You Have overdue payment, You need to Complete them Fist",
+                    "Confirmation", JOptionPane.YES_NO_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE);
+           dueM_01.setSelectedIndex(0);
+        }
 
-        if (status == JOptionPane.YES_OPTION) {
+        if (status == JOptionPane.YES_OPTION && ODstatus == JOptionPane.YES_OPTION) {
 
             DefaultTableModel dtm = (DefaultTableModel) classTable.getModel();
 
@@ -1358,7 +1366,7 @@ public class PaymentManagement extends javax.swing.JPanel {
             classTable.setModel(dtm);
             claculate();
 
-            updateCombo(dueM_01.getSelectedItem(),String.valueOf(classIdCombo.getSelectedItem()));
+            updateCombo(dueM_01.getSelectedItem(), String.valueOf(classIdCombo.getSelectedItem()));
         }
     }
 
@@ -1402,5 +1410,9 @@ public class PaymentManagement extends javax.swing.JPanel {
         } else {
             dueM_01.setEnabled(true);
         }
+    }
+
+    private boolean checkOverDue() {
+        return dueM_01.getSelectedIndex() != 0;
     }
 }
