@@ -1,6 +1,7 @@
 package GUI.panal;
 
 import GUI.popup.Employee_Address;
+import GUI.popup.StudentAddress;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.util.HashMap;
@@ -29,6 +30,9 @@ public class EmployeeManagement extends javax.swing.JPanel {
     
     private String AddressId;
     private String EmployeeId;
+    
+     // Class-level variable to check if the dialog is open
+    private Employee_Address employeeAddressDialog;
     
     public void setAddressId(String aid) {
         this.AddressId = aid;
@@ -497,7 +501,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
             String employee_type = String.valueOf(jComboBox2.getSelectedItem());
             String employee_status = String.valueOf(jComboBox3.getSelectedItem());
             
-            String newID = IDGenarator.generateID("EMP");
+             String newID = IDGenarator.generateID("EMP", "employee");
             String Date = SetDate.getDate("yyyy-MM-dd HH:mm:ss");
             
             if (fname.isEmpty()) {
@@ -566,8 +570,21 @@ public class EmployeeManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Employee_Address employee_Address = new Employee_Address(this, true, null);
-        employee_Address.setVisible(true);
+       
+        // Check if the Address ID already exists
+        if (EmployeeId != null) {
+            JOptionPane.showMessageDialog(this, "Address ID already exists", "Warning", JOptionPane.WARNING_MESSAGE);
+            return; // Exit if the ID exists
+        }
+
+        // If the dialog is already created, just bring it to the front
+        if (employeeAddressDialog != null && employeeAddressDialog.isVisible()) {
+            employeeAddressDialog.toFront(); // Bring the dialog to the front if it's already visible
+        } else {
+            // Otherwise, create and show a new dialog
+            employeeAddressDialog = new Employee_Address(this, true, null);
+            employeeAddressDialog.setVisible(true);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -725,7 +742,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
                 vector.add(resultSet.getString("fname"));
                 vector.add(resultSet.getString("lname"));
                 vector.add(resultSet.getString("mobile"));
-                vector.add(resultSet.getString("address.line_01") + resultSet.getString("address.line_02"));
+                vector.add(resultSet.getString("address.line_01") + " , " + resultSet.getString("address.line_02"));
                 vector.add(resultSet.getString("emp_status.status"));
                 vector.add(resultSet.getString("gender.name"));
                 vector.add(resultSet.getString("emp_type.name"));
