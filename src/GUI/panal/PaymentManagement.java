@@ -22,7 +22,6 @@ public class PaymentManagement extends javax.swing.JPanel {
     public PaymentManagement() {
         initComponents();
         cleanClass();
-        jCheckBox1.setEnabled(false);
         studentID.setText("ST00000");
     }
 
@@ -399,6 +398,11 @@ public class PaymentManagement extends javax.swing.JPanel {
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Make Payment");
         jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel12.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -1071,8 +1075,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_studentIDKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        studentID.setText("");
-        cleanClass();
+        clear();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void classIdComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_classIdComboItemStateChanged
@@ -1090,6 +1093,10 @@ public class PaymentManagement extends javax.swing.JPanel {
     private void classPaymentKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_classPaymentKeyReleased
         makeBalace();
     }//GEN-LAST:event_classPaymentKeyReleased
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+       makePayment();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1198,7 +1205,6 @@ public class PaymentManagement extends javax.swing.JPanel {
 
                 if (rs.next()) {
                     ResultSet classData = DB.search("SELECT `class_enrollment`.`class_id` FROM `class_enrollment` WHERE `class_enrollment`.`student_id` = '" + sid + "' ");
-                    int classCont = 0;
                     Vector<String> v = new Vector<>();
                     v.add("Select Class");
                     while (classData.next()) {
@@ -1225,18 +1231,33 @@ public class PaymentManagement extends javax.swing.JPanel {
 
     // clear fields
     private void cleanClass() {
-        classIdCombo.setEnabled(false);
-        classFee01.setText("");
-        hallfee01.setText("");
-        dueM_01.removeAllItems();
+
+        jCheckBox1.setEnabled(false); // is_free check 
+
+        studentID.setEditable(true);
+        studentID.grabFocus();
+
+        classFee01.setText(""); // class fee
+        hallfee01.setText(""); // hall fee
+        stName.setText(""); // student name
+        subject01.setText(""); // subject
+        teacher01.setText(""); // teacher
+        grade01.setText(""); // grade
+
+        dueM_01.removeAllItems(); // due month combo
         dueM_01.setEnabled(false);
-        //studentID.setText("");
-        stName.setText("");
-        subject01.setText("");
-        teacher01.setText("");
-        grade01.setText("");
+
+        classIdCombo.setEnabled(false); // classID combo
         classIdCombo.removeAllItems();
-        class_add.setEnabled(false);
+
+        class_add.setEnabled(false); // add button
+
+        DefaultTableModel dtm = (DefaultTableModel) classTable.getModel(); // clear table
+        dtm.setRowCount(0);
+
+        classTotal.setText("");
+        classBalance.setText("");
+        classPayment.setText("");
     }
 
     // find class by student ID
@@ -1278,6 +1299,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Date Problem", ex);
             }
         } else {
+            studentID.setEnabled(true);
             classFee01.setText("");
             hallfee01.setText("");
             subject01.setText("");
@@ -1413,7 +1435,7 @@ public class PaymentManagement extends javax.swing.JPanel {
             }
         }
     }
-
+ // update due motnhs combobox when staging the payment
     private void updateCombo(Object due, String classID) {
         dueM_01.removeItem(due);
         if (dueM_01.getItemCount() == 0) {
@@ -1425,13 +1447,25 @@ public class PaymentManagement extends javax.swing.JPanel {
         }
     }
 
+    // check is there any over due in the combobox
     private boolean checkOverDue() {
         return dueM_01.getSelectedIndex() != 0;
     }
 
+    // check due month is equal with this month
     private boolean CheckIsFree(String dueDate) {
         YearMonth today = YearMonth.now();
         YearMonth date = YearMonth.parse(dueDate);
         return today.isAfter(date); // return false if this == due month
+    }
+
+    // clean everything
+    private void clear() {
+        studentID.setText("");
+        cleanClass();
+    }
+
+    private void makePayment() {
+    
     }
 }
