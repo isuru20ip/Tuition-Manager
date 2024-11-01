@@ -58,7 +58,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         jLabel33 = new javax.swing.JLabel();
         hallfee01 = new javax.swing.JTextField();
         jCheckBox1 = new javax.swing.JCheckBox();
-        jButton3 = new javax.swing.JButton();
+        paymentBTN = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         classBalance = new javax.swing.JFormattedTextField();
         classPayment = new javax.swing.JFormattedTextField();
@@ -394,14 +394,14 @@ public class PaymentManagement extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton3.setBackground(new java.awt.Color(0, 51, 255));
-        jButton3.setFont(new java.awt.Font("Meta", 1, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Make Payment");
-        jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        paymentBTN.setBackground(new java.awt.Color(0, 51, 255));
+        paymentBTN.setFont(new java.awt.Font("Meta", 1, 18)); // NOI18N
+        paymentBTN.setForeground(new java.awt.Color(255, 255, 255));
+        paymentBTN.setText("Make Payment");
+        paymentBTN.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        paymentBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                paymentBTNActionPerformed(evt);
             }
         });
 
@@ -477,7 +477,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(classPayment, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(paymentBTN, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -504,7 +504,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                     .addComponent(classBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(paymentBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -1095,9 +1095,9 @@ public class PaymentManagement extends javax.swing.JPanel {
         makeBalace();
     }//GEN-LAST:event_classPaymentKeyReleased
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void paymentBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentBTNActionPerformed
         makePayment();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_paymentBTNActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1113,7 +1113,6 @@ public class PaymentManagement extends javax.swing.JPanel {
     private javax.swing.JTextField hallfee01;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -1190,6 +1189,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField20;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JButton paymentBTN;
     private javax.swing.JTextField stName;
     private javax.swing.JTextField studentID;
     private javax.swing.JTextField subject01;
@@ -1259,6 +1259,8 @@ public class PaymentManagement extends javax.swing.JPanel {
         classTotal.setText("");
         classBalance.setText("");
         classPayment.setText("");
+
+        paymentBTN.setEnabled(false);
     }
 
     // find class by student ID
@@ -1428,6 +1430,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                 double balance = (pay) - (total);
                 if (balance >= 0) {
                     classBalance.setText(String.valueOf(balance));
+                    paymentBTN.setEnabled(true);
                 } else {
                     classBalance.setText("");
                 }
@@ -1480,17 +1483,20 @@ public class PaymentManagement extends javax.swing.JPanel {
 
             if (rs.next()) {
                 int paymentID = rs.getInt("id");
-                for (int i = 0; i < classTable.getRowCount(); i++) {
-                    String classID = (String) classTable.getValueAt(i, 0);
-                    String due_month = (String) classTable.getValueAt(i, 4);
+                int rows = classTable.getRowCount();
+
+                for (int i = 0; i < rows; i++) {
+                    String classID = String.valueOf(classTable.getValueAt(i, 0));
+                    String due_month = (String) classTable.getValueAt(i, 4) + "-01";
                     String hall_fee = (String) classTable.getValueAt(i, 5);
+
                     if (hall_fee.equals("N/L")) {
                         hall_fee = "0";
                     }
                     DB.IUD("INSERT INTO `class_pay` (`class_id`, `due_month`, `payment_id`, `hall_fee`) VALUES ('" + classID + "', '" + due_month + "', '" + paymentID + "','" + hall_fee + "')");
-                    printReport();
-                    clear();
                 }
+                printReport();
+                clear();
             }
 
         } catch (ClassNotFoundException ex) {
