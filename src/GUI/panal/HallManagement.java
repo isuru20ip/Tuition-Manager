@@ -5,6 +5,7 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import modal.DB;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class HallManagement extends javax.swing.JPanel {
@@ -72,14 +73,29 @@ public class HallManagement extends javax.swing.JPanel {
         jButton1.setBackground(new java.awt.Color(51, 204, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton1.setText("Add New Hall");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(0, 102, 204));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton2.setText("Update Hall");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(255, 51, 51));
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton3.setText("Clear All");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -181,6 +197,18 @@ public class HallManagement extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        addHall();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        reset();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -221,28 +249,60 @@ public class HallManagement extends javax.swing.JPanel {
         }
     }
 
-    private void loadHall(){
-        
+    private void loadHall() {
+
         try {
-            
+
             ResultSet resultSet = DB.search("Select * From `class_room` "
                     + "INNER JOIN `room_type` ON `class_room`.`room_type_id` = `room_type`.`id` ");
-            
+
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
-            
+
             while (resultSet.next()) {
                 Vector<String> vector = new Vector<>();
                 vector.add(resultSet.getString("id"));
                 vector.add(resultSet.getString("capacity"));
                 vector.add(resultSet.getString("room_type.type"));
-                
+
                 model.addRow(vector);
             }
-            
-        }catch (Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    private void addHall(){
+        try {
+
+            String type = String.valueOf(jComboBox1.getSelectedItem());
+            String capacity = jTextField1.getText();
+
+            if (capacity.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Hall Capacity", "warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (type.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please select Hall Type", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else {
+
+                DB.IUD("INSERT INTO `class_room` (`capacity`, `room_type_id`) "
+                        + "VALUES ('"+capacity+"', '"+hallTypeMap.get(type)+"') ");
+
+                loadHall();
+                reset();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void reset(){
+        jComboBox1.setSelectedIndex(0);
+        jTextField1.setText("");
+        jTextField2.setText("");
     }
 
 }
