@@ -1354,7 +1354,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                     classFee01.getText());
             classMap.put(classIdCombo.getSelectedItem() + "_" + dueM_01.getSelectedItem(), classPay);
             loardTable();
-            updateCombo(dueM_01.getSelectedItem());
+            updateCombo(dueM_01.getSelectedItem(),);
         }
     }
 
