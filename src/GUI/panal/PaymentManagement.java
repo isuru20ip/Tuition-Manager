@@ -1484,7 +1484,7 @@ public class PaymentManagement extends javax.swing.JPanel {
             if (rs.next()) {
                 int paymentID = rs.getInt("id");
                 int rows = classTable.getRowCount();
-
+                int is_free = 0; // 0 = not free
                 for (int i = 0; i < rows; i++) {
                     String classID = String.valueOf(classTable.getValueAt(i, 0));
                     String due_month = (String) classTable.getValueAt(i, 4) + "-01";
@@ -1492,8 +1492,9 @@ public class PaymentManagement extends javax.swing.JPanel {
 
                     if (hall_fee.equals("N/L")) {
                         hall_fee = "0";
+                        is_free = 1;
                     }
-                    DB.IUD("INSERT INTO `class_pay` (`class_id`, `due_month`, `payment_id`, `hall_fee`) VALUES ('" + classID + "', '" + due_month + "', '" + paymentID + "','" + hall_fee + "')");
+                    DB.IUD("INSERT INTO `class_pay` (`class_id`, `due_month`, `payment_id`, `hall_fee`,`is_free`) VALUES ('" + classID + "', '" + due_month + "', '" + paymentID + "','" + hall_fee + "','"+is_free+"')");
                 }
                 printReport();
                 clear();
