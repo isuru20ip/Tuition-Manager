@@ -1385,14 +1385,14 @@ public class PaymentManagement extends javax.swing.JPanel {
             v.add(String.valueOf(dueM_01.getSelectedItem()));
 
             if (CheckIsFree(String.valueOf(dueM_01.getSelectedItem()))) {
+                v.add("N/L");
+                v.add("N/L");
+                v.add("Free Card");
+            } else {
                 v.add(hallfee01.getText());
                 v.add(classFee01.getText());
                 double total = Double.parseDouble(hallfee01.getText()) + Double.parseDouble(classFee01.getText());
                 v.add(total);
-            } else {
-                v.add("N/L");
-                v.add("N/L");
-                v.add("Free Card");
             }
 
             dtm.addRow(v);
@@ -1458,7 +1458,9 @@ public class PaymentManagement extends javax.swing.JPanel {
     private boolean CheckIsFree(String dueDate) {
         YearMonth today = YearMonth.now();
         YearMonth date = YearMonth.parse(dueDate);
-        return today.isAfter(date); // return false if this == due month
+        boolean isThisM = !(today.isAfter(date)); // false if this == due month
+        boolean isfee = jCheckBox1.isSelected();
+        return isThisM & isfee;
     }
 
     // clean everything
@@ -1475,7 +1477,7 @@ public class PaymentManagement extends javax.swing.JPanel {
             DB.IUD("INSERT INTO `payment` (`total`, `date`, `student_id`, `employee_id`) VALUES ('" + classTotal.getText() + "', '" + currentTime + "', '" + studentID.getText() + "', '" + EMP + "')");
 
             ResultSet rs = DB.search("SELECT LAST_INSERT_ID() AS id");
-            
+
             if (rs.next()) {
                 int paymentID = rs.getInt("id");
                 for (int i = 0; i < classTable.getRowCount(); i++) {
@@ -1483,14 +1485,14 @@ public class PaymentManagement extends javax.swing.JPanel {
                     String due_month = (String) classTable.getValueAt(i, 4);
                     String hall_fee = (String) classTable.getValueAt(i, 5);
                     if (hall_fee.equals("N/L")) {
-                     hall_fee = "0";   
+                        hall_fee = "0";
                     }
                     DB.IUD("INSERT INTO `class_pay` (`class_id`, `due_month`, `payment_id`, `hall_fee`) VALUES ('" + classID + "', '" + due_month + "', '" + paymentID + "','" + hall_fee + "')");
                     printReport();
                     clear();
                 }
             }
-            
+
         } catch (ClassNotFoundException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
@@ -1499,6 +1501,6 @@ public class PaymentManagement extends javax.swing.JPanel {
     }
 
     private void printReport() {
-    
+
     }
 }
