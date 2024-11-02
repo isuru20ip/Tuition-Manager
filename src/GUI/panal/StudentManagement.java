@@ -14,13 +14,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Vector;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modal.IDGenarator;
 import modal.LogCenter;
+import modal.Validator;
 
 /**
  *
@@ -36,6 +43,8 @@ public class StudentManagement extends javax.swing.JPanel {
         loadSGender();
         loadSStatus();
         loadStudent("");
+        setupRadioButtons();
+
     }
 
     /**
@@ -48,6 +57,7 @@ public class StudentManagement extends javax.swing.JPanel {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -72,6 +82,8 @@ public class StudentManagement extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jRadioButton4 = new javax.swing.JRadioButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -116,6 +128,12 @@ public class StudentManagement extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Basic Information");
+
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -185,6 +203,13 @@ public class StudentManagement extends javax.swing.JPanel {
 
         jDateChooser1.setDateFormatString("yyyy-MM-dd");
 
+        buttonGroup2.add(jRadioButton3);
+        jRadioButton3.setSelected(true);
+        jRadioButton3.setText("NIC");
+
+        buttonGroup2.add(jRadioButton4);
+        jRadioButton4.setText("No NIC");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -212,6 +237,10 @@ public class StudentManagement extends javax.swing.JPanel {
                             .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(50, 50, 50)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jRadioButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jRadioButton4))
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBox2, 0, 147, Short.MAX_VALUE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -236,7 +265,11 @@ public class StudentManagement extends javax.swing.JPanel {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRadioButton3)
+                    .addComponent(jRadioButton4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -310,7 +343,7 @@ public class StudentManagement extends javax.swing.JPanel {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
         );
 
         jPanel6.setBackground(new java.awt.Color(234, 238, 244));
@@ -755,9 +788,14 @@ public class StudentManagement extends javax.swing.JPanel {
         SearchStudent();
     }//GEN-LAST:event_jTextField6KeyReleased
 
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1KeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -798,6 +836,8 @@ public class StudentManagement extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane2;
@@ -955,68 +995,68 @@ public class StudentManagement extends javax.swing.JPanel {
             String email = jTextField5.getText();
             String status = String.valueOf(jComboBox2.getSelectedItem());
 
+            // Basic field validations
             if (fname.isEmpty()) {
-
                 JOptionPane.showMessageDialog(this, "Please Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-
             } else if (lname.isEmpty()) {
-
                 JOptionPane.showMessageDialog(this, "Please Enter Your Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (nic.isEmpty()) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter Your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (gender.equals("Select")) {
-
-                JOptionPane.showMessageDialog(this, "Please Select a Gender", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (dob == null) {
-
                 JOptionPane.showMessageDialog(this, "Please Enter Your Date of Birth", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (mobile.isEmpty()) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (email.isEmpty()) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
-
-                JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (status.equals("Select")) {
-
-                JOptionPane.showMessageDialog(this, "Please Select a Status", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (StudentAddressId == null) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter an Address", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (GuardianId == null) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter Guardian Information", "Warning", JOptionPane.WARNING_MESSAGE);
-
             } else {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                // Calculate age based on date of birth
+                int age = Period.between(dob.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();
 
-                String Dob = sdf.format(dob);
-                String joinDate = sdfDateTime.format(new Date());
-                String sampleEmployeeID = "0126";
+                // Ensure age is more than 5 years
+                if (age < 5) {
+                    JOptionPane.showMessageDialog(this, "Date of birth must indicate an age of at least 5 years", "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
 
-                // Vector<String> IDS = new Vector<>();
-                String generatedID = IDGenarator.generateID("ST", "student"); //Generate Student ID
+                // Check age for NIC requirement if age >= 18
+                if (age >= 18) {
+                    if (nic.isEmpty()) {
+                        JOptionPane.showMessageDialog(this, "Please Enter Your NIC for students 18 and older", "Warning", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    } else if (!Validator.NIC.validate(nic)) {
+                        JOptionPane.showMessageDialog(this, "Invalid NIC format", "Warning", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                }
 
-                DB.IUD("INSERT INTO `student`(`id`,`fname`,`lname`,`birthday`,`nic`,`mobile`,`email`,`join_date`,`gender_id`,`guardian_id`,`address_id`,`employee_id`,`customer_status_id`)"
-                        + "VALUES ('" + generatedID + "','" + fname + "','" + lname + "','" + Dob + "','" + nic + "','" + mobile + "','" + email + "','" + joinDate + "',"
-                        + "'" + studentGender.get(gender) + "','" + GuardianId + "','" + StudentAddressId + "',"
-                        + "'" + sampleEmployeeID + "','" + studentStatus.get(status) + "')");
-                loadStudent("");
+                // Additional field validations
+                if (gender.equals("Select")) {
+                    JOptionPane.showMessageDialog(this, "Please Select a Gender", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (mobile.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
+                    JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (email.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
+                    JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (status.equals("Select")) {
+                    JOptionPane.showMessageDialog(this, "Please Select a Status", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (StudentAddressId == null) {
+                    JOptionPane.showMessageDialog(this, "Please Enter an Address", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (GuardianId == null) {
+                    JOptionPane.showMessageDialog(this, "Please Enter Guardian Information", "Warning", JOptionPane.WARNING_MESSAGE);
+                }else {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                    String Dob = sdf.format(dob);
+                    String joinDate = sdfDateTime.format(new Date());
+                    String sampleEmployeeID = "0126";
+
+                    // Vector<String> IDS = new Vector<>();
+                    String generatedID = IDGenarator.generateID("ST", "student"); //Generate Student ID
+
+                    DB.IUD("INSERT INTO `student`(`id`,`fname`,`lname`,`birthday`,`nic`,`mobile`,`email`,`join_date`,`gender_id`,`guardian_id`,`address_id`,`employee_id`,`customer_status_id`)"
+                            + "VALUES ('" + generatedID + "','" + fname + "','" + lname + "','" + Dob + "','" + nic + "','" + mobile + "','" + email + "','" + joinDate + "',"
+                            + "'" + studentGender.get(gender) + "','" + GuardianId + "','" + StudentAddressId + "',"
+                            + "'" + sampleEmployeeID + "','" + studentStatus.get(status) + "')");
+                    loadStudent("");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1056,6 +1096,8 @@ public class StudentManagement extends javax.swing.JPanel {
 
                     JOptionPane.showMessageDialog(this, "Please Enter Your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
 
+                } else if (!Validator.NIC.validate(nic)) {
+                    JOptionPane.showMessageDialog(this, "Invalid NIC format", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else if (mobile.isEmpty()) {
 
                     JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -1162,6 +1204,42 @@ public class StudentManagement extends javax.swing.JPanel {
 
         loadStudent(value);
 
+    }
+
+    //Setup Nic Function
+    private void setupRadioButtons() {
+        jRadioButton3.addActionListener(e -> {
+            if (isOverEighteen(jDateChooser1.getDate())) {
+                jTextField3.setEnabled(true); // Enable NIC field if over 18
+            }
+        });
+
+        jRadioButton4.addActionListener(e -> {
+            jTextField3.setEnabled(false); // Disable NIC field when "No NIC" is selected
+            jTextField3.setText(""); // Clear NIC field if "No NIC" is selected
+        });
+
+// Add a listener to jDateChooser1 to enable or disable NIC based on age
+        jDateChooser1.getDateEditor().addPropertyChangeListener("date", evt -> {
+            Date dob = jDateChooser1.getDate();
+            if (isOverEighteen(dob)) {
+                jTextField3.setEnabled(true); // Enable NIC field if over 18
+                jRadioButton3.setSelected(true); // Select NIC option automatically
+            } else {
+                jTextField3.setEnabled(false); // Disable NIC field if under 18
+                jTextField3.setText(""); // Clear NIC field
+                jRadioButton4.setSelected(true); // Select "No NIC" option automatically
+            }
+        });
+    }
+
+    // Method to calculate if the age is over 18
+    private boolean isOverEighteen(Date dob) {
+        if (dob == null) {
+            return false;
+        }
+        int age = Period.between(dob.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();
+        return age >= 18;
     }
 
 // Clear All 

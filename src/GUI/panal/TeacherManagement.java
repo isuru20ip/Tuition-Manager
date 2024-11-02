@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import modal.DB;
 import modal.IDGenarator;
 import modal.LogCenter;
+import modal.Validator;
 
 /**
  *
@@ -277,6 +278,11 @@ public class TeacherManagement extends javax.swing.JPanel {
         jButton4.setBackground(new java.awt.Color(0, 102, 204));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton4.setText("Update");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setBackground(new java.awt.Color(255, 51, 51));
         jButton5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -572,7 +578,7 @@ public class TeacherManagement extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
         ViweTAddress(); // Address Button Clicked
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -645,6 +651,10 @@ public class TeacherManagement extends javax.swing.JPanel {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         clearAll();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        UpdateTeacher();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -829,6 +839,8 @@ public class TeacherManagement extends javax.swing.JPanel {
 
                 JOptionPane.showMessageDialog(this, "Please Enter Your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
 
+            } else if (!Validator.NIC.validate(nic)) {
+                JOptionPane.showMessageDialog(this, "Invalid NIC format", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (mobile.isEmpty()) {
 
                 JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -871,6 +883,95 @@ public class TeacherManagement extends javax.swing.JPanel {
 
     }
 
+    //Update Teacher
+    private void UpdateTeacher() {
+        int row = jTable1.getSelectedRow();
+        if (row == -1) {
+
+            JOptionPane.showMessageDialog(this, "Please Select a Teacher to Update", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            String Nic = String.valueOf(jTable1.getValueAt(row, 0));
+
+            try {
+                //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                String fname = jTextField1.getText();
+                String lname = jTextField2.getText();
+                String nic = jTextField3.getText();
+                String mobile = jTextField4.getText();
+                String email = jTextField5.getText();
+                String status = String.valueOf(jComboBox2.getSelectedItem());
+
+                if (fname.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (lname.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Your Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (nic.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (!Validator.NIC.validate(nic)) {
+                    JOptionPane.showMessageDialog(this, "Invalid NIC format", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (mobile.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (email.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
+
+                    JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (status.equals("Select")) {
+
+                    JOptionPane.showMessageDialog(this, "Please Select a Status", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else {
+
+                    //check if the address already exists
+                    boolean isFound = false;
+
+                    for (int i = 0; i < jTable1.getRowCount(); i++) {
+                        String getFname = String.valueOf(jTable1.getValueAt(i, 1));
+                        String getLname = String.valueOf(jTable1.getValueAt(i, 2));
+                        String getMobile = String.valueOf(jTable1.getValueAt(i, 3));
+
+                        String getStatus = String.valueOf(jTable1.getValueAt(i, 6));
+
+                        // Check if this entry matches the data for the student, avoiding duplication
+                    }
+
+                    // If no duplicate is found, proceed with the update
+                    if (!isFound) {
+                        // Update statement for the selected student ID
+                        DB.IUD("UPDATE `teacher` SET `fname`='" + fname + "', `lname` = '" + lname + "',"
+                                + " `mobile` ='" + mobile + "', `customer_status_id`='" + teacherStatus.get(status) + "' WHERE `nic`='" + nic + "'");
+
+                        JOptionPane.showMessageDialog(this, "Teacher Details Successfully Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                        // Refresh table data and clear input fields
+                        loadTeacher("");
+                        clearAll();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+
+        }
+
+    }
+
     // Clear All 
     private void clearAll() {
         jTextField1.setText("");
@@ -879,6 +980,7 @@ public class TeacherManagement extends javax.swing.JPanel {
 
         jTextField4.setText("");
         jTextField5.setText("");
+        jTextField5.setEditable(true);
         jComboBox2.setSelectedItem("Select");
         TeacherAddressId = null;
 

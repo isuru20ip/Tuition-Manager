@@ -25,14 +25,14 @@ public class TeacherAddress extends javax.swing.JDialog {
     /**
      * Creates new form Student_Address
      */
-    public TeacherAddress(TeacherManagement parent, boolean modal,String id) {
-       // super(parent, modal);
+    public TeacherAddress(TeacherManagement parent, boolean modal, String id) {
+        // super(parent, modal);
         initComponents();
         this.Tnic = id;
-        
+
         loadTCity();
         loadAddress(Tnic);
-        
+
         tm = (TeacherManagement) parent;
     }
 
@@ -203,11 +203,11 @@ public class TeacherAddress extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-      refresh();
+        refresh();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-          int row = jTable1.getSelectedRow();
+        int row = jTable1.getSelectedRow();
 
 // Check if a row is actually selected
         if (row != -1) {
@@ -232,7 +232,7 @@ public class TeacherAddress extends javax.swing.JDialog {
 
                 // Close the current window
                 this.dispose();
-                
+
             }
         } else {
             System.out.println("No row selected in the table.");
@@ -243,8 +243,6 @@ public class TeacherAddress extends javax.swing.JDialog {
         UpdateAddress();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -268,7 +266,7 @@ public class TeacherAddress extends javax.swing.JDialog {
 
     TeacherManagement tm;
 
- //Insert Address Code
+    //Insert Address Code
     private void InsertAddress() {
         try {
             String line1 = jTextField1.getText().trim();
@@ -301,6 +299,18 @@ public class TeacherAddress extends javax.swing.JDialog {
                         // Load only the newly added address using the last inserted ID
                         loadAddress(lastInsertedId);
                         jButton2.setEnabled(false);
+
+                        // Ensure `tm` is not null before calling `setAddressId`
+                        if (tm != null) {
+                            tm.setTeacherAddressId(lastInsertedId);
+
+                        } else {
+//                    System.out.println("Error: Teacher object (tm) is null. Cannot set address ID.");
+                            JOptionPane.showMessageDialog(this, "Employee Object is null", "WARNING", JOptionPane.WARNING_MESSAGE);
+                        }
+                        // Close the current window after successful insertion
+                        this.dispose();
+
                     }
                 }
 
@@ -312,11 +322,11 @@ public class TeacherAddress extends javax.swing.JDialog {
         }
 
     }
-    
-     //Update Address Code
-    private void UpdateAddress(){
-        
-         int row = jTable1.getSelectedRow();
+
+    //Update Address Code
+    private void UpdateAddress() {
+
+        int row = jTable1.getSelectedRow();
 
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Please Select a Row", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -356,8 +366,7 @@ public class TeacherAddress extends javax.swing.JDialog {
                                 + " `city_id`='" + TcityMap.get(city) + "' WHERE `id`='" + id + "'");
 
                         JOptionPane.showMessageDialog(this, "Address Successfully Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        
-                        
+
                         loadAddress(Tnic);
                         refresh();
                     }
@@ -368,11 +377,10 @@ public class TeacherAddress extends javax.swing.JDialog {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
             }
         }
-    
+
     }
-    
-    
-     //Load Student Address City
+
+    //Load Student Address City
     private void loadTCity() {
 
         try {
@@ -454,9 +462,7 @@ public class TeacherAddress extends javax.swing.JDialog {
         jTextField1.grabFocus();
         jButton1.setEnabled(true);
         loadTCity();
-         loadAddress(Tnic);
+        loadAddress(Tnic);
     }
 
-
 }
-
