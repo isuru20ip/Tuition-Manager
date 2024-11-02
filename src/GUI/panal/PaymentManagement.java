@@ -615,6 +615,11 @@ public class PaymentManagement extends javax.swing.JPanel {
         jButton5.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jButton5.setText("Add");
         jButton5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jLabel31.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
         jLabel31.setText("Paying Fee");
@@ -739,17 +744,28 @@ public class PaymentManagement extends javax.swing.JPanel {
         course_pay.setForeground(new java.awt.Color(255, 255, 255));
         course_pay.setText("Make Payment");
         course_pay.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        course_pay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                course_payActionPerformed(evt);
+            }
+        });
 
         jLabel21.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel21.setText("Balance");
         jLabel21.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        course_balacnce.setEditable(false);
         course_balacnce.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
         course_balacnce.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         course_payment.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
         course_payment.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        course_payment.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                course_paymentKeyReleased(evt);
+            }
+        });
 
         jLabel22.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -761,7 +777,8 @@ public class PaymentManagement extends javax.swing.JPanel {
         jLabel23.setText("Total");
         jLabel23.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        course_total.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
+        course_total.setEditable(false);
+        course_total.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
         course_total.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         course_table.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
@@ -1109,6 +1126,18 @@ public class PaymentManagement extends javax.swing.JPanel {
         validateFee();
     }//GEN-LAST:event_paying_feeKeyReleased
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        addCourse();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void course_paymentKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_course_paymentKeyReleased
+        getBalance();
+    }//GEN-LAST:event_course_paymentKeyReleased
+
+    private void course_payActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_course_payActionPerformed
+       makeCoursePay();
+    }//GEN-LAST:event_course_payActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField classBalance;
@@ -1370,7 +1399,6 @@ public class PaymentManagement extends javax.swing.JPanel {
 
     // satge payment into jtable
     private void addPayment() {
-
         int status = JOptionPane.showConfirmDialog(
                 this,
                 "Are you sure you want to make the payment?",
@@ -1581,6 +1609,8 @@ public class PaymentManagement extends javax.swing.JPanel {
         course_balacnce.setText("");
         course_payment.setText("");
 
+        jButton5.setEnabled(false);
+
         jCheckBox2.setEnabled(false);
 
         //  paymentBTN.setEnabled(false);
@@ -1616,11 +1646,9 @@ public class PaymentManagement extends javax.swing.JPanel {
                         due_fee.setText("Free Card");
                         due_fee.setEnabled(false);
                         paying_fee.setEnabled(false);
-                        jButton5.setEnabled(false);
                     } else {
                         due_fee.setEnabled(true);
                         paying_fee.setEnabled(true);
-                        jButton5.setEnabled(true);
                         loardCourseDue(courseId, student_id.getText());
                     }
                 }
@@ -1662,11 +1690,9 @@ public class PaymentManagement extends javax.swing.JPanel {
         if (payable == 0) {
             due_fee.setText("Payment Completed");
             paying_fee.setEnabled(false);
-            jButton5.setEnabled(false);
         } else {
             due_fee.setText(String.valueOf(payable));
             paying_fee.setEnabled(true);
-            jButton5.setEnabled(true);
         }
 
     }
@@ -1681,13 +1707,88 @@ public class PaymentManagement extends javax.swing.JPanel {
                 double balance = dueFee - pay;
 
                 if (balance < 0) {
-                    JOptionPane.showMessageDialog(this, "too much payment", "Warning", JOptionPane.WARNING_MESSAGE);
-                    paying_fee.setText("");
+                    JOptionPane.showMessageDialog(this, "Unacceptable Amount", "Warning", JOptionPane.WARNING_MESSAGE);
+                    paying_fee.setText("0");
+                    jButton5.setEnabled(false);
+                } else {
+                    if (pay != 0) {
+                        jButton5.setEnabled(true);
+                    } else {
+                        jButton5.setEnabled(false);
+                    }
                 }
+            } else {
+                JOptionPane.showMessageDialog(this, "Wrong Input", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            jButton5.setEnabled(false);
+        }
+    }
 
+    private void addCourse() {
+        int status = JOptionPane.showConfirmDialog(
+                this,
+                "Are you sure you want to make the payment?",
+                "Confirmation", JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+
+        if (status == JOptionPane.YES_OPTION) {
+
+            DefaultTableModel dtm = (DefaultTableModel) course_table.getModel();
+
+            Vector v = new Vector();
+            v.add(String.valueOf(course_id.getSelectedItem()));
+            v.add(subject_id.getText());
+            v.add(teacher_name.getText());
+            v.add(courese_fee.getText());
+            v.add(due_fee.getText());
+            v.add(paying_fee.getText());
+
+            dtm.addRow(v);
+            classTable.setModel(dtm);
+
+            course_id.removeItem(course_id.getSelectedItem());
+            paying_fee.setText("");
+            jButton5.setEnabled(false);
+
+            getTotal();
+        }
+    }
+
+    private void getTotal() {
+        course_payment.setText("");
+        course_balacnce.setText("");
+        int rows = course_table.getRowCount();
+        double grandTotal = 0.0;
+        for (int i = 0; i < rows; i++) {
+            String total = String.valueOf(course_table.getValueAt(i, 5)).replaceAll(",", "");
+            grandTotal = grandTotal + Double.parseDouble(total);
+        }
+        course_total.setText(String.valueOf(grandTotal));
+    }
+
+    private void getBalance() {
+        String paymet = course_payment.getText();
+        if (!paymet.isEmpty()) {
+            if (Validator.AMOUNT.validate(paymet)) {
+                double pay = Double.parseDouble(paymet);
+                double total = Double.parseDouble(course_total.getText());
+                double balance = (pay) - (total);
+                if (balance >= 0) {
+                    course_balacnce.setText(String.valueOf(balance));
+                    course_pay.setEnabled(true);
+                } else {
+                    course_balacnce.setText("");
+                    course_pay.setEnabled(false);
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Wrong Input", "Warning", JOptionPane.WARNING_MESSAGE);
             }
         }
+
+    }
+
+    private void makeCoursePay() {
+    
     }
 }
