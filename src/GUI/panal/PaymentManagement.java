@@ -1135,7 +1135,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_course_paymentKeyReleased
 
     private void course_payActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_course_payActionPerformed
-       makeCoursePay();
+        makeCoursePay();
     }//GEN-LAST:event_course_payActionPerformed
 
 
@@ -1508,7 +1508,9 @@ public class PaymentManagement extends javax.swing.JPanel {
     // clean everything
     private void clear() {
         studentID.setText("");
+        student_id.setText("");
         cleanClass();
+        cleanCourse();
     }
 
     // make payments
@@ -1768,7 +1770,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     }
 
     private void getBalance() {
-        String paymet = course_payment.getText();
+        String paymet = course_payment.getText().replaceAll(",", "");
         if (!paymet.isEmpty()) {
             if (Validator.AMOUNT.validate(paymet)) {
                 double pay = Double.parseDouble(paymet);
@@ -1789,6 +1791,33 @@ public class PaymentManagement extends javax.swing.JPanel {
     }
 
     private void makeCoursePay() {
-    
+
+        try {
+            String EMP = "0127";
+            String currentTime = SetDate.getDate("yyyy-MM-dd hh:MM:ss");
+            DB.IUD("INSERT INTO `payment` (`total`, `date`, `student_id`, `employee_id`) VALUES ('" + course_total.getText().replaceAll(",", "") + "', '" + currentTime + "', '" + student_id.getText() + "', '" + EMP + "')");
+
+            ResultSet rs = DB.search("SELECT LAST_INSERT_ID() AS id");
+
+            if (rs.next()) {
+                int paymentID = rs.getInt("id");
+                int rows = course_table.getRowCount();
+                int is_free = 0; // 0 = not free
+                for (int i = 0; i < rows; i++) {
+                    String courdeID = String.valueOf(course_table.getValueAt(i, 0));
+                    String fee = String.valueOf(course_table.getValueAt(i, 5)).replaceAll(",", "");
+
+                    DB.IUD("INSERT INTO `course_pay` (`course_id`, `fee`, `payment_id`, `is_free`) VALUES ('" + courdeID + "', '" + fee + "', '" + paymentID + "', 0);");
+                }
+                printReport();
+                clear();
+            }
+
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+
     }
 }
