@@ -7,6 +7,7 @@ import modal.DB;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modal.IDGenarator;
 
 public class HallManagement extends javax.swing.JPanel {
 
@@ -107,6 +108,11 @@ public class HallManagement extends javax.swing.JPanel {
                 "ID", "Hall Capacity", "Hall Type"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -202,12 +208,23 @@ public class HallManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        updateHall();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         reset();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int row = jTable1.getSelectedRow();
+
+        String capacity = String.valueOf(jTable1.getValueAt(row, 1));
+        jTextField1.setText(capacity);
+
+        String type = String.valueOf(jTable1.getValueAt(row, 2));
+        jComboBox1.setSelectedItem(type);
+
+    }//GEN-LAST:event_jTable1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -228,6 +245,7 @@ public class HallManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 
+    //load hall type
     private void hallType() {
 
         try {
@@ -249,6 +267,7 @@ public class HallManagement extends javax.swing.JPanel {
         }
     }
 
+    //load jTable
     private void loadHall() {
 
         try {
@@ -272,8 +291,9 @@ public class HallManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    
-    private void addHall(){
+
+    //insert new Hall
+    private void addHall() {
         try {
 
             String type = String.valueOf(jComboBox1.getSelectedItem());
@@ -287,8 +307,10 @@ public class HallManagement extends javax.swing.JPanel {
 
             } else {
 
-                DB.IUD("INSERT INTO `class_room` (`capacity`, `room_type_id`) "
-                        + "VALUES ('"+capacity+"', '"+hallTypeMap.get(type)+"') ");
+                String generatedID = IDGenarator.generateID("H", "class_room"); //Generate Student ID
+
+                DB.IUD("INSERT INTO `class_room` (`id`, `capacity`, `room_type_id`) "
+                        + "VALUES ('" + generatedID + "', '" + capacity + "', '" + hallTypeMap.get(type) + "') ");
 
                 loadHall();
                 reset();
@@ -298,8 +320,36 @@ public class HallManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    
-    private void reset(){
+
+    //Update Hall
+    private void updateHall() {
+        try {
+
+            String type = String.valueOf(jComboBox1.getSelectedItem());
+            String capacity = jTextField1.getText();
+
+            if (capacity.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Hall Capacity", "warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (type.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please select Hall Type", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else {
+
+                DB.IUD("UPDATE `class_room` SET `capacity` = '" + capacity + "', `room_type_id` = '" + hallTypeMap.get(type) + "'");
+
+                loadHall();
+                reset();
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //clear all
+    private void reset() {
         jComboBox1.setSelectedIndex(0);
         jTextField1.setText("");
         jTextField2.setText("");
