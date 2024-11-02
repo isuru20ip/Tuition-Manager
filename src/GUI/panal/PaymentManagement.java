@@ -535,6 +535,11 @@ public class PaymentManagement extends javax.swing.JPanel {
         jButton4.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jButton4.setText("Clear");
         jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -550,10 +555,9 @@ public class PaymentManagement extends javax.swing.JPanel {
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel9Layout.createSequentialGroup()
                                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE))
-                            .addGroup(jPanel9Layout.createSequentialGroup()
-                                .addComponent(student_id)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                                .addGap(0, 46, Short.MAX_VALUE))
+                            .addComponent(student_id))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(student_name))
                 .addContainerGap())
@@ -583,6 +587,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         jLabel17.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
         jLabel17.setText("Subject");
 
+        subject_id.setEditable(false);
         subject_id.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         subject_id.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
@@ -596,15 +601,18 @@ public class PaymentManagement extends javax.swing.JPanel {
         jLabel18.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
         jLabel18.setText("Teacher Name");
 
+        teacher_name.setEditable(false);
         teacher_name.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         teacher_name.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
+        leval.setEditable(false);
         leval.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         leval.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
         jLabel19.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
         jLabel19.setText("Level");
 
+        due_fee.setEditable(false);
         due_fee.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         due_fee.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
@@ -624,6 +632,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         jLabel31.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
         jLabel31.setText("Paying Fee");
 
+        paying_fee.setEditable(false);
         paying_fee.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
         paying_fee.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -631,6 +640,7 @@ public class PaymentManagement extends javax.swing.JPanel {
             }
         });
 
+        courese_fee.setEditable(false);
         courese_fee.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         courese_fee.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
@@ -1138,6 +1148,10 @@ public class PaymentManagement extends javax.swing.JPanel {
         makeCoursePay();
     }//GEN-LAST:event_course_payActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        clearAll();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField classBalance;
@@ -1508,9 +1522,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     // clean everything
     private void clear() {
         studentID.setText("");
-        student_id.setText("");
         cleanClass();
-        cleanCourse();
     }
 
     // make payments
@@ -1591,37 +1603,36 @@ public class PaymentManagement extends javax.swing.JPanel {
 
         student_id.setEditable(true);
         student_id.grabFocus();
-
         student_name.setText("");
+
+        course_id.removeAllItems();
+        course_id.setEnabled(false);
         subject_id.setText("");
         teacher_name.setText("");
         leval.setText("");
+        courese_fee.setText("");
         due_fee.setText("");
         paying_fee.setText("");
-
-        course_id.removeAllItems(); // due month combo
-        course_id.setEnabled(false);
-
-        course_pay.setEnabled(false); // add button
+        paying_fee.setText("");
+        paying_fee.setEditable(false);
+        jCheckBox2.setEnabled(false);
+        jCheckBox2.setSelected(false);
+        jButton5.setEnabled(false);
+        
 
         DefaultTableModel dtm = (DefaultTableModel) course_table.getModel(); // clear table
         dtm.setRowCount(0);
 
         course_total.setText("");
-        course_balacnce.setText("");
         course_payment.setText("");
-
-        jButton5.setEnabled(false);
-
-        jCheckBox2.setEnabled(false);
-
-        //  paymentBTN.setEnabled(false);
+        course_balacnce.setText("");
+        course_pay.setEnabled(false);
     }
 
     private void selectCourse() {
-        subject_id.setEditable(false);
-        final String courseId = String.valueOf(course_id.getSelectedItem());
-        if (course_id == null || !course_id.equals("Select Course")) {
+        String courseId = String.valueOf(course_id.getSelectedItem());
+        if (courseId != null && !courseId.equals("Select Course")) {
+            student_id.setEditable(false);
             try {
                 ResultSet rs = DB.search("SELECT "
                         + "`course`.`id`,"
@@ -1638,12 +1649,14 @@ public class PaymentManagement extends javax.swing.JPanel {
                         + "INNER JOIN `room_type` ON `room_type`.`id` = `course`.`room_type_id`"
                         + "INNER JOIN `course_enrollment` ON `course_enrollment`.`course_id` = `course`.`id`"
                         + "WHERE `course`.`id` = '" + courseId + "'");
+
                 if (rs.next()) {
                     courese_fee.setText(rs.getString("fee"));
                     subject_id.setText(rs.getString("subject"));
                     teacher_name.setText(rs.getString("teacher"));
                     leval.setText(rs.getString("grade"));
                     jCheckBox2.setSelected(rs.getString("is_free").equals("2"));
+
                     if (jCheckBox2.isSelected()) {
                         due_fee.setText("Free Card");
                         due_fee.setEnabled(false);
@@ -1654,20 +1667,21 @@ public class PaymentManagement extends javax.swing.JPanel {
                         loardCourseDue(courseId, student_id.getText());
                     }
                 }
+
             } catch (ClassNotFoundException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
             } catch (SQLException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
             }
         } else {
-            studentID.setEnabled(true);
-            classFee01.setText("");
-            hallfee01.setText("");
-            subject01.setText("");
-            teacher01.setText("");
-            grade01.setText("");
-            dueM_01.removeAllItems();
-            dueM_01.setEnabled(false);
+            subject_id.setText("");
+            teacher_name.setText("");
+            leval.setText("");
+            courese_fee.setText("");
+            due_fee.setText("");
+            paying_fee.setText("");
+            jCheckBox2.setSelected(false);
+            jButton5.setEnabled(false);
         }
     }
 
@@ -1691,10 +1705,10 @@ public class PaymentManagement extends javax.swing.JPanel {
 
         if (payable == 0) {
             due_fee.setText("Payment Completed");
-            paying_fee.setEnabled(false);
+            paying_fee.setEditable(false);
         } else {
             due_fee.setText(String.valueOf(payable));
-            paying_fee.setEnabled(true);
+            paying_fee.setEditable(true);
         }
 
     }
@@ -1750,7 +1764,15 @@ public class PaymentManagement extends javax.swing.JPanel {
             classTable.setModel(dtm);
 
             course_id.removeItem(course_id.getSelectedItem());
+            course_id.setSelectedIndex(0);
             paying_fee.setText("");
+            subject_id.setText("");
+            teacher_name.setText("");
+            leval.setText("");
+            courese_fee.setText("");
+            due_fee.setText("");
+            paying_fee.setText("");
+            jCheckBox2.setSelected(false);
             jButton5.setEnabled(false);
 
             getTotal();
@@ -1810,7 +1832,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                     DB.IUD("INSERT INTO `course_pay` (`course_id`, `fee`, `payment_id`, `is_free`) VALUES ('" + courdeID + "', '" + fee + "', '" + paymentID + "', 0);");
                 }
                 printReport();
-                clear();
+                clearAll();
             }
 
         } catch (ClassNotFoundException ex) {
@@ -1819,5 +1841,10 @@ public class PaymentManagement extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
 
+    }
+
+    private void clearAll() {
+        student_id.setText("");
+        cleanCourse();
     }
 }
