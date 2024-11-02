@@ -138,6 +138,12 @@ public class TeacherManagement extends javax.swing.JPanel {
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField6KeyReleased(evt);
+            }
+        });
+
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("Search by ID");
@@ -656,6 +662,10 @@ public class TeacherManagement extends javax.swing.JPanel {
         UpdateTeacher();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jTextField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyReleased
+        SearchStudent();
+    }//GEN-LAST:event_jTextField6KeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -972,12 +982,21 @@ public class TeacherManagement extends javax.swing.JPanel {
 
     }
 
+    //Search Teacher   
+    private void SearchStudent() {
+
+        String value = jTextField6.getText();
+
+        loadTeacher(value);
+
+    }
+
     // Clear All 
     private void clearAll() {
         jTextField1.setText("");
         jTextField2.setText("");
         jTextField3.setText("");
-
+        jTextField6.setText("");
         jTextField4.setText("");
         jTextField5.setText("");
         jTextField5.setEditable(true);
@@ -987,6 +1006,7 @@ public class TeacherManagement extends javax.swing.JPanel {
         jButton1.setEnabled(true); //Address Button Enable
 
         jButton3.setEnabled(true); // Add Button Enable
+        loadTeacher("");
 
     }
 

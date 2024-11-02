@@ -912,7 +912,7 @@ public class StudentManagement extends javax.swing.JPanel {
 
             }
 
-        } catch (ClassNotFoundException ex) {
+       } catch (ClassNotFoundException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
@@ -1237,6 +1237,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jTextField1.setText("");
         jTextField2.setText("");
         jTextField3.setText("");
+        jTextField6.setText("");
         jComboBox1.setSelectedItem("Select");
         jDateChooser1.setDate(null);
         jTextField4.setText("");
@@ -1249,6 +1250,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jButton3.setEnabled(true); // Add Button Enable
         jComboBox1.setEnabled(true); //Gender Not Updated
         jDateChooser1.setEnabled(true); // BirthDay Not Updated
+        loadStudent("");
 
     }
 
