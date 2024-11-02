@@ -91,6 +91,9 @@ public class PaymentManagement extends javax.swing.JPanel {
         jButton5 = new javax.swing.JButton();
         jLabel31 = new javax.swing.JLabel();
         paying_fee = new javax.swing.JFormattedTextField();
+        courese_fee = new javax.swing.JTextField();
+        jLabel34 = new javax.swing.JLabel();
+        jCheckBox2 = new javax.swing.JCheckBox();
         course_pay = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
         course_balacnce = new javax.swing.JFormattedTextField();
@@ -161,11 +164,6 @@ public class PaymentManagement extends javax.swing.JPanel {
         jPanel4.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
 
         studentID.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        studentID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                studentIDActionPerformed(evt);
-            }
-        });
         studentID.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 studentIDKeyReleased(evt);
@@ -589,6 +587,11 @@ public class PaymentManagement extends javax.swing.JPanel {
         subject_id.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
         course_id.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
+        course_id.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                course_idItemStateChanged(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
         jLabel18.setText("Teacher Name");
@@ -617,6 +620,20 @@ public class PaymentManagement extends javax.swing.JPanel {
         jLabel31.setText("Paying Fee");
 
         paying_fee.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
+        paying_fee.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                paying_feeKeyReleased(evt);
+            }
+        });
+
+        courese_fee.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        courese_fee.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+
+        jLabel34.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
+        jLabel34.setText("course_fee");
+
+        jCheckBox2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jCheckBox2.setText("Free");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -627,8 +644,8 @@ public class PaymentManagement extends javax.swing.JPanel {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel19)
-                            .addComponent(leval, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(courese_fee, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel34))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(due_fee, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -637,56 +654,61 @@ public class PaymentManagement extends javax.swing.JPanel {
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel10Layout.createSequentialGroup()
                                 .addComponent(paying_fee)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBox2)
+                                .addGap(24, 24, 24)
                                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel10Layout.createSequentialGroup()
                                 .addComponent(jLabel31)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(course_id, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(subject_id)
                             .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(90, 90, 90)
-                                .addComponent(jLabel17))
-                            .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(course_id, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(subject_id, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel17)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel18)
-                            .addComponent(teacher_name, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(teacher_name, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel19)
+                            .addComponent(leval, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addComponent(jLabel18)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(teacher_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel17))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(course_id, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(subject_id, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel19))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19)
+                    .addComponent(course_id, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(subject_id, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(teacher_name, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(leval, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
-                    .addComponent(jLabel31))
+                    .addComponent(jLabel31)
+                    .addComponent(jLabel34))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(leval, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(due_fee, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(due_fee, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(courese_fee, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCheckBox2))
                     .addComponent(paying_fee, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE))
                 .addGap(11, 11, 11))
         );
@@ -698,8 +720,8 @@ public class PaymentManagement extends javax.swing.JPanel {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -749,7 +771,7 @@ public class PaymentManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Course ID", "Subject", "Level", "Teacher Name", "Due Payment", "Paid Fee"
+                "Course ID", "Subject", "Teacher Name", "Course Fee", "Due Payment", "Paid Fee"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -771,7 +793,7 @@ public class PaymentManagement extends javax.swing.JPanel {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 943, Short.MAX_VALUE)
                     .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -1067,10 +1089,6 @@ public class PaymentManagement extends javax.swing.JPanel {
         addPayment();
     }//GEN-LAST:event_class_addActionPerformed
 
-    private void studentIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_studentIDActionPerformed
-
     private void classPaymentKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_classPaymentKeyReleased
         makeBalace();
     }//GEN-LAST:event_classPaymentKeyReleased
@@ -1083,6 +1101,14 @@ public class PaymentManagement extends javax.swing.JPanel {
         loardClass();
     }//GEN-LAST:event_student_idKeyReleased
 
+    private void course_idItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_course_idItemStateChanged
+        selectCourse();
+    }//GEN-LAST:event_course_idItemStateChanged
+
+    private void paying_feeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_paying_feeKeyReleased
+        validateFee();
+    }//GEN-LAST:event_paying_feeKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField classBalance;
@@ -1092,6 +1118,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     private javax.swing.JTable classTable;
     private javax.swing.JFormattedTextField classTotal;
     private javax.swing.JButton class_add;
+    private javax.swing.JTextField courese_fee;
     private javax.swing.JFormattedTextField course_balacnce;
     private javax.swing.JComboBox<String> course_id;
     private javax.swing.JButton course_pay;
@@ -1110,6 +1137,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JFormattedTextField jFormattedTextField7;
     private javax.swing.JLabel jLabel1;
@@ -1138,6 +1166,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -1493,6 +1522,7 @@ public class PaymentManagement extends javax.swing.JPanel {
 
     }
 
+    // loard and find course by student ID
     private void loardClass() {
         String sid = this.student_id.getText();
         if (sid.length() >= 8) {
@@ -1526,6 +1556,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         }
     }
 
+    // clean all feilds
     private void cleanCourse() {
 
         student_id.setEditable(true);
@@ -1550,6 +1581,113 @@ public class PaymentManagement extends javax.swing.JPanel {
         course_balacnce.setText("");
         course_payment.setText("");
 
+        jCheckBox2.setEnabled(false);
+
         //  paymentBTN.setEnabled(false);
+    }
+
+    private void selectCourse() {
+        subject_id.setEditable(false);
+        final String courseId = String.valueOf(course_id.getSelectedItem());
+        if (course_id == null || !course_id.equals("Select Course")) {
+            try {
+                ResultSet rs = DB.search("SELECT "
+                        + "`course`.`id`,"
+                        + " `subject`.`name` AS `subject`, "
+                        + "`grade`.`name` AS `grade`,"
+                        + "CONCAT(`teacher`.`fname`, ' ', `teacher`.`lname`) AS `teacher`, "
+                        + "`course`.`fee` AS `fee`, "
+                        + "`room_type`.`fee` AS `room_fee`,"
+                        + "`course_enrollment`.`payment_modal_id` AS `is_free`"
+                        + "FROM `course`"
+                        + "INNER JOIN `subject` ON `subject`.`id` = `course`.`subject_id`"
+                        + "INNER JOIN `grade` ON `grade`.`id` = `course`.`grade_id`"
+                        + "INNER JOIN `teacher` ON `teacher`.`nic` = `course`.`teacher_nic`"
+                        + "INNER JOIN `room_type` ON `room_type`.`id` = `course`.`room_type_id`"
+                        + "INNER JOIN `course_enrollment` ON `course_enrollment`.`course_id` = `course`.`id`"
+                        + "WHERE `course`.`id` = '" + courseId + "'");
+                if (rs.next()) {
+                    courese_fee.setText(rs.getString("fee"));
+                    subject_id.setText(rs.getString("subject"));
+                    teacher_name.setText(rs.getString("teacher"));
+                    leval.setText(rs.getString("grade"));
+                    jCheckBox2.setSelected(rs.getString("is_free").equals("2"));
+                    if (jCheckBox2.isSelected()) {
+                        due_fee.setText("Free Card");
+                        due_fee.setEnabled(false);
+                        paying_fee.setEnabled(false);
+                        jButton5.setEnabled(false);
+                    } else {
+                        due_fee.setEnabled(true);
+                        paying_fee.setEnabled(true);
+                        jButton5.setEnabled(true);
+                        loardCourseDue(courseId, student_id.getText());
+                    }
+                }
+            } catch (ClassNotFoundException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            } catch (SQLException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+            }
+        } else {
+            studentID.setEnabled(true);
+            classFee01.setText("");
+            hallfee01.setText("");
+            subject01.setText("");
+            teacher01.setText("");
+            grade01.setText("");
+            dueM_01.removeAllItems();
+            dueM_01.setEnabled(false);
+        }
+    }
+
+    private void loardCourseDue(String courseId, String stId) throws SQLException, ClassNotFoundException {
+
+        //select last due date
+        ResultSet paidFee = DB.search("SELECT SUM(`fee`) AS `paidFee` FROM `course_pay` "
+                + "INNER JOIN `payment` ON `payment`.id = `course_pay`.`payment_id` "
+                + "WHERE `course_pay`.`course_id` = '" + courseId + "' AND `payment`.`student_id` ='" + stId + "'");
+
+        double paid = 0;
+        if (paidFee.next()) {
+            String pFee = paidFee.getString("paidFee");
+            if (pFee != null) {
+                paid = Double.parseDouble(pFee);
+            }
+        }
+
+        double fee = Double.parseDouble(courese_fee.getText());
+        double payable = fee - paid;
+
+        if (payable == 0) {
+            due_fee.setText("Payment Completed");
+            paying_fee.setEnabled(false);
+            jButton5.setEnabled(false);
+        } else {
+            due_fee.setText(String.valueOf(payable));
+            paying_fee.setEnabled(true);
+            jButton5.setEnabled(true);
+        }
+
+    }
+
+    private void validateFee() {
+        String paymet = paying_fee.getText();
+        if (!paymet.isEmpty()) {
+            if (Validator.AMOUNT.validate(paymet)) {
+                double pay = Double.parseDouble(paymet);
+                double dueFee = Double.parseDouble(due_fee.getText());
+
+                double balance = dueFee - pay;
+
+                if (balance < 0) {
+                    JOptionPane.showMessageDialog(this, "too much payment", "Warning", JOptionPane.WARNING_MESSAGE);
+                    paying_fee.setText("");
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Wrong Input", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+        }
     }
 }
