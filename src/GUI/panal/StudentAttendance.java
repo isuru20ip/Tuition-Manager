@@ -828,14 +828,7 @@ public class StudentAttendance extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox_gradeLoardMouseExited
 
     private void jComboBox_gradeLoardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_gradeLoardActionPerformed
-        String grade_id = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
-            
-
-            if (!grade_id.equals("Select")) {
-//                loadClass();
-            }else{
-                System.out.println(grade_id);
-            }
+        
     }//GEN-LAST:event_jComboBox_gradeLoardActionPerformed
 
 
