@@ -222,11 +222,10 @@ public class SignIn extends javax.swing.JFrame {
                     String mobile = resultSet.getString("mobile");
                     String status = resultSet.getString("status");
                     String type = resultSet.getString("name");
-//                    String gender = resultSet.getString("name");
 
-//                    Dashboard dashboard = new Dashboard(userName);
-//                    dashboard.setVisible(true);
-//                    this.dispose();
+                    Dashboard dashboard = new Dashboard(userName, mobile, status, type);
+                    dashboard.setVisible(true);
+                    this.dispose();
 
                       System.out.println(userName);
                       System.out.println(mobile);

@@ -28,7 +28,7 @@ import javax.swing.Timer;
 
 public class Dashboard extends javax.swing.JFrame {
 
-    public Dashboard() {
+    public Dashboard(String userName, String mobile, String status, String type) {
         initComponents();
         time();
         date();
@@ -514,7 +514,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Dashboard().setVisible(true);
+//                new Dashboard().setVisible(true);
             }
         });
     }
