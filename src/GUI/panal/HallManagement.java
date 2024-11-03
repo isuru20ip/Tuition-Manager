@@ -118,6 +118,17 @@ public class HallManagement extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Hall ID :");
 
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField2KeyReleased(evt);
+            }
+        });
+
         jButton4.setBackground(new java.awt.Color(255, 255, 153));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton4.setText("Print");
@@ -224,7 +235,47 @@ public class HallManagement extends javax.swing.JPanel {
         String type = String.valueOf(jTable1.getValueAt(row, 2));
         jComboBox1.setSelectedItem(type);
 
+        jButton1.setEnabled(false);
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
+        String value = jTextField2.getText();
+        
+        try {
+            
+            String query = ("Select * From `class_room` "
+                    + "INNER JOIN `room_type` ON `class_room`.`room_type_id` = `room_type`.`id` ");
+
+            if (value.matches("^H\\d*$")){
+                query += "WHERE `class_room`.`id` LIKE '%" + value + "%' "; 
+            }else {
+                query += " WHERE `room_type`.`type` LIKE '%" + value + "%'";
+
+            }
+            
+            ResultSet resultSet = DB.search(query);
+
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            dtm.setRowCount(0);
+            
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("id"));
+                vector.add(resultSet.getString("capacity"));
+                vector.add(resultSet.getString("room_type.type"));
+
+                dtm.addRow(vector);
+            }
+            
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_jTextField2KeyReleased
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        
+    }//GEN-LAST:event_jTextField2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -353,6 +404,8 @@ public class HallManagement extends javax.swing.JPanel {
         jComboBox1.setSelectedIndex(0);
         jTextField1.setText("");
         jTextField2.setText("");
+    
+        jButton1.setEnabled(true);
     }
 
 }

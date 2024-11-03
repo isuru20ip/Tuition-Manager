@@ -227,11 +227,6 @@ public class SignIn extends javax.swing.JFrame {
                     dashboard.setVisible(true);
                     this.dispose();
 
-                      System.out.println(userName);
-                      System.out.println(mobile);
-                      System.out.println(type);
-                      System.out.println(status);
-
                 } else {
                     JOptionPane.showMessageDialog(this, "Invalid email or Password !!", "Warning", JOptionPane.WARNING_MESSAGE);
                 
