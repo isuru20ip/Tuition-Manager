@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 public class StudentAttendance extends javax.swing.JPanel {
 
     private static HashMap<String, String> studentGradeMap = new HashMap<>();
+   
 
     /**
      * Creates new form StudentAttendance
@@ -156,17 +157,9 @@ public class StudentAttendance extends javax.swing.JPanel {
         });
 
         jComboBox_gradeLoard.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
-        jComboBox_gradeLoard.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jComboBox_gradeLoardMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jComboBox_gradeLoardMousePressed(evt);
-            }
-        });
-        jComboBox_gradeLoard.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_gradeLoardActionPerformed(evt);
+        jComboBox_gradeLoard.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox_gradeLoardItemStateChanged(evt);
             }
         });
 
@@ -812,24 +805,18 @@ public class StudentAttendance extends javax.swing.JPanel {
          
     }//GEN-LAST:event_jComboBox_classLoadActionPerformed
 
-    private void jComboBox_gradeLoardMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_gradeLoardMousePressed
-//       String grade_id = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
-//            
-//
-//            if (!grade_id.equals("Select")) {
-////                loadClass();
-//            }else{
-//                System.out.println(grade_id);
-//            }
-    }//GEN-LAST:event_jComboBox_gradeLoardMousePressed
-
-    private void jComboBox_gradeLoardMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox_gradeLoardMouseExited
-       
-    }//GEN-LAST:event_jComboBox_gradeLoardMouseExited
-
-    private void jComboBox_gradeLoardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_gradeLoardActionPerformed
+    private void jComboBox_gradeLoardItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_gradeLoardItemStateChanged
+        loadClass();
         
-    }//GEN-LAST:event_jComboBox_gradeLoardActionPerformed
+//        String grade_id = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
+//            
+//            if (!grade_id.equals("Select")) {
+//                loadClass();
+//                System.out.println("ok");
+//            }else{
+////                System.out.println(grade_id);
+//            }
+    }//GEN-LAST:event_jComboBox_gradeLoardItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -957,12 +944,15 @@ public class StudentAttendance extends javax.swing.JPanel {
         try {
             String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             
+            String grade =studentGradeMap.get("id");
+            
+            
            
 
             ResultSet resultSet = DB.search("SELECT * FROM `class_schedule` "
                     + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
                     + "INNER JOIN `subject` ON `class`.`subject_id` = `subject`.`id` "
-                    + "WHERE class_schedule.class_date = '" + dateFormat + "' AND `class`.grade_id = ''");
+                    + "WHERE class_schedule.class_date = '" + dateFormat + "' AND `class`.grade_id = '"+grade+"' ");
 
             Vector<String> vector = new Vector<>();
             vector.add("Select");
