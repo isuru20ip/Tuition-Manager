@@ -31,3 +31,5 @@ dist/
 nbdist/
 nbactions.xml
 src/modal/DB.java
+img/
+homeinfo.ser

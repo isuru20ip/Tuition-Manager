@@ -36,9 +36,10 @@ public class Settings extends javax.swing.JPanel {
     // store emp salary <k:empType,v:salary> 
     HashMap<String, String> empMap = new HashMap<>();
 
-    // store Institute Service Charges <k:sevice,v:fee> 
+    // store Institute Service Charges <k:sevice,v:fee>
     HashMap<String, String> serviceMap = new HashMap<>();
 
+    // store user selected new logo's path
     private String logopath;
 
     public Settings() {
