@@ -885,6 +885,9 @@ public class TeacherManagement extends javax.swing.JPanel {
                         + "VALUES ('" + nic + "','" + fname + "','" + lname + "','" + mobile + "','" + email + "','" + joinDate + "',"
                         + "'" + sampleEmployeeID + "',"
                         + "'" + TeacherAddressId + "','" + teacherStatus.get(status) + "')");
+
+                JOptionPane.showMessageDialog(this, "New Teacher Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+
                 loadTeacher("");
             }
         } catch (Exception e) {
