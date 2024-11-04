@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
 import modal.Validator;
@@ -15,29 +17,33 @@ import modal.IDGenarator;
 import modal.SetDate;
 
 public class EmployeeManagement extends javax.swing.JPanel {
-    
+
     HashMap<String, String> genderMap = new HashMap<>();
     HashMap<String, String> employeeTypeMap = new HashMap<>();
     HashMap<String, String> employeeStatusMap = new HashMap<>();
-    
+
     public EmployeeManagement() {
         initComponents();
         loadGender();
         loadEmployeeType();
         loadEmployeeStatus();
         loadEmployee("");
+
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+        jTable1.setDefaultRenderer(Object.class, renderer);
     }
-    
+
     private String AddressId;
     private String EmployeeId;
-    
-     // Class-level variable to check if the dialog is open
+
+    // Class-level variable to check if the dialog is open
     private Employee_Address employeeAddressDialog;
-    
+
     public void setAddressId(String aid) {
         this.AddressId = aid;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -122,6 +128,8 @@ public class EmployeeManagement extends javax.swing.JPanel {
         jPanel3.setBackground(new java.awt.Color(234, 238, 244));
         jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         jLabel7.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("First Name");
@@ -158,12 +166,14 @@ public class EmployeeManagement extends javax.swing.JPanel {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Mobile");
 
+        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
             }
         });
 
+        jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);
@@ -392,7 +402,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
         try {
             String employee_id = this.EmployeeId;
             String fname = jTextField1.getText();
@@ -401,74 +411,74 @@ public class EmployeeManagement extends javax.swing.JPanel {
             String gender = String.valueOf(jComboBox1.getSelectedItem());
             String employee_type = String.valueOf(jComboBox2.getSelectedItem());
             String employee_status = String.valueOf(jComboBox3.getSelectedItem());
-            
+
             if (employee_id == null) {
                 JOptionPane.showMessageDialog(this, "Please Select An Employee First", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jTable1.grabFocus();
-                
+
             } else if (fname.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter the Employee's First Name", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jTextField1.grabFocus();
-                
+
             } else if (!Validator.NAME.validate(fname)) {
                 JOptionPane.showMessageDialog(this, "First Name Must Contaion Only Letters", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jTextField1.grabFocus();
-                
+
             } else if (lname.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter the Employee's Last Name", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jTextField2.grabFocus();
-                
+
             } else if (!Validator.NAME.validate(lname)) {
                 JOptionPane.showMessageDialog(this, "Last Name Must Contaion Only Letters", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jTextField2.grabFocus();
-                
+
             } else if (mobile.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter A Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jTextField3.grabFocus();
-                
+
             } else if (!Validator.MOBILE_NUMBER.validate(mobile)) {
                 JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jTextField3.grabFocus();
-                
+
             } else if (employee_status.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Please Select An Employee Status", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jComboBox3.grabFocus();
-                
+
             } else {
-                
+
                 ResultSet resultSet = DB.search("SELECT * FROM `employee` INNER JOIN `emp_status` ON `employee`.`emp_status_id` = `emp_status`.`id`"
                         + " WHERE `employee`.`id` ='" + this.EmployeeId + "' ");
-                
+
                 boolean Update = false;
-                
+
                 if (resultSet.next()) {
-                    
+
                     String exfname = resultSet.getString("fname");
                     String exlname = resultSet.getString("lname");
                     String exmobile = resultSet.getString("mobile");
                     String exemployee_status = resultSet.getString("emp_status.status");
-                    
+
                     if (!exfname.equals(fname) || !exlname.equals(lname) || !exmobile.equals(mobile) || !exemployee_status.equals(employee_status)) {
                         Update = true;
-                        
+
                     } else {
                         JOptionPane.showMessageDialog(this, "No changes detected. Please Update at least one Detail.", "Same Details", JOptionPane.WARNING_MESSAGE);
-                        
+
                     }
-                    
+
                 }
-                
+
                 if (Update) {
                     DB.IUD("UPDATE  `employee` SET `fname` = '" + fname + "' ,`lname` = '" + lname + "',`mobile`='" + mobile + "',"
                             + "`emp_status_id` = '" + employeeStatusMap.get(employee_status) + "',`gender_id` = '" + genderMap.get(gender) + "',"
                             + "`emp_type_id` ='" + employeeTypeMap.get(employee_type) + "' WHERE `id` = '" + employee_id + "' ");
-                    
+
                     JOptionPane.showMessageDialog(this, "Employee Details Updated Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                     refresh();
                 }
-                
+
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -492,7 +502,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
+
         try {
             String fname = jTextField1.getText();
             String lname = jTextField2.getText();
@@ -500,69 +510,69 @@ public class EmployeeManagement extends javax.swing.JPanel {
             String gender = String.valueOf(jComboBox1.getSelectedItem());
             String employee_type = String.valueOf(jComboBox2.getSelectedItem());
             String employee_status = String.valueOf(jComboBox3.getSelectedItem());
-            
-             String newID = IDGenarator.generateID("EMP", "employee");
+
+            String newID = IDGenarator.generateID("EMP", "employee");
             String Date = SetDate.getDate("yyyy-MM-dd HH:mm:ss");
-            
+
             if (fname.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter the Employee's First Name", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jTextField1.grabFocus();
-                
+
             } else if (!Validator.NAME.validate(fname)) {
                 JOptionPane.showMessageDialog(this, "First Name Must Contaion Only Letters", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jTextField1.grabFocus();
-                
+
             } else if (lname.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter the Employee's Last Name", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jTextField2.grabFocus();
-                
+
             } else if (!Validator.NAME.validate(lname)) {
                 JOptionPane.showMessageDialog(this, "Last Name Must Contaion Only Letters", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jTextField2.grabFocus();
-                
+
             } else if (mobile.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter A Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jTextField3.grabFocus();
-                
+
             } else if (!Validator.MOBILE_NUMBER.validate(mobile)) {
                 JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jTextField3.grabFocus();
-                
+
             } else if (gender.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Please Select A Gender", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jComboBox1.grabFocus();
-                
+
             } else if (employee_type.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Please Select An Employee Type", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jComboBox2.grabFocus();
-                
+
             } else if (employee_status.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Please Select An Employee Status", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jComboBox3.grabFocus();
-                
+
             } else if (this.AddressId == null) {
                 JOptionPane.showMessageDialog(this, "Please Enter An Address", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jButton4.grabFocus();
-                
+
             } else {
-                
+
                 ResultSet resultSet = DB.search("SELECT * FROM `employee` WHERE `mobile` ='" + mobile + "' ");
-                
+
                 if (resultSet.next()) {
                     JOptionPane.showMessageDialog(this, "This Provided Mobile Number Already Have Been Used", "Warning!", JOptionPane.WARNING_MESSAGE);
                     jTextField3.grabFocus();
-                    
+
                 } else {
-                    
+
                     DB.IUD("INSERT INTO `employee` (`id`,`fname`,`lname`,`mobile`,`join_date`,`address_id`,`emp_status_id`,`gender_id`,`emp_type_id`) VALUES"
                             + "('" + newID + "','" + fname + "','" + lname + "','" + mobile + "','" + Date + "','" + AddressId + "','" + employeeStatusMap.get(employee_status) + "','" + genderMap.get(gender) + "','" + employeeTypeMap.get(employee_type) + "')");
-                    
+
                     JOptionPane.showMessageDialog(this, "New Employee Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                     refresh();
                 }
-                
+
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -570,7 +580,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       
+
         // Check if the Address ID already exists
         if (EmployeeId != null) {
             JOptionPane.showMessageDialog(this, "Address ID already exists", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -602,69 +612,66 @@ public class EmployeeManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel8MouseExited
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        
+
         int selected_row = jTable1.getSelectedRow();
-        
+
         this.EmployeeId = String.valueOf(jTable1.getValueAt(selected_row, 0));
-//        jTextField1.setText(email);
-//        jTextField1.setEditable(false);
 
         String firstname = String.valueOf(jTable1.getValueAt(selected_row, 1));
         jTextField1.setText(firstname);
-        
+
         String lastname = String.valueOf(jTable1.getValueAt(selected_row, 2));
         jTextField2.setText(lastname);
-        
+
         String mobile = String.valueOf(jTable1.getValueAt(selected_row, 3));
         jTextField3.setText(mobile);
-        
+
         String gender = String.valueOf(jTable1.getValueAt(selected_row, 6));
         jComboBox1.setSelectedItem(gender);
-        
+
         String emp_type = String.valueOf(jTable1.getValueAt(selected_row, 7));
         jComboBox2.setSelectedItem(emp_type);
-        
+
         String emp_status = String.valueOf(jTable1.getValueAt(selected_row, 5));
         jComboBox3.setSelectedItem(emp_status);
-        
-        jTextField1.grabFocus();
+
         jButton3.setEnabled(false);
         jButton4.setEnabled(false);
-        
+
         jComboBox1.setEnabled(false);
         jComboBox2.setEnabled(false);
-        
+
         if (evt.getClickCount() == 2) {
             int row = jTable1.getSelectedRow();
-            
+
             if (row != -1) {
-                
+
                 String id = String.valueOf(jTable1.getValueAt(row, 0));
-                
+
                 try {
                     ResultSet rs = DB.search("SELECT * FROM `employee` WHERE `id` = '" + id + "'");
-                    
+
                     if (rs.next()) {
                         String adId = rs.getString("address_id");
-                        
+
                         Employee_Address employee_Address = new Employee_Address(this, true, adId);
-                        
+
                         employee_Address.addWindowListener(new java.awt.event.WindowAdapter() {
-                            
+
                             @Override
                             public void windowClosed(java.awt.event.WindowEvent windowEvent) {
                                 loadEmployee(""); // Refresh employee data when dialog closes
                             }
                         });
-                        
+
                         employee_Address.setVisible(true);
-                        
+
                     }
-                    
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                
+
             } else {
                 JOptionPane.showMessageDialog(this, "Please select a row to view the address.", "Warning", JOptionPane.WARNING_MESSAGE);
             }
@@ -712,30 +719,28 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
     private void loadEmployee(String value) {
         try {
-            
-            String regex = "^EMP\\d+$";
-            
+
             String query = "SELECT * FROM employee "
                     + "INNER JOIN address ON employee.address_id = address.id "
                     + "INNER JOIN emp_status ON employee.emp_status_id = emp_status.id "
                     + "INNER JOIN gender ON employee.gender_id = gender.id "
                     + "INNER JOIN emp_type ON employee.emp_type_id = emp_type.id";
-            
+
             if (value.matches("\\d+")) {
                 query += " WHERE employee.mobile LIKE '%" + value + "%'";
-                
+
             } else if (value.matches("^EMP\\d*$")) {
                 query += " WHERE employee.id LIKE '%" + value + "%'";
-                
+
             } else {
                 query += " WHERE employee.fname LIKE '%" + value + "%'";
             }
-            
+
             ResultSet resultSet = DB.search(query);
-            
+
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
-            
+
             while (resultSet.next()) {
                 Vector vector = new Vector();
                 vector.add(resultSet.getString("id"));
@@ -746,78 +751,78 @@ public class EmployeeManagement extends javax.swing.JPanel {
                 vector.add(resultSet.getString("emp_status.status"));
                 vector.add(resultSet.getString("gender.name"));
                 vector.add(resultSet.getString("emp_type.name"));
-                
+
                 model.addRow(vector);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     private void loadGender() {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `gender`");
-            
+
             Vector<String> vector = new Vector<>();
             vector.add("Select");
-            
+
             while (resultSet.next()) {
                 vector.add(resultSet.getString("name"));
                 genderMap.put(resultSet.getString("name"), resultSet.getString("id"));
             }
-            
+
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
             jComboBox1.setModel(model);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     private void loadEmployeeType() {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `emp_type`");
-            
+
             Vector<String> vector = new Vector<>();
             vector.add("Select");
-            
+
             while (resultSet.next()) {
                 vector.add(resultSet.getString("name"));
                 employeeTypeMap.put(resultSet.getString("name"), resultSet.getString("id"));
             }
-            
+
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
             jComboBox2.setModel(model);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
     private void loadEmployeeStatus() {
-        
+
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `emp_status`");
-            
+
             Vector<String> vector = new Vector<>();
             vector.add("Select");
-            
+
             while (resultSet.next()) {
                 vector.add(resultSet.getString("status"));
                 employeeStatusMap.put(resultSet.getString("status"), resultSet.getString("id"));
             }
-            
+
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
             jComboBox3.setModel(model);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
     public void refresh() {
         jTextField1.setText("");
         jTextField2.setText("");
@@ -834,11 +839,10 @@ public class EmployeeManagement extends javax.swing.JPanel {
         jComboBox2.setEnabled(true);
         jTextField1.grabFocus();
     }
-    
-    private void searchEmployee() {
-        
-        String value = jTextField5.getText(); // Get the input from the JTextField
 
+    private void searchEmployee() {
+
+        String value = jTextField5.getText(); // Get the input from the JTextField
         loadEmployee(value);
     }
 }
