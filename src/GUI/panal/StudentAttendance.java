@@ -18,6 +18,7 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modal.beans.ClassGrade;
 
 /**
  *
@@ -25,7 +26,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class StudentAttendance extends javax.swing.JPanel {
 
-    private static HashMap<String, String> studentGradeMap = new HashMap<>();
+    
+
+    private static HashMap<String, ClassGrade> gradeMap = new HashMap<>();
    
 
     /**
@@ -38,6 +41,8 @@ public class StudentAttendance extends javax.swing.JPanel {
         pageStart();
 
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -806,9 +811,11 @@ public class StudentAttendance extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox_classLoadActionPerformed
 
     private void jComboBox_gradeLoardItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_gradeLoardItemStateChanged
-        loadClass();
+//        loadClass();
         
-//        String grade_id = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
+        String grade_id = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
+        ClassGrade classGrade = gradeMap.get(grade_id);
+        System.out.println(classGrade);
 //            
 //            if (!grade_id.equals("Select")) {
 //                loadClass();
@@ -925,7 +932,15 @@ public class StudentAttendance extends javax.swing.JPanel {
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("name"));
-                studentGradeMap.put(resultSet.getString("name"), resultSet.getString("id"));
+               
+                ClassGrade classGrade = new ClassGrade();
+                
+                classGrade.setId(resultSet.getInt("id"));
+                classGrade.setId(resultSet.getInt("name"));
+                
+                gradeMap.put(resultSet.getString("id") , classGrade); 
+                
+                
             }
 
             DefaultComboBoxModel defaultComboBoxModel = new DefaultComboBoxModel(vector);
@@ -941,33 +956,33 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     private void loadClass() {
 
-        try {
-            String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-            
-            String grade =studentGradeMap.get("id");
-            
-            
-           
-
-            ResultSet resultSet = DB.search("SELECT * FROM `class_schedule` "
-                    + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
-                    + "INNER JOIN `subject` ON `class`.`subject_id` = `subject`.`id` "
-                    + "WHERE class_schedule.class_date = '" + dateFormat + "' AND `class`.grade_id = '"+grade+"' ");
-
-            Vector<String> vector = new Vector<>();
-            vector.add("Select");
-
-            while (resultSet.next()) {
-                vector.add(resultSet.getString("subject.name"));
-//                studentGradeMap.put(resultSet.getString("name"), resultSet.getString("id"));
-            }
-
-            DefaultComboBoxModel defaultComboBoxModel = new DefaultComboBoxModel(vector);
-            jComboBox_classLoad.setModel(defaultComboBoxModel);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+//            
+//            
+//            
+//            
+//           
+//
+//            ResultSet resultSet = DB.search("SELECT * FROM `class_schedule` "
+//                    + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
+//                    + "INNER JOIN `subject` ON `class`.`subject_id` = `subject`.`id` "
+//                    + "WHERE class_schedule.class_date = '" + dateFormat + "' AND `class`.grade_id = '"+gradeMap.get(id)+"' ");
+//
+//            Vector<String> vector = new Vector<>();
+//            vector.add("Select");
+//
+//            while (resultSet.next()) {
+//                vector.add(resultSet.getString("subject.name"));
+////                studentGradeMap.put(resultSet.getString("name"), resultSet.getString("id"));
+//            }
+//
+//            DefaultComboBoxModel defaultComboBoxModel = new DefaultComboBoxModel(vector);
+//            jComboBox_classLoad.setModel(defaultComboBoxModel);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -1222,4 +1237,6 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     }
 // <<..........................................Employee Attendance Marking.........................................>>
+    
+    
 }

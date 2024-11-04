@@ -893,7 +893,7 @@ public class Settings extends javax.swing.JPanel {
     }
 
     // view [sCharge] Service charges that are get from teachers (n%)
-    private void loardServiceFee() {
+    private void loardServiceFee() { 
         String redio = buttonGroup1.getSelection().getActionCommand();
         sCharge.setText(serviceMap.get(redio));
     }
