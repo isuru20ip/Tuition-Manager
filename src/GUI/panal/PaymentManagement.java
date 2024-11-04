@@ -1372,12 +1372,53 @@ public class PaymentManagement extends javax.swing.JPanel {
 
         dueM_01.setEnabled(true);
         //select last due date
-        ResultSet lastPayment = DB.search("SELECT MAX(`class_pay`.`due_month`) AS `lastdue` FROM `class_pay` WHERE `class_pay`.`class_id` = '" + ID + "'");
-        lastPayment.next();
+        ResultSet lastPayment = DB.search("SELECT MAX(`class_pay`.`due_month`) AS `lastdue` FROM `class_pay` "
+                + "INNER JOIN `payment` ON `payment`.`id` = class_pay.payment_id "
+                + "WHERE `class_pay`.`class_id` = '" + ID + "' AND `payment`.`student_id` = '" + studentID.getText() + "' ");
+        if (lastPayment.next()) {
+            if (lastPayment.getString("lastdue") != null) {
+                //get last due year and month
+                String date = lastPayment.getString("lastdue").substring(0, 7);
+                YearMonth lastDue = YearMonth.parse(date);
 
-        if (lastPayment.getString("lastdue") != null) {
-            //get last due year and month
-            String date = lastPayment.getString("lastdue").substring(0, 7);
+                // get curren year and month
+                String toDay = new SimpleDateFormat("yyyy-MM").format(new Date());
+                YearMonth thisMonth = YearMonth.parse(toDay);
+
+                // if not last and curent month are not equal
+                if (!lastDue.equals(thisMonth)) {
+                    class_add.setEnabled(true);
+
+                    Vector<YearMonth> monthsBetween = new Vector<>();
+
+                    YearMonth current = lastDue;
+
+                    while (!current.isAfter(thisMonth)) {
+                        if (!current.equals(lastDue)) {
+                            monthsBetween.add(current);
+                        }
+                        current = current.plusMonths(1);
+                    }
+
+                    DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel(monthsBetween);
+                    dueM_01.setModel(comboBoxModel);
+
+                } else {
+                    dueM_01.removeAllItems();
+                    dueM_01.addItem("Payment Completed");
+                    class_add.setEnabled(false);
+                }
+
+            }
+        } else {
+
+            ResultSet rs = DB.search("SELECT `class_enrollment`.`register_date` "
+                    + "FROM `class_enrollment` "
+                    + "WHERE `class_enrollment`.`class_id` = '" + classIdCombo.getSelectedItem() + "' "
+                    + "AND `class_enrollment`.`student_id` = '" + studentID.getText() + "'");
+            rs.next();
+            //get enroled year and month
+            String date = rs.getString(1).substring(0, 7);
             YearMonth lastDue = YearMonth.parse(date);
 
             // get curren year and month
@@ -1391,7 +1432,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                 Vector<YearMonth> monthsBetween = new Vector<>();
 
                 YearMonth current = lastDue;
-
+                monthsBetween.add(current);
                 while (!current.isAfter(thisMonth)) {
                     if (!current.equals(lastDue)) {
                         monthsBetween.add(current);
@@ -1401,17 +1442,11 @@ public class PaymentManagement extends javax.swing.JPanel {
 
                 DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel(monthsBetween);
                 dueM_01.setModel(comboBoxModel);
-
-            } else {
-                dueM_01.removeAllItems();
-                dueM_01.addItem("Payment Completed");
-                class_add.setEnabled(false);
             }
-
         }
     }
-
     // satge payment into jtable
+
     private void addPayment() {
         int status = JOptionPane.showConfirmDialog(
                 this,
@@ -1618,7 +1653,6 @@ public class PaymentManagement extends javax.swing.JPanel {
         jCheckBox2.setEnabled(false);
         jCheckBox2.setSelected(false);
         jButton5.setEnabled(false);
-        
 
         DefaultTableModel dtm = (DefaultTableModel) course_table.getModel(); // clear table
         dtm.setRowCount(0);
