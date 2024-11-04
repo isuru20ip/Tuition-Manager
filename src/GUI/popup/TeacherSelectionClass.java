@@ -4,6 +4,16 @@
  */
 package GUI.popup;
 
+import GUI.panal.ClassManagement;
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+import modal.DB;
+import modal.LogCenter;
+
 /**
  *
  * @author LenovoTLC
@@ -16,6 +26,14 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
     public TeacherSelectionClass(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        LoadEmployee();
+        loadSGender();
+    }
+
+    private ClassManagement classManagement;
+
+    public void setTeacher(ClassManagement classManagement) {
+        this.classManagement = classManagement;
     }
 
     /**
@@ -90,6 +108,7 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
         jTextField9.setText("Dasanayaka");
         jPanel4.add(jTextField9);
 
+        jComboBox1.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel4.add(jComboBox1);
 
@@ -121,6 +140,11 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -171,6 +195,36 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField6ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        try {
+             int row = jTable1.getSelectedRow();
+        if (row != -1) { // Valid row check
+            String nic = String.valueOf(jTable1.getValueAt(row, 0));
+            jTextField7.setText(nic);
+
+            String firstName = String.valueOf(jTable1.getValueAt(row, 1));
+            jTextField6.setText(firstName);
+
+            String lastName = String.valueOf(jTable1.getValueAt(row, 2));
+            jTextField9.setText(lastName);
+
+            String gender = String.valueOf(jTable1.getValueAt(row, 3)).trim();
+            jComboBox1.setSelectedItem(gender);
+        }
+        if (evt.getClickCount() == 2) {
+            if (classManagement!=null) {
+                classManagement.getjTextField7().setText(String.valueOf(jTable1.getValueAt(row, 0)));
+            }
+
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+       
+
+
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -232,4 +286,50 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
+
+    private static HashMap<String, String> genderMap = new HashMap<>();
+
+    private void LoadEmployee() {
+        try {
+            ResultSet resultSet = DB.search("SELECT * FROM `teacher` "
+                    + "INNER JOIN `employee` ON `employee`.id=`teacher`.employee_id INNER JOIN `gender` ON `gender`.id=`employee`.gender_id");
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("nic"));
+                vector.add(resultSet.getString("fname"));
+                vector.add(resultSet.getString("lname"));
+                vector.add(resultSet.getString("gender.name"));
+
+                model.addRow(vector);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadSGender() {
+
+        try {
+
+            ResultSet resultSet = DB.search("SELECT * FROM `gender`");
+            Vector<String> v = new Vector<>();
+            v.add("Select");
+
+            while (resultSet.next()) {
+                v.add(resultSet.getString("name"));
+                genderMap.put(resultSet.getString("name"), resultSet.getString("id"));
+
+                DefaultComboBoxModel gModel = new DefaultComboBoxModel(v);
+                jComboBox1.setModel(gModel);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

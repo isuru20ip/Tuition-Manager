@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import modal.DB;
 
@@ -26,12 +27,18 @@ public class ClassManagement extends javax.swing.JPanel {
     public ClassManagement() {
         initComponents();
         loadGrades();
-        loadSubjects();
+        //loadSubjects();
         loadLanguages();
         loadMethod();
+        loadModal();
+        loadStatus();
+        loadHall();
         loadType();
+        
     }
-
+  public JTextField getjTextField7(){
+  return jTextField7;
+  }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -229,28 +236,21 @@ public class ClassManagement extends javax.swing.JPanel {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Teacher Selection", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Poppins Medium", 0, 18))); // NOI18N
         jPanel3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
 
-        jPanel4.setLayout(new java.awt.GridLayout(2, 6, 10, 5));
-
         jLabel8.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel8.setText("NIC");
-        jPanel4.add(jLabel8);
 
         jLabel11.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel11.setText("First Name");
-        jPanel4.add(jLabel11);
 
         jLabel10.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel10.setText("Last Name");
-        jPanel4.add(jLabel10);
 
         jLabel9.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel9.setText("Gender");
-        jPanel4.add(jLabel9);
 
         jLabel7.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel7.setText("Number of Classes");
-        jPanel4.add(jLabel7);
 
         jButton1.setBackground(new java.awt.Color(153, 255, 153));
         jButton1.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
@@ -260,7 +260,6 @@ public class ClassManagement extends javax.swing.JPanel {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel4.add(jButton1);
 
         jTextField7.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jTextField7.setText("200333211145");
@@ -269,7 +268,6 @@ public class ClassManagement extends javax.swing.JPanel {
                 jTextField7ActionPerformed(evt);
             }
         });
-        jPanel4.add(jTextField7);
 
         jTextField6.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jTextField6.setText("Janindu");
@@ -278,22 +276,66 @@ public class ClassManagement extends javax.swing.JPanel {
                 jTextField6ActionPerformed(evt);
             }
         });
-        jPanel4.add(jTextField6);
 
         jTextField9.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jTextField9.setText("Dasanayaka");
-        jPanel4.add(jTextField9);
 
         jTextField8.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jPanel4.add(jTextField8);
 
         jTextField10.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jPanel4.add(jTextField10);
 
         jButton2.setBackground(new java.awt.Color(255, 102, 102));
         jButton2.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jButton2.setText("Clear");
-        jPanel4.add(jButton2);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(jTextField10, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
+                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -332,8 +374,13 @@ public class ClassManagement extends javax.swing.JPanel {
         jTextField1.setText("jTextField1");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NOT SELECT YET" }));
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -476,11 +523,12 @@ public class ClassManagement extends javax.swing.JPanel {
                             .addComponent(jLabel66, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel67, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox34, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jComboBox34, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -1468,6 +1516,10 @@ public class ClassManagement extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox34ActionPerformed
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        loadSubjects();
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -1649,22 +1701,24 @@ public class ClassManagement extends javax.swing.JPanel {
     private cambodia.raven.Time time;
     // End of variables declaration//GEN-END:variables
 
-  
- private static HashMap<String, String> genderMap = new HashMap<>();
-   private static HashMap<String, String> subjectMap = new HashMap<>();
-   private static HashMap<String, String> classLanguageMap = new HashMap<>();
-   private static HashMap<String, String> classMethodMap = new HashMap<>();
-   private static HashMap<String, String> classTypeMap = new HashMap<>();
+    private static HashMap<String, String> gradeMap = new HashMap<>();
+    private static HashMap<String, String> subjectMap = new HashMap<>();
+    private static HashMap<String, String> classLanguageMap = new HashMap<>();
+    private static HashMap<String, String> classMethodMap = new HashMap<>();
+    private static HashMap<String, String> classTypeMap = new HashMap<>();
+
+   
+    
     
     private void loadGrades() {
         try {
-            ResultSet resultSet = DB.search("SELECT * FROM `gender`");
+            ResultSet resultSet = DB.search("SELECT * FROM `grade`");
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("name"));
-                genderMap.put(resultSet.getString("name"), resultSet.getString("id"));
+                gradeMap.put(resultSet.getString("name"), resultSet.getString("id"));
 
             }
 
@@ -1674,15 +1728,20 @@ public class ClassManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
+
     private void loadSubjects() {
+
+        String selectedGrade = String.valueOf(jComboBox1.getSelectedItem());
+
         try {
-            ResultSet resultSet = DB.search("SELECT * FROM `subject`");
+
+            ResultSet resultSet = DB.search("SELECT subject.name,subject.id FROM grade_has_subject INNER JOIN grade ON grade_has_subject.grade_id=grade.id INNER JOIN subject ON grade_has_subject.subject_id=subject.id WHERE grade.name='" + selectedGrade + "'");
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
             while (resultSet.next()) {
-                vector.add(resultSet.getString("name"));
-                subjectMap.put(resultSet.getString("name"), resultSet.getString("id"));
+                vector.add(resultSet.getString("subject.name"));
+                subjectMap.put(resultSet.getString("subject.name"), resultSet.getString("subject.id"));
 
             }
 
@@ -1692,6 +1751,7 @@ public class ClassManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
+
     private void loadLanguages() {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `class_language`");
@@ -1710,6 +1770,7 @@ public class ClassManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
+
     private void loadMethod() {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `class_method`");
@@ -1728,6 +1789,63 @@ public class ClassManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
+
+    private void loadModal() {
+        try {
+            ResultSet resultSet = DB.search("SELECT * FROM `class_modal`");
+            Vector<String> vector = new Vector<>();
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("modal"));
+                classMethodMap.put(resultSet.getString("modal"), resultSet.getString("id"));
+
+            }
+
+            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            jComboBox5.setModel(model);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadStatus() {
+        try {
+            ResultSet resultSet = DB.search("SELECT * FROM `class_status`");
+            Vector<String> vector = new Vector<>();
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("status"));
+                classMethodMap.put(resultSet.getString("status"), resultSet.getString("id"));
+
+            }
+
+            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            jComboBox6.setModel(model);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+     private void loadHall() {
+        try {
+            ResultSet resultSet = DB.search("SELECT * FROM `room_type`");
+            Vector<String> vector = new Vector<>();
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("type"));
+                classMethodMap.put(resultSet.getString("type"), resultSet.getString("id"));
+
+            }
+
+            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            jComboBox33.setModel(model);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     private void loadType() {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `class_type`");
@@ -1741,7 +1859,7 @@ public class ClassManagement extends javax.swing.JPanel {
             }
 
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
-            jComboBox5.setModel(model);
+            jComboBox34.setModel(model);
         } catch (Exception e) {
             e.printStackTrace();
         }
