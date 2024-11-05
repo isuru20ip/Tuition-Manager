@@ -18,7 +18,7 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import modal.beans.ClassGrade;
+
 
 /**
  *
@@ -28,7 +28,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     
 
-    private static HashMap<String, ClassGrade> gradeMap = new HashMap<>();
+    private static HashMap<String, String> gradeMap = new HashMap<>();
    
 
     /**
@@ -155,6 +155,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         jLabel3.setText("Select Class :");
 
         jComboBox_classLoad.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        jComboBox_classLoad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
         jComboBox_classLoad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox_classLoadActionPerformed(evt);
@@ -811,18 +812,11 @@ public class StudentAttendance extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox_classLoadActionPerformed
 
     private void jComboBox_gradeLoardItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_gradeLoardItemStateChanged
-//        loadClass();
+
+        String grade = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
+        String gradeId = gradeMap.get(grade);
         
-        String grade_id = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
-        ClassGrade classGrade = gradeMap.get(grade_id);
-        System.out.println(classGrade);
-//            
-//            if (!grade_id.equals("Select")) {
-//                loadClass();
-//                System.out.println("ok");
-//            }else{
-////                System.out.println(grade_id);
-//            }
+        loadClass(gradeId);
     }//GEN-LAST:event_jComboBox_gradeLoardItemStateChanged
 
 
@@ -917,7 +911,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         loadTabel();
         loadClassGrade();
-        loadClass();
+       
     }
 
     // <<..........................................Studen Class Attendance Marking.........................................>>
@@ -933,14 +927,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             while (resultSet.next()) {
                 vector.add(resultSet.getString("name"));
                
-                ClassGrade classGrade = new ClassGrade();
-                
-                classGrade.setId(resultSet.getInt("id"));
-                classGrade.setId(resultSet.getInt("name"));
-                
-                gradeMap.put(resultSet.getString("id") , classGrade); 
-                
-                
+               gradeMap.put(resultSet.getString("name"), resultSet.getString("id"));
             }
 
             DefaultComboBoxModel defaultComboBoxModel = new DefaultComboBoxModel(vector);
@@ -954,36 +941,29 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     }
 
-    private void loadClass() {
+    private void loadClass(String gradeId) {
 
-//        try {
-//            String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-//            
-//            
-//            
-//            
-//           
-//
-//            ResultSet resultSet = DB.search("SELECT * FROM `class_schedule` "
-//                    + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
-//                    + "INNER JOIN `subject` ON `class`.`subject_id` = `subject`.`id` "
-//                    + "WHERE class_schedule.class_date = '" + dateFormat + "' AND `class`.grade_id = '"+gradeMap.get(id)+"' ");
-//
-//            Vector<String> vector = new Vector<>();
-//            vector.add("Select");
-//
-//            while (resultSet.next()) {
-//                vector.add(resultSet.getString("subject.name"));
-////                studentGradeMap.put(resultSet.getString("name"), resultSet.getString("id"));
-//            }
-//
-//            DefaultComboBoxModel defaultComboBoxModel = new DefaultComboBoxModel(vector);
-//            jComboBox_classLoad.setModel(defaultComboBoxModel);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+         
+            ResultSet resultSet = DB.search("SELECT * FROM `class_schedule` "
+                    + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
+                    + "INNER JOIN `subject` ON `class`.`subject_id` = `subject`.`id` "
+                    + "WHERE class_schedule.class_date = '" + dateFormat + "' AND `class`.grade_id = '"+gradeId+"' ");
 
+            Vector<String> vector = new Vector<>();
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("subject.name"));
+            }
+
+            DefaultComboBoxModel defaultComboBoxModel = new DefaultComboBoxModel(vector);
+            jComboBox_classLoad.setModel(defaultComboBoxModel);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // <<..........................................Studen Class Attendance Marking.........................................>>
