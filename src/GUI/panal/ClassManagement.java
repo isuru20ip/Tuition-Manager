@@ -4,6 +4,7 @@
  */
 package GUI.panal;
 
+import GUI.popup.ClassDayTime;
 import GUI.popup.TeacherAddress;
 import GUI.popup.TeacherSelectionClass;
 import javax.swing.JFrame;
@@ -14,6 +15,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import modal.DB;
+import modal.IDGenarator;
 
 /**
  *
@@ -34,10 +36,28 @@ public class ClassManagement extends javax.swing.JPanel {
         loadStatus();
         loadHall();
         loadType();
-        
+        generateClassID();
     }
+    private void generateClassID(){
+        try {
+            String classID = IDGenarator.generateID("CL", "class");
+            jTextField1.setText(classID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
   public JTextField getjTextField7(){
   return jTextField7;
+  }
+  public JTextField getjTextField6(){
+  return jTextField6;
+  }
+  public JTextField getjTextField9(){
+  return jTextField9;
+  }
+  public JTextField getjTextField8(){
+  return jTextField8;
   }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,7 +68,6 @@ public class ClassManagement extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        time = new cambodia.raven.Time();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -347,7 +366,7 @@ public class ClassManagement extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -371,6 +390,7 @@ public class ClassManagement extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel12.setText("Model");
 
+        jTextField1.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jTextField1.setText("jTextField1");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -428,7 +448,14 @@ public class ClassManagement extends javax.swing.JPanel {
 
         jLabel67.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
 
-        jButton21.setText("jButton21");
+        jButton21.setBackground(new java.awt.Color(51, 153, 255));
+        jButton21.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jButton21.setText("Set Day & Time");
+        jButton21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton21ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -572,9 +599,17 @@ public class ClassManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Class ID", "Grade", "Subject", "Language", "Method", "Type", "Status", "Hall Type", "Fee", "Day", "Ending Date", "Time", "NIC", "Teacher Name", "Number of Classes"
+                "Class ID", "Grade", "Subject", "Language", "Method", "Type", "Status", "Hall Type", "Fee", "Ending Date", "NIC", "Teacher Name", "Number of Classes"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane4.setViewportView(jTable4);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -1456,7 +1491,7 @@ public class ClassManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        TeacherSelectionClass tsc = new TeacherSelectionClass((JFrame) SwingUtilities.getWindowAncestor(this), true);
+        TeacherSelectionClass tsc = new TeacherSelectionClass(this, true);
         tsc.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -1519,6 +1554,11 @@ public class ClassManagement extends javax.swing.JPanel {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         loadSubjects();
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
+        ClassDayTime cdt = new ClassDayTime(this, true);
+        cdt.setVisible(true);
+    }//GEN-LAST:event_jButton21ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1698,7 +1738,6 @@ public class ClassManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
-    private cambodia.raven.Time time;
     // End of variables declaration//GEN-END:variables
 
     private static HashMap<String, String> gradeMap = new HashMap<>();
@@ -1863,6 +1902,10 @@ public class ClassManagement extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    private void registerClass(){
+        
     }
 
 }

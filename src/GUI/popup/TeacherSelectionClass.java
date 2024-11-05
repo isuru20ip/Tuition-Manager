@@ -5,6 +5,7 @@
 package GUI.popup;
 
 import GUI.panal.ClassManagement;
+import GUI.panal.EmployeeManagement;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,13 +24,14 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
     /**
      * Creates new form TeacherSelection
      */
-    public TeacherSelectionClass(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public TeacherSelectionClass(ClassManagement parent, boolean modal) {
+       
         initComponents();
         LoadEmployee();
         loadSGender();
+        classManagement = (ClassManagement) parent;
     }
-
+ 
     private ClassManagement classManagement;
 
     public void setTeacher(ClassManagement classManagement) {
@@ -215,6 +217,9 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
         if (evt.getClickCount() == 2) {
             if (classManagement!=null) {
                 classManagement.getjTextField7().setText(String.valueOf(jTable1.getValueAt(row, 0)));
+                classManagement.getjTextField6().setText(String.valueOf(jTable1.getValueAt(row, 1)));
+                classManagement.getjTextField9().setText(String.valueOf(jTable1.getValueAt(row, 2)));
+                classManagement.getjTextField8().setText(String.valueOf(jTable1.getValueAt(row, 3)));
             }
 
         }
@@ -226,48 +231,6 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
 
     }//GEN-LAST:event_jTable1MouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TeacherSelectionClass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TeacherSelectionClass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TeacherSelectionClass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TeacherSelectionClass.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                TeacherSelectionClass dialog = new TeacherSelectionClass(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
