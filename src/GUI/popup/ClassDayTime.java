@@ -1,16 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package GUI.popup;
 
 import GUI.panal.ClassManagement;
 import java.sql.ResultSet;
-import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
 import modal.beans.ClassDay;
@@ -21,21 +14,15 @@ import modal.beans.ClassDay;
  */
 public class ClassDayTime extends javax.swing.JDialog {
 
-    private ClassManagement classManagement;
-    private String ClassID;
-    private ClassDay classDay;
-    private Vector vector = new Vector();
-      
     /**
      * Creates new form ClassDayTime
      */
-    public ClassDayTime(ClassManagement parent, boolean modal, String ClassId, ClassDay classDay) {
-        this.ClassID = ClassId;
-        this.classDay = classDay;
+    public ClassDayTime(ClassManagement parent, boolean modal) {
         initComponents();
+        root = parent;
         loadDays();
-        classManagement = (ClassManagement) parent;
-        jLabel11.setText(ClassID);
+        // get Class Id from classManagement Panal
+        jLabel11.setText(root.getClassID());
     }
 
     /**
@@ -82,11 +69,6 @@ public class ClassDayTime extends javax.swing.JDialog {
         jLabel10.setText("Day");
 
         jTextField2.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
 
         jButton6.setBackground(new java.awt.Color(51, 153, 255));
         jButton6.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
@@ -160,11 +142,11 @@ public class ClassDayTime extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Class ID", "DAY", "TIME"
+                "DAY", "TIME"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -262,37 +244,14 @@ public class ClassDayTime extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         time.showPopup();
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    // add new date and time
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        String classId = jLabel11.getText();
-        String day = String.valueOf(jComboBox1.getSelectedIndex());
-        String time = jTextField2.getText();
-
-       vector.add(new ClassDay() );
-        
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
-
-        
-          
-
-        loadDay();
-        refresh();
-
-
+        addNewDate();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
@@ -301,6 +260,11 @@ public class ClassDayTime extends javax.swing.JDialog {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    // send selected date into panal
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        saveDates();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -322,9 +286,11 @@ public class ClassDayTime extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField2;
     private cambodia.raven.Time time;
     // End of variables declaration//GEN-END:variables
-
-    private static HashMap<String, String> DayMap = new HashMap<>();
-    private static HashMap<String, ClassDay> classDayMap = new HashMap<>();
+   
+    // store Date beans
+    private Vector<ClassDay> classDays = new Vector<>();
+    // store classManagement panal 
+    private ClassManagement root;
 
     private void loadDays() {
         try {
@@ -334,10 +300,7 @@ public class ClassDayTime extends javax.swing.JDialog {
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("day"));
-                DayMap.put(resultSet.getString("day"), resultSet.getString("id"));
-
             }
-
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
             jComboBox1.setModel(model);
         } catch (Exception e) {
@@ -345,24 +308,33 @@ public class ClassDayTime extends javax.swing.JDialog {
         }
     }
 
-    private void loadDay() {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
-
-        for (ClassDay classDay : classDayMap.values()) {
-            Vector<String> vector = new Vector<>();
-            vector.add(classDay.getClassID());
-            vector.add(classDay.getDay());
-            vector.add(classDay.getTime());
-
-            model.addRow(vector);
-        }
-
-    }
-
     private void refresh() {
         jComboBox1.setSelectedIndex(0);
         jTextField2.setText("");
 
+    }
+
+    private void addNewDate() {
+        String day = String.valueOf(jComboBox1.getSelectedItem());
+        String time = jTextField2.getText();
+
+        classDays.add(new ClassDay(day, time));
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+
+        for (ClassDay classDay : classDays) {
+            Vector<String> v = new Vector<>();
+            v.add(classDay.getDay());
+            v.add(classDay.getTime());
+            model.addRow(v);
+        }
+        jTable1.setModel(model);
+        refresh();
+    }
+
+    private void saveDates() {
+        root.setDate(classDays);
+        this.dispose();
     }
 }

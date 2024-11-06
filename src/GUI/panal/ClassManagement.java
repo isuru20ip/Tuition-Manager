@@ -1584,11 +1584,8 @@ public class ClassManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-        classDay = new ClassDay();
-        ClassId = jTextField1.getText();
-        ClassDayTime cdt = new ClassDayTime(this, true, ClassId, classDay);
+        ClassDayTime cdt = new ClassDayTime(this, true);
         cdt.setVisible(true);
-
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -1779,14 +1776,16 @@ public class ClassManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
 
-    private static HashMap<String, String> gradeMap = new HashMap<>();
-    private static HashMap<String, String> subjectMap = new HashMap<>();
-    private static HashMap<String, String> classLanguageMap = new HashMap<>();
-    private static HashMap<String, String> classMethodMap = new HashMap<>();
-    private static HashMap<String, String> classTypeMap = new HashMap<>();
-    private static HashMap<String, String> hallMap = new HashMap<>();
-    private static HashMap<String, String> classModalMap = new HashMap<>();
-    private static HashMap<String, String> classStatusMap = new HashMap<>();
+    private  HashMap<String, String> gradeMap = new HashMap<>();
+    private  HashMap<String, String> subjectMap = new HashMap<>();
+    private  HashMap<String, String> classLanguageMap = new HashMap<>();
+    private  HashMap<String, String> classMethodMap = new HashMap<>();
+    private  HashMap<String, String> classTypeMap = new HashMap<>();
+    private  HashMap<String, String> hallMap = new HashMap<>();
+    private  HashMap<String, String> classModalMap = new HashMap<>();
+    private  HashMap<String, String> classStatusMap = new HashMap<>();
+    // store class time & days
+    private Vector<ClassDay> dayVector;
 
     private void loadGrades() {
         try {
@@ -2016,16 +2015,6 @@ public class ClassManagement extends javax.swing.JPanel {
                         + "('" + classID + "','" + fee + "','" + registerDate + "','" + dateTimeFormat.format(endDate) + "','" + teacherID + "','" + subjectMap.get(subject) + "','" + gradeMap.get(grade) + "',"
                         + "'" + classTypeMap.get(type) + "','" + classMethodMap.get(method) + "','" + classLanguageMap.get(language) + "','" + classStatusMap.get(status) + "'"
                         + ",'" + hallMap.get(hall) + "','0126','" + classModalMap.get(model) + "')");
-                try {
-                    String time12hr = classDay.getTime();  // Example time
-                    SimpleDateFormat format12hr = new SimpleDateFormat("hh:mm a");
-                    SimpleDateFormat format24hr = new SimpleDateFormat("HH:mm:ss");
-                    Date date = format12hr.parse(time12hr);
-                    String time24hr = format24hr.format(date);
-                    DB.IUD("INSERT INTO `class_day` (`time`,`week_day_id`,`class_id`) VALUES ('" + time24hr + "','" + classDay.getDay() + "','"+classDay.getClassID()+"')");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 System.out.println("success");
             }
         } catch (Exception e) {
@@ -2033,4 +2022,16 @@ public class ClassManagement extends javax.swing.JPanel {
         }
     }
 
+    // return the class ID
+    public String getClassID() {
+        return jTextField1.getText();
+    }
+    
+    // set jDialogs dates
+    public void setDate(Vector date){
+     this.dayVector = date;
+        for (ClassDay vnm : dayVector) {
+            System.out.println(vnm.getDay() +" "+ vnm.getTime());
+        }
+    }
 }
