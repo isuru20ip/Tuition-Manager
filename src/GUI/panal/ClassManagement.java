@@ -9,13 +9,17 @@ import GUI.popup.TeacherAddress;
 import GUI.popup.TeacherSelectionClass;
 import javax.swing.JFrame;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import modal.DB;
 import modal.IDGenarator;
+import modal.SetDate;
 
 /**
  *
@@ -38,7 +42,8 @@ public class ClassManagement extends javax.swing.JPanel {
         loadType();
         generateClassID();
     }
-    private void generateClassID(){
+private String ClassId;
+    private void generateClassID() {
         try {
             String classID = IDGenarator.generateID("CL", "class");
             jTextField1.setText(classID);
@@ -46,19 +51,23 @@ public class ClassManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    
-  public JTextField getjTextField7(){
-  return jTextField7;
-  }
-  public JTextField getjTextField6(){
-  return jTextField6;
-  }
-  public JTextField getjTextField9(){
-  return jTextField9;
-  }
-  public JTextField getjTextField8(){
-  return jTextField8;
-  }
+
+    public JTextField getjTextField7() {
+        return jTextField7;
+    }
+
+    public JTextField getjTextField6() {
+        return jTextField6;
+    }
+
+    public JTextField getjTextField9() {
+        return jTextField9;
+    }
+
+    public JTextField getjTextField8() {
+        return jTextField8;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -281,7 +290,6 @@ public class ClassManagement extends javax.swing.JPanel {
         });
 
         jTextField7.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jTextField7.setText("200333211145");
         jTextField7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField7ActionPerformed(evt);
@@ -289,7 +297,6 @@ public class ClassManagement extends javax.swing.JPanel {
         });
 
         jTextField6.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jTextField6.setText("Janindu");
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField6ActionPerformed(evt);
@@ -297,7 +304,6 @@ public class ClassManagement extends javax.swing.JPanel {
         });
 
         jTextField9.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jTextField9.setText("Dasanayaka");
 
         jTextField8.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
 
@@ -391,8 +397,8 @@ public class ClassManagement extends javax.swing.JPanel {
         jLabel12.setText("Model");
 
         jTextField1.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jTextField1.setText("jTextField1");
 
+        jComboBox1.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -400,17 +406,22 @@ public class ClassManagement extends javax.swing.JPanel {
             }
         });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NOT SELECT YET" }));
+        jComboBox2.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "NOT SELECT" }));
 
+        jComboBox3.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jComboBox4.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jComboBox5.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel14.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel14.setText("Status");
 
+        jComboBox6.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -421,6 +432,7 @@ public class ClassManagement extends javax.swing.JPanel {
         jLabel63.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel63.setText("Hall ");
 
+        jComboBox33.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jComboBox33.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox33.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -431,6 +443,7 @@ public class ClassManagement extends javax.swing.JPanel {
         jLabel64.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel64.setText("Type");
 
+        jComboBox34.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jComboBox34.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox34.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -444,7 +457,7 @@ public class ClassManagement extends javax.swing.JPanel {
         jLabel66.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel66.setText("End Date");
 
-        jTextField25.setText("jTextField1");
+        jTextField25.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
 
         jLabel67.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
 
@@ -592,6 +605,11 @@ public class ClassManagement extends javax.swing.JPanel {
         jButton5.setBackground(new java.awt.Color(102, 255, 204));
         jButton5.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jButton5.setText("Register");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         jPanel7.add(jButton5);
 
         jTable4.setModel(new javax.swing.table.DefaultTableModel(
@@ -1556,9 +1574,15 @@ public class ClassManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-        ClassDayTime cdt = new ClassDayTime(this, true);
+         ClassId=jTextField1.getText();
+        ClassDayTime cdt = new ClassDayTime(this, true,ClassId);
         cdt.setVisible(true);
+        
     }//GEN-LAST:event_jButton21ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        registerClass();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1745,13 +1769,13 @@ public class ClassManagement extends javax.swing.JPanel {
     private static HashMap<String, String> classLanguageMap = new HashMap<>();
     private static HashMap<String, String> classMethodMap = new HashMap<>();
     private static HashMap<String, String> classTypeMap = new HashMap<>();
+    private static HashMap<String, String> hallMap = new HashMap<>();
+    private static HashMap<String, String> classModalMap = new HashMap<>();
+    private static HashMap<String, String> classStatusMap = new HashMap<>();
 
-   
-    
-    
     private void loadGrades() {
         try {
-            ResultSet resultSet = DB.search("SELECT * FROM `grade`");
+            ResultSet resultSet = DB.search("SELECT * FROM `grade` WHERE `id` IN ('1', '2','3','4','5','6','7','8','9','10','11','12','13','14','15','16')");
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
@@ -1837,7 +1861,7 @@ public class ClassManagement extends javax.swing.JPanel {
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("modal"));
-                classMethodMap.put(resultSet.getString("modal"), resultSet.getString("id"));
+                classModalMap.put(resultSet.getString("modal"), resultSet.getString("id"));
 
             }
 
@@ -1856,7 +1880,7 @@ public class ClassManagement extends javax.swing.JPanel {
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("status"));
-                classMethodMap.put(resultSet.getString("status"), resultSet.getString("id"));
+                classStatusMap.put(resultSet.getString("status"), resultSet.getString("id"));
 
             }
 
@@ -1867,7 +1891,7 @@ public class ClassManagement extends javax.swing.JPanel {
         }
     }
 
-     private void loadHall() {
+    private void loadHall() {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `room_type`");
             Vector<String> vector = new Vector<>();
@@ -1875,7 +1899,7 @@ public class ClassManagement extends javax.swing.JPanel {
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("type"));
-                classMethodMap.put(resultSet.getString("type"), resultSet.getString("id"));
+                hallMap.put(resultSet.getString("type"), resultSet.getString("id"));
 
             }
 
@@ -1885,6 +1909,7 @@ public class ClassManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
+
     private void loadType() {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `class_type`");
@@ -1903,9 +1928,85 @@ public class ClassManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    
-    private void registerClass(){
-        
+
+    private void registerClass() {
+        try {
+            String teacherID = jTextField7.getText();
+            String classID = jTextField1.getText();
+            String grade = String.valueOf(jComboBox1.getSelectedItem());
+            String subject = String.valueOf(jComboBox2.getSelectedItem());
+            String language = String.valueOf(jComboBox3.getSelectedItem());
+            String method = String.valueOf(jComboBox4.getSelectedItem());
+            String model = String.valueOf(jComboBox5.getSelectedItem());
+            String status = String.valueOf(jComboBox6.getSelectedItem());
+            String hall = String.valueOf(jComboBox33.getSelectedItem());
+            String type = String.valueOf(jComboBox34.getSelectedItem());
+            String fee = jTextField25.getText();
+            String registerDate = SetDate.getDate("yyyy-MM-dd HH:mm:ss");
+            Date endDate = jDateChooser3.getDate();
+            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+            //String endDateWithTime = dateTimeFormat.format(endDate);
+
+            if (teacherID.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Select Teacher First", "Alert!", JOptionPane.WARNING_MESSAGE);
+                //jTextField1.grabFocus();
+
+            } else if (classID.isEmpty()) {
+                int choice = JOptionPane.showConfirmDialog(this, "class ID is empty generate New ID",
+                        "warning", JOptionPane.YES_NO_OPTION);
+
+                // Check the user's choice and display a corresponding message 
+                if (choice == JOptionPane.YES_OPTION) {
+                    generateClassID();
+                    JOptionPane.showMessageDialog(this, "generate Id");
+                } else if (choice == JOptionPane.NO_OPTION) {
+                    // If the user chose 'No', show a message indicating that changes are not saved 
+                    JOptionPane.showMessageDialog(this, "Changes not saved.");
+                }
+
+            } else if (grade.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select grade", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (subject.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select subject", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (language.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select language", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (method.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select method", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (model.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select model", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (status.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select status", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (hall.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select hall", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (type.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select type", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (fee.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Fee Amount", "Alert!", JOptionPane.WARNING_MESSAGE);
+                //jTextField1.grabFocus();
+
+            } else if (endDate == null) {
+                JOptionPane.showMessageDialog(this, "Please Select Date", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+
+                DB.IUD("INSERT INTO `class` (`id`,`fee`,`register_date`,`end_date`,`teacher_nic`,`subject_id`,`grade_id`,"
+                        + "`class_type_id`,`class_method_id`,`class_language_id`,`class_status_id`,`room_type_id`,`employee_id`,`class_modal_id`) VALUES"
+                        + "('" + classID + "','" + fee + "','" + registerDate + "','" + dateTimeFormat.format(endDate) + "','" + teacherID + "','" + subjectMap.get(subject) + "','" + gradeMap.get(grade) + "',"
+                        + "'" + classTypeMap.get(type) + "','" + classMethodMap.get(method) + "','" + classLanguageMap.get(language) + "','" + classStatusMap.get(status) + "'"
+                        + ",'" + hallMap.get(hall) + "','0126','" + classModalMap.get(model) + "')");
+
+                System.out.println("success");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

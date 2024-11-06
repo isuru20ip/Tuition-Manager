@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import modal.DB;
 
 /**
@@ -16,16 +18,22 @@ import modal.DB;
  * @author LenovoTLC
  */
 public class ClassDayTime extends javax.swing.JDialog {
-private ClassManagement classManagement;
+
+    private ClassManagement classManagement;
+    private String ClassID;
+
     /**
      * Creates new form ClassDayTime
      */
-    public ClassDayTime(ClassManagement parent, boolean modal) {
-        
+    public ClassDayTime(ClassManagement parent, boolean modal, String ClassId) {
+        this.ClassID = ClassId;
         initComponents();
         loadDays();
         classManagement = (ClassManagement) parent;
+        jLabel11.setText(ClassID);
     }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -260,7 +268,7 @@ private ClassManagement classManagement;
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -275,7 +283,6 @@ private ClassManagement classManagement;
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -299,8 +306,9 @@ private ClassManagement classManagement;
     private cambodia.raven.Time time;
     // End of variables declaration//GEN-END:variables
 
- private static HashMap<String, String> DayMap = new HashMap<>();
-private void loadDays() {
+    private static HashMap<String, String> DayMap = new HashMap<>();
+
+    private void loadDays() {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `week_day`");
             Vector<String> vector = new Vector<>();
@@ -318,8 +326,5 @@ private void loadDays() {
             e.printStackTrace();
         }
     }
-
-
-
 
 }
