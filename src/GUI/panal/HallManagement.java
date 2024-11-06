@@ -246,11 +246,14 @@ public class HallManagement extends javax.swing.JPanel {
             String query = ("Select * From `class_room` "
                     + "INNER JOIN `room_type` ON `class_room`.`room_type_id` = `room_type`.`id` ");
 
-            if (value.matches("^H\\d*$")){
-                query += "WHERE `class_room`.`id` LIKE '%" + value + "%' "; 
-            }else {
-                query += " WHERE `room_type`.`type` LIKE '%" + value + "%'";
+            if (value.matches("^[H0-9]$")){
+                query += "WHERE `class_room`.`id` LIKE '%"+value+"%' "; 
 
+            }else if (value.matches("^[A-Za-z]+/[A-Za-z]+\\d{6}$")){
+                query += " WHERE `room_type`.`type` LIKE '%" + value + "%'";
+                
+            }else{
+                query += "WHERE `class_room`.`capacity` LIKE '%" + value + "%' ";
             }
             
             ResultSet resultSet = DB.search(query);

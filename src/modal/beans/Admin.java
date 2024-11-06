@@ -8,7 +8,7 @@ package modal.beans;
  *
  * @author Asus
  */
-public class signIn {
+public class Admin {
     
    private String userName; 
    private String mobile;
@@ -70,5 +70,17 @@ public class signIn {
     public void setType(String type) {
         this.type = type;
     }
+
+    public Admin() {
+    }
+
+    public Admin(String userName, String mobile, String status, String type) {
+        this.userName = userName;
+        this.mobile = mobile;
+        this.status = status;
+        this.type = type;
+    }
+    
+    
     
 }

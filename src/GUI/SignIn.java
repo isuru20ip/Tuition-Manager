@@ -5,14 +5,11 @@ import java.awt.Toolkit;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import modal.DB;
-import modal.beans.signIn;
+import modal.beans.Admin;
 import javax.swing.Timer;
 import java.awt.event.*;
-import java.util.HashMap;
 
 public class SignIn extends javax.swing.JFrame {
-
-        HashMap<String, signIn> signMap = new HashMap<>();
 
     
     public SignIn() {
@@ -212,7 +209,6 @@ public class SignIn extends javax.swing.JFrame {
 
                 ResultSet resultSet = DB.search(("SELECT * FROM `emp_access`"
                         + "INNER JOIN `employee` ON `emp_access`.`employee_id` = `employee`.`id`"
-//                        + "INNER JOIN `gender` ON `employee`.`gender_id` = `gender`.`id`"
                         + "INNER JOIN `emp_type` ON `employee`.`emp_type_id` = `emp_type`.`id`"
                         + "INNER JOIN `emp_status` ON `employee`.`emp_status_id` = `emp_status`.`id` "
                         + "WHERE `user_name` = '" + uname + "' AND `password` = '" + password + "'"));
@@ -223,7 +219,10 @@ public class SignIn extends javax.swing.JFrame {
                     String status = resultSet.getString("status");
                     String type = resultSet.getString("name");
 
-                    Dashboard dashboard = new Dashboard(userName, mobile, status, type);
+                   //Admin admin = new Admin();
+                   
+                    
+                    Dashboard dashboard = new Dashboard(new Admin(userName, mobile, status, type));
                     dashboard.setVisible(true);
                     this.dispose();
 
