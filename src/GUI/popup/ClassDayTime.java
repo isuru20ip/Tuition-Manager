@@ -11,7 +11,9 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import modal.DB;
+import modal.beans.ClassDay;
 
 /**
  *
@@ -21,19 +23,20 @@ public class ClassDayTime extends javax.swing.JDialog {
 
     private ClassManagement classManagement;
     private String ClassID;
-
+    private ClassDay classDay;
+    private Vector vector = new Vector();
+      
     /**
      * Creates new form ClassDayTime
      */
-    public ClassDayTime(ClassManagement parent, boolean modal, String ClassId) {
+    public ClassDayTime(ClassManagement parent, boolean modal, String ClassId, ClassDay classDay) {
         this.ClassID = ClassId;
+        this.classDay = classDay;
         initComponents();
         loadDays();
         classManagement = (ClassManagement) parent;
         jLabel11.setText(ClassID);
     }
-
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -161,7 +164,7 @@ public class ClassDayTime extends javax.swing.JDialog {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -269,10 +272,26 @@ public class ClassDayTime extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
+        String classId = jLabel11.getText();
+        String day = String.valueOf(jComboBox1.getSelectedIndex());
+        String time = jTextField2.getText();
+
+       vector.add(new ClassDay() );
+        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+
+        
+          
+
+        loadDay();
+        refresh();
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -292,13 +311,11 @@ public class ClassDayTime extends javax.swing.JDialog {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
@@ -307,6 +324,7 @@ public class ClassDayTime extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private static HashMap<String, String> DayMap = new HashMap<>();
+    private static HashMap<String, ClassDay> classDayMap = new HashMap<>();
 
     private void loadDays() {
         try {
@@ -327,4 +345,24 @@ public class ClassDayTime extends javax.swing.JDialog {
         }
     }
 
+    private void loadDay() {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+
+        for (ClassDay classDay : classDayMap.values()) {
+            Vector<String> vector = new Vector<>();
+            vector.add(classDay.getClassID());
+            vector.add(classDay.getDay());
+            vector.add(classDay.getTime());
+
+            model.addRow(vector);
+        }
+
+    }
+
+    private void refresh() {
+        jComboBox1.setSelectedIndex(0);
+        jTextField2.setText("");
+
+    }
 }

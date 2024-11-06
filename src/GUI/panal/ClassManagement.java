@@ -20,6 +20,7 @@ import javax.swing.SwingUtilities;
 import modal.DB;
 import modal.IDGenarator;
 import modal.SetDate;
+import modal.beans.ClassDay;
 
 /**
  *
@@ -41,8 +42,12 @@ public class ClassManagement extends javax.swing.JPanel {
         loadHall();
         loadType();
         generateClassID();
+
     }
-private String ClassId;
+    private ClassDay classDay;
+
+    private String ClassId;
+
     private void generateClassID() {
         try {
             String classID = IDGenarator.generateID("CL", "class");
@@ -600,6 +605,11 @@ private String ClassId;
         jButton4.setBackground(new java.awt.Color(153, 255, 153));
         jButton4.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jButton4.setText("Update");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         jPanel7.add(jButton4);
 
         jButton5.setBackground(new java.awt.Color(102, 255, 204));
@@ -1574,15 +1584,20 @@ private String ClassId;
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-         ClassId=jTextField1.getText();
-        ClassDayTime cdt = new ClassDayTime(this, true,ClassId);
+        classDay = new ClassDay();
+        ClassId = jTextField1.getText();
+        ClassDayTime cdt = new ClassDayTime(this, true, ClassId, classDay);
         cdt.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         registerClass();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2001,7 +2016,16 @@ private String ClassId;
                         + "('" + classID + "','" + fee + "','" + registerDate + "','" + dateTimeFormat.format(endDate) + "','" + teacherID + "','" + subjectMap.get(subject) + "','" + gradeMap.get(grade) + "',"
                         + "'" + classTypeMap.get(type) + "','" + classMethodMap.get(method) + "','" + classLanguageMap.get(language) + "','" + classStatusMap.get(status) + "'"
                         + ",'" + hallMap.get(hall) + "','0126','" + classModalMap.get(model) + "')");
-
+                try {
+                    String time12hr = classDay.getTime();  // Example time
+                    SimpleDateFormat format12hr = new SimpleDateFormat("hh:mm a");
+                    SimpleDateFormat format24hr = new SimpleDateFormat("HH:mm:ss");
+                    Date date = format12hr.parse(time12hr);
+                    String time24hr = format24hr.format(date);
+                    DB.IUD("INSERT INTO `class_day` (`time`,`week_day_id`,`class_id`) VALUES ('" + time24hr + "','" + classDay.getDay() + "','"+classDay.getClassID()+"')");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 System.out.println("success");
             }
         } catch (Exception e) {
