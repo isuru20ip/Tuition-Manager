@@ -2,10 +2,13 @@ package GUI.popup;
 
 import GUI.panal.ClassManagement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Vector;
+import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
+import modal.LogCenter;
 import modal.beans.ClassDay;
 
 /**
@@ -286,7 +289,7 @@ public class ClassDayTime extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField2;
     private cambodia.raven.Time time;
     // End of variables declaration//GEN-END:variables
-   
+
     // store Date beans
     private Vector<ClassDay> classDays = new Vector<>();
     // store classManagement panal 
@@ -303,8 +306,10 @@ public class ClassDayTime extends javax.swing.JDialog {
             }
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
             jComboBox1.setModel(model);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+           LogCenter.logger.log(java.util.logging.Level.WARNING, "error", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "error", ex);
         }
     }
 
