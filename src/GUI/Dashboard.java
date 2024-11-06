@@ -11,10 +11,10 @@ import GUI.panal.StudentAttendance;
 import GUI.panal.StudentManagement;
 import GUI.panal.TeacherManagement;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import GUI.panal.EmployeeSalaryCalculation;
 import GUI.panal.EmployeeManagement;
 import GUI.panal.EnrollmentManagement;
 import GUI.panal.HallManagement;
+import GUI.panal.SalaryCalculation;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -280,7 +280,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jButton16.setFont(new java.awt.Font("SchulbuchNord", 0, 14)); // NOI18N
         jButton16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/employee.png"))); // NOI18N
-        jButton16.setText(" Employee Salary");
+        jButton16.setText("Salary Calculation");
         jButton16.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jButton16.setContentAreaFilled(false);
         jButton16.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -489,7 +489,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        loadPanal(new EmployeeSalaryCalculation());
+        loadPanal(new SalaryCalculation());
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
