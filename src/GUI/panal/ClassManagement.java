@@ -44,7 +44,6 @@ public class ClassManagement extends javax.swing.JPanel {
         generateClassID();
 
     }
-    private ClassDay classDay;
 
     private String ClassId;
 
@@ -401,6 +400,7 @@ public class ClassManagement extends javax.swing.JPanel {
         jLabel12.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel12.setText("Model");
 
+        jTextField1.setEditable(false);
         jTextField1.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
 
         jComboBox1.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
@@ -1776,14 +1776,14 @@ public class ClassManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
 
-    private  HashMap<String, String> gradeMap = new HashMap<>();
-    private  HashMap<String, String> subjectMap = new HashMap<>();
-    private  HashMap<String, String> classLanguageMap = new HashMap<>();
-    private  HashMap<String, String> classMethodMap = new HashMap<>();
-    private  HashMap<String, String> classTypeMap = new HashMap<>();
-    private  HashMap<String, String> hallMap = new HashMap<>();
-    private  HashMap<String, String> classModalMap = new HashMap<>();
-    private  HashMap<String, String> classStatusMap = new HashMap<>();
+    private HashMap<String, String> gradeMap = new HashMap<>();
+    private HashMap<String, String> subjectMap = new HashMap<>();
+    private HashMap<String, String> classLanguageMap = new HashMap<>();
+    private HashMap<String, String> classMethodMap = new HashMap<>();
+    private HashMap<String, String> classTypeMap = new HashMap<>();
+    private HashMap<String, String> hallMap = new HashMap<>();
+    private HashMap<String, String> classModalMap = new HashMap<>();
+    private HashMap<String, String> classStatusMap = new HashMap<>();
     // store class time & days
     private Vector<ClassDay> dayVector;
 
@@ -2006,15 +2006,36 @@ public class ClassManagement extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Please Enter Fee Amount", "Alert!", JOptionPane.WARNING_MESSAGE);
                 //jTextField1.grabFocus();
 
+            } else if (!fee.matches("\\d+")) {
+                // The input is valid, as it contains only digits
+               JOptionPane.showMessageDialog(this, "Invalid Amount", "Alert!", JOptionPane.WARNING_MESSAGE);
+                // Proceed with additional logic here if needed
             } else if (endDate == null) {
                 JOptionPane.showMessageDialog(this, "Please Select Date", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else {
+            } else if (endDate == null) {
+                JOptionPane.showMessageDialog(this, "Please Select Date", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else{
 
                 DB.IUD("INSERT INTO `class` (`id`,`fee`,`register_date`,`end_date`,`teacher_nic`,`subject_id`,`grade_id`,"
                         + "`class_type_id`,`class_method_id`,`class_language_id`,`class_status_id`,`room_type_id`,`employee_id`,`class_modal_id`) VALUES"
                         + "('" + classID + "','" + fee + "','" + registerDate + "','" + dateTimeFormat.format(endDate) + "','" + teacherID + "','" + subjectMap.get(subject) + "','" + gradeMap.get(grade) + "',"
                         + "'" + classTypeMap.get(type) + "','" + classMethodMap.get(method) + "','" + classLanguageMap.get(language) + "','" + classStatusMap.get(status) + "'"
                         + ",'" + hallMap.get(hall) + "','0126','" + classModalMap.get(model) + "')");
+
+                for (ClassDay vnm : dayVector) {
+                    try {
+
+                        String time12hr = vnm.getTime();  // Example time
+                        SimpleDateFormat format12hr = new SimpleDateFormat("hh:mm a");
+                        SimpleDateFormat format24hr = new SimpleDateFormat("HH:mm:ss");
+                        Date day = format12hr.parse(time12hr);
+                        String time24hr = format24hr.format(day);
+                        DB.IUD("INSERT INTO `class_day` (`time`,`week_day_id`,`class_id`) VALUES ('" + time24hr + "','" + vnm.getDay() + "','" + jTextField1.getText() + "')");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
                 System.out.println("success");
             }
         } catch (Exception e) {
@@ -2026,12 +2047,9 @@ public class ClassManagement extends javax.swing.JPanel {
     public String getClassID() {
         return jTextField1.getText();
     }
-    
+
     // set jDialogs dates
-    public void setDate(Vector date){
-     this.dayVector = date;
-        for (ClassDay vnm : dayVector) {
-            System.out.println(vnm.getDay() +" "+ vnm.getTime());
-        }
+    public void setDate(Vector date) {
+        this.dayVector = date;
     }
 }

@@ -315,12 +315,12 @@ public class ClassDayTime extends javax.swing.JDialog {
 
     private void refresh() {
         jComboBox1.setSelectedIndex(0);
-        jTextField2.setText("");
+        
 
     }
 
     private void addNewDate() {
-        String day = String.valueOf(jComboBox1.getSelectedItem());
+        String day = String.valueOf(jComboBox1.getSelectedIndex());
         String time = jTextField2.getText();
 
         classDays.add(new ClassDay(day, time));
