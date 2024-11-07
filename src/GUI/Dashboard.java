@@ -5,8 +5,8 @@ import GUI.panal.ClassScheduleManagement;
 import GUI.panal.CourseManagement;
 import GUI.panal.PaymentManagement;
 import GUI.panal.Reporting;
-import GUI.panal.Settings;
-// import GUI.panal.Settings;
+//import GUI.panal.Settings;
+ import GUI.panal.Settings;
 import GUI.panal.StudentAttendance;
 import GUI.panal.StudentManagement;
 import GUI.panal.TeacherManagement;
@@ -487,7 +487,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        loadPanal(new StudentAttendance());
+        loadPanal(new StudentAttendance(admin));
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
