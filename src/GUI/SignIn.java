@@ -222,7 +222,7 @@ public class SignIn extends javax.swing.JFrame {
                    //Admin admin = new Admin();
                    
                     
-                    Dashboard dashboard = new Dashboard(new Admin(userName, mobile, status, type));
+                    Dashboard dashboard = new Dashboard();
                     dashboard.setVisible(true);
                     this.dispose();
 

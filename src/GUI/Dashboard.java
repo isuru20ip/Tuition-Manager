@@ -29,7 +29,7 @@ import modal.beans.Admin;
 
 public class Dashboard extends javax.swing.JFrame {
 
-    public Dashboard(Admin admin) {
+    public Dashboard() {
         initComponents();
         time();
         date();
@@ -515,7 +515,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-//                new Dashboard().setVisible(true);
+                new Dashboard().setVisible(true);
             }
         });
     }
