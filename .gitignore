@@ -24,9 +24,12 @@ replay_pid*
 
 # NetBeans project files
 nbproject/private/
+nbproject/
 build/
 nbbuild/
 dist/
 nbdist/
 nbactions.xml
 src/modal/DB.java
+img/
+homeinfo.ser

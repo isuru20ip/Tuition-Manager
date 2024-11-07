@@ -4,26 +4,34 @@
  */
 package GUI.popup;
 
+import GUI.panal.StudentManagement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import modal.DB;
+import modal.LogCenter;
 
 /**
  *
  * @author pahan
  */
 public class StudentAddress extends javax.swing.JDialog {
-    private static HashMap<String, String> ScityMap = new HashMap<>();
 
     /**
      * Creates new form Student_Address
      */
-    public StudentAddress(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public StudentAddress(StudentManagement parent, boolean modal, String id) {
+        // super(parent, modal);
         initComponents();
+        this.Sid = id;
         loadSCity();
+
+        loadAddress(Sid);
+        sm = (StudentManagement) parent;
     }
 
     /**
@@ -72,10 +80,20 @@ public class StudentAddress extends javax.swing.JDialog {
         jButton1.setBackground(new java.awt.Color(102, 204, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jButton1.setText("Add");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(0, 102, 204));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jButton2.setText("Update");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -94,10 +112,26 @@ public class StudentAddress extends javax.swing.JDialog {
             }
         });
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setHeaderValue("Id");
+            jTable1.getColumnModel().getColumn(1).setHeaderValue("Line 1");
+            jTable1.getColumnModel().getColumn(2).setHeaderValue("Line 2");
+            jTable1.getColumnModel().getColumn(3).setHeaderValue("City");
+        }
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jButton3.setText("Clear");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -168,48 +202,53 @@ public class StudentAddress extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StudentAddress.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StudentAddress.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StudentAddress.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StudentAddress.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        InsertAddress(); // Insert Button Process jButton1
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                StudentAddress dialog = new StudentAddress(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+//Update Button Process
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int row = jTable1.getSelectedRow();
+
+// Check if a row is actually selected
+        if (row != -1) {
+            // Ensure no `NullPointerException` when accessing jTable1 values
+            jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 1)));
+            jTextField2.setText(String.valueOf(jTable1.getValueAt(row, 2)));
+            jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(row, 3)));
+            //jButton1.setEnabled(false);
+
+            // Check for double-click event
+            if (evt.getClickCount() == 2) {
+                String Said = String.valueOf(jTable1.getValueAt(row, 0));
+
+                // Ensure `em` is not null before calling `setAddressId`
+                if (sm != null) {
+                    sm.setStudentAddressId(Said);
+
+                } else {
+//                    System.out.println("Error: Employee object (em) is null. Cannot set address ID.");
+                    JOptionPane.showMessageDialog(this, "Employee Object is null", "WARNING", JOptionPane.WARNING_MESSAGE);
+                }
+
+                // Close the current window
+                this.dispose();
+                
             }
-        });
-    }
+        } else {
+            System.out.println("No row selected in the table.");
+        }
+
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        refresh(); // Refresh SAddress Table
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        UpdateAddress(); //Update Button Process jButton2
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -226,7 +265,119 @@ public class StudentAddress extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
-  private void loadSCity() {
+
+    //Student Gender <k:city , v:select>
+    private static HashMap<String, String> ScityMap = new HashMap<>();
+
+    private String Sid; //student id catch
+
+    StudentManagement sm;
+    
+    //Insert Address Code
+    private void InsertAddress() {
+        try {
+            String line1 = jTextField1.getText().trim();
+            String line2 = jTextField2.getText().trim();
+            String city = (String) jComboBox1.getSelectedItem();
+
+            if (line1.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter Address Line 1", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (line2.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter Address Line 2", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (city.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please select a city", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+
+                int confirmation = JOptionPane.showConfirmDialog(this, "Are You Sure Want To add", "Alert!", JOptionPane.YES_NO_OPTION);
+
+                if (confirmation == JOptionPane.YES_OPTION) {
+
+                    // Insert the address into the database and retrieve the last inserted ID
+                    String insertQuery = "INSERT INTO address (line_01, line_02, city_id) VALUES ('" + line1 + "', '" + line2 + "', (SELECT id FROM city WHERE name = '" + city + "'))";
+                    DB.IUD(insertQuery);
+
+                    // Now get the last inserted ID
+                    ResultSet rs = DB.search("SELECT LAST_INSERT_ID() AS last_id");
+                    if (rs.next()) {
+                        String lastInsertedId = rs.getString("last_id");
+
+                        JOptionPane.showMessageDialog(this, "Address saved successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                        // Load only the newly added address using the last inserted ID
+                        loadAddress(lastInsertedId);
+                        jButton2.setEnabled(false);
+                    }
+                }
+
+            }
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+
+    }
+    
+    //Update Address Code
+    private void UpdateAddress(){
+        
+         int row = jTable1.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Please Select a Row", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            String id = String.valueOf(jTable1.getValueAt(row, 0));
+
+            try {
+                String line1 = jTextField1.getText();
+                String line2 = jTextField2.getText();
+                String city = String.valueOf(jComboBox1.getSelectedItem());
+
+                if (line1.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter Address line1", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (line2.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter Address line2", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (city.equals("Select")) {
+                    JOptionPane.showMessageDialog(this, "Please Select a City", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+
+                    //check if the address already exists
+                    boolean isFound = false;
+
+                    for (int i = 0; i < jTable1.getRowCount(); i++) {
+                        String getLine1 = String.valueOf(jTable1.getValueAt(i, 1));
+                        String getLine2 = String.valueOf(jTable1.getValueAt(i, 2));
+                        String getCity1 = String.valueOf(jTable1.getValueAt(i, 3));
+
+                        if (getLine1.equals(line1) && getLine2.equals(line2) && getCity1.equals(city)) {
+                            JOptionPane.showMessageDialog(this, "This Address has been already used", "Warning", JOptionPane.WARNING_MESSAGE);
+                            isFound = true;
+                            break;
+                        }
+                    }
+                    // If no duplicate address is found, proceed with the update
+                    if (!isFound) {
+                        DB.IUD("UPDATE `address` SET `line_01`='" + line1 + "', `line_02` = '" + line2 + "', "
+                                + " `city_id`='" + ScityMap.get(city) + "' WHERE `id`='" + id + "'");
+
+                        JOptionPane.showMessageDialog(this, "Address Successfully Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        
+                        
+                        loadAddress(Sid);
+                        refresh();
+                    }
+                }
+            } catch (ClassNotFoundException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            } catch (SQLException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+            }
+        }
+    
+    }
+
+    //Load Student Address City
+    private void loadSCity() {
 
         try {
 
@@ -243,10 +394,71 @@ public class StudentAddress extends javax.swing.JDialog {
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
 
+    }
+//Load Student Address 
+
+    private void loadAddress(String Sid1) {
+        try {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0); // Clear all previous rows in the table
+
+            ResultSet resultSet;
+
+            if (Sid1 != null && !Sid1.isEmpty()) {
+                // Query to get the specific address using Sid1
+                resultSet = DB.search("SELECT address.id, address.line_01, address.line_02, city.name "
+                        + "FROM address "
+                        + "INNER JOIN city ON address.city_id = city.id "
+                        + "WHERE address.id = '" + Sid1 + "'");
+            } else {
+                // If no specific Sid1 is given, get the latest address entry
+                resultSet = DB.search("SELECT address.id, address.line_01, address.line_02, city.name "
+                        + "FROM address "
+                        + "INNER JOIN city ON address.city_id = city.id "
+                        + "ORDER BY address.id DESC "
+                        + "LIMIT 0");
+            }
+
+            // Add the query result to the table if found
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("id"));
+                vector.add(resultSet.getString("line_01"));
+                vector.add(resultSet.getString("line_02"));
+                vector.add(resultSet.getString("name")); // City name column
+                model.addRow(vector);
+            }
+//Add Button Set Enable True and False
+            if (model.getRowCount() > 0) {
+                jButton1.setEnabled(false); // Show the button if more than one row
+                jButton2.setEnabled(true);
+            } else {
+                jButton1.setEnabled(true); // Hide the button if there's one or no rows
+                jButton2.setEnabled(false);
+            }
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+    }
+
+    //Clear All Button Process
+    private void refresh() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jComboBox1.setSelectedIndex(0);
+        jTable1.clearSelection();
+        jTextField1.grabFocus();
+        jButton1.setEnabled(true);
+        loadSCity();
+         loadAddress(Sid);
     }
 
 }

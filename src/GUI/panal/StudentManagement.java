@@ -11,17 +11,22 @@ import GUI.popup.StudentAddress;
 import java.util.HashMap;
 import modal.DB;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modal.IDGenarator;
+import modal.LogCenter;
 
 /**
  *
  * @author pahan
  */
 public class StudentManagement extends javax.swing.JPanel {
-
-    private static HashMap<String, String> studentGender = new HashMap<>();
-    private static HashMap<String, String> studentStatus = new HashMap<>();
 
     /**
      * Creates new form Student_Registration
@@ -30,6 +35,7 @@ public class StudentManagement extends javax.swing.JPanel {
         initComponents();
         loadSGender();
         loadSStatus();
+        loadStudent("");
     }
 
     /**
@@ -147,9 +153,15 @@ public class StudentManagement extends javax.swing.JPanel {
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField6KeyReleased(evt);
+            }
+        });
+
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Search by ID");
+        jLabel11.setText("Search Student");
 
         jButton1.setBackground(new java.awt.Color(0, 204, 204));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -171,7 +183,7 @@ public class StudentManagement extends javax.swing.JPanel {
             }
         });
 
-        jDateChooser1.setDateFormatString("yyyy,MM,dd");
+        jDateChooser1.setDateFormatString("yyyy-MM-dd");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -271,11 +283,11 @@ public class StudentManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "First Name", "Last Name", "Birth Day", "NIC", "Mobile", "Email", "Gender"
+                "ID", "First Name", "Last Name", "Birth Day", "NIC", "Mobile", "Email", "Gender", "Address", "Guardian", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -283,6 +295,11 @@ public class StudentManagement extends javax.swing.JPanel {
             }
         });
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -302,16 +319,31 @@ public class StudentManagement extends javax.swing.JPanel {
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton3.setText("Add");
         jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setBackground(new java.awt.Color(0, 102, 204));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton4.setText("Update");
         jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setBackground(new java.awt.Color(255, 51, 51));
         jButton5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton5.setText("Clear");
         jButton5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -596,16 +628,132 @@ public class StudentManagement extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    //Student Address View Button
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        StudentAddress st_address = new StudentAddress((JFrame) SwingUtilities.getWindowAncestor(this), true);
-        st_address.setVisible(true);
+
+        ViweSTAddress(); // Student Address Button Viwe Process
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    //Guardian Details View Button
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        GuardianDetails g_details = new GuardianDetails((JFrame) SwingUtilities.getWindowAncestor(this), true);
-        g_details.setVisible(true);
+        ViweGuardian(); // Student Guardian Button Viwe Process
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        InsertStudent(); // Add Button Process jButton3
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        clearAll(); // clearAll Button jButton5
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int row = jTable1.getSelectedRow();
+        jButton1.setEnabled(false); // Add Button Disble
+        jButton2.setEnabled(false); //Address Button Disable
+        jButton3.setEnabled(false); //Guardian Button Disable
+        jComboBox1.setEnabled(false); //Gender Not Updated
+        jDateChooser1.setEnabled(false); // BirthDay Not Updated
+
+        String fname = String.valueOf(jTable1.getValueAt(row, 1));
+        jTextField1.setText(fname);
+
+        String lname = String.valueOf(jTable1.getValueAt(row, 2));
+        jTextField2.setText(lname);
+
+        try {
+            String dob = jTable1.getValueAt(row, 3).toString();
+            jDateChooser1.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(dob));
+        } catch (ParseException e) {
+            e.printStackTrace(); // Optional: log or handle the error as needed
+        }
+
+        String nic = String.valueOf(jTable1.getValueAt(row, 4));
+        jTextField3.setText(nic);
+
+        String mobile = String.valueOf(jTable1.getValueAt(row, 5));
+        jTextField4.setText(mobile);
+
+        String email = String.valueOf(jTable1.getValueAt(row, 6));
+        jTextField5.setText(email);
+
+        String gender = String.valueOf(jTable1.getValueAt(row, 7));
+        jComboBox1.setSelectedItem(gender);
+
+        String status = String.valueOf(jTable1.getValueAt(row, 10));
+        jComboBox2.setSelectedItem(status);
+
+        if (evt.getClickCount() == 2) {
+            int row1 = jTable1.getSelectedRow();
+
+            if (row1 != -1) {
+                String id = String.valueOf(jTable1.getValueAt(row1, 0));
+
+                try {
+                    ResultSet rs = DB.search("SELECT * FROM student WHERE id = '" + id + "'");
+
+                    if (rs.next()) {
+                        // Fetch guardian ID and address ID from the result set
+                        String guardianId = rs.getString("guardian_id");
+                        String addressId = rs.getString("address_id");
+
+                        // Prompt user to choose between Guardian Details or Student Address
+                        String[] options = {"View Guardian Details", "View Student Address"};
+                        int choice = JOptionPane.showOptionDialog(
+                                this,
+                                "Choose what you want to update:",
+                                "View Options",
+                                JOptionPane.DEFAULT_OPTION,
+                                JOptionPane.QUESTION_MESSAGE,
+                                null,
+                                options,
+                                options[0]
+                        );
+
+                        if (choice == 0) { // View Guardian Details
+                            GuardianDetails guardian_Details = new GuardianDetails(this, true, guardianId);
+                            guardian_Details.addWindowListener(new java.awt.event.WindowAdapter() {
+                                @Override
+                                public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                                    loadStudent(""); // Refresh student data when dialog closes
+                                }
+                            });
+                            guardian_Details.setVisible(true); // Set the dialog visible
+
+                        } else if (choice == 1) { // View Student Address
+                            StudentAddress studentAddressDialog = new StudentAddress(this, true, addressId);
+                            studentAddressDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                                @Override
+                                public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                                    loadStudent(""); // Refresh student data when dialog closes
+                                }
+                            });
+                            studentAddressDialog.setVisible(true);
+                        }
+
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a row to view details.", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+
+
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+
+        UpdateStudent(); //Update Process Student
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTextField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyReleased
+        SearchStudent();
+    }//GEN-LAST:event_jTextField6KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -665,7 +813,32 @@ public class StudentManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
-    
+    //Student Gender <k:gender , v:select>
+    private static HashMap<String, String> studentGender = new HashMap<>();
+    //Student Status <k:status , v:select>
+    private static HashMap<String, String> studentStatus = new HashMap<>();
+
+    private String StudentAddressId; // Can be used to store student Address Id
+
+    private String GuardianId; // Can be used to store student Guardian  Id
+
+    // Class-level variable to check if the dialog is open
+    private StudentAddress studentAddressDialog;
+
+    // Class-level variable to check if the dialog is open
+    private GuardianDetails studentGuardianDialog;
+
+    public void setStudentAddressId(String Said) {
+        this.StudentAddressId = Said;
+
+    }
+
+    public void setGuardianId(String Gid) {
+        this.GuardianId = Gid;
+
+    }
+
+    //Student Gender load
     private void loadSGender() {
 
         try {
@@ -683,12 +856,15 @@ public class StudentManagement extends javax.swing.JPanel {
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
 
     }
 
+    //Student Status Load
     private void loadSStatus() {
 
         try {
@@ -706,9 +882,305 @@ public class StudentManagement extends javax.swing.JPanel {
 
             }
 
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+
+    }
+
+    //Student Details Load Table jTable1
+    private void loadStudent(String value) {
+        try {
+
+            String query = "SELECT * FROM `student`"
+                    + "INNER JOIN `gender` ON `student`.`gender_id`=`gender`.`id`"
+                    + "INNER JOIN `guardian` ON `student`.`guardian_id`=`guardian`.`id`"
+                    + "INNER JOIN `address` ON `student`.`address_id`=`address`.`id`"
+                    + "INNER JOIN `employee` ON `student`.`employee_id`=`employee`.`id`"
+                    + "INNER JOIN `customer_status` ON `student`.`customer_status_id`=`customer_status`.`id`";
+
+            if (value.matches("\\d+")) {
+                query += " WHERE student.mobile LIKE '%" + value + "%'";
+
+            } else if (value.matches("^ST\\d*$")) {
+                query += " WHERE student.id LIKE '%" + value + "%'";
+
+            } else {
+                query += " WHERE student.fname LIKE '%" + value + "%'";
+            }
+
+            ResultSet resultSet = DB.search(query);
+
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            dtm.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector<String> v = new Vector();
+                v.add(resultSet.getString("id"));
+                v.add(resultSet.getString("fname"));
+                v.add(resultSet.getString("lname"));
+                v.add(resultSet.getString("birthday"));
+                v.add(resultSet.getString("nic"));
+                v.add(resultSet.getString("mobile"));
+                v.add(resultSet.getString("email"));
+                v.add(resultSet.getString("gender.name"));
+                v.add(resultSet.getString("address.line_01") + " , " + resultSet.getString("address.line_02"));
+                v.add(resultSet.getString("guardian.fname"));
+                v.add(resultSet.getString("customer_status.status"));
+                dtm.addRow(v);
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+
+    }
+
+// Insert Student 
+    private void InsertStudent() {
+
+        try {
+
+            String fname = jTextField1.getText();
+            String lname = jTextField2.getText();
+            String nic = jTextField3.getText();
+            String gender = String.valueOf(jComboBox1.getSelectedItem());
+            Date dob = jDateChooser1.getDate(); // BirthDay
+            String mobile = jTextField4.getText();
+            String email = jTextField5.getText();
+            String status = String.valueOf(jComboBox2.getSelectedItem());
+
+            if (fname.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (lname.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (nic.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (gender.equals("Select")) {
+
+                JOptionPane.showMessageDialog(this, "Please Select a Gender", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (dob == null) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your Date of Birth", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (mobile.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (email.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
+
+                JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (status.equals("Select")) {
+
+                JOptionPane.showMessageDialog(this, "Please Select a Status", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (StudentAddressId == null) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter an Address", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (GuardianId == null) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Guardian Information", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                String Dob = sdf.format(dob);
+                String joinDate = sdfDateTime.format(new Date());
+                String sampleEmployeeID = "0126";
+
+                // Vector<String> IDS = new Vector<>();
+                String generatedID = IDGenarator.generateID("ST", "student"); //Generate Student ID
+
+                DB.IUD("INSERT INTO `student`(`id`,`fname`,`lname`,`birthday`,`nic`,`mobile`,`email`,`join_date`,`gender_id`,`guardian_id`,`address_id`,`employee_id`,`customer_status_id`)"
+                        + "VALUES ('" + generatedID + "','" + fname + "','" + lname + "','" + Dob + "','" + nic + "','" + mobile + "','" + email + "','" + joinDate + "',"
+                        + "'" + studentGender.get(gender) + "','" + GuardianId + "','" + StudentAddressId + "',"
+                        + "'" + sampleEmployeeID + "','" + studentStatus.get(status) + "')");
+                loadStudent("");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    //Update Student
+    private void UpdateStudent() {
+
+        int row = jTable1.getSelectedRow();
+        if (row == -1) {
+
+            JOptionPane.showMessageDialog(this, "Please Select a Student to Update", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            String StudentId = String.valueOf(jTable1.getValueAt(row, 0));
+
+            try {
+                //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                String fname = jTextField1.getText();
+                String lname = jTextField2.getText();
+                String nic = jTextField3.getText();
+                String mobile = jTextField4.getText();
+                String email = jTextField5.getText();
+                String status = String.valueOf(jComboBox2.getSelectedItem());
+
+                if (fname.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (lname.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Your Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (nic.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (mobile.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (email.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
+
+                    JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (status.equals("Select")) {
+
+                    JOptionPane.showMessageDialog(this, "Please Select a Status", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else {
+
+                    //check if the address already exists
+                    boolean isFound = false;
+
+                    for (int i = 0; i < jTable1.getRowCount(); i++) {
+                        String getFname = String.valueOf(jTable1.getValueAt(i, 1));
+                        String getLname = String.valueOf(jTable1.getValueAt(i, 2));
+                        String getNic = String.valueOf(jTable1.getValueAt(i, 4));
+                        String getMobile = String.valueOf(jTable1.getValueAt(i, 5));
+                        String getStatus = String.valueOf(jTable1.getValueAt(i, 8));
+
+                        // Check if this entry matches the data for the student, avoiding duplication
+                        if (getFname.equals(fname) && getLname.equals(lname) && getMobile.equals(mobile) && getNic.equals(nic) && i != row) {
+                            JOptionPane.showMessageDialog(this, "This Student has already been added", "Warning", JOptionPane.WARNING_MESSAGE);
+                            isFound = true;
+                            break;
+                        }
+                    }
+
+                    // If no duplicate is found, proceed with the update
+                    if (!isFound) {
+                        // Update statement for the selected student ID
+                        DB.IUD("UPDATE `student` SET `fname`='" + fname + "', `lname` = '" + lname + "',"
+                                + " `mobile` ='" + mobile + "', `customer_status_id`='" + studentStatus.get(status) + "' WHERE `id`='" + StudentId + "'");
+
+                        JOptionPane.showMessageDialog(this, "Student Details Successfully Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                        // Refresh table data and clear input fields
+                        loadStudent("");
+                        clearAll();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+
+        }
+
+    }
+
+// Viwe Address Button
+    private void ViweSTAddress() {
+
+        // Check if the Address ID already exists
+        if (StudentAddressId != null) {
+            JOptionPane.showMessageDialog(this, "Address ID already exists", "Warning", JOptionPane.WARNING_MESSAGE);
+            return; // Exit if the ID exists
+        }
+
+        // If the dialog is already created, just bring it to the front
+        if (studentAddressDialog != null && studentAddressDialog.isVisible()) {
+            studentAddressDialog.toFront(); // Bring the dialog to the front if it's already visible
+        } else {
+            // Otherwise, create and show a new dialog
+            studentAddressDialog = new StudentAddress(this, true, null);
+            studentAddressDialog.setVisible(true);
+        }
+    }
+// Viwe Guardian Button
+
+    private void ViweGuardian() {
+        // Check if the Guardian ID already exists
+        if (GuardianId != null) {
+            JOptionPane.showMessageDialog(this, "Guradian ID already exists", "Warning", JOptionPane.WARNING_MESSAGE);
+            return; // Exit if the ID exists
+        }
+
+        // If the dialog is already created, just bring it to the front
+        if (studentGuardianDialog != null && studentGuardianDialog.isVisible()) {
+            studentGuardianDialog.toFront(); // Bring the dialog to the front if it's already visible
+        } else {
+            // Otherwise, create and show a new dialog
+            studentGuardianDialog = new GuardianDetails(this, true, null);
+            studentGuardianDialog.setVisible(true);
+        }
+
+    }
+
+    //Search Student   
+    private void SearchStudent() {
+
+        String value = jTextField6.getText();
+
+        loadStudent(value);
+
+    }
+
+// Clear All 
+    private void clearAll() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jComboBox1.setSelectedItem("Select");
+        jDateChooser1.setDate(null);
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jComboBox2.setSelectedItem("Select");
+        StudentAddressId = null;
+        GuardianId = null;
+        jButton1.setEnabled(true); //Address Button Enable
+        jButton2.setEnabled(true); // Guardian Button Enable
+        jButton3.setEnabled(true); // Add Button Enable
+        jComboBox1.setEnabled(true); //Gender Not Updated
+        jDateChooser1.setEnabled(true); // BirthDay Not Updated
 
     }
 

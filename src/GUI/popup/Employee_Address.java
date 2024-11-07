@@ -1,15 +1,31 @@
 package GUI.popup;
 
+import GUI.panal.EmployeeManagement;
 import java.awt.Color;
+import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import modal.DB;
 
 public class Employee_Address extends javax.swing.JDialog {
 
-    /**
-     * Creates new form Student_Address
-     */
-    public Employee_Address(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    HashMap<String, String> cityMap = new HashMap<>();
+
+    private String Eid;
+    EmployeeManagement em;
+
+    public Employee_Address(EmployeeManagement parent, boolean modal, String id) {
         initComponents();
+        this.Eid = id;
+
+        loadCity();
+        loadAddress(Eid);
+        em = (EmployeeManagement) parent;
     }
 
     /**
@@ -66,11 +82,21 @@ public class Employee_Address extends javax.swing.JDialog {
         jButton1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Add");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(0, 153, 204));
         jButton2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Update");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTable1.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -90,6 +116,11 @@ public class Employee_Address extends javax.swing.JDialog {
             }
         });
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
         jTable1.getTableHeader().setFont(new java.awt.Font("Poppins", java.awt.Font.PLAIN, 12));
 
@@ -103,6 +134,9 @@ public class Employee_Address extends javax.swing.JDialog {
             }
         });
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jLabel5MouseExited(evt);
             }
@@ -182,54 +216,158 @@ public class Employee_Address extends javax.swing.JDialog {
         jLabel5.setForeground(Color.RED);
     }//GEN-LAST:event_jLabel5MouseMoved
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Employee_Address.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Employee_Address.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Employee_Address.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Employee_Address.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        refresh();
+    }//GEN-LAST:event_jLabel5MouseClicked
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Employee_Address dialog = new Employee_Address(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        try {
+            String line1 = jTextField1.getText().trim();
+            String line2 = jTextField2.getText().trim();
+            String city = String.valueOf(jComboBox1.getSelectedItem());
+
+            if (line1.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter Address Line 1", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (line2.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter Address Line 2", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (city.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please select a city", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+
+                int confirmation = JOptionPane.showConfirmDialog(this, "Are You Sure Want To add", "Alert!", JOptionPane.YES_NO_OPTION);
+
+                if (confirmation == JOptionPane.YES_OPTION) {
+
+                    ResultSet resultSet = DB.search("SELECT * FROM `address` WHERE `line_01` = '" + line1 + "' AND `line_02` = '" + line2 + "' AND `city_id` = (SELECT `id` FROM `city` WHERE `name` = '" + city + "')");
+
+                    if (resultSet.next()) {
+                        JOptionPane.showMessageDialog(this, "This Address Alreday Registered", "Warning", JOptionPane.WARNING_MESSAGE);
+                        refresh();
+
+                    } else {
+
+                        // Insert the address into the database and retrieve the last inserted ID
+                        String insertQuery = "INSERT INTO `address` (`line_01`, `line_02`, `city_id`) VALUES ('" + line1 + "', '" + line2 + "', (SELECT id FROM city WHERE name = '" + city + "'))";
+                        DB.IUD(insertQuery);
+
+                        // Now get the last inserted ID
+                        ResultSet rs = DB.search("SELECT LAST_INSERT_ID() AS last_id");
+                        if (rs.next()) {
+                            String lastInsertedId = rs.getString("last_id");
+
+                            JOptionPane.showMessageDialog(this, "Address saved successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                            // Load only the newly added address using the last inserted ID
+                            loadAddress(lastInsertedId);
+                            jButton2.setEnabled(false);
+                        }
                     }
-                });
-                dialog.setVisible(true);
+                }
+
             }
-        });
-    }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        int row = jTable1.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Please Select a Row", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+
+            String id = String.valueOf(jTable1.getValueAt(row, 0));
+
+            try {
+
+                String line1 = jTextField1.getText();
+                String line2 = jTextField2.getText();
+                String city = String.valueOf(jComboBox1.getSelectedItem());
+
+                if (line1.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter Address line1", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (line2.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please Anter address line2", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (city.equals("Select")) {
+                    JOptionPane.showMessageDialog(this, "Please Select a City", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else {
+
+                    boolean isFound = false;
+
+                    for (int i = 0; i < jTable1.getRowCount(); i++) {
+                        String getLine1 = String.valueOf(jTable1.getValueAt(i, 1));
+                        String getLine2 = String.valueOf(jTable1.getValueAt(i, 2));
+                        String getCity1 = String.valueOf(jTable1.getValueAt(i, 3));
+
+                        if (getLine1.equals(line1) && getLine2.equals(line2) && getCity1.equals(city)) {
+
+                            JOptionPane.showMessageDialog(this, "This Address has been already Used", "Warning", JOptionPane.WARNING_MESSAGE);
+                            isFound = true;
+                            break;
+                        }
+                    }
+
+                    if (!isFound) {
+
+                        DB.IUD("UPDATE `address` SET `line_01`='" + line1 + "', `line_02` = '" + line2 + "', "
+                                + " `city_id`='" + cityMap.get(city) + "' WHERE `id`='" + id + "'");
+
+                        JOptionPane.showMessageDialog(this, "Address Successfully Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                        loadAddress(Eid);
+                        refresh();
+                       
+
+                    }
+
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+
+        int row = jTable1.getSelectedRow();
+
+// Check if a row is actually selected
+        if (row != -1) {
+            // Ensure no `NullPointerException` when accessing jTable1 values
+            jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 1)));
+            jTextField2.setText(String.valueOf(jTable1.getValueAt(row, 2)));
+            jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(row, 3)));
+
+            // Check for double-click event
+            if (evt.getClickCount() == 2) {
+                String aid = String.valueOf(jTable1.getValueAt(row, 0));
+
+                // Ensure `em` is not null before calling `setAddressId`
+                if (em != null) {
+                    em.setAddressId(aid);
+                    System.out.println("Address ID set for Employee: " + aid);
+                } else {
+                    System.out.println("Error: Employee object (em) is null. Cannot set address ID.");
+                }
+
+                // Close the current window
+                this.dispose();
+            }
+        } else {
+            System.out.println("No row selected in the table.");
+        }
+
+    }//GEN-LAST:event_jTable1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -247,4 +385,83 @@ public class Employee_Address extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+
+    private void loadCity() {
+        try {
+
+            ResultSet resultSet = DB.search("SELECT * FROM `city`");
+
+            Vector<String> vector = new Vector<>();
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("name"));
+                cityMap.put(resultSet.getString("name"), resultSet.getString("id"));
+            }
+
+            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            jComboBox1.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadAddress(String Eid) {
+
+        try {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0); // Clear all previous rows in the table
+
+            ResultSet resultSet;
+
+            if (Eid != null && !Eid.isEmpty()) {
+                // Query to get the specific address using Eid1
+                resultSet = DB.search("SELECT address.id, address.line_01, address.line_02, city.name "
+                        + "FROM address "
+                        + "INNER JOIN city ON address.city_id = city.id "
+                        + "WHERE address.id = '" + Eid + "'");
+
+            } else {
+                // If no specific Eid1 or lastInsertedId is given, get the latest address entry
+                resultSet = DB.search("SELECT address.id, address.line_01, address.line_02, city.name "
+                        + "FROM address "
+                        + "INNER JOIN city ON address.city_id = city.id "
+                        + "ORDER BY address.id DESC "
+                        + "LIMIT 0"); // Change to LIMIT 1 to fetch the latest address
+            }
+
+            // Add the query result to the table if found
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("id"));
+                vector.add(resultSet.getString("line_01"));
+                vector.add(resultSet.getString("line_02"));
+                vector.add(resultSet.getString("name")); // City name column
+                model.addRow(vector);
+            }
+
+            // Check the number of rows in the table and set button visibility
+            if (model.getRowCount() > 0) {
+                jButton1.setEnabled(false); // Show the button if more than one row
+                jButton2.setEnabled(true);
+            } else {
+                jButton1.setEnabled(true); // Hide the button if there's one or no rows
+                jButton2.setEnabled(false);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void refresh() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jComboBox1.setSelectedIndex(0);
+        jTable1.clearSelection();
+        jTextField1.grabFocus();
+        loadCity();
+    }
 }
