@@ -14,6 +14,8 @@ public class SignIn extends javax.swing.JFrame {
     
     public SignIn() {
         initComponents();
+        jTextField1.setText("nuwan");
+        jPasswordField1.setText("nuwan@123");
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/source/Main logo.png")));
 
     }
@@ -219,10 +221,7 @@ public class SignIn extends javax.swing.JFrame {
                     String status = resultSet.getString("status");
                     String type = resultSet.getString("name");
 
-                   //Admin admin = new Admin();
-                   
-                    
-                    Dashboard dashboard = new Dashboard();
+                    Dashboard dashboard = new Dashboard(new Admin(userName, mobile, status, type));
                     dashboard.setVisible(true);
                     this.dispose();
 
@@ -232,7 +231,7 @@ public class SignIn extends javax.swing.JFrame {
                 }
 
             } catch (Exception e) {
-
+e.printStackTrace();
             }
 
         }
