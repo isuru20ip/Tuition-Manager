@@ -10,7 +10,6 @@ import GUI.panal.Settings;
 import GUI.panal.StudentAttendance;
 import GUI.panal.StudentManagement;
 import GUI.panal.TeacherManagement;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import GUI.panal.EmployeeManagement;
 import GUI.panal.EnrollmentManagement;
 import GUI.panal.HallManagement;
@@ -25,11 +24,15 @@ import java.util.Date;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import modal.beans.Admin;
 
 public class Dashboard extends javax.swing.JFrame {
 
-    public Dashboard() {
+    private Admin admin;
+    
+    public Dashboard(Admin bean) {
         initComponents();
+        this.admin = bean;
         time();
         date();
     }
@@ -508,17 +511,7 @@ public class Dashboard extends javax.swing.JFrame {
         loadPanal(new ClassScheduleManagement(this));
     }//GEN-LAST:event_jButton10ActionPerformed
 
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        FlatMacLightLaf.setup();
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Dashboard().setVisible(true);
-            }
-        });
-    }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel date;
     private javax.swing.JButton jButton1;
