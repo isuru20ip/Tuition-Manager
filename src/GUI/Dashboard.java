@@ -25,6 +25,7 @@ import java.util.Date;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import modal.beans.Admin;
 
 public class Dashboard extends javax.swing.JFrame {
 
