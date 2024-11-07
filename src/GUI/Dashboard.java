@@ -25,10 +25,11 @@ import java.util.Date;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import modal.beans.Admin;
 
 public class Dashboard extends javax.swing.JFrame {
 
-    public Dashboard() {
+    public Dashboard(Admin admin) {
         initComponents();
         time();
         date();
@@ -514,7 +515,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Dashboard().setVisible(true);
+//                new Dashboard().setVisible(true);
             }
         });
     }
