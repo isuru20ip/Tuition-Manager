@@ -7,6 +7,20 @@ package modal.beans;
 public class ClassDay {
 
     /**
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    /**
      * @return the day
      */
     public String getDay() {
@@ -37,12 +51,13 @@ public class ClassDay {
     public ClassDay() {
     }
 
-    public ClassDay(String day, String time) {
+    public ClassDay(String id,String day, String time) {
+        this.id=id;
         this.day = day;
         this.time = time;
     }
     
-    
+    private String id;
     private String day;
     private String time;
 }

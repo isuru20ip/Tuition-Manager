@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
 import modal.LogCenter;
@@ -306,24 +307,27 @@ public class ClassDayTime extends javax.swing.JDialog {
             }
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
             jComboBox1.setModel(model);
-        } catch (ClassNotFoundException ex) {
-           LogCenter.logger.log(java.util.logging.Level.WARNING, "error", ex);
-        } catch (SQLException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "error", ex);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     private void refresh() {
         jComboBox1.setSelectedIndex(0);
-        
 
     }
 
     private void addNewDate() {
-        String day = String.valueOf(jComboBox1.getSelectedIndex());
-        String time = jTextField2.getText();
-
-        classDays.add(new ClassDay(day, time));
+        String id = String.valueOf(jComboBox1.getSelectedIndex());
+        String day = String.valueOf(jComboBox1.getSelectedItem());
+        String time1 = jTextField2.getText();
+        for (ClassDay existingClassDay : classDays) {
+            if (existingClassDay.getDay().equals(day) && existingClassDay.getTime().equals(time1)) {
+                JOptionPane.showMessageDialog(this, "This day and time are already scheduled.", "Duplicate Entry", JOptionPane.WARNING_MESSAGE);
+                return; // Exit method without adding the duplicate entry
+            }
+        }
+        classDays.add(new ClassDay(id, day, time1));
 
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);

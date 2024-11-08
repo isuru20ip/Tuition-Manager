@@ -89,7 +89,6 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
         jPanel4.add(jLabel9);
 
         jTextField7.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jTextField7.setText("200333211145");
         jTextField7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField7ActionPerformed(evt);
@@ -98,7 +97,6 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
         jPanel4.add(jTextField7);
 
         jTextField6.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jTextField6.setText("Janindu");
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField6ActionPerformed(evt);
@@ -107,7 +105,6 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
         jPanel4.add(jTextField6);
 
         jTextField9.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jTextField9.setText("Dasanayaka");
         jPanel4.add(jTextField9);
 
         jComboBox1.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
