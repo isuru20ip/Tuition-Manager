@@ -32,7 +32,10 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         loadHall();
         loadScheduleStatus();
         loadClassSchedulTable();
-        loadAutoClassScheduleTable();
+
+        loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
+                + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
+                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' ");
         loadHallType();
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
@@ -63,7 +66,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         jLabel14 = new javax.swing.JLabel();
         searchGradeField = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        SelectHallTypeComboBox = new javax.swing.JComboBox<>();
+        selectHallTypeComboBox3 = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
         searchClassIdField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -126,6 +129,11 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         searchTeacherIdField.setBackground(new java.awt.Color(240, 240, 240));
         searchTeacherIdField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         searchTeacherIdField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        searchTeacherIdField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchTeacherIdFieldKeyReleased(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel13.setText("Subject");
@@ -146,13 +154,23 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         searchGradeField.setBackground(new java.awt.Color(240, 240, 240));
         searchGradeField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         searchGradeField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        searchGradeField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchGradeFieldKeyReleased(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel15.setText("Hall Type");
 
-        SelectHallTypeComboBox.setBackground(new java.awt.Color(240, 240, 240));
-        SelectHallTypeComboBox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        SelectHallTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        selectHallTypeComboBox3.setBackground(new java.awt.Color(240, 240, 240));
+        selectHallTypeComboBox3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        selectHallTypeComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        selectHallTypeComboBox3.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                selectHallTypeComboBox3ItemStateChanged(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel16.setText("Class ID");
@@ -160,6 +178,11 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         searchClassIdField.setBackground(new java.awt.Color(240, 240, 240));
         searchClassIdField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         searchClassIdField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        searchClassIdField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchClassIdFieldKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -173,7 +196,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(SelectHallTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(selectHallTypeComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -200,7 +223,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(searchClassSubjectField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(SelectHallTypeComboBox)
+                            .addComponent(selectHallTypeComboBox3)
                             .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(searchTeacherIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -641,7 +664,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void searchClassSubjectFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchClassSubjectFieldKeyReleased
-        search1();// search for
+        search1();// search for subject
     }//GEN-LAST:event_searchClassSubjectFieldKeyReleased
 
     private void table1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table1MouseClicked
@@ -678,9 +701,24 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         loadroomdata(); //change hall data from double tap with table1
     }//GEN-LAST:event_hallTypeComboBox2ItemStateChanged
 
+    private void selectHallTypeComboBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_selectHallTypeComboBox3ItemStateChanged
+        search2();
+    }//GEN-LAST:event_selectHallTypeComboBox3ItemStateChanged
+
+    private void searchGradeFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchGradeFieldKeyReleased
+        search3();
+    }//GEN-LAST:event_searchGradeFieldKeyReleased
+
+    private void searchTeacherIdFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTeacherIdFieldKeyReleased
+        search4();
+    }//GEN-LAST:event_searchTeacherIdFieldKeyReleased
+
+    private void searchClassIdFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchClassIdFieldKeyReleased
+        search5();
+    }//GEN-LAST:event_searchClassIdFieldKeyReleased
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ClassSchedule;
-    private javax.swing.JComboBox<String> SelectHallTypeComboBox;
     private javax.swing.JTextField capacityField;
     private javax.swing.JComboBox<String> classIDCombobox;
     private javax.swing.JTable classScheduleTable;
@@ -723,11 +761,16 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     private javax.swing.JTextField searchClassSubjectField;
     private javax.swing.JTextField searchGradeField;
     private javax.swing.JTextField searchTeacherIdField;
+    private javax.swing.JComboBox<String> selectHallTypeComboBox3;
     private javax.swing.JTextField startTimeField;
     private javax.swing.JTable table1;
     private cambodia.raven.Time time1;
     private cambodia.raven.Time time2;
     // End of variables declaration//GEN-END:variables
+
+    //get date of week
+    LocalDate today = LocalDate.now();
+    DayOfWeek dayOfWeek = today.getDayOfWeek();
 
     //convort time
     SimpleDateFormat format24hr = new SimpleDateFormat("HH:mm:ss");
@@ -815,18 +858,11 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }
 
     // load auto classschedule table by day of the week
-    private void loadAutoClassScheduleTable() {
+    private void loadAutoClassScheduleTable(String query) {
 
         try {
 
-            LocalDate today = LocalDate.now();
-            DayOfWeek dayOfWeek = today.getDayOfWeek();
-
-            System.out.println(dayOfWeek);
-
-            ResultSet resultSet = DB.search("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
-                    + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
-                    + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' ");
+            ResultSet resultSet = DB.search(query);
 
             DefaultTableModel tableModel = (DefaultTableModel) table1.getModel();
             tableModel.setRowCount(0);
@@ -852,7 +888,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
     }
 
-     // load class schedule status for combo box
+    // load class schedule status for combo box
     private void loadScheduleStatus() {
 
         try {
@@ -894,45 +930,92 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             DefaultComboBoxModel ComboBoxModel = new DefaultComboBoxModel(vector);
 
             hallTypeComboBox2.setModel(ComboBoxModel);
+            selectHallTypeComboBox3.setModel(ComboBoxModel);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    
     //change hall data from double tap with table1
     private void loadroomdata() {
         String selectedType = String.valueOf(hallTypeComboBox2.getSelectedItem());
 
         try {
 
-                ResultSet resultSet = DB.search("SELECT * FROM `class_room` INNER JOIN `room_type` ON `room_type`.`id` = `class_room`.`room_type_id` WHERE `type` = '" + selectedType + "'");
-                Vector<String> vector = new Vector<>();
+            ResultSet resultSet = DB.search("SELECT * FROM `class_room` INNER JOIN `room_type` ON `room_type`.`id` = `class_room`.`room_type_id` WHERE `type` = '" + selectedType + "'");
+            Vector<String> vector = new Vector<>();
 
-                // Iterate through the result set
-                boolean firstRow = true;
-                while (resultSet.next()) {
-                    if (firstRow) {
-                        // Set capacityField text from the first row only
-                        capacityField.setText(resultSet.getString("capacity"));
-                        firstRow = false;
-                    }
-                    // Add each "id" to the vector
-                    vector.add(resultSet.getString("id"));
+            // Iterate through the result set
+            boolean firstRow = true;
+            while (resultSet.next()) {
+                if (firstRow) {
+                    // Set capacityField text from the first row only
+                    capacityField.setText(resultSet.getString("capacity"));
+                    firstRow = false;
                 }
+                // Add each "id" to the vector
+                vector.add(resultSet.getString("id"));
+            }
 
-                // Set the vector as the model for hallLoadCombobox
-                DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(vector);
-                hallLoadCombobox.setModel(model);
+            // Set the vector as the model for hallLoadCombobox
+            DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(vector);
+            hallLoadCombobox.setModel(model);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    //search subject from autoload table
     private void search1() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String subject = searchClassSubjectField.getText();
+
+        loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
+                + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
+                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `subject`.`name` LIKE '%" + subject + "%' ");
+
+        searchClassSubjectField.setText(subject);
+    }
+
+    //search hall type from autoload table
+    private void search2() {
+        String hall = String.valueOf(selectHallTypeComboBox3.getSelectedItem());
+
+        loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
+                + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
+                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `room_type`.`type` = '" + hall + "' ");
+    }
+
+    //search hall type from autoload table
+    private void search3() {
+        String grade1 = searchGradeField.getText();
+
+        loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
+                + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
+                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `grade`.`name` LIKE '%" + grade1 + "%' ");
+
+        searchGradeField.setText(grade1);
+    }
+
+    private void search4() {
+        String teacher1 = searchTeacherIdField.getText();
+
+        loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
+                + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
+                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `teacher`.`nic` LIKE '%" + teacher1 + "%' ");
+
+        searchTeacherIdField.setText(teacher1);
+    }
+
+    private void search5() {
+          String classId1 = searchClassIdField.getText();
+
+        loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
+                + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
+                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `class`.`id` LIKE '%" + classId1 + "%' ");
+
+        searchClassIdField.setText(classId1);
     }
 
     // change capacyty fron item change of hall load combo box
@@ -941,17 +1024,17 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         try {
             ResultSet resultSet = DB.search("SELECT `capacity` FROM `class_room` WHERE `id` = '" + selectedHall + "'");
-                Vector<String> vector = new Vector<>();
+            Vector<String> vector = new Vector<>();
 
-                boolean firstRow = true;
-                while (resultSet.next()) {
-                    if (firstRow) {
-                        // Set capacityField text from the first row only
-                        capacityField.setText(resultSet.getString("capacity"));
-                        firstRow = false;
-                    }
-
+            boolean firstRow = true;
+            while (resultSet.next()) {
+                if (firstRow) {
+                    // Set capacityField text from the first row only
+                    capacityField.setText(resultSet.getString("capacity"));
+                    firstRow = false;
                 }
+
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
