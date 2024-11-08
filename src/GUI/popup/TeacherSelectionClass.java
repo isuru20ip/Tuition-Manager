@@ -218,6 +218,7 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
                 classManagement.getjTextField9().setText(String.valueOf(jTable1.getValueAt(row, 2)));
                 classManagement.getjTextField8().setText(String.valueOf(jTable1.getValueAt(row, 3)));
             }
+            this.dispose();
 
         }
         } catch (Exception e) {

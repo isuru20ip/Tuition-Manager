@@ -61,6 +61,7 @@ public class ClassManagement extends javax.swing.JPanel {
 
     public JTextField getjTextField7() {
         return jTextField7;
+        
     }
 
     public JTextField getjTextField6() {
@@ -297,6 +298,16 @@ public class ClassManagement extends javax.swing.JPanel {
         });
 
         jTextField7.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField7ActionPerformed(evt);
+            }
+        });
+        jTextField7.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jTextField7PropertyChange(evt);
+            }
+        });
 
         jTextField6.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
@@ -1591,8 +1602,16 @@ public class ClassManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-      SearchTeacher();
+      //SearchTeacher();
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+      //SearchTeacher();
+    }//GEN-LAST:event_jTextField7ActionPerformed
+
+    private void jTextField7PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTextField7PropertyChange
+        //SearchTeacher();// TODO add your handling code here:
+    }//GEN-LAST:event_jTextField7PropertyChange
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
