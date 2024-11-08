@@ -44,6 +44,7 @@ public class ClassManagement extends javax.swing.JPanel {
         loadHall();
         loadType();
         generateClassID();
+        reset();
         loadClassesTable("");
 
     }
@@ -61,7 +62,7 @@ public class ClassManagement extends javax.swing.JPanel {
 
     public JTextField getjTextField7() {
         return jTextField7;
-        
+
     }
 
     public JTextField getjTextField6() {
@@ -101,7 +102,6 @@ public class ClassManagement extends javax.swing.JPanel {
         jTextField8 = new javax.swing.JTextField();
         jTextField10 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -298,16 +298,6 @@ public class ClassManagement extends javax.swing.JPanel {
         });
 
         jTextField7.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
-            }
-        });
-        jTextField7.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jTextField7PropertyChange(evt);
-            }
-        });
 
         jTextField6.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
@@ -322,14 +312,12 @@ public class ClassManagement extends javax.swing.JPanel {
 
         jTextField10.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
 
-        jButton2.setBackground(new java.awt.Color(255, 102, 102));
+        jButton2.setBackground(new java.awt.Color(51, 153, 255));
         jButton2.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jButton2.setText("Clear");
-
-        jButton6.setText("jButton6");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setText("Search");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -338,39 +326,37 @@ public class ClassManagement extends javax.swing.JPanel {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6)
-                .addGap(43, 43, 43)
-                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
                 .addGap(10, 10, 10)
-                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
-                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
-                .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
-                .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
-                .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
-                .addComponent(jTextField10, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jTextField10, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton6))
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -647,11 +633,11 @@ public class ClassManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "NIC", "Teacher Name", "Class ID", "Grade", "Subject", "Language", "Method", "Model", "Status", "Hall ", "Type", "Fee", "Ending Date"
+                "NIC", "Teacher Name", "Class ID", "Grade", "Subject", "Language", "Method", "Model", "Status", "Hall ", "Type", "Fee", "Ending Date", "Days"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1502,7 +1488,7 @@ public class ClassManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField6ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+       reset();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
@@ -1524,7 +1510,7 @@ public class ClassManagement extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         TeacherSelectionClass tsc = new TeacherSelectionClass(this, true);
         tsc.setVisible(true);
-       
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox6ActionPerformed
@@ -1601,17 +1587,9 @@ public class ClassManagement extends javax.swing.JPanel {
         loadSubjects();
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-      //SearchTeacher();
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
-      //SearchTeacher();
-    }//GEN-LAST:event_jTextField7ActionPerformed
-
-    private void jTextField7PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTextField7PropertyChange
-        //SearchTeacher();// TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7PropertyChange
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        SearchTeacher();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1632,7 +1610,6 @@ public class ClassManagement extends javax.swing.JPanel {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
@@ -2059,6 +2036,7 @@ public class ClassManagement extends javax.swing.JPanel {
                         DB.IUD("INSERT INTO `class_day` (`time`,`week_day_id`,`class_id`) VALUES ('" + time24hr + "','" + vnm.getId() + "','" + jTextField1.getText() + "')");
                     }
                     System.out.println("success");
+                    reset();
                     //loadClass();
                 }
             }
@@ -2082,15 +2060,31 @@ public class ClassManagement extends javax.swing.JPanel {
 
     private void loadClassesTable(String value) {
         try {
+            String query = "SELECT class.*, teacher.nic AS teacher_nic, teacher.fname AS fname, teacher.lname AS lname, "
+                    + "grade.name AS grade_name, subject.name AS subject_name, class_language.name AS language_name, "
+                    + "class_method.method AS method_name, class_modal.modal AS modal_name, class_status.status AS status_name, "
+                    + "room_type.type AS room_type_name, class_type.type AS class_type_name, "
+                    + "GROUP_CONCAT(week_day.day ORDER BY week_day.id SEPARATOR ', ') AS days "
+                    + "FROM `class` "
+                    + "INNER JOIN `teacher` ON `class`.`teacher_nic` = `teacher`.`nic` "
+                    + "INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id` "
+                    + "INNER JOIN `subject` ON `subject`.`id` = `class`.`subject_id` "
+                    + "INNER JOIN `class_language` ON `class_language`.`id` = `class`.`class_language_id` "
+                    + "INNER JOIN `class_method` ON `class_method`.`id` = `class`.`class_method_id` "
+                    + "INNER JOIN `class_modal` ON `class_modal`.`id` = `class`.`class_modal_id` "
+                    + "INNER JOIN `class_status` ON `class_status`.`id` = `class`.`class_status_id` "
+                    + "INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` "
+                    + "INNER JOIN `class_type` ON `class_type`.`id` = `class`.`class_type_id` "
+                    + "LEFT JOIN `class_day` ON `class_day`.`class_id` = `class`.`id` "
+                    + "LEFT JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` ";
 
-            String query = "SELECT * FROM `class` INNER JOIN `teacher` ON `class`.`teacher_nic` = `teacher`.`nic` INNER JOIN `grade` ON `grade`.`id`=`class`.`grade_id`"
-                    + "INNER JOIN `subject` ON `subject`.`id`=`class`.`subject_id` INNER JOIN `class_language` ON `class_language`.`id`=`class`.`class_language_id` "
-                    + "INNER JOIN `class_method` ON `class_method`.`id`=`class`.`class_method_id` INNER JOIN `class_modal` ON `class_modal`.`id`=`class`.`class_modal_id`"
-                    + "INNER JOIN `class_status` ON `class_status`.`id`=`class`.`class_status_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` "
-                    + "INNER JOIN `class_type` ON `class_type`.`id`=`class`.`class_type_id` ";
+            // Apply the WHERE clause conditionally
             if (!value.matches("")) {
-                query += "WHERE `teacher_nic`='" + value + "' ";
+                query += " WHERE `teacher`.`nic`='" + value + "' ";
             }
+
+            // Add the GROUP BY clause
+            query += " GROUP BY `class`.`id`";
 
             ResultSet resultSet = DB.search(query);
             DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
@@ -2098,19 +2092,19 @@ public class ClassManagement extends javax.swing.JPanel {
             while (resultSet.next()) {
                 Vector<String> vector = new Vector<>();
                 vector.add(resultSet.getString("teacher_nic"));
-                vector.add(resultSet.getString("teacher.fname") + " " + resultSet.getString("teacher.lname"));
+                vector.add(resultSet.getString("fname") + " " + resultSet.getString("lname"));
                 vector.add(resultSet.getString("id"));
-                vector.add(resultSet.getString("grade.name"));
-                vector.add(resultSet.getString("subject.name"));
-                vector.add(resultSet.getString("class_language.name"));
-                vector.add(resultSet.getString("class_method.method"));
-                vector.add(resultSet.getString("class_modal.modal"));
-                vector.add(resultSet.getString("class_status.status"));
-                vector.add(resultSet.getString("room_type.type"));
-                vector.add(resultSet.getString("class_type.type"));
+                vector.add(resultSet.getString("grade_name"));
+                vector.add(resultSet.getString("subject_name"));
+                vector.add(resultSet.getString("language_name"));
+                vector.add(resultSet.getString("method_name"));
+                vector.add(resultSet.getString("modal_name"));
+                vector.add(resultSet.getString("status_name"));
+                vector.add(resultSet.getString("room_type_name"));
+                vector.add(resultSet.getString("class_type_name"));
                 vector.add(resultSet.getString("fee"));
                 vector.add(resultSet.getString("end_date"));
-
+                vector.add(resultSet.getString("days"));
                 model.addRow(vector);
             }
         } catch (Exception e) {
@@ -2125,4 +2119,25 @@ public class ClassManagement extends javax.swing.JPanel {
         loadClassesTable(value);
 
     }
+
+    private void reset() {
+        jTextField6.setText("");
+        jTextField7.setText("");
+        jTextField8.setText("");
+        jTextField9.setText("");
+        jTextField10.setText("");
+        jTextField25.setText("");
+        jComboBox1.setSelectedItem("Select");
+        jComboBox2.setSelectedItem("Select");
+        jComboBox3.setSelectedItem("Select");
+        jComboBox4.setSelectedItem("Select");
+        jComboBox5.setSelectedItem("Select");
+        jComboBox6.setSelectedItem("Select");
+        jComboBox33.setSelectedItem("Select");
+        jComboBox34.setSelectedItem("Select");
+        jDateChooser3.setDate(null);
+      
+
+    }
+
 }
