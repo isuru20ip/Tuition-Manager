@@ -37,6 +37,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jButton7.setEnabled(false);
         jRadioButton1.setEnabled(false);
 
+        loadTeacherSallary();
     }
 
     private String attendedDates;
@@ -1054,6 +1055,44 @@ public class SalaryCalculation extends javax.swing.JPanel {
     private void searchSallary() {
         String eid = jTextField5.getText();
         loadSallary(eid, "");
+    }
+
+    private void loadTeacherSallary() {
+
+        try {
+
+            ResultSet rs = DB.search("SELECT * FROM `teacher_paymet` INNER JOIN `teacher` ON `teacher_paymet`.`teacher_nic` = `teacher`.`nic`");
+
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+            renderer.setHorizontalAlignment(SwingConstants.CENTER);
+            jTable1.setDefaultRenderer(Object.class, renderer);
+
+            //           String query = "SELECT * FROM `emp_sallary`";
+//            if (!eid.isEmpty() && formattedDate.isEmpty()) {
+//                query += " WHERE employee_id LIKE '%" + eid + "%'";
+//
+//            } else if (eid.isEmpty() && !formattedDate.isEmpty()) {
+//                query += " WHERE payment_day LIKE '%" + formattedDate + "%'";
+//            }
+            //           ResultSet resultSet = DB.search(query);
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            while (rs.next()) {
+                Vector vector = new Vector();
+                vector.add(rs.getString("teacher.fname") + " " + rs.getString("teacher.lname"));
+                vector.add(rs.getString("teacher.nic"));
+                vector.add(rs.getString("date"));
+                vector.add(rs.getString("earn"));
+                vector.add(rs.getString("commission"));
+
+                model.addRow(vector);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
