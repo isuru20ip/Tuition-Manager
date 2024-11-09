@@ -214,17 +214,17 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         classScheduleTable.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         classScheduleTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Schedule ID", "Class ID", "Class Date", "Employee", "Schedule Status", "Hall No", "Capacity Of Hall", "Scheduled Time"
+                "Schedule ID", "Class ID", "Class Date", "Employee", "Schedule Status", "Hall No", "Hall Type", "Hall Capacity", "Scheduled Time"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -376,15 +376,11 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                             .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
                             .addComponent(capacityField))
                         .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(scheduleStatusCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(scheduleStatusCombobox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
@@ -402,12 +398,10 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(2, 2, 2)
                                 .addComponent(classIDCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(scheduleStatusCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(scheduleStatusCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -517,7 +511,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTabbedPaneClassSchedule.addTab("Class Schedule", ClassSchedule);
+        jTabbedPaneClassSchedule.addTab("Class Schedule", new javax.swing.ImageIcon(getClass().getResource("/source/add class.png")), ClassSchedule); // NOI18N
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Today Scheduled", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Poppins", 0, 18))); // NOI18N
 
@@ -599,7 +593,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jTabbedPaneClassSchedule.addTab("Course Schedule", courseSchedule);
+        jTabbedPaneClassSchedule.addTab("Course Schedule", new javax.swing.ImageIcon(getClass().getResource("/source/add class.png")), courseSchedule); // NOI18N
 
         jLabel1.setBackground(new java.awt.Color(234, 238, 244));
         jLabel1.setFont(new java.awt.Font("Poppins", 0, 24)); // NOI18N
@@ -635,7 +629,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_classIDComboboxActionPerformed
 
     private void hallLoadComboboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hallLoadComboboxItemStateChanged
-
+        changeCapacity(); // change capacity from hall number
     }//GEN-LAST:event_hallLoadComboboxItemStateChanged
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -647,7 +641,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void searchClassSubjectFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchClassSubjectFieldKeyReleased
-
+        search1();// search for
     }//GEN-LAST:event_searchClassSubjectFieldKeyReleased
 
     private void table1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table1MouseClicked
@@ -681,7 +675,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_table1MouseClicked
 
     private void hallTypeComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hallTypeComboBox2ItemStateChanged
-        loadroomdata();
+        loadroomdata(); //change hall data from double tap with table1
     }//GEN-LAST:event_hallTypeComboBox2ItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -786,6 +780,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         }
     }
 
+    // load classschedule table
     private void loadClassSchedulTable() {
         try {
 
@@ -793,19 +788,21 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                     + "INNER JOIN `class` ON `class`.`id`=`class_schedule`.`class_id`"
                     + "INNER JOIN `class_room` ON `class_room`.`id`=`class_schedule`.`class_room_id`"
                     + "INNER JOIN `employee` ON `employee`.`id`=`class_schedule`.`employee_id`"
-                    + "INNER JOIN `schedule_status` ON `schedule_status`.`id`=`class_schedule`.`schedule_status_id`");
+                    + "INNER JOIN `schedule_status` ON `schedule_status`.`id`=`class_schedule`.`schedule_status_id`"
+                    + "INNER JOIN `room_type` ON `room_type`.`id`=`class_room`.`room_type_id`");
 
             DefaultTableModel tableModel = (DefaultTableModel) classScheduleTable.getModel();
             tableModel.setRowCount(0);
 
             while (resultSet.next()) {
                 Vector vector = new Vector();
-                vector.add(resultSet.getString("id"));
+                vector.add(resultSet.getString("class_schedule.id"));
                 vector.add(resultSet.getString("class.id"));
                 vector.add(resultSet.getString("class_date"));
                 vector.add(resultSet.getString("employee.fname") + " " + resultSet.getString("employee.lname"));
                 vector.add(resultSet.getString("schedule_status.statats"));
                 vector.add(resultSet.getString("class_room.id"));
+                vector.add(resultSet.getString("room_type.type"));
                 vector.add(resultSet.getString("class_room.capacity"));
                 vector.add(resultSet.getString("shedule_time"));
 
@@ -817,6 +814,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         }
     }
 
+    // load auto classschedule table by day of the week
     private void loadAutoClassScheduleTable() {
 
         try {
@@ -854,6 +852,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
     }
 
+     // load class schedule status for combo box
     private void loadScheduleStatus() {
 
         try {
@@ -878,6 +877,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
     }
 
+    // load class Hall type status for combo box
     private void loadHallType() {
         try {
 
@@ -900,33 +900,61 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         }
     }
 
+    
+    //change hall data from double tap with table1
     private void loadroomdata() {
         String selectedType = String.valueOf(hallTypeComboBox2.getSelectedItem());
 
         try {
-            ResultSet resultSet = DB.search("SELECT * FROM `class_room` INNER JOIN `room_type` ON `room_type`.`id` = `class_room`.`room_type_id` WHERE `type` = '" + selectedType + "'");
 
-            Vector<String> vector = new Vector<>();
+                ResultSet resultSet = DB.search("SELECT * FROM `class_room` INNER JOIN `room_type` ON `room_type`.`id` = `class_room`.`room_type_id` WHERE `type` = '" + selectedType + "'");
+                Vector<String> vector = new Vector<>();
 
-            // Iterate through the result set
-            boolean firstRow = true;
-            while (resultSet.next()) {
-                if (firstRow) {
-                    // Set capacityField text from the first row only
-                    capacityField.setText(resultSet.getString("capacity"));
-                    firstRow = false;
+                // Iterate through the result set
+                boolean firstRow = true;
+                while (resultSet.next()) {
+                    if (firstRow) {
+                        // Set capacityField text from the first row only
+                        capacityField.setText(resultSet.getString("capacity"));
+                        firstRow = false;
+                    }
+                    // Add each "id" to the vector
+                    vector.add(resultSet.getString("id"));
                 }
-                // Add each "id" to the vector
-                vector.add(resultSet.getString("id"));
-            }
 
-            // Set the vector as the model for hallLoadCombobox
-            DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(vector);
-            hallLoadCombobox.setModel(model);
+                // Set the vector as the model for hallLoadCombobox
+                DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(vector);
+                hallLoadCombobox.setModel(model);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private void search1() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    // change capacyty fron item change of hall load combo box
+    private void changeCapacity() {
+        String selectedHall = String.valueOf(hallLoadCombobox.getSelectedItem());
+
+        try {
+            ResultSet resultSet = DB.search("SELECT `capacity` FROM `class_room` WHERE `id` = '" + selectedHall + "'");
+                Vector<String> vector = new Vector<>();
+
+                boolean firstRow = true;
+                while (resultSet.next()) {
+                    if (firstRow) {
+                        // Set capacityField text from the first row only
+                        capacityField.setText(resultSet.getString("capacity"));
+                        firstRow = false;
+                    }
+
+                }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
