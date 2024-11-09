@@ -905,17 +905,16 @@ public class StudentAttendance extends javax.swing.JPanel {
     
     private void pageStart() {
         
-        if (admin.getType().equals("Cashier")) {
-           employee_attn_main_panel.setVisible(false);
-            System.out.println(admin.toString());
+        String userType = admin.getType();      
+        
+        if (userType.equals("Cashier")) {
            
-        }else{
-            System.out.println("no");
+           jTabbedPane1.setEnabledAt(1, false);
+
         }
         
         
         employee_Name_Field.setEditable(false);
-//        nameField.setEditable(false);
         employee_OnTime_Field.setEditable(false);
         employee_OffTime_Field.setEditable(false);
         searchRecorButton.setEnabled(false);
