@@ -1104,7 +1104,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         try {
             ResultSet resultSet = DB.search("SELECT `capacity` FROM `class_room` WHERE `id` = '" + selectedHall + "'");
-            Vector<String> vector = new Vector<>();
+           
 
             boolean firstRow = true;
             while (resultSet.next()) {

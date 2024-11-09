@@ -23,12 +23,22 @@ public class UpdateClasses extends javax.swing.JFrame {
      */
     public UpdateClasses() {
         initComponents();
-        loadClassSchedulTable();
+        loadClassSchedulTable("SELECT * FROM `class_schedule`"
+                + "INNER JOIN `class` ON `class`.`id`=`class_schedule`.`class_id`"
+                + "INNER JOIN `class_room` ON `class_room`.`id`=`class_schedule`.`class_room_id`"
+                + "INNER JOIN `employee` ON `employee`.`id`=`class_schedule`.`employee_id`"
+                + "INNER JOIN `schedule_status` ON `schedule_status`.`id`=`class_schedule`.`schedule_status_id`"
+                + "INNER JOIN `room_type` ON `room_type`.`id`=`class_room`.`room_type_id`");
         loadClassId();
         loadHallType();
         loadHall();
         loadScheduleStatus();
-        
+
+        hallUpdateCombobox.setEnabled(false);
+        hallTypeUpdateCombobox.setEnabled(false);
+        scheduleStatusUpdateCombobox.setEnabled(false);
+        capacityField.setEnabled(false);
+
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         classScheduleUpdateTable.setDefaultRenderer(Object.class, renderer);
@@ -50,7 +60,7 @@ public class UpdateClasses extends javax.swing.JFrame {
         jLable2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         scheduleStatusUpdateCombobox = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        saveChangesButton = new javax.swing.JButton();
         jLable3 = new javax.swing.JLabel();
         capacityField = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
@@ -78,6 +88,11 @@ public class UpdateClasses extends javax.swing.JFrame {
         hallTypeUpdateCombobox.setBackground(new java.awt.Color(240, 240, 240));
         hallTypeUpdateCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         hallTypeUpdateCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        hallTypeUpdateCombobox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                hallTypeUpdateComboboxItemStateChanged(evt);
+            }
+        });
         hallTypeUpdateCombobox.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 hallTypeUpdateComboboxKeyReleased(evt);
@@ -100,9 +115,14 @@ public class UpdateClasses extends javax.swing.JFrame {
         scheduleStatusUpdateCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         scheduleStatusUpdateCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
 
-        jButton1.setBackground(new java.awt.Color(204, 255, 204));
-        jButton1.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton1.setText("Save Changes");
+        saveChangesButton.setBackground(new java.awt.Color(204, 255, 204));
+        saveChangesButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        saveChangesButton.setText("Save Changes");
+        saveChangesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveChangesButtonActionPerformed(evt);
+            }
+        });
 
         jLable3.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLable3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -134,7 +154,7 @@ public class UpdateClasses extends javax.swing.JFrame {
                 .addGap(21, 21, 21))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(saveChangesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -157,7 +177,7 @@ public class UpdateClasses extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(capacityField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(saveChangesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14))
         );
 
@@ -166,6 +186,11 @@ public class UpdateClasses extends javax.swing.JFrame {
         classIDComboboxUpdate.setBackground(new java.awt.Color(240, 240, 240));
         classIDComboboxUpdate.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         classIDComboboxUpdate.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        classIDComboboxUpdate.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                classIDComboboxUpdateItemStateChanged(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -245,33 +270,53 @@ public class UpdateClasses extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void classScheduleUpdateTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_classScheduleUpdateTableMouseClicked
-                try {
-                        if (evt.getClickCount() == 2) { // Detect double-click
-                                int selectedRow = classScheduleUpdateTable.getSelectedRow();
-                
-                                if (selectedRow != -1) {
-                                        // Get values from the table and set in respective fields
-                                        hallUpdateCombobox.setSelectedItem(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 5)));
-                                        hallTypeUpdateCombobox.setSelectedItem(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 6)));
-                                        scheduleStatusUpdateCombobox.setSelectedItem(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 4)));                              
-                                   }
-                
-                                // Reload table if necessary
-                                loadClassSchedulTable();
-                            }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+        try {
+            if (evt.getClickCount() == 2) { // Detect double-click
+                int selectedRow = classScheduleUpdateTable.getSelectedRow();
+
+                if (selectedRow != -1) {
+                    // Get values from the table and set in respective fields
+                    hallUpdateCombobox.setSelectedItem(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 5)));
+                    hallTypeUpdateCombobox.setSelectedItem(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 6)));
+                    scheduleStatusUpdateCombobox.setSelectedItem(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 4)));
+                }
+
+                resetTable();
+                hallUpdateCombobox.setEnabled(true);
+                hallTypeUpdateCombobox.setEnabled(true);
+                scheduleStatusUpdateCombobox.setEnabled(true);
+                capacityField.setEnabled(true);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }//GEN-LAST:event_classScheduleUpdateTableMouseClicked
 
     private void hallTypeUpdateComboboxKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_hallTypeUpdateComboboxKeyReleased
-      loadroomdata();
+
     }//GEN-LAST:event_hallTypeUpdateComboboxKeyReleased
 
     private void hallUpdateComboboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hallUpdateComboboxItemStateChanged
-       changeCapacity();
+        changeCapacity();
     }//GEN-LAST:event_hallUpdateComboboxItemStateChanged
+
+    private void hallTypeUpdateComboboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hallTypeUpdateComboboxItemStateChanged
+        loadroomdata();
+    }//GEN-LAST:event_hallTypeUpdateComboboxItemStateChanged
+
+    private void classIDComboboxUpdateItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_classIDComboboxUpdateItemStateChanged
+        search();
+    }//GEN-LAST:event_classIDComboboxUpdateItemStateChanged
+
+    private void saveChangesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangesButtonActionPerformed
+        reset();
+        hallUpdateCombobox.setEnabled(false);
+        hallTypeUpdateCombobox.setEnabled(false);
+        scheduleStatusUpdateCombobox.setEnabled(false);
+        capacityField.setEnabled(false);
+    }//GEN-LAST:event_saveChangesButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -280,7 +325,6 @@ public class UpdateClasses extends javax.swing.JFrame {
     private javax.swing.JTable classScheduleUpdateTable;
     private javax.swing.JComboBox<String> hallTypeUpdateCombobox;
     private javax.swing.JComboBox<String> hallUpdateCombobox;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -289,18 +333,14 @@ public class UpdateClasses extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton saveChangesButton;
     private javax.swing.JComboBox<String> scheduleStatusUpdateCombobox;
     // End of variables declaration//GEN-END:variables
 
-    private void loadClassSchedulTable() {
+    private void loadClassSchedulTable(String query) {
         try {
 
-            ResultSet resultSet = DB.search("SELECT * FROM `class_schedule`"
-                    + "INNER JOIN `class` ON `class`.`id`=`class_schedule`.`class_id`"
-                    + "INNER JOIN `class_room` ON `class_room`.`id`=`class_schedule`.`class_room_id`"
-                    + "INNER JOIN `employee` ON `employee`.`id`=`class_schedule`.`employee_id`"
-                    + "INNER JOIN `schedule_status` ON `schedule_status`.`id`=`class_schedule`.`schedule_status_id`"
-                    + "INNER JOIN `room_type` ON `room_type`.`id`=`class_room`.`room_type_id`");
+            ResultSet resultSet = DB.search(query);
 
             DefaultTableModel tableModel = (DefaultTableModel) classScheduleUpdateTable.getModel();
             tableModel.setRowCount(0);
@@ -326,7 +366,7 @@ public class UpdateClasses extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
+
     private void loadClassId() {
         try {
 
@@ -349,7 +389,7 @@ public class UpdateClasses extends javax.swing.JFrame {
         }
 
     }
-    
+
     private void loadHall() {
         try {
 
@@ -371,7 +411,7 @@ public class UpdateClasses extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
+
     private void loadHallType() {
         try {
 
@@ -386,19 +426,19 @@ public class UpdateClasses extends javax.swing.JFrame {
             }
 
             DefaultComboBoxModel ComboBoxModel = new DefaultComboBoxModel(vector);
-            
+
             hallTypeUpdateCombobox.setModel(ComboBoxModel);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     private void loadScheduleStatus() {
 
         try {
 
-            ResultSet resultSet = DB.search("SELECT `statats` FROM `schedule_status`");
+            ResultSet resultSet = DB.search("SELECT * FROM `schedule_status`");
 
             Vector vector = new Vector();
 
@@ -417,17 +457,17 @@ public class UpdateClasses extends javax.swing.JFrame {
         }
 
     }
-    
+
     //change hall data from double tap with table1
     private void loadroomdata() {
-        String selectedType = String.valueOf(hallTypeUpdateCombobox.getSelectedItem());
+        String selecteType = String.valueOf(hallTypeUpdateCombobox.getSelectedItem());
 
         try {
 
-            ResultSet resultSet = DB.search("SELECT * FROM `class_room` INNER JOIN `room_type` ON `room_type`.`id` = `class_room`.`room_type_id` WHERE `type` = '" + selectedType + "'");
+            ResultSet resultSet = DB.search("SELECT * FROM `class_room` INNER JOIN `room_type` ON `room_type`.`id` = `class_room`.`room_type_id` WHERE `type` = '" + selecteType + "'");
             Vector<String> vector = new Vector<>();
 
-           // Iterate through the result set
+            // Iterate through the result set
             boolean firstRow = true;
             while (resultSet.next()) {
                 if (firstRow) {
@@ -447,13 +487,12 @@ public class UpdateClasses extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
+
     private void changeCapacity() {
         String selectedHall = String.valueOf(hallUpdateCombobox.getSelectedItem());
 
         try {
             ResultSet resultSet = DB.search("SELECT `capacity` FROM `class_room` WHERE `id` = '" + selectedHall + "'");
-            Vector<String> vector = new Vector<>();
 
             boolean firstRow = true;
             while (resultSet.next()) {
@@ -469,4 +508,36 @@ public class UpdateClasses extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+
+    private void search() {
+        String cID = String.valueOf(classIDComboboxUpdate.getSelectedItem());
+
+        loadClassSchedulTable("SELECT * FROM `class_schedule`"
+                + "INNER JOIN `class` ON `class`.`id`=`class_schedule`.`class_id`"
+                + "INNER JOIN `class_room` ON `class_room`.`id`=`class_schedule`.`class_room_id`"
+                + "INNER JOIN `employee` ON `employee`.`id`=`class_schedule`.`employee_id`"
+                + "INNER JOIN `schedule_status` ON `schedule_status`.`id`=`class_schedule`.`schedule_status_id`"
+                + "INNER JOIN `room_type` ON `room_type`.`id`=`class_room`.`room_type_id` WHERE `class`.`id` = '" + cID + "'");
+    }
+
+    private void reset() {
+        hallUpdateCombobox.setSelectedIndex(0);
+        hallTypeUpdateCombobox.setSelectedIndex(0);
+        scheduleStatusUpdateCombobox.setSelectedIndex(0);
+        capacityField.setText("");
+        loadHall();
+    }
+
+    private void resetTable() {
+        classIDComboboxUpdate.setSelectedIndex(0);
+
+        // Reload table if necessary
+        loadClassSchedulTable("SELECT * FROM `class_schedule`"
+                + "INNER JOIN `class` ON `class`.`id`=`class_schedule`.`class_id`"
+                + "INNER JOIN `class_room` ON `class_room`.`id`=`class_schedule`.`class_room_id`"
+                + "INNER JOIN `employee` ON `employee`.`id`=`class_schedule`.`employee_id`"
+                + "INNER JOIN `schedule_status` ON `schedule_status`.`id`=`class_schedule`.`schedule_status_id`"
+                + "INNER JOIN `room_type` ON `room_type`.`id`=`class_room`.`room_type_id`");
+    }
+
 }
