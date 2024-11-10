@@ -20,17 +20,14 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modal.beans.Admin;
 
-
 /**
  *
  * @author naras
  */
 public class StudentAttendance extends javax.swing.JPanel {
 
-    
-
     private static HashMap<String, String> gradeMap = new HashMap<>();
-   
+    private static HashMap<String, String> classMap = new HashMap<>();
 
     private Admin admin;
 
@@ -38,12 +35,10 @@ public class StudentAttendance extends javax.swing.JPanel {
         initComponents();
 
         this.admin = bean;
-        
+
         pageStart();
 
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -67,8 +62,8 @@ public class StudentAttendance extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        Studen_ID_TextField = new javax.swing.JTextField();
+        Student_Name_TextField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -157,11 +152,6 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         jComboBox_classLoad.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
         jComboBox_classLoad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
-        jComboBox_classLoad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_classLoadActionPerformed(evt);
-            }
-        });
 
         jComboBox_gradeLoard.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
         jComboBox_gradeLoard.addItemListener(new java.awt.event.ItemListener() {
@@ -210,9 +200,15 @@ public class StudentAttendance extends javax.swing.JPanel {
         jLabel13.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel13.setText("Name :");
 
-        jTextField1.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        Studen_ID_TextField.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        Studen_ID_TextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                Studen_ID_TextFieldKeyReleased(evt);
+            }
+        });
 
-        jTextField2.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        Student_Name_TextField.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        Student_Name_TextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jButton1.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(0, 153, 51));
@@ -287,12 +283,12 @@ public class StudentAttendance extends javax.swing.JPanel {
                                     .addGroup(student_attn_class_panelLayout.createSequentialGroup()
                                         .addGroup(student_attn_class_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel13)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE))
+                                            .addComponent(Student_Name_TextField, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE))
                                         .addGap(19, 19, 19)))
                                 .addGroup(student_attn_class_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5)
                                     .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField1)))
+                                    .addComponent(Studen_ID_TextField)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, student_attn_class_panelLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jCheckBox1))))
@@ -314,8 +310,8 @@ public class StudentAttendance extends javax.swing.JPanel {
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(4, 4, 4)
                         .addGroup(student_attn_class_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Studen_ID_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Student_Name_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(student_attn_class_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -807,21 +803,19 @@ public class StudentAttendance extends javax.swing.JPanel {
         searchEmployee();
     }//GEN-LAST:event_employee_ID_FieldKeyReleased
 
-    private void jComboBox_classLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_classLoadActionPerformed
-        // class load
-         
-    }//GEN-LAST:event_jComboBox_classLoadActionPerformed
-
     private void jComboBox_gradeLoardItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox_gradeLoardItemStateChanged
 
-        String grade = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
-        String gradeId = gradeMap.get(grade);
-        
-        loadClass(gradeId);
+        loadClass();
     }//GEN-LAST:event_jComboBox_gradeLoardItemStateChanged
+
+    private void Studen_ID_TextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Studen_ID_TextFieldKeyReleased
+        getStudentID();
+    }//GEN-LAST:event_Studen_ID_TextFieldKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField Studen_ID_TextField;
+    private javax.swing.JTextField Student_Name_TextField;
     private javax.swing.JTextField employee_ID_Field;
     private javax.swing.JTextField employee_Name_Field;
     private javax.swing.JFormattedTextField employee_OffTime_Field;
@@ -887,8 +881,6 @@ public class StudentAttendance extends javax.swing.JPanel {
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JButton markAttn;
@@ -900,31 +892,29 @@ public class StudentAttendance extends javax.swing.JPanel {
     private javax.swing.JButton updateAttn;
     // End of variables declaration//GEN-END:variables
 
-    
     // page start 
-    
     private void pageStart() {
-        
-        String userType = admin.getType();      
-        
+
+        String userType = admin.getType();
+
         if (userType.equals("Cashier")) {
-           
-           jTabbedPane1.setEnabledAt(1, false);
+
+            jTabbedPane1.setEnabledAt(1, false);
 
         }
-        
-        
+
         employee_Name_Field.setEditable(false);
         employee_OnTime_Field.setEditable(false);
         employee_OffTime_Field.setEditable(false);
         searchRecorButton.setEnabled(false);
         fromDateChooser.setEnabled(false);
         toDateChooser.setEnabled(false);
-        
+
+        Student_Name_TextField.setEditable(false);
 
         loadTabel();
         loadClassGrade();
-       
+
     }
 
     // <<..........................................Studen Class Attendance Marking.........................................>>
@@ -939,14 +929,12 @@ public class StudentAttendance extends javax.swing.JPanel {
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("name"));
-               
-               gradeMap.put(resultSet.getString("name"), resultSet.getString("id"));
+
+                gradeMap.put(resultSet.getString("name"), resultSet.getString("id"));
             }
 
             DefaultComboBoxModel defaultComboBoxModel = new DefaultComboBoxModel(vector);
             jComboBox_gradeLoard.setModel(defaultComboBoxModel);
-
-            
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -954,21 +942,26 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     }
 
-    private void loadClass(String gradeId) {
-
+    private void loadClass() {
         try {
+
+            String grade = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
+            String gradeId = gradeMap.get(grade);
+
             String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-         
+
             ResultSet resultSet = DB.search("SELECT * FROM `class_schedule` "
                     + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
                     + "INNER JOIN `subject` ON `class`.`subject_id` = `subject`.`id` "
-                    + "WHERE class_schedule.class_date = '" + dateFormat + "' AND `class`.grade_id = '"+gradeId+"' ");
+                    + "WHERE class_schedule.class_date = '" + dateFormat + "' AND `class`.grade_id = '" + gradeId + "' ");
 
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("subject.name"));
+
+                classMap.put(resultSet.getString("subject.name"), resultSet.getString("subject.id"));
             }
 
             DefaultComboBoxModel defaultComboBoxModel = new DefaultComboBoxModel(vector);
@@ -979,8 +972,66 @@ public class StudentAttendance extends javax.swing.JPanel {
         }
     }
 
+    private void getStudentID() {
+
+        try {
+            String st_ID = Studen_ID_TextField.getText();
+
+            String grade = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
+            String gradeId = gradeMap.get(grade);
+
+            String subject = String.valueOf(jComboBox_classLoad.getSelectedItem());
+            String SubjectID = classMap.get(subject);
+
+            if (st_ID.length() == 5) {
+
+                ResultSet resultSet = DB.search("SELECT * FROM `class_enrollment` "
+                        + "INNER JOIN `class` ON `class_enrollment`.`class_id` = `class`.`id`"
+                        + "INNER JOIN `student` ON  `class_enrollment`.`student_id` = `student`.`id`"
+                        + "WHERE `class`.`grade_id` = '" + gradeId + "' AND `class`.`subject_id` = '" + SubjectID + "' AND `student_id` = '" + st_ID + "'");
+
+                if (resultSet.next()) {
+                    Student_Name_TextField.setText(resultSet.getString("fname") + " " + resultSet.getString("lname"));
+                } else {
+                    JOptionPane.showMessageDialog(this, "Invalid Student ID or Not Registerd Student", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+
+            } else {
+                Student_Name_TextField.setText("");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    private void markClassAttn(){
+        try {
+            String SudentID = Studen_ID_TextField.getText();
+            String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            
+            String grade = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
+            String gradeId = gradeMap.get(grade);
+
+            String subject = String.valueOf(jComboBox_classLoad.getSelectedItem());
+            String SubjectID = classMap.get(subject);
+            
+            ResultSet rs = DB.search("SELECT * FROM `class_schedule` "
+                    + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
+                    + "INNER JOIN `subject` ON `class`.`subject_id` = `subject`.`id` "
+                    + "WHERE class_schedule.class_date = '" + dateFormat + "' AND `class`.grade_id = '" + gradeId + "' ");
+            
+            
+        } catch (Exception e) {
+        }
+    }
+
     // <<..........................................Studen Class Attendance Marking.........................................>>
+    
     // <<..........................................Employee Attendance Marking.........................................>>
+    
+    
     // Search Employee Details
     private void searchEmployee() {
 
@@ -1230,6 +1281,5 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     }
 // <<..........................................Employee Attendance Marking.........................................>>
-    
-    
+
 }
