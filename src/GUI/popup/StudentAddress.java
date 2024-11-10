@@ -233,7 +233,7 @@ public class StudentAddress extends javax.swing.JDialog {
 
                 // Close the current window
                 this.dispose();
-                
+
             }
         } else {
             System.out.println("No row selected in the table.");
@@ -266,13 +266,13 @@ public class StudentAddress extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 
-    //Student Gender <k:city , v:select>
+    //Student City <k:city , v:select>
     private static HashMap<String, String> ScityMap = new HashMap<>();
 
     private String Sid; //student id catch
 
     StudentManagement sm;
-    
+
     //Insert Address Code
     private void InsertAddress() {
         try {
@@ -306,6 +306,17 @@ public class StudentAddress extends javax.swing.JDialog {
                         // Load only the newly added address using the last inserted ID
                         loadAddress(lastInsertedId);
                         jButton2.setEnabled(false);
+
+                        // Assuming `sm` is an instance of a student model and `row` is defined elsewhere
+                        if (sm != null) {
+                            sm.setStudentAddressId(lastInsertedId);  // Use the last inserted ID
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Student Object is null", "WARNING", JOptionPane.WARNING_MESSAGE);
+                        }
+
+                        // Close the current window after successful insertion
+                        this.dispose();
+
                     }
                 }
 
@@ -317,11 +328,11 @@ public class StudentAddress extends javax.swing.JDialog {
         }
 
     }
-    
-    //Update Address Code
-    private void UpdateAddress(){
-        
-         int row = jTable1.getSelectedRow();
+
+//Update Address Code
+    private void UpdateAddress() {
+
+        int row = jTable1.getSelectedRow();
 
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Please Select a Row", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -361,8 +372,7 @@ public class StudentAddress extends javax.swing.JDialog {
                                 + " `city_id`='" + ScityMap.get(city) + "' WHERE `id`='" + id + "'");
 
                         JOptionPane.showMessageDialog(this, "Address Successfully Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        
-                        
+
                         loadAddress(Sid);
                         refresh();
                     }
@@ -373,7 +383,7 @@ public class StudentAddress extends javax.swing.JDialog {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
             }
         }
-    
+
     }
 
     //Load Student Address City
@@ -458,7 +468,7 @@ public class StudentAddress extends javax.swing.JDialog {
         jTextField1.grabFocus();
         jButton1.setEnabled(true);
         loadSCity();
-         loadAddress(Sid);
+        loadAddress(Sid);
     }
 
 }

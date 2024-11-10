@@ -429,6 +429,17 @@ private void loadGuardianType() {
                             // Load only the newly added address using the last inserted ID
                             loadGuardian(lastInsertedId);
                             jButton2.setEnabled(false);
+
+                            // Ensure `sm` is not null before calling `setGuardianId`
+                            if (sm != null) {
+                                sm.setGuardianId(lastInsertedId);
+
+                            } else {
+//                    System.out.println("Error: Guardian object (sm) is null. Cannot set address ID.");
+                                JOptionPane.showMessageDialog(this, "Guardian Object is null", "WARNING", JOptionPane.WARNING_MESSAGE);
+                            }
+                            // Close the current window after successful insertion
+                            this.dispose();
                         }
                     }
                 }
