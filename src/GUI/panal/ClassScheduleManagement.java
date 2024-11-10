@@ -4,6 +4,7 @@
  */
 package GUI.panal;
 
+import cambodia.raven.Time;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
@@ -13,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -42,6 +44,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         classScheduleTable.setDefaultRenderer(Object.class, renderer);
         table1.setDefaultRenderer(Object.class, renderer);
+
+        startTimeField.setText("");
+        endTimeField.setText("");
     }
 
     /**
@@ -94,6 +99,8 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         jScrollPane4 = new javax.swing.JScrollPane();
         table1 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         courseSchedule = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -121,7 +128,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(234, 238, 244));
 
         jPanel3.setBackground(new java.awt.Color(234, 238, 244));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Today Scheduled", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Poppins", 0, 18))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Today Scheduled Search Area", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Poppins", 0, 18))); // NOI18N
         jPanel3.setPreferredSize(new java.awt.Dimension(955, 652));
 
         jLabel12.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
@@ -263,6 +270,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         jScrollPane1.setViewportView(classScheduleTable);
 
         jPanel4.setBackground(new java.awt.Color(234, 238, 244));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Manual Schedule Select Area", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Poppins", 0, 18))); // NOI18N
         jPanel4.setMinimumSize(new java.awt.Dimension(764, 75));
         jPanel4.setPreferredSize(new java.awt.Dimension(764, 63));
 
@@ -399,13 +407,13 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                         .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(classIDCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(endTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(endButton, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                         .addComponent(scheduleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -419,12 +427,12 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(capacityField)
                             .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(scheduleStatusCombobox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(updateButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -467,7 +475,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                                     .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(hallTypeComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
+                .addGap(1, 1, 1)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -529,6 +537,12 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             }
         });
 
+        jLabel7.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel7.setText("Today Sheduled Class Table");
+
+        jLabel8.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel8.setText("Class Scheduled Table");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -539,10 +553,14 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 955, Short.MAX_VALUE)
                     .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane4)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2))
-                    .addComponent(jScrollPane4))
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -551,14 +569,17 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(jButton2)
-                .addGap(14, 14, 14)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout ClassScheduleLayout = new javax.swing.GroupLayout(ClassSchedule);
@@ -787,7 +808,88 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_classScheduleTableMouseClicked
 
     private void scheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleButtonActionPerformed
-        reset();
+
+        // Retrieve values from the UI components
+        String id = String.valueOf(classIDCombobox.getSelectedItem());
+        String hall = String.valueOf(hallLoadCombobox.getSelectedItem());
+        String hType = String.valueOf(hallTypeComboBox2.getSelectedItem());
+        String scheduleStatus = String.valueOf(scheduleStatusCombobox.getSelectedItem());
+        String capacity = capacityField.getText();
+        Date classdate = jDateChooser1.getDate();
+
+        int option = JOptionPane.showConfirmDialog(this, "Do you want to Shedule a New Class", "Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (option == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(this, "Please Select Manualy One by One", "Information", JOptionPane.INFORMATION_MESSAGE);
+
+            classIDCombobox.grabFocus();
+
+            // Initial Validation
+            if (id == null || id.equals("Select")) {
+                System.out.println("Class ID is required.");
+            } else if (hType == null || hType.equals("Select")) {
+                System.out.println("Hall Load Type is required.");
+            } else if (hall == null || hall.equals("Select")) {
+                System.out.println("Hall Load Type is required.");
+            } else if (scheduleStatus == null || scheduleStatus.equals("Select")) {
+                System.out.println("Schedule Status is required.");
+            } else if (capacity == null || capacity.isEmpty()) {
+                System.out.println("Capacity is required.");
+            } else if (!capacity.matches("\\d+")) {  // Ensure capacity is a positive integer
+                System.out.println("Capacity must be a positive integer.");
+            } else if (classdate == null) {
+                System.out.println("Class Date is required.");
+            } else if (classdate.before(currentDate)) {
+                System.out.println("The date is expired. Please Select a Valid Date");
+            } else {
+                try {
+
+                    // Retrieve start and end times from fields
+                    String stTime = startTimeField.getText();
+                    String enTime = endTimeField.getText();
+                    // Check if time strings are empty
+                    if (stTime == null || stTime.isEmpty()) {
+                        System.out.println("Start Time is required.");
+                        return;
+                    }
+                    if (enTime == null || enTime.isEmpty()) {
+                        System.out.println("End Time is required.");
+                        return;
+                    }
+
+                    // Parse the start and end times in 12-hour format
+                    Date day1 = format12hr.parse(stTime);
+                    Date day2 = format12hr.parse(enTime);
+
+                    // Convert to 24-hour format for easier validation
+                    String time24hr1 = format24hr.format(day1);
+                    String time24hr2 = format24hr.format(day2);
+
+                    // Display the converted times (for debugging or confirmation)
+                    System.out.println("Start Time in 24-hour format: " + time24hr1);
+                    System.out.println("End Time in 24-hour format: " + time24hr2);
+                    // Validate that Start Time is before Currunt Time
+
+                    // Validate that Start Time is before End Time
+                    if (day1.after(day2)) {
+                        System.out.println("Start Time must be before End Time.");
+                    } else {
+                        System.out.println("All inputs are valid.");
+                        // Proceed with further processing here
+                    }
+                    
+                    // Insert data
+                    
+                    
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "If you Want to Schedule a Registered Class Please Double tap a row From ", "Information", JOptionPane.INFORMATION_MESSAGE);
+        }
+//        reset();
     }//GEN-LAST:event_scheduleButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -814,6 +916,8 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -845,6 +949,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     //get date of week
     LocalDate today = LocalDate.now();
     DayOfWeek dayOfWeek = today.getDayOfWeek();
+
+    // currunt date
+    Date currentDate = new Date();
 
     //convort time
     SimpleDateFormat format24hr = new SimpleDateFormat("HH:mm:ss");
@@ -1104,7 +1211,6 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         try {
             ResultSet resultSet = DB.search("SELECT `capacity` FROM `class_room` WHERE `id` = '" + selectedHall + "'");
-           
 
             boolean firstRow = true;
             while (resultSet.next()) {
