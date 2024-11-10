@@ -15,13 +15,15 @@ public enum Validator {
             return value != null && !value.trim().isEmpty() && value.matches("^[A-Za-z\\s]+$");
         }
     },
+    
     MOBILE_NUMBER {
         @Override
         public boolean validate(String value) {
             // Validate if the mobile number (starts with +94 or 07 and has 9 digits)
-            return value != null && value.matches("^(\\+94|0)?7[01245678]\\d{7}$");
+            return value != null && value.matches("^(\\+94|0)?7\\d{8}$");
         }
     },
+    
     AMOUNT {
         @Override
         public boolean validate(String value) {
@@ -34,6 +36,7 @@ public enum Validator {
             }
         }
     },
+    
     EMAIL {
         @Override
         public boolean validate(String value) {
@@ -41,7 +44,24 @@ public enum Validator {
             String emailPattern = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
             return value != null && Pattern.compile(emailPattern).matcher(value).matches();
         }
+    },
+    
+    NIC {
+        @Override
+        public boolean validate(String nic) {
+            // Validate NIC format (10 or 12 characters)
+            if (nic == null) {
+                return false;
+            }
+            if (nic.length() == 10) {
+                return nic.matches("\\d{9}[vV]"); // 9 digits followed by 'v' or 'V'
+            } else if (nic.length() == 12) {
+                return nic.matches("\\d{12}"); // 12 digits
+            }
+            return false; // Invalid length
+        }
     };
 
     public abstract boolean validate(String value);
 }
+
