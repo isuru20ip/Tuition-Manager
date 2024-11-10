@@ -27,6 +27,7 @@ public class ClassDayTime extends javax.swing.JDialog {
         loadDays();
         // get Class Id from classManagement Panal
         jLabel11.setText(root.getClassID());
+        loadTable();
     }
 
     /**
@@ -53,8 +54,6 @@ public class ClassDayTime extends javax.swing.JDialog {
         jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
 
         time.setTextRefernce(jTextField2);
 
@@ -95,6 +94,11 @@ public class ClassDayTime extends javax.swing.JDialog {
         jButton2.setBackground(new java.awt.Color(255, 102, 102));
         jButton2.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jButton2.setText("Clear");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -157,6 +161,11 @@ public class ClassDayTime extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton3.setBackground(new java.awt.Color(153, 255, 153));
@@ -168,46 +177,20 @@ public class ClassDayTime extends javax.swing.JDialog {
             }
         });
 
-        jButton5.setBackground(new java.awt.Color(51, 102, 255));
-        jButton5.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jButton5.setText("Updatae");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
-        jButton7.setBackground(new java.awt.Color(255, 102, 102));
-        jButton7.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jButton7.setText("Clear All");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(302, 302, 302)
                 .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
-                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                .addGap(10, 10, 10)
-                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(30, 30, 30))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -257,27 +240,45 @@ public class ClassDayTime extends javax.swing.JDialog {
         addNewDate();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
-
     // send selected date into panal
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         saveDates();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        refresh();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        if (evt.getClickCount() == 2) { // Double-click detected
+                int row = jTable1.getSelectedRow();
+                if (row >= 0) {
+                    String day = (String) jTable1.getValueAt(row, 0);
+                    String time = (String) jTable1.getValueAt(row, 1);
+
+                    int result = JOptionPane.showConfirmDialog(
+                        jTable1,
+                        "Are you sure you want to delete this entry?",
+                        "Confirm Delete",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE
+                    );
+
+                    if (result == JOptionPane.YES_OPTION) {
+                        // Remove from classDays list
+                        classDays.removeIf(classDay -> classDay.getDay().equals(day) && classDay.getTime().equals(time));
+                        updateTable(); // Refresh the table after deletion
+                    }
+                }
+            }
+    }//GEN-LAST:event_jTable1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -314,6 +315,7 @@ public class ClassDayTime extends javax.swing.JDialog {
 
     private void refresh() {
         jComboBox1.setSelectedIndex(0);
+        jTextField2.setText("");
 
     }
 
@@ -321,14 +323,25 @@ public class ClassDayTime extends javax.swing.JDialog {
         String id = String.valueOf(jComboBox1.getSelectedIndex());
         String day = String.valueOf(jComboBox1.getSelectedItem());
         String time1 = jTextField2.getText();
-        for (ClassDay existingClassDay : classDays) {
-            if (existingClassDay.getDay().equals(day) && existingClassDay.getTime().equals(time1)) {
-                JOptionPane.showMessageDialog(this, "This day and time are already scheduled.", "Duplicate Entry", JOptionPane.WARNING_MESSAGE);
-                return; // Exit method without adding the duplicate entry
-            }
-        }
-        classDays.add(new ClassDay(id, day, time1));
 
+        if (day.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Select Day", "Alert!", JOptionPane.WARNING_MESSAGE);
+        } else if (time1.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Select Time", "Alert!", JOptionPane.WARNING_MESSAGE);
+        } else {
+            for (ClassDay existingClassDay : classDays) {
+                if (existingClassDay.getDay().equals(day) && existingClassDay.getTime().equals(time1)) {
+                    JOptionPane.showMessageDialog(this, "This day and time are already scheduled.", "Duplicate Entry", JOptionPane.WARNING_MESSAGE);
+                    return; // Exit method without adding the duplicate entry
+                }
+            }
+            classDays.add(new ClassDay(id, day, time1));
+            updateTable();
+        }
+
+    }
+
+    private void updateTable() {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
 
@@ -340,6 +353,23 @@ public class ClassDayTime extends javax.swing.JDialog {
         }
         jTable1.setModel(model);
         refresh();
+    }
+
+    private void loadTable() {
+        String cid = jLabel11.getText();
+        try {
+            ResultSet resultSet = DB.search("SELECT * FROM `class_day` INNER JOIN `week_day` ON `class_day`.`week_day_id`=`week_day`.`id` WHERE `class_day`.`class_id`='" + cid + "'");
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("week_day.day"));
+                vector.add(resultSet.getString("class_day.time"));
+
+                model.addRow(vector);
+            }
+        } catch (Exception e) {
+        }
     }
 
     private void saveDates() {

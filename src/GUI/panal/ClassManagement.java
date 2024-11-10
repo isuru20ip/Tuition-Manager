@@ -46,6 +46,7 @@ public class ClassManagement extends javax.swing.JPanel {
         generateClassID();
         reset();
         loadClassesTable("");
+        jButton4.setEnabled(false);
 
     }
 
@@ -633,15 +634,20 @@ public class ClassManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "NIC", "Teacher Name", "Class ID", "Grade", "Subject", "Language", "Method", "Model", "Status", "Hall ", "Type", "Fee", "Ending Date", "Days"
+                "NIC", "Teacher Name", "Class ID", "Grade", "Subject", "Language", "Method", "Modal", "Status", "Hall ", "Type", "Fee", "Ending Date", "Days"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, true, false, true, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable4MouseClicked(evt);
             }
         });
         jScrollPane4.setViewportView(jTable4);
@@ -1488,7 +1494,7 @@ public class ClassManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField6ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       reset();
+        reset();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
@@ -1580,7 +1586,7 @@ public class ClassManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-
+        updateClass();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
@@ -1590,6 +1596,72 @@ public class ClassManagement extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         SearchTeacher();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTable4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable4MouseClicked
+        jButton4.setEnabled(true);
+        jButton5.setEnabled(false);
+        try {
+            int row = jTable4.getSelectedRow();
+            if (row != -1) { // Valid row check
+                String tnic = String.valueOf(jTable4.getValueAt(row, 0));
+                jTextField7.setText(tnic);
+//                
+
+//                String firstName = String.valueOf(jTable4.getValueAt(row, 1));
+//                jTextField6.setText(firstName);
+                String classId = String.valueOf(jTable4.getValueAt(row, 2));
+                jTextField1.setText(classId);
+
+                String grade = String.valueOf(jTable4.getValueAt(row, 3));
+                jComboBox1.setSelectedItem(grade);
+
+                String subject = String.valueOf(jTable4.getValueAt(row, 4));
+                jComboBox2.setSelectedItem(subject);
+
+                String language = String.valueOf(jTable4.getValueAt(row, 5));
+                jComboBox3.setSelectedItem(language);
+
+                String method = String.valueOf(jTable4.getValueAt(row, 6));
+                jComboBox4.setSelectedItem(method);
+
+                String modal = String.valueOf(jTable4.getValueAt(row, 7));
+                jComboBox5.setSelectedItem(modal);
+
+                String status = String.valueOf(jTable4.getValueAt(row, 8));
+                jComboBox6.setSelectedItem(status);
+
+                String hall = String.valueOf(jTable4.getValueAt(row, 9));
+                jComboBox33.setSelectedItem(hall);
+
+                String type = String.valueOf(jTable4.getValueAt(row, 10));
+                jComboBox34.setSelectedItem(type);
+
+                String fee = String.valueOf(jTable4.getValueAt(row, 11));
+                jTextField25.setText(fee);
+
+                String endingDate = String.valueOf(jTable4.getValueAt(row, 12));
+                Date date = dateFormat.parse(endingDate);
+                jDateChooser3.setDate(date);
+                ResultSet rs1 = DB.search("SELECT COUNT(*) AS count FROM `class` WHERE `teacher_nic`='" + tnic + "'");
+                ResultSet rs2 = DB.search("SELECT * FROM `teacher` INNER JOIN `employee` ON `employee`.`id`=`teacher`.`employee_id` INNER JOIN `gender` ON `gender`.`id`=`employee`.`gender_id` WHERE `teacher`.`nic`='" + tnic + "'");
+                if (rs1.next()) {
+                    int count = rs1.getInt("count");
+                    jTextField10.setText(String.valueOf(count));
+                }
+
+                if (rs2.next()) {
+                    jTextField6.setText(rs2.getString("fname"));
+                    jTextField9.setText(rs2.getString("lname"));
+                    jTextField8.setText(rs2.getString("gender.name"));
+
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }//GEN-LAST:event_jTable4MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1780,6 +1852,7 @@ public class ClassManagement extends javax.swing.JPanel {
     private HashMap<String, String> classStatusMap = new HashMap<>();
     // store class time & days
     private Vector<ClassDay> dayVector;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     private void loadGrades() {
         try {
@@ -1965,6 +2038,7 @@ public class ClassManagement extends javax.swing.JPanel {
                 //jTextField1.grabFocus();
 
             } else if (classID.isEmpty()) {
+
                 int choice = JOptionPane.showConfirmDialog(this, "class ID is empty generate New ID",
                         "warning", JOptionPane.YES_NO_OPTION);
 
@@ -2120,6 +2194,124 @@ public class ClassManagement extends javax.swing.JPanel {
 
     }
 
+    private void updateClass() {
+        try {
+            String teacherID = jTextField7.getText();
+            String classID = jTextField1.getText();
+            String grade = String.valueOf(jComboBox1.getSelectedItem());
+            String subject = String.valueOf(jComboBox2.getSelectedItem());
+            String language = String.valueOf(jComboBox3.getSelectedItem());
+            String method = String.valueOf(jComboBox4.getSelectedItem());
+            String model = String.valueOf(jComboBox5.getSelectedItem());
+            String status = String.valueOf(jComboBox6.getSelectedItem());
+            String hall = String.valueOf(jComboBox33.getSelectedItem());
+            String type = String.valueOf(jComboBox34.getSelectedItem());
+            String fee = jTextField25.getText();
+            String registerDate = SetDate.getDate("yyyy-MM-dd HH:mm:ss");
+            Date endDate = jDateChooser3.getDate();
+            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+            //String endDateWithTime = dateTimeFormat.format(endDate);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            Date today = calendar.getTime();
+            if (teacherID.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Select Teacher First", "Alert!", JOptionPane.WARNING_MESSAGE);
+                //jTextField1.grabFocus();
+
+            } else if (classID.isEmpty()) {
+
+                int choice = JOptionPane.showConfirmDialog(this, "class ID is empty generate New ID",
+                        "warning", JOptionPane.YES_NO_OPTION);
+
+                // Check the user's choice and display a corresponding message 
+                if (choice == JOptionPane.YES_OPTION) {
+                    generateClassID();
+                    JOptionPane.showMessageDialog(this, "generate Id");
+                } else if (choice == JOptionPane.NO_OPTION) {
+                    // If the user chose 'No', show a message indicating that changes are not saved 
+                    JOptionPane.showMessageDialog(this, "Changes not saved.");
+                }
+
+            } else if (grade.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select grade", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (subject.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select subject", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (language.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select language", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (method.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select method", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (model.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select model", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (status.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select status", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (hall.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select hall", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (type.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select type", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (fee.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Fee Amount", "Alert!", JOptionPane.WARNING_MESSAGE);
+                //jTextField1.grabFocus();
+
+            } else if (!fee.matches("\\d+(\\.\\d+)?")) {
+                // The input is valid, as it contains only digits
+                JOptionPane.showMessageDialog(this, "Invalid Amount", "Alert!", JOptionPane.WARNING_MESSAGE);
+                // Proceed with additional logic here if needed
+            } else if (endDate == null || endDate.before(today)) {
+                JOptionPane.showMessageDialog(this, "Please Select  valid Date", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+
+                ResultSet rs = DB.search("SELECT * FROM  `class` WHERE teacher_nic='" + teacherID + "' AND subject_id='" + subjectMap.get(subject) + "' "
+                        + "AND grade_id='" + gradeMap.get(grade) + "' AND class_type_id='" + classTypeMap.get(type) + "' AND "
+                        + "class_method_id='" + classMethodMap.get(method) + "' AND class_language_id='" + classLanguageMap.get(language) + "' "
+                        + "AND class_status_id='" + classStatusMap.get(status) + "' AND room_type_id='" + hallMap.get(hall) + "' "
+                        + "AND class_modal_id='" + classModalMap.get(model) + "'AND`fee`='" + fee + "' AND `end_date`='" + dateTimeFormat.format(endDate) + "'");
+                if (rs.next() && dayVector == null) {
+                    JOptionPane.showMessageDialog(this, "Nothing to Update ", "Alert!", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    if (!rs.next()) {
+                        DB.IUD("UPDATE `class` SET `fee` = '" + fee + "', `register_date` = '" + registerDate + "', `end_date` = '" + dateTimeFormat.format(endDate) + "',"
+                                + " `teacher_nic` = '" + teacherID + "', `subject_id` = '" + subjectMap.get(subject) + "', `grade_id` = '" + gradeMap.get(grade) + "', "
+                                + "`class_type_id` = '" + classTypeMap.get(type) + "', `class_method_id` = '" + classMethodMap.get(method) + "', "
+                                + "`class_language_id` = '" + classLanguageMap.get(language) + "', `class_status_id` = '" + classStatusMap.get(status) + "', "
+                                + "`room_type_id` = '" + hallMap.get(hall) + "', `employee_id` ='0126' ,`class_modal_id`='" + classModalMap.get(model) + "'"
+                                + "WHERE `id`='" + classID + "'");
+
+                    }
+
+                    if (dayVector != null) {
+                        DB.IUD("DELETE FROM `class_day` WHERE `class_id`='" + classID + "'");
+                        for (ClassDay vnm : dayVector) {
+                            String time12hr = vnm.getTime();  // Example time
+                            SimpleDateFormat format12hr = new SimpleDateFormat("hh:mm a");
+                            SimpleDateFormat format24hr = new SimpleDateFormat("HH:mm:ss");
+                            Date day = format12hr.parse(time12hr);
+                            String time24hr = format24hr.format(day);
+                            DB.IUD("INSERT INTO `class_day` (`time`,`week_day_id`,`class_id`) VALUES ('" + time24hr + "','" + vnm.getId() + "','" + jTextField1.getText() + "')");
+
+                        }
+
+                    }
+
+                    reset();
+                    loadClassesTable("");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void reset() {
         jTextField6.setText("");
         jTextField7.setText("");
@@ -2136,7 +2328,10 @@ public class ClassManagement extends javax.swing.JPanel {
         jComboBox33.setSelectedItem("Select");
         jComboBox34.setSelectedItem("Select");
         jDateChooser3.setDate(null);
-      
+        loadClassesTable("");
+        generateClassID();
+        jButton5.setEnabled(true);
+        jButton4.setEnabled(false);
 
     }
 

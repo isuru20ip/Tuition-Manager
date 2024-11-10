@@ -828,9 +828,9 @@
                         <Column editable="false" title="Subject" type="java.lang.Object"/>
                         <Column editable="false" title="Language" type="java.lang.Object"/>
                         <Column editable="false" title="Method" type="java.lang.Object"/>
-                        <Column editable="false" title="Model" type="java.lang.Object"/>
+                        <Column editable="true" title="Modal" type="java.lang.Object"/>
                         <Column editable="false" title="Status" type="java.lang.Object"/>
-                        <Column editable="false" title="Hall " type="java.lang.Object"/>
+                        <Column editable="true" title="Hall " type="java.lang.Object"/>
                         <Column editable="false" title="Type" type="java.lang.Object"/>
                         <Column editable="false" title="Fee" type="java.lang.Object"/>
                         <Column editable="false" title="Ending Date" type="java.lang.Object"/>
@@ -915,6 +915,9 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTable4MouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
