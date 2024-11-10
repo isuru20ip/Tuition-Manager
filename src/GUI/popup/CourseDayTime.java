@@ -1,27 +1,30 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
+ */
 package GUI.popup;
 
 import GUI.panal.ClassManagement;
+import GUI.panal.CourseManagement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Vector;
-import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
-import modal.LogCenter;
 import modal.beans.ClassDay;
 
 /**
  *
  * @author LenovoTLC
  */
-public class ClassDayTime extends javax.swing.JDialog {
+public class CourseDayTime extends javax.swing.JDialog {
 
     /**
-     * Creates new form ClassDayTime
+     * Creates new form CourseDayTime
      */
-    public ClassDayTime(ClassManagement parent, boolean modal) {
+    public CourseDayTime(CourseManagement parent, boolean modal) {
+        
         initComponents();
         root = parent;
         loadDays();
@@ -39,8 +42,10 @@ public class ClassDayTime extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        time = new cambodia.raven.Time();
+        time1 = new cambodia.raven.Time();
         jLabel1 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
@@ -48,20 +53,24 @@ public class ClassDayTime extends javax.swing.JDialog {
         jButton6 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
 
-        time.setTextRefernce(jTextField2);
+        time1.setTextRefernce(jTextField2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setBackground(new java.awt.Color(234, 238, 244));
         jLabel1.setFont(new java.awt.Font("Poppins", 0, 24)); // NOI18N
-        jLabel1.setText("Day & Time Selection for Classes");
+        jLabel1.setText("Day & Time Selection for Courses");
+
+        jLabel9.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jLabel9.setText("Course ID");
+
+        jLabel11.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jLabel11.setText("CL00000000");
 
         jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
@@ -139,11 +148,14 @@ public class ClassDayTime extends javax.swing.JDialog {
                 .addGap(21, 21, 21))
         );
 
-        jLabel9.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jLabel9.setText("Class ID");
-
-        jLabel11.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jLabel11.setText("CL00000000");
+        jButton3.setBackground(new java.awt.Color(153, 255, 153));
+        jButton3.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jButton3.setText("Register Day");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -168,63 +180,40 @@ public class ClassDayTime extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jButton3.setBackground(new java.awt.Color(153, 255, 153));
-        jButton3.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jButton3.setText("Register Day");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 692, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -232,23 +221,21 @@ public class ClassDayTime extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        time.showPopup();
+        time1.showPopup();
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    // add new date and time
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         addNewDate();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    // send selected date into panal
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        saveDates();
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         refresh();
         loadTable();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        saveDates();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         if (classDays != null) {
@@ -276,6 +263,7 @@ public class ClassDayTime extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -288,17 +276,16 @@ public class ClassDayTime extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField2;
-    private cambodia.raven.Time time;
+    private cambodia.raven.Time time1;
     // End of variables declaration//GEN-END:variables
 
-    // store Date beans
+ // store Date beans
     private Vector<ClassDay> classDays = new Vector<>();
     // store classManagement panal 
-    private ClassManagement root;
+    private CourseManagement root;
 
     private void loadDays() {
         try {
@@ -325,20 +312,20 @@ public class ClassDayTime extends javax.swing.JDialog {
     private void addNewDate() {
         String id = String.valueOf(jComboBox1.getSelectedIndex());
         String day = String.valueOf(jComboBox1.getSelectedItem());
-        String time1 = jTextField2.getText();
+        String time2 = jTextField2.getText();
 
         if (day.equals("Select")) {
             JOptionPane.showMessageDialog(this, "Please Select Day", "Alert!", JOptionPane.WARNING_MESSAGE);
-        } else if (time1.isEmpty()) {
+        } else if (time2.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please Select Time", "Alert!", JOptionPane.WARNING_MESSAGE);
         } else {
             for (ClassDay existingClassDay : classDays) {
-                if (existingClassDay.getDay().equals(day) && existingClassDay.getTime().equals(time1)) {
+                if (existingClassDay.getDay().equals(day) && existingClassDay.getTime().equals(time2)) {
                     JOptionPane.showMessageDialog(this, "This day and time are already scheduled.", "Duplicate Entry", JOptionPane.WARNING_MESSAGE);
                     return; // Exit method without adding the duplicate entry
                 }
             }
-            classDays.add(new ClassDay(id, day, time1));
+            classDays.add(new ClassDay(id, day, time2));
             updateTable();
         }
 
@@ -361,13 +348,13 @@ public class ClassDayTime extends javax.swing.JDialog {
     private void loadTable() {
         String cid = jLabel11.getText();
         try {
-            ResultSet resultSet = DB.search("SELECT * FROM `class_day` INNER JOIN `week_day` ON `class_day`.`week_day_id`=`week_day`.`id` WHERE `class_day`.`class_id`='" + cid + "'");
+            ResultSet resultSet = DB.search("SELECT * FROM `course_day` INNER JOIN `week_day` ON `course_day`.`week_day_id`=`week_day`.`id` WHERE `course_day`.`course_id`='" + cid + "'");
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
             while (resultSet.next()) {
                 Vector<String> vector = new Vector<>();
                 vector.add(resultSet.getString("week_day.day"));
-                vector.add(resultSet.getString("class_day.time"));
+                vector.add(resultSet.getString("course_day.time"));
 
                 model.addRow(vector);
             }
@@ -379,4 +366,6 @@ public class ClassDayTime extends javax.swing.JDialog {
         root.setDate(classDays);
         this.dispose();
     }
+
+
 }

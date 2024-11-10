@@ -91,7 +91,7 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel8" min="-2" pref="232" max="-2" attributes="0"/>
-                          <Component id="jTextField7" min="-2" pref="232" max="-2" attributes="0"/>
+                          <Component id="jTextField7" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="484" max="-2" attributes="0"/>
                   </Group>
