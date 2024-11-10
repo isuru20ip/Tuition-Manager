@@ -222,6 +222,11 @@ public class StudentAttendance extends javax.swing.JPanel {
         class_attn_print_button.setBackground(new java.awt.Color(255, 204, 0));
         class_attn_print_button.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         class_attn_print_button.setText("Print Report");
+        class_attn_print_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                class_attn_print_buttonActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -809,8 +814,12 @@ public class StudentAttendance extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox_gradeLoardItemStateChanged
 
     private void Studen_ID_TextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Studen_ID_TextFieldKeyReleased
-        getStudentID();
+        searchClassEnrolment();
     }//GEN-LAST:event_Studen_ID_TextFieldKeyReleased
+
+    private void class_attn_print_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_class_attn_print_buttonActionPerformed
+        searchClassEnrolment();
+    }//GEN-LAST:event_class_attn_print_buttonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -897,7 +906,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         String userType = admin.getType();
 
-        if (userType.equals("Master Admin")) {
+        if (userType.equals("attenda")) {
             jTabbedPane1.setEnabledAt(1, false);
             class_attn_print_button.setEnabled(false);
             class_CheckBox.setEnabled(false);
@@ -975,7 +984,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         }
     }
 
-    private void getStudentID() {
+    private void searchClassEnrolment() {
 
         try {
             String st_ID = Studen_ID_TextField.getText();
@@ -986,55 +995,60 @@ public class StudentAttendance extends javax.swing.JPanel {
             String subject = String.valueOf(jComboBox_classLoad.getSelectedItem());
             String SubjectID = classMap.get(subject);
 
-            if (st_ID.length() == 5) {
+            if (gradeId == null) {
+                JOptionPane.showMessageDialog(this, "Grade is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
+            }else if(SubjectID == null){
+                JOptionPane.showMessageDialog(this, "Class is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
+            }else{
+                if (st_ID.length() == 5) {
 
-                ResultSet resultSet = DB.search("SELECT * FROM `class_enrollment` "
-                        + "INNER JOIN `class` ON `class_enrollment`.`class_id` = `class`.`id`"
-                        + "INNER JOIN `student` ON  `class_enrollment`.`student_id` = `student`.`id`"
-                        + "WHERE `class`.`grade_id` = '" + gradeId + "' AND `class`.`subject_id` = '" + SubjectID + "' AND `student_id` = '" + st_ID + "'");
+                    ResultSet resultSet = DB.search("SELECT * FROM `class_enrollment` "
+                            + "INNER JOIN `class` ON `class_enrollment`.`class_id` = `class`.`id`"
+                            + "INNER JOIN `student` ON  `class_enrollment`.`student_id` = `student`.`id`"
+                            + "WHERE `class`.`grade_id` = '" + gradeId + "' AND `class`.`subject_id` = '" + SubjectID + "' AND `student_id` = '" + st_ID + "'");
 
-                if (resultSet.next()) {
-                    Student_Name_TextField.setText(resultSet.getString("fname") + " " + resultSet.getString("lname"));
+                    if (resultSet.next()) {
+                        Student_Name_TextField.setText(resultSet.getString("fname") + " " + resultSet.getString("lname"));
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Invalid Student ID or Not Registerd Student", "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
+
                 } else {
-                    JOptionPane.showMessageDialog(this, "Invalid Student ID or Not Registerd Student", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Student_Name_TextField.setText("");
                 }
-
-            } else {
-                Student_Name_TextField.setText("");
             }
+                
 
+//                
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    
-    private void markClassAttn(){
+
+    private void markClassAttn() {
         try {
             String SudentID = Studen_ID_TextField.getText();
             String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-            
+
             String grade = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
             String gradeId = gradeMap.get(grade);
 
             String subject = String.valueOf(jComboBox_classLoad.getSelectedItem());
             String SubjectID = classMap.get(subject);
-            
+
             ResultSet rs = DB.search("SELECT * FROM `class_schedule` "
                     + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
                     + "INNER JOIN `subject` ON `class`.`subject_id` = `subject`.`id` "
                     + "WHERE class_schedule.class_date = '" + dateFormat + "' AND `class`.grade_id = '" + gradeId + "' ");
-            
-            
+
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     // <<..........................................Studen Class Attendance Marking.........................................>>
-    
     // <<..........................................Employee Attendance Marking.........................................>>
-    
-    
     // Search Employee Details
     private void searchEmployee() {
 
