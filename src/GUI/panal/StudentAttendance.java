@@ -66,16 +66,16 @@ public class StudentAttendance extends javax.swing.JPanel {
         Student_Name_TextField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        class_attn_print_button = new javax.swing.JButton();
         jSeparator6 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        class_From_DateChooser = new com.toedter.calendar.JDateChooser();
+        class_to_DateChooser = new com.toedter.calendar.JDateChooser();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        class_attn_record_find_button = new javax.swing.JButton();
+        class_CheckBox = new javax.swing.JCheckBox();
         jSeparator7 = new javax.swing.JSeparator();
         student_attn_course_panel = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -219,9 +219,9 @@ public class StudentAttendance extends javax.swing.JPanel {
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Marck Attendance");
 
-        jButton3.setBackground(new java.awt.Color(255, 204, 0));
-        jButton3.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
-        jButton3.setText("Print Report");
+        class_attn_print_button.setBackground(new java.awt.Color(255, 204, 0));
+        class_attn_print_button.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
+        class_attn_print_button.setText("Print Report");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -242,10 +242,10 @@ public class StudentAttendance extends javax.swing.JPanel {
         jLabel15.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jLabel15.setText("TO");
 
-        jButton4.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
-        jButton4.setText("Find Dates");
+        class_attn_record_find_button.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
+        class_attn_record_find_button.setText("Find Dates");
 
-        jCheckBox1.setText("if You Want Search past attendance record ");
+        class_CheckBox.setText("if You Want Search past attendance record ");
 
         javax.swing.GroupLayout student_attn_class_panelLayout = new javax.swing.GroupLayout(student_attn_class_panel);
         student_attn_class_panel.setLayout(student_attn_class_panelLayout);
@@ -256,13 +256,13 @@ public class StudentAttendance extends javax.swing.JPanel {
                 .addContainerGap(389, Short.MAX_VALUE)
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(class_From_DateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(class_to_DateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(class_attn_record_find_button, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45))
             .addGroup(student_attn_class_panelLayout.createSequentialGroup()
                 .addContainerGap()
@@ -276,7 +276,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                             .addGroup(student_attn_class_panelLayout.createSequentialGroup()
                                 .addGroup(student_attn_class_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(student_attn_class_panelLayout.createSequentialGroup()
-                                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(class_attn_print_button, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(29, 29, 29)
                                         .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(15, 15, 15))
@@ -291,7 +291,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                                     .addComponent(Studen_ID_TextField)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, student_attn_class_panelLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jCheckBox1))))
+                                .addComponent(class_CheckBox))))
                     .addComponent(jScrollPane1)
                     .addComponent(jSeparator7, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
@@ -316,19 +316,19 @@ public class StudentAttendance extends javax.swing.JPanel {
                         .addGroup(student_attn_class_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(class_attn_print_button, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox1))
+                        .addComponent(class_CheckBox))
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(student_attn_class_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(student_attn_class_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(class_From_DateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(class_to_DateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(class_attn_record_find_button, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -816,6 +816,11 @@ public class StudentAttendance extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField Studen_ID_TextField;
     private javax.swing.JTextField Student_Name_TextField;
+    private javax.swing.JCheckBox class_CheckBox;
+    private com.toedter.calendar.JDateChooser class_From_DateChooser;
+    private javax.swing.JButton class_attn_print_button;
+    private javax.swing.JButton class_attn_record_find_button;
+    private com.toedter.calendar.JDateChooser class_to_DateChooser;
     private javax.swing.JTextField employee_ID_Field;
     private javax.swing.JTextField employee_Name_Field;
     private javax.swing.JFormattedTextField employee_OffTime_Field;
@@ -829,17 +834,12 @@ public class StudentAttendance extends javax.swing.JPanel {
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox_classLoad;
     private javax.swing.JComboBox<String> jComboBox_gradeLoard;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private com.toedter.calendar.JDateChooser jDateChooser3;
     private com.toedter.calendar.JDateChooser jDateChooser4;
     private javax.swing.JLabel jLabel10;
@@ -897,10 +897,13 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         String userType = admin.getType();
 
-        if (userType.equals("Cashier")) {
-
+        if (userType.equals("Master Admin")) {
             jTabbedPane1.setEnabledAt(1, false);
-
+            class_attn_print_button.setEnabled(false);
+            class_CheckBox.setEnabled(false);
+            class_From_DateChooser.setEnabled(false);
+            class_to_DateChooser.setEnabled(false);
+            class_attn_record_find_button.setEnabled(false);
         }
 
         employee_Name_Field.setEditable(false);
