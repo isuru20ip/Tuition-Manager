@@ -24,8 +24,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         initComponents();
         cleanClass();
         cleanCourse();
-        studentID.setText("ST00000");
-        student_id.setText("ST00000");
+        makeReport("");
     }
 
     @SuppressWarnings("unchecked")
@@ -876,28 +875,23 @@ public class PaymentManagement extends javax.swing.JPanel {
         jLabel25.setText("Student ID");
 
         jTextField16.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
-        jTextField16.setText("ST123456");
 
         jLabel26.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jLabel26.setText("Class ID");
 
         jTextField17.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
-        jTextField17.setText("CLS123456");
 
         jTextField18.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
-        jTextField18.setText("ST123456");
 
         jLabel27.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jLabel27.setText("Course ID");
 
         jTextField19.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
-        jTextField19.setText("ST123456");
 
         jLabel28.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jLabel28.setText("Course ID");
 
         jTextField20.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
-        jTextField20.setText("ST123456");
 
         jLabel29.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jLabel29.setText("Teacher ID");
@@ -976,11 +970,11 @@ public class PaymentManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "No", "Student ID", "Student Name", "Class ID", "Teacher NIC", "Teacher Name", "Price"
+                "No", "Student ID", "Class ID", "Teacher NIC", "Date", "Fee"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true, true
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -995,6 +989,11 @@ public class PaymentManagement extends javax.swing.JPanel {
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("Export As PDF");
         jButton7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setBackground(new java.awt.Color(0, 0, 0));
         jButton8.setFont(new java.awt.Font("Meta", 1, 12)); // NOI18N
@@ -1021,7 +1020,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         jFormattedTextField7.setEditable(false);
         jFormattedTextField7.setBackground(new java.awt.Color(255, 255, 255));
         jFormattedTextField7.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
-        jFormattedTextField7.setText("1500000");
+        jFormattedTextField7.setText("2500");
         jFormattedTextField7.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         jFormattedTextField7.setFont(new java.awt.Font("Advert", 1, 18)); // NOI18N
 
@@ -1151,6 +1150,10 @@ public class PaymentManagement extends javax.swing.JPanel {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         clearAll();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        printReport();
+    }//GEN-LAST:event_jButton7ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1584,7 +1587,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                     }
                     DB.IUD("INSERT INTO `class_pay` (`class_id`, `due_month`, `payment_id`, `hall_fee`,`is_free`) VALUES ('" + classID + "', '" + due_month + "', '" + paymentID + "','" + hall_fee + "','" + is_free + "')");
                 }
-                printReport();
+                printInvoive();
                 clear();
             }
 
@@ -1595,7 +1598,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         }
     }
 
-    private void printReport() {
+    private void printInvoive() {
 
     }
 
@@ -1865,7 +1868,7 @@ public class PaymentManagement extends javax.swing.JPanel {
 
                     DB.IUD("INSERT INTO `course_pay` (`course_id`, `fee`, `payment_id`, `is_free`) VALUES ('" + courdeID + "', '" + fee + "', '" + paymentID + "', 0);");
                 }
-                printReport();
+                printInvoive();
                 clearAll();
             }
 
@@ -1880,5 +1883,45 @@ public class PaymentManagement extends javax.swing.JPanel {
     private void clearAll() {
         student_id.setText("");
         cleanCourse();
+    }
+
+    private void makeReport(String Condtion) {
+        try {
+
+            ResultSet resultSet = DB.search("SELECT `payment`.`student_id` AS `student`,"
+                    + " `class`.`id` AS `class`, `class`.`teacher_nic` AS `teacher`,"
+                    + " `payment`.`date` AS `date`, `class`.`fee`  FROM `payment` "
+                    + "INNER JOIN `class_pay` ON `class_pay`.`payment_id` = `payment`.`id` "
+                    + "INNER JOIN `class` ON `class`.id = `class_pay`.`class_id` "
+                    + "WHERE `class`.`teacher_nic` = '912345678V';");
+
+            DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+            model.setRowCount(0);
+
+            int row =  1;
+            while (resultSet.next()) {
+                Vector v = new Vector();
+                v.add(row);
+                v.add(resultSet.getString("student"));
+                v.add(resultSet.getString("class"));
+                v.add(resultSet.getString("teacher"));
+                v.add(resultSet.getString("date"));
+                v.add(resultSet.getString("fee"));
+                
+                row++;
+                model.addRow(v);
+            }
+            jTable3.setModel(model);
+
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+
+    }
+
+    private void printReport() {
+    
     }
 }
