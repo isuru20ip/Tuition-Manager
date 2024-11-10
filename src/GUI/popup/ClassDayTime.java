@@ -247,10 +247,12 @@ public class ClassDayTime extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         refresh();
+        loadTable();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        if (evt.getClickCount() == 2) { // Double-click detected
+        if (classDays != null) {
+            if (evt.getClickCount() == 2) { // Double-click detected
                 int row = jTable1.getSelectedRow();
                 if (row >= 0) {
                     String day = (String) jTable1.getValueAt(row, 0);
@@ -271,6 +273,7 @@ public class ClassDayTime extends javax.swing.JDialog {
                     }
                 }
             }
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
 
@@ -316,7 +319,7 @@ public class ClassDayTime extends javax.swing.JDialog {
     private void refresh() {
         jComboBox1.setSelectedIndex(0);
         jTextField2.setText("");
-
+        
     }
 
     private void addNewDate() {

@@ -298,8 +298,10 @@ public class ClassManagement extends javax.swing.JPanel {
             }
         });
 
+        jTextField7.setEditable(false);
         jTextField7.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
 
+        jTextField6.setEditable(false);
         jTextField6.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -307,10 +309,13 @@ public class ClassManagement extends javax.swing.JPanel {
             }
         });
 
+        jTextField9.setEditable(false);
         jTextField9.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
 
+        jTextField8.setEditable(false);
         jTextField8.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
 
+        jTextField10.setEditable(false);
         jTextField10.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
 
         jButton2.setBackground(new java.awt.Color(51, 153, 255));
@@ -1642,12 +1647,9 @@ public class ClassManagement extends javax.swing.JPanel {
                 String endingDate = String.valueOf(jTable4.getValueAt(row, 12));
                 Date date = dateFormat.parse(endingDate);
                 jDateChooser3.setDate(date);
-                ResultSet rs1 = DB.search("SELECT COUNT(*) AS count FROM `class` WHERE `teacher_nic`='" + tnic + "'");
+                
                 ResultSet rs2 = DB.search("SELECT * FROM `teacher` INNER JOIN `employee` ON `employee`.`id`=`teacher`.`employee_id` INNER JOIN `gender` ON `gender`.`id`=`employee`.`gender_id` WHERE `teacher`.`nic`='" + tnic + "'");
-                if (rs1.next()) {
-                    int count = rs1.getInt("count");
-                    jTextField10.setText(String.valueOf(count));
-                }
+                
 
                 if (rs2.next()) {
                     jTextField6.setText(rs2.getString("fname"));
@@ -1655,6 +1657,7 @@ public class ClassManagement extends javax.swing.JPanel {
                     jTextField8.setText(rs2.getString("gender.name"));
 
                 }
+                teacherClassCount();
             }
 
         } catch (Exception e) {
@@ -1662,7 +1665,10 @@ public class ClassManagement extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_jTable4MouseClicked
-
+private void jTextField7InsertUpdate(javax.swing.event.DocumentEvent evt) {                                        
+    // This is where your method will be called whenever the text is changed
+    teacherClassCount();
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -2186,9 +2192,23 @@ public class ClassManagement extends javax.swing.JPanel {
         }
     }
 
+    private void teacherClassCount() {
+        String tnic = jTextField7.getText();
+        try {
+            ResultSet rs1 = DB.search("SELECT COUNT(*) AS count FROM `class` WHERE `teacher_nic`='" + tnic + "'");
+            if (rs1.next()) {
+                int count = rs1.getInt("count");
+                jTextField10.setText(String.valueOf(count));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void SearchTeacher() {
 
         String value = jTextField7.getText();
+        teacherClassCount();
 
         loadClassesTable(value);
 

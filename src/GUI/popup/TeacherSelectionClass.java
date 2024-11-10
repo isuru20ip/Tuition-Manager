@@ -25,13 +25,13 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
      * Creates new form TeacherSelection
      */
     public TeacherSelectionClass(ClassManagement parent, boolean modal) {
-       
+
         initComponents();
-        LoadEmployee();
-        loadSGender();
+        loadTeacher("");
+
         classManagement = (ClassManagement) parent;
     }
- 
+
     private ClassManagement classManagement;
 
     public void setTeacher(ClassManagement classManagement) {
@@ -51,13 +51,7 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
@@ -69,24 +63,9 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Poppins", 0, 24)); // NOI18N
         jLabel1.setText("Teacher Selection for Classes");
 
-        jPanel4.setLayout(new java.awt.GridLayout(2, 4, 10, 5));
-
         jLabel8.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel8.setText("NIC");
-        jPanel4.add(jLabel8);
-
-        jLabel11.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jLabel11.setText("First Name");
-        jPanel4.add(jLabel11);
-
-        jLabel10.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jLabel10.setText("Last Name");
-        jPanel4.add(jLabel10);
-
-        jLabel9.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jLabel9.setText("Gender");
-        jPanel4.add(jLabel9);
+        jLabel8.setText("Search Teacher");
 
         jTextField7.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jTextField7.addActionListener(new java.awt.event.ActionListener() {
@@ -94,22 +73,29 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
                 jTextField7ActionPerformed(evt);
             }
         });
-        jPanel4.add(jTextField7);
-
-        jTextField6.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
+        jTextField7.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField7KeyReleased(evt);
             }
         });
-        jPanel4.add(jTextField6);
 
-        jTextField9.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jPanel4.add(jTextField9);
-
-        jComboBox1.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel4.add(jComboBox1);
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(484, 484, 484))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -121,7 +107,7 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -150,9 +136,14 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 1));
 
-        jButton1.setBackground(new java.awt.Color(153, 255, 153));
+        jButton1.setBackground(new java.awt.Color(255, 102, 102));
         jButton1.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jButton1.setText("Add");
+        jButton1.setText("Clear All");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -191,69 +182,62 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField7ActionPerformed
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
-
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         try {
-             int row = jTable1.getSelectedRow();
-        if (row != -1) { // Valid row check
-            String nic = String.valueOf(jTable1.getValueAt(row, 0));
-            jTextField7.setText(nic);
+            int row = jTable1.getSelectedRow();
 
-            String firstName = String.valueOf(jTable1.getValueAt(row, 1));
-            jTextField6.setText(firstName);
+            if (evt.getClickCount() == 2) {
+                if (classManagement != null) {
+                    classManagement.getjTextField7().setText(String.valueOf(jTable1.getValueAt(row, 0)));
+                    classManagement.getjTextField6().setText(String.valueOf(jTable1.getValueAt(row, 1)));
+                    classManagement.getjTextField9().setText(String.valueOf(jTable1.getValueAt(row, 2)));
+                    classManagement.getjTextField8().setText(String.valueOf(jTable1.getValueAt(row, 3)));
+                }
+                this.dispose();
 
-            String lastName = String.valueOf(jTable1.getValueAt(row, 2));
-            jTextField9.setText(lastName);
-
-            String gender = String.valueOf(jTable1.getValueAt(row, 3)).trim();
-            jComboBox1.setSelectedItem(gender);
-        }
-        if (evt.getClickCount() == 2) {
-            if (classManagement!=null) {
-                classManagement.getjTextField7().setText(String.valueOf(jTable1.getValueAt(row, 0)));
-                classManagement.getjTextField6().setText(String.valueOf(jTable1.getValueAt(row, 1)));
-                classManagement.getjTextField9().setText(String.valueOf(jTable1.getValueAt(row, 2)));
-                classManagement.getjTextField8().setText(String.valueOf(jTable1.getValueAt(row, 3)));
             }
-            this.dispose();
-
-        }
         } catch (Exception e) {
             e.printStackTrace();
         }
-       
 
 
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void jTextField7KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField7KeyReleased
+        SearchTeacher();
+    }//GEN-LAST:event_jTextField7KeyReleased
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       refresh();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
 
-    private static HashMap<String, String> genderMap = new HashMap<>();
-
-    private void LoadEmployee() {
+    private void loadTeacher(String value) {
         try {
-            ResultSet resultSet = DB.search("SELECT * FROM `teacher` "
-                    + "INNER JOIN `employee` ON `employee`.id=`teacher`.employee_id INNER JOIN `gender` ON `gender`.id=`employee`.gender_id");
+
+            String query = "SELECT * FROM `teacher` "
+                    + "INNER JOIN `employee` ON `employee`.id=`teacher`.employee_id INNER JOIN `gender` ON `gender`.id=`employee`.gender_id";
+
+            if (value.matches("\\d+")) {
+                query += " WHERE `teacher`.`nic` LIKE '%" + value + "%'";
+
+            } else {
+                query += " WHERE `teacher`.`fname` LIKE '%" + value + "%' OR `teacher`.`lname` LIKE '%" + value + "%'";
+            }
+
+            ResultSet resultSet = DB.search(query);
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
             while (resultSet.next()) {
@@ -270,27 +254,18 @@ public class TeacherSelectionClass extends javax.swing.JDialog {
         }
     }
 
-    private void loadSGender() {
+    private void SearchTeacher() {
 
-        try {
+        String value = jTextField7.getText();
 
-            ResultSet resultSet = DB.search("SELECT * FROM `gender`");
-            Vector<String> v = new Vector<>();
-            v.add("Select");
+        loadTeacher(value);
 
-            while (resultSet.next()) {
-                v.add(resultSet.getString("name"));
-                genderMap.put(resultSet.getString("name"), resultSet.getString("id"));
+    }
 
-                DefaultComboBoxModel gModel = new DefaultComboBoxModel(v);
-                jComboBox1.setModel(gModel);
-
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    private void refresh() {
+        jTextField7.setText("");
+        loadTeacher("");
+        jTextField7.grabFocus();
     }
 
 }
