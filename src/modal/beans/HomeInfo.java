@@ -1,4 +1,4 @@
-package modal.systemData;
+package modal.beans;
 
 import java.io.File;
 import java.io.FileInputStream;
