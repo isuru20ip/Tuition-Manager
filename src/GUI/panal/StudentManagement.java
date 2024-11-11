@@ -14,13 +14,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Vector;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modal.IDGenarator;
 import modal.LogCenter;
+import modal.Validator;
 
 /**
  *
@@ -36,6 +43,10 @@ public class StudentManagement extends javax.swing.JPanel {
         loadSGender();
         loadSStatus();
         loadStudent("");
+        setupRadioButtons();
+        StudentReportLoad("", "", "","");
+        StudentPaymentReportLoad("");
+
     }
 
     /**
@@ -48,6 +59,7 @@ public class StudentManagement extends javax.swing.JPanel {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -72,6 +84,8 @@ public class StudentManagement extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jRadioButton4 = new javax.swing.JRadioButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -83,15 +97,12 @@ public class StudentManagement extends javax.swing.JPanel {
         jPanel7 = new javax.swing.JPanel();
         jComboBox3 = new javax.swing.JComboBox<>();
         jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
         jButton6 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jTextField7 = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jTextField8 = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jRadioButton1 = new javax.swing.JRadioButton();
@@ -100,6 +111,8 @@ public class StudentManagement extends javax.swing.JPanel {
         jPanel10 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -185,6 +198,13 @@ public class StudentManagement extends javax.swing.JPanel {
 
         jDateChooser1.setDateFormatString("yyyy-MM-dd");
 
+        buttonGroup2.add(jRadioButton3);
+        jRadioButton3.setSelected(true);
+        jRadioButton3.setText("NIC");
+
+        buttonGroup2.add(jRadioButton4);
+        jRadioButton4.setText("No NIC");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -201,31 +221,35 @@ public class StudentManagement extends javax.swing.JPanel {
                         .addContainerGap()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField1)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
                             .addComponent(jTextField4)
                             .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(50, 50, 50)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField2)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
                             .addComponent(jTextField5)
                             .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(50, 50, 50)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox2, 0, 147, Short.MAX_VALUE)
+                            .addComponent(jComboBox2, 0, 149, Short.MAX_VALUE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField3))
-                        .addGap(48, 48, 48)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE))
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(50, 50, 50)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField3)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jRadioButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                                .addComponent(jRadioButton4))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(50, 50, 50)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -236,8 +260,12 @@ public class StudentManagement extends javax.swing.JPanel {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(0, 0, 0)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButton4, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jRadioButton3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -251,28 +279,27 @@ public class StudentManagement extends javax.swing.JPanel {
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4))
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel5)))
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel5))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel7))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel6)))
                         .addGap(20, 20, 20)
                         .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8))
                     .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1)
-                            .addComponent(jButton2))
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel10)))
                 .addContainerGap())
@@ -310,7 +337,7 @@ public class StudentManagement extends javax.swing.JPanel {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
         );
 
         jPanel6.setBackground(new java.awt.Color(234, 238, 244));
@@ -396,13 +423,20 @@ public class StudentManagement extends javax.swing.JPanel {
         jPanel7.setBackground(new java.awt.Color(234, 238, 244));
 
         jComboBox3.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "New to Old", "Item 2", "Item 3", "Item 4" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "New to Old", "Old to New" }));
+        jComboBox3.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox3ItemStateChanged(evt);
+            }
+        });
 
         jComboBox4.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Status", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBox5.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Gender", "Item 2", "Item 3", "Item 4" }));
+        jComboBox4.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox4ItemStateChanged(evt);
+            }
+        });
 
         jButton6.setBackground(new java.awt.Color(51, 204, 0));
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -417,9 +451,7 @@ public class StudentManagement extends javax.swing.JPanel {
                 .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 308, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel7Layout.setVerticalGroup(
@@ -429,27 +461,39 @@ public class StudentManagement extends javax.swing.JPanel {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel8.setBackground(new java.awt.Color(234, 238, 244));
 
+        jTextField7.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField7KeyReleased(evt);
+            }
+        });
+
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("Student ID");
+
+        jTextField8.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField8KeyReleased(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setText("Email");
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("Mobile");
-
         jButton7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton7.setText("Clear");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -459,9 +503,6 @@ public class StudentManagement extends javax.swing.JPanel {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextField9)
-                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextField8)
@@ -475,20 +516,16 @@ public class StudentManagement extends javax.swing.JPanel {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addComponent(jTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-                .addGap(16, 16, 16))
+                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(28, 28, 28))
         );
 
         jPanel9.setBackground(new java.awt.Color(234, 238, 244));
@@ -511,24 +548,23 @@ public class StudentManagement extends javax.swing.JPanel {
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(16, 16, 16)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addComponent(jRadioButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jRadioButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
+                .addComponent(jRadioButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                .addGap(35, 35, 35)
                 .addComponent(jButton8)
-                .addContainerGap())
+                .addGap(28, 28, 28))
         );
 
         jPanel10.setBackground(new java.awt.Color(234, 238, 244));
@@ -538,10 +574,38 @@ public class StudentManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Name", "Email", "Subject", "Courses", "Status", "Payment Model", "Joine Date"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable2.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(jTable2);
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Name", "Fee Type", "Class or Course Id", "Fee_Amount", "Payement_Date", "Pay_id", "Total Payment"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable3.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(jTable3);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -549,13 +613,18 @@ public class StudentManagement extends javax.swing.JPanel {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2))
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -581,9 +650,9 @@ public class StudentManagement extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -617,7 +686,7 @@ public class StudentManagement extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 967, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -755,9 +824,30 @@ public class StudentManagement extends javax.swing.JPanel {
         SearchStudent();
     }//GEN-LAST:event_jTextField6KeyReleased
 
+    private void jTextField7KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField7KeyReleased
+        SearchReport2(); //Search Report Part S ID
+    }//GEN-LAST:event_jTextField7KeyReleased
+
+    private void jTextField8KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField8KeyReleased
+        SearchReport2(); //Search Report Email
+    }//GEN-LAST:event_jTextField8KeyReleased
+
+    private void jComboBox4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox4ItemStateChanged
+        SearchReport2(); // Search ComboBox Active
+    }//GEN-LAST:event_jComboBox4ItemStateChanged
+
+    private void jComboBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox3ItemStateChanged
+        SearchReport2(); // Search ComboBox New to Old
+    }//GEN-LAST:event_jComboBox3ItemStateChanged
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        clearAllReport(); // Clear Section Report
+    }//GEN-LAST:event_jButton7ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -770,14 +860,12 @@ public class StudentManagement extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -798,11 +886,15 @@ public class StudentManagement extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
@@ -811,7 +903,6 @@ public class StudentManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
     //Student Gender <k:gender , v:select>
     private static HashMap<String, String> studentGender = new HashMap<>();
@@ -879,6 +970,7 @@ public class StudentManagement extends javax.swing.JPanel {
 
                 DefaultComboBoxModel sModel = new DefaultComboBoxModel(v);
                 jComboBox2.setModel(sModel);
+                jComboBox4.setModel(sModel);
 
             }
 
@@ -955,68 +1047,70 @@ public class StudentManagement extends javax.swing.JPanel {
             String email = jTextField5.getText();
             String status = String.valueOf(jComboBox2.getSelectedItem());
 
+            // Basic field validations
             if (fname.isEmpty()) {
-
                 JOptionPane.showMessageDialog(this, "Please Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-
             } else if (lname.isEmpty()) {
-
                 JOptionPane.showMessageDialog(this, "Please Enter Your Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (nic.isEmpty()) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter Your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (gender.equals("Select")) {
-
-                JOptionPane.showMessageDialog(this, "Please Select a Gender", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (dob == null) {
-
                 JOptionPane.showMessageDialog(this, "Please Enter Your Date of Birth", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (mobile.isEmpty()) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (email.isEmpty()) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
-
-                JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (status.equals("Select")) {
-
-                JOptionPane.showMessageDialog(this, "Please Select a Status", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (StudentAddressId == null) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter an Address", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (GuardianId == null) {
-
-                JOptionPane.showMessageDialog(this, "Please Enter Guardian Information", "Warning", JOptionPane.WARNING_MESSAGE);
-
             } else {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                // Calculate age based on date of birth
+                int age = Period.between(dob.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();
 
-                String Dob = sdf.format(dob);
-                String joinDate = sdfDateTime.format(new Date());
-                String sampleEmployeeID = "0126";
+                // Ensure age is more than 5 years
+                if (age < 5) {
+                    JOptionPane.showMessageDialog(this, "Date of birth must indicate an age of at least 5 years", "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
 
-                // Vector<String> IDS = new Vector<>();
-                String generatedID = IDGenarator.generateID("ST", "student"); //Generate Student ID
+                // Check age for NIC requirement if age >= 18
+                if (age >= 18) {
+                    if (nic.isEmpty()) {
+                        JOptionPane.showMessageDialog(this, "Please Enter Your NIC for students 18 and older", "Warning", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    } else if (!Validator.NIC.validate(nic)) {
+                        JOptionPane.showMessageDialog(this, "Invalid NIC format", "Warning", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                }
 
-                DB.IUD("INSERT INTO `student`(`id`,`fname`,`lname`,`birthday`,`nic`,`mobile`,`email`,`join_date`,`gender_id`,`guardian_id`,`address_id`,`employee_id`,`customer_status_id`)"
-                        + "VALUES ('" + generatedID + "','" + fname + "','" + lname + "','" + Dob + "','" + nic + "','" + mobile + "','" + email + "','" + joinDate + "',"
-                        + "'" + studentGender.get(gender) + "','" + GuardianId + "','" + StudentAddressId + "',"
-                        + "'" + sampleEmployeeID + "','" + studentStatus.get(status) + "')");
-                loadStudent("");
+                // Additional field validations
+                if (gender.equals("Select")) {
+                    JOptionPane.showMessageDialog(this, "Please Select a Gender", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (mobile.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
+                    JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (email.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
+                    JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (status.equals("Select")) {
+                    JOptionPane.showMessageDialog(this, "Please Select a Status", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (StudentAddressId == null) {
+                    JOptionPane.showMessageDialog(this, "Please Enter an Address", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (GuardianId == null) {
+                    JOptionPane.showMessageDialog(this, "Please Enter Guardian Information", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                    String Dob = sdf.format(dob);
+                    String joinDate = sdfDateTime.format(new Date());
+                    String sampleEmployeeID = "0126";
+
+                    String generatedID = IDGenarator.generateID("ST", "student"); //Generate Student ID
+
+                    DB.IUD("INSERT INTO `student`(`id`,`fname`,`lname`,`birthday`,`nic`,`mobile`,`email`,`join_date`,`gender_id`,`guardian_id`,`address_id`,`employee_id`,`customer_status_id`)"
+                            + "VALUES ('" + generatedID + "','" + fname + "','" + lname + "','" + Dob + "','" + nic + "','" + mobile + "','" + email + "','" + joinDate + "',"
+                            + "'" + studentGender.get(gender) + "','" + GuardianId + "','" + StudentAddressId + "',"
+                            + "'" + sampleEmployeeID + "','" + studentStatus.get(status) + "')");
+
+                    JOptionPane.showMessageDialog(this, "New Student Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                    clearAll();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1056,6 +1150,8 @@ public class StudentManagement extends javax.swing.JPanel {
 
                     JOptionPane.showMessageDialog(this, "Please Enter Your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
 
+                } else if (!Validator.NIC.validate(nic)) {
+                    JOptionPane.showMessageDialog(this, "Invalid NIC format", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else if (mobile.isEmpty()) {
 
                     JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -1104,7 +1200,6 @@ public class StudentManagement extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(this, "Student Details Successfully Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                         // Refresh table data and clear input fields
-                        loadStudent("");
                         clearAll();
                     }
                 }
@@ -1164,13 +1259,51 @@ public class StudentManagement extends javax.swing.JPanel {
 
     }
 
+    //Setup Nic Function
+    private void setupRadioButtons() {
+        jRadioButton3.addActionListener(e -> {
+            if (isOverEighteen(jDateChooser1.getDate())) {
+                jTextField3.setEnabled(true); // Enable NIC field if over 18
+            }
+        });
+
+        jRadioButton4.addActionListener(e -> {
+            jTextField3.setEnabled(false); // Disable NIC field when "No NIC" is selected
+            jTextField3.setText(""); // Clear NIC field if "No NIC" is selected
+        });
+
+// Add a listener to jDateChooser1 to enable or disable NIC based on age
+        jDateChooser1.getDateEditor().addPropertyChangeListener("date", evt -> {
+            Date dob = jDateChooser1.getDate();
+            if (isOverEighteen(dob)) {
+                jTextField3.setEnabled(true); // Enable NIC field if over 18
+                jRadioButton3.setSelected(true); // Select NIC option automatically
+            } else {
+                jTextField3.setEnabled(false); // Disable NIC field if under 18
+                jTextField3.setText(""); // Clear NIC field
+                jRadioButton4.setSelected(true); // Select "No NIC" option automatically
+            }
+        });
+    }
+
+    // Method to calculate if the age is over 18
+    private boolean isOverEighteen(Date dob) {
+        if (dob == null) {
+            return false;
+        }
+        int age = Period.between(dob.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();
+        return age >= 18;
+    }
+
 // Clear All 
     private void clearAll() {
         jTextField1.setText("");
         jTextField2.setText("");
         jTextField3.setText("");
+        jTextField6.setText("");
         jComboBox1.setSelectedItem("Select");
         jDateChooser1.setDate(null);
+
         jTextField4.setText("");
         jTextField5.setText("");
         jComboBox2.setSelectedItem("Select");
@@ -1181,6 +1314,172 @@ public class StudentManagement extends javax.swing.JPanel {
         jButton3.setEnabled(true); // Add Button Enable
         jComboBox1.setEnabled(true); //Gender Not Updated
         jDateChooser1.setEnabled(true); // BirthDay Not Updated
+        loadStudent("");
+
+    }
+
+    //STUDNET REPORTING PANEL 02 START
+    //Student Report Search
+    private void SearchReport2() {
+        // Retrieve values from both text fields
+        String idValue = jTextField7.getText();
+        String emailValue = jTextField8.getText();
+        String comboBoxValue = (String) jComboBox4.getSelectedItem();
+        String sortOrder = jComboBox3.getSelectedItem().toString(); // Sort Enrollment
+
+        // Pass both values to the StudentReportLoad method
+        StudentReportLoad(idValue, emailValue, comboBoxValue , sortOrder);
+        StudentPaymentReportLoad(idValue);
+    }
+
+    //Jtable 02
+    private void StudentReportLoad(String idValue, String emailValue, String comboBoxValue,String sortOrder) {
+        try {
+            String query = "SELECT student.id AS id, "
+                    + "student.fname AS name, "
+                    + "student.email AS email, "
+                    + "subject.name AS subject, "
+                    + "course.subject_id AS course_id, "
+                    + "customer_status.status AS status, "
+                    + "payment_modal.modal AS payment_modal, "
+                    + "student.join_date AS join_date, "
+                    + "CASE WHEN course_enrollment.student_id IS NOT NULL THEN 'Yes' ELSE 'No' END AS has_taken_course "
+                    + "FROM student "
+                    + "LEFT JOIN class_enrollment ON student.id = class_enrollment.student_id "
+                    + "LEFT JOIN class ON class_enrollment.class_id = class.id "
+                    + "LEFT JOIN course_enrollment ON student.id = course_enrollment.student_id "
+                    + "LEFT JOIN course ON course_enrollment.course_id = course.id "
+                    + "LEFT JOIN subject ON class.subject_id = subject.id "
+                    + "LEFT JOIN customer_status ON student.customer_status_id = customer_status.id "
+                    + "LEFT JOIN payment_modal ON course_enrollment.payment_modal_id = payment_modal.id ";
+
+            boolean hasConditions = false;
+
+            // Add condition for student ID if it's not empty
+            if (idValue != null && idValue.matches("^ST\\d*$")) {
+                query += " WHERE student.id LIKE '%" + idValue + "%'";
+                hasConditions = true;
+            }
+
+            // Add condition for email if it's not empty
+            if (emailValue != null && !emailValue.isEmpty()) {
+                query += (hasConditions ? " AND " : " WHERE ") + "student.email LIKE '%" + emailValue + "%'";
+                hasConditions = true;
+            }
+
+            // Add condition for comboBoxValue if it's not empty
+            if (comboBoxValue != null && !comboBoxValue.isEmpty() && !comboBoxValue.equals("Select")) {
+                query += (hasConditions ? " AND " : " WHERE ") + "customer_status.status LIKE '%" + comboBoxValue + "%'";
+            }
+            // Add sorting based on ComboBox sort order (new to old or old to new)
+            if ("New to Old".equals(sortOrder)) {
+                query += " ORDER BY student.join_date DESC";
+            } else if ("Old to New".equals(sortOrder)) {
+                query += " ORDER BY student.join_date ASC";
+            }
+
+            
+
+            // Execute the query
+            ResultSet resultSet = DB.search(query);
+
+            // Prepare table model
+            DefaultTableModel dtm = (DefaultTableModel) jTable2.getModel();
+            dtm.setRowCount(0); // Clear existing rows
+
+            // Process the result set and populate the table
+            while (resultSet.next()) {
+                Vector<String> v = new Vector<>();
+                v.add(resultSet.getString("id"));  // Student ID
+                v.add(resultSet.getString("name"));  // Student name
+                v.add(resultSet.getString("email"));  // Student email
+                v.add(resultSet.getString("subject"));  // Subject name
+                v.add(resultSet.getString("course_id"));  // Course ID
+                v.add(resultSet.getString("status"));  // Customer status
+                v.add(resultSet.getString("payment_modal"));  // Payment modal
+                v.add(resultSet.getString("join_date"));  // Student join date
+
+                dtm.addRow(v);  // Add the vector as a row to the table model
+            }
+
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connection Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+    }
+
+//Jtable 03
+    private void StudentPaymentReportLoad(String idValue) {
+        try {
+            // Start the SQL query string
+            String query = "SELECT "
+                    + "    student.id AS student_id, "
+                    + "    CONCAT(student.fname, ' ', student.lname) AS student_name, "
+                    + "    CASE "
+                    + "        WHEN class_payment.class_id IS NOT NULL THEN 'Class Fee' "
+                    + "        WHEN course_payment.course_id IS NOT NULL THEN 'Course Fee' "
+                    + "    END AS fee_type, "
+                    + "    IFNULL(class_payment.class_id, course_payment.course_id) AS class_or_course_identifier, "
+                    + "    IFNULL(class_payment.hall_fee, course_payment.fee) AS fee_amount, "
+                    + "    payment.date AS payment_date, "
+                    + "    payment.id AS payment_id, "
+                    + "    payment.total AS total_payment_amount "
+                    + "FROM "
+                    + "    student "
+                    + "LEFT JOIN "
+                    + "    payment ON student.id = payment.student_id "
+                    + "LEFT JOIN "
+                    + "    class_pay AS class_payment ON payment.id = class_payment.payment_id "
+                    + "LEFT JOIN "
+                    + "    course_pay AS course_payment ON payment.id = course_payment.payment_id ";
+
+            // Check if a student ID filter is applied
+            boolean hasConditions = false;
+            if (idValue != null && idValue.matches("^ST\\d*$")) {
+                query += " WHERE student.id LIKE '%" + idValue + "%'";  // Dynamically add the condition
+                hasConditions = true;
+            }
+
+            // Append the final order by clause (only once)
+            query += " ORDER BY student_id, payment_id";
+
+            // Execute the query using a simple Statement
+            ResultSet resultSet = DB.search(query);
+
+            // Prepare table model
+            DefaultTableModel dtm = (DefaultTableModel) jTable3.getModel();
+            dtm.setRowCount(0); // Clear existing rows
+
+            // Process the result set and populate the table
+            while (resultSet.next()) {
+                Vector<String> v = new Vector<>();
+                v.add(resultSet.getString("student_id"));  // Student ID
+                v.add(resultSet.getString("student_name"));  // Student name
+                v.add(resultSet.getString("fee_type"));  // Fee type (Class or Course)
+                v.add(resultSet.getString("class_or_course_identifier"));  // Class/Course ID
+                v.add(resultSet.getString("fee_amount"));  // Class/Course fee
+                v.add(resultSet.getString("payment_date"));  // Payment date
+                v.add(resultSet.getString("payment_id"));  // Payment ID
+                v.add(resultSet.getString("total_payment_amount"));  // Total payment amount
+
+                dtm.addRow(v);  // Add the vector as a row to the table model
+            }
+
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connection Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+
+    }
+
+    private void clearAllReport() {
+        jTextField7.setText("");
+        jTextField8.setText("");
+        jComboBox4.setSelectedItem("Select");
+        StudentReportLoad("", "", "","");
+        StudentPaymentReportLoad("");
 
     }
 
