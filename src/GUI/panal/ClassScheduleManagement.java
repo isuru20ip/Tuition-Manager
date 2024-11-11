@@ -4,6 +4,7 @@
  */
 package GUI.panal;
 
+import GUI.popup.UpdateClasses;
 import cambodia.raven.Time;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -703,10 +705,10 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this); // Get the JFrame ancestor of the JPanel
 
-        UpdateClasses uc = new UpdateClasses();
+        UpdateClasses uc = new UpdateClasses(parentFrame, true); // Create the dialog, setting parentFrame as its owner
         uc.setVisible(true);
-
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void classIDComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classIDComboboxActionPerformed

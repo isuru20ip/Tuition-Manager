@@ -4,6 +4,7 @@
  */
 package GUI.panal;
 
+import GUI.popup.UpdateEnrollment;
 import javax.swing.JFrame;
 
 /**

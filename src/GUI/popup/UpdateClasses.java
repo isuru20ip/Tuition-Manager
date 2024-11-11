@@ -1,8 +1,8 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package GUI.panal;
+package GUI.popup;
 
 import java.sql.ResultSet;
 import java.util.HashMap;
@@ -18,12 +18,13 @@ import modal.DB;
  *
  * @author dell
  */
-public class UpdateClasses extends javax.swing.JFrame {
+public class UpdateClasses extends javax.swing.JDialog {
 
     /**
      * Creates new form UpdateClasses
      */
-    public UpdateClasses() {
+    public UpdateClasses(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
 
         loadClassSchedulTable("SELECT * FROM `class_schedule`"
@@ -61,6 +62,9 @@ public class UpdateClasses extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        sStatusField = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         classIDComboboxUpdate = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
@@ -72,9 +76,6 @@ public class UpdateClasses extends javax.swing.JFrame {
         classScheduleUpdateTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setAlwaysOnTop(true);
-        setBackground(new java.awt.Color(234, 238, 244));
-        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(234, 238, 244));
 
@@ -123,6 +124,23 @@ public class UpdateClasses extends javax.swing.JFrame {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("End Time");
 
+        jLabel8.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("Schedule Status");
+
+        sStatusField.setEditable(false);
+        sStatusField.setBackground(new java.awt.Color(240, 240, 240));
+        sStatusField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+
+        jButton1.setBackground(new java.awt.Color(255, 204, 204));
+        jButton1.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        jButton1.setText("Reset");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -131,46 +149,63 @@ public class UpdateClasses extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
-                        .addGap(209, 209, 209))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                        .addGap(134, 134, 134))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(204, 204, 204)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(sTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(214, 214, 214)
+                        .addGap(329, 329, 329)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(saveChangeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(127, 127, 127)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(sTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(130, 130, 130)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(eTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(saveChangeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(sStatusField))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(14, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(sTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(eTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sStatusField))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(dateField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(sTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(eTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(33, 33, 33)
-                .addComponent(saveChangeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(saveChangeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
         );
 
@@ -301,48 +336,24 @@ public class UpdateClasses extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void classScheduleUpdateTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_classScheduleUpdateTableMouseClicked
-        try {
-            if (evt.getClickCount() == 2) { // Detect double-click
-                int selectedRow = classScheduleUpdateTable.getSelectedRow();
-
-                if (selectedRow != -1) {
-                    // Get values from the table and set in respective fields
-                    scheduleStatusUpdateCombobox.setSelectedItem(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 4)));
-                    scheduleIDField.setText(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 0)));
-                    idField.setText(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 1)));
-                    dateField.setText(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 2)));
-                    sTimeField.setText(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 8)));
-                    eTimeField.setText(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 9)));
-                }
-                scheduleStatusUpdateCombobox.setEnabled(true);
-                resetTable();
-
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }//GEN-LAST:event_classScheduleUpdateTableMouseClicked
-
-    private void classIDComboboxUpdateItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_classIDComboboxUpdateItemStateChanged
-        search();
-    }//GEN-LAST:event_classIDComboboxUpdateItemStateChanged
-
     private void saveChangeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangeButtonActionPerformed
         String statushange = String.valueOf(scheduleStatusUpdateCombobox.getSelectedItem());
+        String cidCombobox = String.valueOf(classIDComboboxUpdate.getSelectedItem());
         String cid = idField.getText();
         String cDate = dateField.getText();
         String cSt = sTimeField.getText();
         String cEt = eTimeField.getText();
         String sid = scheduleIDField.getText();
+        String sStatus = sStatusField.getText();
 
         if (statushange.equals("Select")) {
             JOptionPane.showMessageDialog(this, "Schedule Status is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (statushange.equals(String.valueOf(scheduleStatusUpdateCombobox.getSelectedItem()))) {
-            JOptionPane.showMessageDialog(this, "No Updates. Ypu want to close this", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (statushange.equals(sStatus)) {
+
+            JOptionPane.showMessageDialog(this, "No any Updates.", "Warning", JOptionPane.WARNING_MESSAGE);
             reset();
+            resetTable();
+            scheduleStatusUpdateCombobox.setEnabled(false);
         } else {
             try {
                 ResultSet resultSet = DB.search("SELECT * FROM `class_schedule`"
@@ -358,8 +369,6 @@ public class UpdateClasses extends javax.swing.JFrame {
 
                     resetTable();
                     reset();
-
-                    this.dispose();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -367,14 +376,50 @@ public class UpdateClasses extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_saveChangeButtonActionPerformed
 
-    private void scheduleIDFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleIDFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_scheduleIDFieldActionPerformed
+    private void classIDComboboxUpdateItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_classIDComboboxUpdateItemStateChanged
+        search();
+        reset1();
+    }//GEN-LAST:event_classIDComboboxUpdateItemStateChanged
 
     private void classIDComboboxUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classIDComboboxUpdateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_classIDComboboxUpdateActionPerformed
 
+    private void scheduleIDFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleIDFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_scheduleIDFieldActionPerformed
+
+    private void classScheduleUpdateTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_classScheduleUpdateTableMouseClicked
+        try {
+            if (evt.getClickCount() == 2) { // Detect double-click
+                int selectedRow = classScheduleUpdateTable.getSelectedRow();
+
+                if (selectedRow != -1) {
+                    // Get values from the table and set in respective fields
+                    scheduleIDField.setText(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 0)));
+                    idField.setText(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 1)));
+                    dateField.setText(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 2)));
+                    sTimeField.setText(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 8)));
+                    eTimeField.setText(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 9)));
+                    sStatusField.setText(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 4)));
+                }
+                scheduleStatusUpdateCombobox.setEnabled(true);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_classScheduleUpdateTableMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        reset();
+        resetTable();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> classIDComboboxUpdate;
@@ -382,6 +427,7 @@ public class UpdateClasses extends javax.swing.JFrame {
     private javax.swing.JTextField dateField;
     private javax.swing.JTextField eTimeField;
     private javax.swing.JTextField idField;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -389,9 +435,11 @@ public class UpdateClasses extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField sStatusField;
     private javax.swing.JTextField sTimeField;
     private javax.swing.JButton saveChangeButton;
     private javax.swing.JTextField scheduleIDField;
@@ -493,15 +541,27 @@ public class UpdateClasses extends javax.swing.JFrame {
 
     private void reset() {
         scheduleStatusUpdateCombobox.setSelectedIndex(0);
+        scheduleStatusUpdateCombobox.setEnabled(false);
+        classIDComboboxUpdate.setSelectedIndex(0);
         idField.setText("");
         dateField.setText("");
         sTimeField.setText("");
         eTimeField.setText("");
         scheduleIDField.setText("");
+        sStatusField.setText("");
+    }
+
+    private void reset1() {
+        scheduleStatusUpdateCombobox.setSelectedIndex(0);
+        idField.setText("");
+        dateField.setText("");
+        sTimeField.setText("");
+        eTimeField.setText("");
+        scheduleIDField.setText("");
+        sStatusField.setText("");
     }
 
     private void resetTable() {
-        classIDComboboxUpdate.setSelectedIndex(0);
 
         // Reload table if necessary
         loadClassSchedulTable("SELECT * FROM `class_schedule`"
