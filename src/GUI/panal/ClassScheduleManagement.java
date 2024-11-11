@@ -38,7 +38,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
                 + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
-                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' ");
+                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' ORDER BY `class`.`id` ASC");
         loadHallType();
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
@@ -326,7 +326,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         updateButton.setBackground(new java.awt.Color(204, 255, 204));
         updateButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        updateButton.setText("Update");
+        updateButton.setText("Update Status");
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateButtonActionPerformed(evt);
@@ -909,7 +909,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                         + "INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` "
                         + "INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id` "
                         + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` "
-                        + "WHERE `week_day`.`day` = '" + dayOfWeek + "'");
+                        + "WHERE `week_day`.`day` = '" + dayOfWeek + "' ORDER BY `class`.`id` ASC");
 
                 reset();
             }
@@ -1044,7 +1044,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                     + "INNER JOIN `class_room` ON `class_room`.`id`=`class_schedule`.`class_room_id`"
                     + "INNER JOIN `employee` ON `employee`.`id`=`class_schedule`.`employee_id`"
                     + "INNER JOIN `schedule_status` ON `schedule_status`.`id`=`class_schedule`.`schedule_status_id`"
-                    + "INNER JOIN `room_type` ON `room_type`.`id`=`class_room`.`room_type_id`");
+                    + "INNER JOIN `room_type` ON `room_type`.`id`=`class_room`.`room_type_id` ORDER BY `class_schedule`.`id` ASC");
 
             DefaultTableModel tableModel = (DefaultTableModel) classScheduleTable.getModel();
             tableModel.setRowCount(0);
@@ -1189,7 +1189,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
                 + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
-                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `subject`.`name` LIKE '%" + subject + "%' ");
+                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `subject`.`name` LIKE '%" + subject + "%' ORDER BY `class`.`id` ASC");
 
         searchClassSubjectField.setText(subject);
     }
@@ -1200,7 +1200,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
                 + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
-                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `room_type`.`type` = '" + hall + "' ");
+                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `room_type`.`type` = '" + hall + "' ORDER BY `class`.`id` ASC");
     }
 
     //search grade from autoload table
@@ -1209,7 +1209,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
                 + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
-                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `grade`.`name` LIKE '%" + grade1 + "%' ");
+                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `grade`.`name` LIKE '%" + grade1 + "%' ORDER BY `class`.`id` ASC");
 
         searchGradeField.setText(grade1);
     }
@@ -1220,7 +1220,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
                 + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
-                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `teacher`.`nic` LIKE '%" + teacher1 + "%' ");
+                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `teacher`.`nic` LIKE '%" + teacher1 + "%' ORDER BY `class`.`id` ASC");
 
         searchTeacherIdField.setText(teacher1);
     }
@@ -1231,7 +1231,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
                 + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
-                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `class`.`id` LIKE '%" + classId1 + "%' ");
+                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `class`.`id` LIKE '%" + classId1 + "%' ORDER BY `class`.`id` ASC");
 
     }
 
@@ -1292,6 +1292,6 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
                 + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
-                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' ");
+                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' ORDER BY `class`.`id` ASC");
     }
 }
