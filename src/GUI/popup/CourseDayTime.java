@@ -327,6 +327,7 @@ public class CourseDayTime extends javax.swing.JDialog {
             }
             classDays.add(new ClassDay(id, day, time2));
             updateTable();
+            
         }
 
     }
