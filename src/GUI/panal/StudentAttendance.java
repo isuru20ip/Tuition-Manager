@@ -126,19 +126,20 @@ public class StudentAttendance extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         employee_attn_table = new javax.swing.JTable();
 
-        setBackground(new java.awt.Color(234, 238, 244));
+        setBackground(new java.awt.Color(200, 200, 198));
         setPreferredSize(new java.awt.Dimension(967, 668));
 
-        jTabbedPane1.setBackground(new java.awt.Color(234, 238, 244));
+        jTabbedPane1.setBackground(new java.awt.Color(200, 200, 198));
         jTabbedPane1.setFont(new java.awt.Font("Poppins SemiBold", 1, 18)); // NOI18N
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(967, 668));
 
-        student_attn_main_panel.setBackground(new java.awt.Color(234, 238, 244));
+        student_attn_main_panel.setBackground(new java.awt.Color(200, 200, 198));
         student_attn_main_panel.setPreferredSize(new java.awt.Dimension(967, 660));
 
+        jTabbedPane2.setBackground(new java.awt.Color(200, 200, 198));
         jTabbedPane2.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
 
-        student_attn_class_panel.setBackground(new java.awt.Color(234, 238, 244));
+        student_attn_class_panel.setBackground(new java.awt.Color(200, 200, 198));
 
         jLabel2.setFont(new java.awt.Font("SchulbuchNord", 1, 24)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -344,7 +345,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         jTabbedPane2.addTab("Classes ", student_attn_class_panel);
 
-        student_attn_course_panel.setBackground(new java.awt.Color(234, 238, 244));
+        student_attn_course_panel.setBackground(new java.awt.Color(200, 200, 198));
 
         jPanel9.setBackground(new java.awt.Color(234, 238, 244));
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -534,7 +535,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Student Attendance", student_attn_main_panel);
 
-        employee_attn_main_panel.setBackground(new java.awt.Color(234, 238, 244));
+        employee_attn_main_panel.setBackground(new java.awt.Color(200, 200, 198));
 
         jLabel6.setFont(new java.awt.Font("SchulbuchNord", 1, 24)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
