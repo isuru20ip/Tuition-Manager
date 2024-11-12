@@ -1,5 +1,8 @@
 package GUI.panal;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import modal.DB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,13 +10,26 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.YearMonth;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modal.LogCenter;
 import modal.SetDate;
 import modal.Validator;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * @author isuru priyamntha
@@ -1000,6 +1016,11 @@ public class PaymentManagement extends javax.swing.JPanel {
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setText("View");
         jButton8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         jButton9.setBackground(new java.awt.Color(255, 0, 51));
         jButton9.setFont(new java.awt.Font("Meta", 1, 12)); // NOI18N
@@ -1009,13 +1030,18 @@ public class PaymentManagement extends javax.swing.JPanel {
 
         jTextField15.setEditable(false);
         jTextField15.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
-        jTextField15.setText("C:\\Users\\isuru\\Documents\\TuitionManager");
+        jTextField15.setText("C:/Users/isuru/Documents");
 
         jButton10.setBackground(new java.awt.Color(0, 51, 255));
         jButton10.setFont(new java.awt.Font("Meta", 1, 12)); // NOI18N
         jButton10.setForeground(new java.awt.Color(255, 255, 255));
         jButton10.setText("Set Location");
         jButton10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jFormattedTextField7.setEditable(false);
         jFormattedTextField7.setBackground(new java.awt.Color(255, 255, 255));
@@ -1152,8 +1178,16 @@ public class PaymentManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        printReport();
+        printReport(true);
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        printReport(false);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+       getFolderPath();
+    }//GEN-LAST:event_jButton10ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1898,16 +1932,16 @@ public class PaymentManagement extends javax.swing.JPanel {
             DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
             model.setRowCount(0);
 
-            int row =  1;
+            int row = 1;
             while (resultSet.next()) {
                 Vector v = new Vector();
-                v.add(row);
+                v.add(String.valueOf(row));
                 v.add(resultSet.getString("student"));
                 v.add(resultSet.getString("class"));
                 v.add(resultSet.getString("teacher"));
                 v.add(resultSet.getString("date"));
                 v.add(resultSet.getString("fee"));
-                
+
                 row++;
                 model.addRow(v);
             }
@@ -1918,10 +1952,38 @@ public class PaymentManagement extends javax.swing.JPanel {
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
-
     }
 
-    private void printReport() {
-    
+    private void printReport(boolean isSave) {
+        JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
+        HashMap<String, Object> params = new HashMap<>();
+        try {
+            JasperPrint print = JasperFillManager.fillReport("src//report//payment_2.jasper", params, dataSource);
+            if (isSave) {
+                String path = jTextField15.getText();
+                System.out.println(path);
+                JasperExportManager.exportReportToPdfFile(print, path+"/test.pdf");
+                JOptionPane.showMessageDialog(paymentBTN, "PDF Saved");
+
+            } else {
+                JasperViewer.viewReport(print, false);
+            }
+
+            // open Saved File
+//            try {
+//                File pdfFile = new File("D:\\Work\\test.pdf");
+//                if (pdfFile.exists()) {
+//                    Desktop.getDesktop().open(pdfFile);
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+        } catch (JRException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void getFolderPath() {
+     
     }
 }
