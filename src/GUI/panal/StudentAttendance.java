@@ -145,7 +145,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText(" Studen Attendance Marking");
 
-        jPanel6.setBackground(new java.awt.Color(234, 238, 244));
+        jPanel6.setBackground(new java.awt.Color(200, 200, 198));
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel3.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
@@ -231,15 +231,20 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Marking Date and Time", "class Schedule ID", "Student ID", "Employee ID"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel14.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
@@ -819,7 +824,7 @@ public class StudentAttendance extends javax.swing.JPanel {
     }//GEN-LAST:event_Studen_ID_TextFieldKeyReleased
 
     private void class_attn_print_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_class_attn_print_buttonActionPerformed
-        searchClassEnrolment();
+        MarkClassAttn();
     }//GEN-LAST:event_class_attn_print_buttonActionPerformed
 
 
@@ -998,9 +1003,9 @@ public class StudentAttendance extends javax.swing.JPanel {
 
             if (gradeId == null) {
                 JOptionPane.showMessageDialog(this, "Grade is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
-            }else if(SubjectID == null){
+            } else if (SubjectID == null) {
                 JOptionPane.showMessageDialog(this, "Class is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
-            }else{
+            } else {
                 if (st_ID.length() == 5) {
 
                     ResultSet resultSet = DB.search("SELECT * FROM `class_enrollment` "
@@ -1018,10 +1023,8 @@ public class StudentAttendance extends javax.swing.JPanel {
                     Student_Name_TextField.setText("");
                 }
             }
-                
 
 //                
-            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1046,6 +1049,50 @@ public class StudentAttendance extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void MarkClassAttn() {
+
+        try {
+            String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+            String grade = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
+            String gradeId = gradeMap.get(grade);
+
+            String subject = String.valueOf(jComboBox_classLoad.getSelectedItem());
+            String SubjectID = classMap.get(subject);
+
+            ResultSet resultSet = DB.search("SELECT * FROM `class_schedule` "
+                    + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
+                    + "WHERE `class_schedule`.`class_date` = '" + dateFormat + "' "
+                    + "AND `class`.`grade_id` = '" + gradeId + "' "
+                    + "AND `class`.`subject_id` = '" + SubjectID + "'");
+
+            if (resultSet.next()) {
+                
+                String scheduleID = resultSet.getString("id");
+                String StudenID = Studen_ID_TextField.getText();
+                
+                ResultSet resultSet1 = DB.search("SELECT * FROM class_attendance "
+                        + "WHERE class_schedule_id = '"+scheduleID+"' "
+                        + "AND DATE(`marked_time`) = '"+dateFormat+"' "
+                        + "AND student_id = '"+StudenID+"'");
+                
+                if (resultSet1.next()) {
+                    
+                }
+                
+            }
+            
+            
+            
+          
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     // <<..........................................Studen Class Attendance Marking.........................................>>
