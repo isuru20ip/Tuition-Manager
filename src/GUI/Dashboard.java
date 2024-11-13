@@ -5,7 +5,7 @@ import GUI.panal.ClassScheduleManagement;
 import GUI.panal.CourseManagement;
 import GUI.panal.PaymentManagement;
 
-import GUI.panal.Reporting;
+//import GUI.panal.Reporting;
 //import GUI.panal.Settings;
  import GUI.panal.Settings;
 
