@@ -9,20 +9,6 @@ import java.io.Serializable;
 public class Home implements Serializable{
 
     /**
-     * @return the logo
-     */
-    public String getLogo() {
-        return logo;
-    }
-
-    /**
-     * @param logo the logo to set
-     */
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
-    /**
      * @return the homeName
      */
     public String getHomeName() {
@@ -120,18 +106,88 @@ public class Home implements Serializable{
         this.email = email;
     }
 
-    public Home() {
+    /**
+     * @return the logo
+     */
+    public String getLogo() {
+        return logo;
     }
 
-    public Home(String homeName, String line01, String line02, String City, String landLine, String mobile, String email,String logo) {
-        this.homeName = homeName;
-        this.line01 = line01;
-        this.line02 = line02;
-        this.City = City;
-        this.landLine = landLine;
-        this.mobile = mobile;
-        this.email = email;
+    /**
+     * @param logo the logo to set
+     */
+    public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    /**
+     * @return the host
+     */
+    public String getHost() {
+        return host;
+    }
+
+    /**
+     * @param host the host to set
+     */
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    /**
+     * @return the port
+     */
+    public String getPort() {
+        return port;
+    }
+
+    /**
+     * @param port the port to set
+     */
+    public void setPort(String port) {
+        this.port = port;
+    }
+
+    /**
+     * @return the database
+     */
+    public String getDatabase() {
+        return database;
+    }
+
+    /**
+     * @param database the database to set
+     */
+    public void setDatabase(String database) {
+        this.database = database;
+    }
+
+    /**
+     * @return the admin
+     */
+    public String getAdmin() {
+        return admin;
+    }
+
+    /**
+     * @param admin the admin to set
+     */
+    public void setAdmin(String admin) {
+        this.admin = admin;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     private String homeName;
@@ -142,5 +198,11 @@ public class Home implements Serializable{
     private String mobile;
     private String email;
     private String logo;
+    
+    private String host;
+    private String port;
+    private String database;
+    private String admin;
+    private String password;
     
 }
