@@ -4,9 +4,15 @@ import GUI.panal.ClassManagement;
 import GUI.panal.ClassScheduleManagement;
 import GUI.panal.CourseManagement;
 import GUI.panal.PaymentManagement;
+
 import GUI.panal.Reporting;
 //import GUI.panal.Settings;
  import GUI.panal.Settings;
+
+//  import GUI.panal.Reporting;
+import GUI.panal.Settings;
+// import GUI.panal.Settings;
+
 import GUI.panal.StudentAttendance;
 import GUI.panal.StudentManagement;
 import GUI.panal.TeacherManagement;
@@ -470,7 +476,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        loadPanal(new Reporting());
+       // loadPanal(new Reporting());
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
