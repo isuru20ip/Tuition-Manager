@@ -16,6 +16,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modal.HomeInfo;
@@ -140,8 +141,6 @@ public class PaymentManagement extends javax.swing.JPanel {
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
-        jTextField15 = new javax.swing.JTextField();
-        jButton10 = new javax.swing.JButton();
         jFormattedTextField7 = new javax.swing.JFormattedTextField();
         jLabel24 = new javax.swing.JLabel();
 
@@ -1031,21 +1030,6 @@ public class PaymentManagement extends javax.swing.JPanel {
         jButton9.setText("Clear");
         jButton9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
-        jTextField15.setEditable(false);
-        jTextField15.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
-        jTextField15.setText("C:/Users/isuru/Documents");
-
-        jButton10.setBackground(new java.awt.Color(0, 51, 255));
-        jButton10.setFont(new java.awt.Font("Meta", 1, 12)); // NOI18N
-        jButton10.setForeground(new java.awt.Color(255, 255, 255));
-        jButton10.setText("Set Location");
-        jButton10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
-            }
-        });
-
         jFormattedTextField7.setEditable(false);
         jFormattedTextField7.setBackground(new java.awt.Color(255, 255, 255));
         jFormattedTextField7.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
@@ -1067,9 +1051,6 @@ public class PaymentManagement extends javax.swing.JPanel {
                     .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane3)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1097,11 +1078,9 @@ public class PaymentManagement extends javax.swing.JPanel {
                     .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField15)
-                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(14, 14, 14))
         );
 
@@ -1181,16 +1160,12 @@ public class PaymentManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        printReport(true);
+        getFolderPath();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        printReport(false);
+        printReport(false,"");
     }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        getFolderPath();
-    }//GEN-LAST:event_jButton10ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1213,7 +1188,6 @@ public class PaymentManagement extends javax.swing.JPanel {
     private javax.swing.JTextField grade01;
     private javax.swing.JTextField hallfee01;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
@@ -1271,7 +1245,6 @@ public class PaymentManagement extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTextField jTextField15;
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
@@ -1957,8 +1930,9 @@ public class PaymentManagement extends javax.swing.JPanel {
         }
     }
 
-    private void printReport(boolean isSave) {
+    private void printReport(boolean isSave,String path) {
         try {
+            //get System Data 
             Home home = new HomeInfo().getHome();
             JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
             HashMap<String, Object> params = new HashMap<>();
@@ -1970,9 +1944,7 @@ public class PaymentManagement extends javax.swing.JPanel {
 
             JasperPrint print = JasperFillManager.fillReport("src//report//payment.jasper", params, dataSource);
             if (isSave) {
-                String path = jTextField15.getText();
-                System.out.println(path);
-                JasperExportManager.exportReportToPdfFile(print, path + "/test.pdf");
+                JasperExportManager.exportReportToPdfFile(print, path + "/Payment_Reports"+System.currentTimeMillis()+".pdf");
                 JOptionPane.showMessageDialog(paymentBTN, "PDF Saved");
 
             } else {
@@ -1991,6 +1963,17 @@ public class PaymentManagement extends javax.swing.JPanel {
     }
 
     private void getFolderPath() {
+         // Create the JFileChooser instance
+        JFileChooser folderChooser = new JFileChooser();
+        folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
+        // Show the open dialog
+        int result = folderChooser.showOpenDialog(null);
+
+        // Check if a folder was selected
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFolder = folderChooser.getSelectedFile();
+            printReport(true,selectedFolder.getAbsolutePath());
+        }
     }
 }
