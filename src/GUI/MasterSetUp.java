@@ -32,9 +32,10 @@ public class MasterSetUp extends javax.swing.JFrame {
         if (checkData()) {
             new SignIn().setVisible(true);
             this.dispose();
+        } else {
+            initComponents();
+            loardCity();
         }
-        initComponents();
-        loardCity();
 
     }
 
@@ -424,28 +425,77 @@ public class MasterSetUp extends javax.swing.JFrame {
             String phone = mobile.getText();
             String mail = email.getText();
 
-            String host;
-            String port;
-            String database;
-            String admin;
-            String password;
+            String host = this.host.getText();
+            String port = this.port.getText();
+            String database = this.database.getText();
+            String admin = username.getText();
+            String password = this.password.getText();
 
-            // need to valodaet logo path fist
-            String img = setLogo(logoPath);
+            // Validation checks
+            if (name.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Institute name is required");
+            } else if (line1.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Address Line 1 is required");
+            } else if (line2.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Address Line 2 is required");
+            } else if (city.equals("Select City")) {
+                JOptionPane.showMessageDialog(this, "City is required");
+            } else if (landline.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "landline  is required");
+            } else if (phone.isEmpty()) {
+                JOptionPane.showMessageDialog(this, " mobile is required");
+            } else if (mail.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Email is required");
+            } else if (host.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Host is required");
+            } else if (port.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Port is required");
+            } else if (database.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Database name is required");
+            } else if (admin.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Admin username is required");
+            } else if (password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Password is required");
+            } else if (logoPath == null) {
+                JOptionPane.showMessageDialog(this, "Logo is required");
 
-            // creaate file
-            File file = new File(System.getProperty("user.dir") + "\\homeinfo.ser");
-            file.createNewFile();
+            } else {
+                // get system image
+                String img = setLogo(logoPath);
 
-            //create bean that include data
-            Home home = new Home();
-            try {
-                // ceate and save data
-                new HomeInfo().setHome(home);
+                // creaate file
+                File file = new File(System.getProperty("user.dir") + "\\homeinfo.ser");
+                file.createNewFile();
 
-                checkData();
-            } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while copying image", ex);
+                //create bean that include data
+                Home home = new Home();
+                home.setHomeName(name);
+                home.setLine01(line1);
+                home.setLine02(line2);
+                home.setCity(city);
+                home.setLandLine(landline);
+                home.setMobile(phone);
+                home.setEmail(mail);
+                home.setLogo(img);
+                home.setHost(host);
+                home.setPort(port);
+                home.setDatabase(database);
+                home.setAdmin(admin);
+                home.setPassword(password);
+
+                try {
+                    // ceate and save data
+                    new HomeInfo().setHome(home);
+                    if (checkData()) {
+                        new SignIn().setVisible(true);
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Something Went Wrong Pleas try again");
+                        this.dispose();
+                    }
+                } catch (IOException ex) {
+                    LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while copying image", ex);
+                }
             }
         } catch (IOException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while copying image", ex);
