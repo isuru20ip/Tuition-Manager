@@ -1164,7 +1164,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        printReport(false,"");
+        printReport(false, "");
     }//GEN-LAST:event_jButton8ActionPerformed
 
 
@@ -1930,7 +1930,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         }
     }
 
-    private void printReport(boolean isSave,String path) {
+    private void printReport(boolean isSave, String path) {
         try {
             //get System Data 
             Home home = new HomeInfo().getHome();
@@ -1944,10 +1944,12 @@ public class PaymentManagement extends javax.swing.JPanel {
 
             JasperPrint print = JasperFillManager.fillReport("src//report//payment.jasper", params, dataSource);
             if (isSave) {
-                JasperExportManager.exportReportToPdfFile(print, path + "/Payment_Reports"+System.currentTimeMillis()+".pdf");
-                JOptionPane.showMessageDialog(paymentBTN, "PDF Saved");
+                // save Report
+                JasperExportManager.exportReportToPdfFile(print, path + "/Payment_Reports" + System.currentTimeMillis() + ".pdf");
+                JOptionPane.showMessageDialog(paymentBTN, "Report Saved");
 
             } else {
+                // view report
                 JasperViewer.viewReport(print, false);
             }
 
@@ -1963,7 +1965,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     }
 
     private void getFolderPath() {
-         // Create the JFileChooser instance
+        // Create the JFileChooser instance
         JFileChooser folderChooser = new JFileChooser();
         folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
@@ -1973,7 +1975,9 @@ public class PaymentManagement extends javax.swing.JPanel {
         // Check if a folder was selected
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFolder = folderChooser.getSelectedFile();
-            printReport(true,selectedFolder.getAbsolutePath());
+            printReport(true, selectedFolder.getAbsolutePath());
+        } else {
+            JOptionPane.showMessageDialog(paymentBTN, "Report Not Saved");
         }
     }
 }
