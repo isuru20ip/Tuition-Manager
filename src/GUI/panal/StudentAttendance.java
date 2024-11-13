@@ -69,7 +69,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         class_attn_print_button = new javax.swing.JButton();
         jSeparator6 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Class_Attn_Table = new javax.swing.JTable();
         class_From_DateChooser = new com.toedter.calendar.JDateChooser();
         class_to_DateChooser = new com.toedter.calendar.JDateChooser();
         jLabel14 = new javax.swing.JLabel();
@@ -221,6 +221,11 @@ public class StudentAttendance extends javax.swing.JPanel {
         jButton2.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Marck Attendance");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         class_attn_print_button.setBackground(new java.awt.Color(255, 204, 0));
         class_attn_print_button.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
@@ -231,7 +236,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Class_Attn_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -247,7 +252,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(Class_Attn_Table);
 
         jLabel14.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jLabel14.setText("From :");
@@ -285,7 +290,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                     .addComponent(jScrollPane1)
                     .addComponent(jSeparator7, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(student_attn_class_panelLayout.createSequentialGroup()
-                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(student_attn_class_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(student_attn_class_panelLayout.createSequentialGroup()
@@ -330,7 +335,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                             .addComponent(class_attn_print_button, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(class_CheckBox))
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -824,11 +829,16 @@ public class StudentAttendance extends javax.swing.JPanel {
     }//GEN-LAST:event_Studen_ID_TextFieldKeyReleased
 
     private void class_attn_print_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_class_attn_print_buttonActionPerformed
-        MarkClassAttn();
+
     }//GEN-LAST:event_class_attn_print_buttonActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        MarkClassAttn();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Class_Attn_Table;
     private javax.swing.JTextField Studen_ID_TextField;
     private javax.swing.JTextField Student_Name_TextField;
     private javax.swing.JCheckBox class_CheckBox;
@@ -894,7 +904,6 @@ public class StudentAttendance extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
@@ -930,7 +939,9 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         Student_Name_TextField.setEditable(false);
 
-        loadTabel();
+        loadClassAttnTable();
+
+        loadEmpAttnTabel();
         loadClassGrade();
 
     }
@@ -1069,41 +1080,74 @@ public class StudentAttendance extends javax.swing.JPanel {
                     + "AND `class`.`subject_id` = '" + SubjectID + "'");
 
             if (resultSet.next()) {
-                
+
                 String scheduleID = resultSet.getString("id");
                 String StudenID = Studen_ID_TextField.getText();
-                
+
                 ResultSet resultSet1 = DB.search("SELECT * FROM class_attendance "
-                        + "WHERE class_schedule_id = '"+scheduleID+"' "
-                        + "AND DATE(`marked_time`) = '"+dateFormat+"' "
-                        + "AND student_id = '"+StudenID+"'");
-                
+                        + "WHERE class_schedule_id = '" + scheduleID + "' "
+                        + "AND DATE(`marked_time`) = '" + dateFormat + "' "
+                        + "AND student_id = '" + StudenID + "'");
+
                 if (resultSet1.next()) {
-                   JOptionPane.showMessageDialog(this, "This Student Attendance Alredy Marked","Warning",JOptionPane.WARNING_MESSAGE);
-                }else{
+                    JOptionPane.showMessageDialog(this, "This Student Attendance Alredy Marked", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
                     dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
                     String employeeUserName = admin.getUserName();
                     System.out.println(employeeUserName);
-                    
-                    ResultSet resultSet2 = DB.search("SELECT * FROM emp_access WHERE user_name = '"+employeeUserName+"'");
-                    
+
+                    ResultSet resultSet2 = DB.search("SELECT * FROM emp_access WHERE user_name = '" + employeeUserName + "'");
+
                     if (resultSet2.next()) {
-                       String empID = resultSet2.getString("employee_id");
-                       
-                         DB.IUD("INSERT INTO class_attendance "
-                                 + "(`marked_time`,`class_schedule_id`,`student_id`,`employee_id`) "
-                                 + "VALUES('"+dateFormat+"','"+scheduleID+"','"+StudenID+"','"+empID+"')");
+                        String empID = resultSet2.getString("employee_id");
+                        String StudenName = Student_Name_TextField.getText();
+
+                        if (gradeId == null) {
+                            JOptionPane.showMessageDialog(this, "Grade is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
+                        } else if (SubjectID == null) {
+                            JOptionPane.showMessageDialog(this, "Class is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
+                        } else if (StudenName.isEmpty()) {
+                            JOptionPane.showMessageDialog(this, "Please Enter Student ID", "Warning", JOptionPane.WARNING_MESSAGE);
+                        } else {
+                            DB.IUD("INSERT INTO class_attendance "
+                                    + "(`marked_time`,`class_schedule_id`,`student_id`,`employee_id`) "
+                                    + "VALUES('" + dateFormat + "','" + scheduleID + "','" + StudenID + "','" + empID + "')");
+                        }
+
                     }
-                  
+
                 }
-                
+
             }
-            
-            
-            
-          
-            
-            
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void loadClassAttnTable() {
+
+        try {
+            String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+            ResultSet resultSet = DB.search("SELECT * FROM class_attendance "
+                    + "WHERE DATE(`marked_time`) = '" + dateFormat + "' "
+                    + "ORDER BY `marked_time` ASC");
+
+            DefaultTableModel tableModel = (DefaultTableModel) Class_Attn_Table.getModel();
+            tableModel.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector<String> ClassVector = new Vector<>();
+                ClassVector.add(resultSet.getString("marked_time"));
+                ClassVector.add(resultSet.getString("class_schedule_id"));
+                ClassVector.add(resultSet.getString("student_id"));
+                ClassVector.add(resultSet.getString("employee_id"));
+
+                tableModel.addRow(ClassVector);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1190,7 +1234,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                         + "(`date`,`ontime`,`offtime`,`employee_id`) "
                         + "VALUES('" + dateFormat + "','" + timeFormat + "','00:00:00','" + empID + "')");
 
-                loadTabel();
+                loadEmpAttnTabel();
                 resetEmployeePage();
 
             }
@@ -1216,7 +1260,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                 DB.IUD("UPDATE `emp_attendance` SET "
                         + "`offtime`='" + timeFormat + "' WHERE employee_id= '" + empID + "' AND `date`='" + dateFormat + "'");
 
-                loadTabel();
+                loadEmpAttnTabel();
                 resetEmployeePage();
 
             }
@@ -1227,7 +1271,7 @@ public class StudentAttendance extends javax.swing.JPanel {
     }
 
     // Load Employee Attendance Table
-    private void loadTabel() {
+    private void loadEmpAttnTabel() {
 
         try {
             String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
