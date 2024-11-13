@@ -1936,9 +1936,9 @@ public class PaymentManagement extends javax.swing.JPanel {
             Home home = new HomeInfo().getHome();
             JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
             HashMap<String, Object> params = new HashMap<>();
-            params.put("landLine", home.getPhone03());
-            params.put("email", home.getHomeName());
-            params.put("phone", home.getPhone02());
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("phone", home.getMobile());
             params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
             params.put("title", "Payment Reports");
 

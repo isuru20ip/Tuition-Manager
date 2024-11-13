@@ -99,17 +99,13 @@ public class Settings extends javax.swing.JPanel {
         jLabel10 = new javax.swing.JLabel();
         line02 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        webLink = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        phone01 = new javax.swing.JTextField();
-        phone02 = new javax.swing.JTextField();
+        landLine = new javax.swing.JTextField();
+        mobile = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         city = new javax.swing.JComboBox<>();
         jLabel15 = new javax.swing.JLabel();
-        phone03 = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
-        fax = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
         logo = new javax.swing.JLabel();
         saveHome = new javax.swing.JButton();
 
@@ -501,22 +497,16 @@ public class Settings extends javax.swing.JPanel {
         jLabel11.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
         jLabel11.setText("City");
 
-        jLabel12.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
-        jLabel12.setText("Web link");
-
         jLabel13.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
-        jLabel13.setText("Phone-01");
+        jLabel13.setText("LandLine");
 
         jLabel14.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
-        jLabel14.setText("Phone-02");
+        jLabel14.setText("Mobile");
 
         city.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel15.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
-        jLabel15.setText("Phone-03");
-
-        jLabel16.setFont(new java.awt.Font("Advert", 0, 18)); // NOI18N
-        jLabel16.setText("Fax");
+        jLabel15.setText("Email");
 
         logo.setBackground(new java.awt.Color(0, 0, 0));
         logo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -551,29 +541,32 @@ public class Settings extends javax.swing.JPanel {
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(590, 590, 590))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(webLink, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(phone01, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(line01, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addGap(75, 75, 75)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fax)
-                            .addComponent(line02)
-                            .addComponent(phone02))
-                        .addGap(75, 75, 75)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(city, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(phone03, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(saveHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(line01))
+                                .addGap(75, 75, 75)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(line02))
+                                .addGap(75, 75, 75)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(city, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(landLine))
+                                .addGap(75, 75, 75)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(mobile))
+                                .addGap(75, 75, 75)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(email, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(saveHome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(36, 36, 36))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -585,52 +578,39 @@ public class Settings extends javax.swing.JPanel {
                 .addGap(24, 24, 24)
                 .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(phone03, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(47, 47, 47)
-                        .addComponent(saveHome, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(homeName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(line01, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(city, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(line02, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(email, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(homeName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(line01, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel13))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel11)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(city, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel10)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(line02, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel14)
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel14)
+                                .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(phone01, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(phone02, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(webLink, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel16)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fax, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(132, 132, 132))
+                            .addComponent(landLine, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(mobile, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(26, 26, 26)
+                .addComponent(saveHome, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(145, 145, 145))
         );
 
         jTabbedPane1.addTab("Institute Data", jPanel3);
@@ -752,9 +732,9 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> city;
     private javax.swing.JButton clean;
+    private javax.swing.JTextField email;
     private javax.swing.JFormattedTextField empSalary;
     private javax.swing.JComboBox<String> empType;
-    private javax.swing.JTextField fax;
     private javax.swing.JComboBox<String> gradeCombo;
     private javax.swing.JTable gradeTable;
     private javax.swing.JButton hallBtn;
@@ -767,11 +747,9 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -790,19 +768,17 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextField landLine;
     private javax.swing.JTextField line01;
     private javax.swing.JTextField line02;
     private javax.swing.JLabel logo;
-    private javax.swing.JTextField phone01;
-    private javax.swing.JTextField phone02;
-    private javax.swing.JTextField phone03;
+    private javax.swing.JTextField mobile;
     private javax.swing.JFormattedTextField sCharge;
     private javax.swing.JButton salaryBtn;
     private javax.swing.JButton saveHome;
     private javax.swing.JButton serviceBtn;
     private javax.swing.JTextField subjectName;
     private javax.swing.JTable subjectTable;
-    private javax.swing.JTextField webLink;
     // End of variables declaration//GEN-END:variables
 
     // loard hallType into combobox[hallType] & add hall type price into hallMap [HashMap]
@@ -1165,48 +1141,15 @@ public class Settings extends javax.swing.JPanel {
             String line1 = this.line01.getText();
             String line2 = this.line02.getText();
             String homeCity = (String) this.city.getSelectedItem();
-            String phone1 = this.phone01.getText();
-            String phone2 = this.phone02.getText();
-            String phone3 = this.phone03.getText();
-            String weblink = this.webLink.getText();
-            String homeFax = this.fax.getText();
+            String landLine = this.landLine.getText();
+            String mobile = this.mobile.getText();
+            String email = this.email.getText();
             String image = setLogo();
 
-            if (name.isEmpty()) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Institute name required",
-                        "Warning",
-                        JOptionPane.WARNING_MESSAGE);
-            } else if (line1.isEmpty()) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Address Line-01 required",
-                        "Warning",
-                        JOptionPane.WARNING_MESSAGE);
-            } else if (line2.isEmpty()) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Address Line-02 required",
-                        "Warning",
-                        JOptionPane.WARNING_MESSAGE);
-            } else if (homeCity.equals("Select City")) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "City required",
-                        "Warning",
-                        JOptionPane.WARNING_MESSAGE);
-            } else if (phone1.isEmpty() & phone2.isEmpty() & phone3.isEmpty()) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Least one mobile number required",
-                        "Warning",
-                        JOptionPane.WARNING_MESSAGE);
-            } else {
-                new HomeInfo().setHome(new Home(name, line1, line2, homeCity, phone1, phone2, phone3, weblink, homeFax, image));
+                new HomeInfo().setHome(new Home(name, line1, line2, homeCity, landLine, mobile, email,image));
                 loardHome();
                 JOptionPane.showMessageDialog(this, "Home Information Update Success", "Data Update", JOptionPane.INFORMATION_MESSAGE);
-            }
+            
         } catch (IOException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while Updating Homeinfo", ex);
         }
@@ -1221,13 +1164,13 @@ public class Settings extends javax.swing.JPanel {
             this.line01.setText(home.getLine01());
             this.line02.setText(home.getLine02());
             this.city.setSelectedItem(home.getCity());
-            this.phone01.setText(home.getLine01());
-            this.phone02.setText(home.getPhone02());
-            this.phone03.setText(home.getPhone03());
-            this.webLink.setText(home.getWebLink());
-            this.fax.setText(home.getFax());
+            this.landLine.setText(home.getLine01());
+            this.mobile.setText(home.getMobile());
+            this.email.setText(home.getEmail());
+            
             logo.setIcon(new ImageIcon(home.getLogo()));
             SwingUtilities.updateComponentTreeUI(logo);
+            
         } catch (IOException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while Loarding Homeinfo", ex);
         } catch (ClassNotFoundException ex) {
@@ -1258,7 +1201,6 @@ public class Settings extends javax.swing.JPanel {
             // Delete Old Image
             String oldImage = new HomeInfo().getHome().getLogo();
             if (logopath == null) {
-                System.out.println("logosetre null out");
                 return oldImage;
             }
             if (oldImage != null) {
