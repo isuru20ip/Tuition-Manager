@@ -1136,23 +1136,17 @@ public class Settings extends javax.swing.JPanel {
 
     // update homeifo.ser file
     private void SaveHomeData() {
-        try {
-            String name = this.homeName.getText();
-            String line1 = this.line01.getText();
-            String line2 = this.line02.getText();
-            String homeCity = (String) this.city.getSelectedItem();
-            String landLine = this.landLine.getText();
-            String mobile = this.mobile.getText();
-            String email = this.email.getText();
-            String image = setLogo();
-
-                new HomeInfo().setHome(new Home(name, line1, line2, homeCity, landLine, mobile, email,image));
-                loardHome();
-                JOptionPane.showMessageDialog(this, "Home Information Update Success", "Data Update", JOptionPane.INFORMATION_MESSAGE);
-            
-        } catch (IOException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while Updating Homeinfo", ex);
-        }
+        String name = this.homeName.getText();
+        String line1 = this.line01.getText();
+        String line2 = this.line02.getText();
+        String homeCity = (String) this.city.getSelectedItem();
+        String landLine = this.landLine.getText();
+        String mobile = this.mobile.getText();
+        String email = this.email.getText();
+        String image = setLogo();
+        //                new HomeInfo().setHome(new Home(name, line1, line2, homeCity, landLine, mobile, email,image));
+        loardHome();
+        JOptionPane.showMessageDialog(this, "Home Information Update Success", "Data Update", JOptionPane.INFORMATION_MESSAGE);
     }
     // getdata from homenfo.ser
 
