@@ -22,7 +22,7 @@ import modal.LogCenter;
 import modal.Validator;
 import modal.WordFormat;
 import modal.beans.Home;
-import modal.beans.HomeInfo;
+import modal.HomeInfo;
 
 /**
  *

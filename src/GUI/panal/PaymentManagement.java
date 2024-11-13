@@ -2,6 +2,7 @@ package GUI.panal;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import modal.DB;
 import java.sql.ResultSet;
@@ -17,9 +18,11 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import modal.HomeInfo;
 import modal.LogCenter;
 import modal.SetDate;
 import modal.Validator;
+import modal.beans.Home;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -1186,7 +1189,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-       getFolderPath();
+        getFolderPath();
     }//GEN-LAST:event_jButton10ActionPerformed
 
 
@@ -1955,35 +1958,39 @@ public class PaymentManagement extends javax.swing.JPanel {
     }
 
     private void printReport(boolean isSave) {
-        JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
-        HashMap<String, Object> params = new HashMap<>();
         try {
-            JasperPrint print = JasperFillManager.fillReport("src//report//payment_2.jasper", params, dataSource);
+            Home home = new HomeInfo().getHome();
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("landLine", home.getPhone03());
+            params.put("email", home.getHomeName());
+            params.put("phone", home.getPhone02());
+            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
+            params.put("title", "Payment Reports");
+
+            JasperPrint print = JasperFillManager.fillReport("src//report//payment.jasper", params, dataSource);
             if (isSave) {
                 String path = jTextField15.getText();
                 System.out.println(path);
-                JasperExportManager.exportReportToPdfFile(print, path+"/test.pdf");
+                JasperExportManager.exportReportToPdfFile(print, path + "/test.pdf");
                 JOptionPane.showMessageDialog(paymentBTN, "PDF Saved");
 
             } else {
                 JasperViewer.viewReport(print, false);
             }
 
-            // open Saved File
-//            try {
-//                File pdfFile = new File("D:\\Work\\test.pdf");
-//                if (pdfFile.exists()) {
-//                    Desktop.getDesktop().open(pdfFile);
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
         } catch (JRException ex) {
-            ex.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (FileNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
         }
     }
 
     private void getFolderPath() {
-     
+
     }
 }
