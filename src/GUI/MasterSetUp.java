@@ -28,15 +28,8 @@ public class MasterSetUp extends javax.swing.JFrame {
      */
     public MasterSetUp() {
         checkImg();
-
-        if (checkData()) {
-            new SignIn().setVisible(true);
-            this.dispose();
-        } else {
-            initComponents();
-            loardCity();
-        }
-
+        initComponents();
+        loardCity();
     }
 
     /**
@@ -353,7 +346,7 @@ public class MasterSetUp extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MasterSetUp().setVisible(true);
+                new MasterSetUp().checkData();
             }
         });
     }
@@ -397,9 +390,13 @@ public class MasterSetUp extends javax.swing.JFrame {
     String logoPath;
 
     // check whether exsist ser file
-    private boolean checkData() {
+    private void checkData() {
         File file = new File(System.getProperty("user.dir") + "\\homeinfo.ser");
-        return file.isFile();
+        if (file.isFile()) {
+            new SignIn().setVisible(true);
+        }else{
+            this.setVisible(true);
+        }
 
     }
 
@@ -486,13 +483,7 @@ public class MasterSetUp extends javax.swing.JFrame {
                 try {
                     // ceate and save data
                     new HomeInfo().setHome(home);
-                    if (checkData()) {
-                        new SignIn().setVisible(true);
-                        this.dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Something Went Wrong Pleas try again");
-                        this.dispose();
-                    }
+                    checkData();
                 } catch (IOException ex) {
                     LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while copying image", ex);
                 }

@@ -654,6 +654,11 @@ public class Settings extends javax.swing.JPanel {
 
         jButton2.setBackground(new java.awt.Color(204, 204, 204));
         jButton2.setText("Save");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel28.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel28.setText("Database Cnfiguration");
@@ -848,6 +853,10 @@ public class Settings extends javax.swing.JPanel {
     private void logoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoMouseClicked
         pickLogo();
     }//GEN-LAST:event_logoMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        SaveHomeData();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addGrade;
@@ -1295,11 +1304,11 @@ public class Settings extends javax.swing.JPanel {
         String phone = mobile.getText();
         String mail = email.getText();
 
-        String host = this.host.getText();
-        String port = this.port.getText();
-        String database = this.database.getText();
-        String admin = username.getText();
-        String password = this.password.getText();
+        String host = this.host1.getText();
+        String port = this.port1.getText();
+        String database = this.database1.getText();
+        String admin = username1.getText();
+        String password = this.password1.getText();
 
         // Validation checks
         if (name.isEmpty()) {
@@ -1353,6 +1362,7 @@ public class Settings extends javax.swing.JPanel {
                 // ceate and save data
                 new HomeInfo().setHome(home);
                 loardHome();
+                JOptionPane.showMessageDialog(this, "Update Success");
             } catch (IOException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while copying image", ex);
             }
@@ -1372,11 +1382,11 @@ public class Settings extends javax.swing.JPanel {
             mobile.setText(home.getMobile());
             email.setText(home.getEmail());
 
-            host.setText(home.getHost());
-            port.setText(home.getPort());
-            database.setText(home.getDatabase());
-            username.setText(home.getAdmin());
-            password.setText(home.getPassword());
+            host1.setText(home.getHost());
+            port1.setText(home.getPort());
+            database1.setText(home.getDatabase());
+            username1.setText(home.getAdmin());
+            password1.setText(home.getPassword());
 
             logo.setIcon(new ImageIcon(home.getLogo()));
             SwingUtilities.updateComponentTreeUI(logo);
