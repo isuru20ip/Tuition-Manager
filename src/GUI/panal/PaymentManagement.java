@@ -927,7 +927,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         jLabel30.setText("Time");
 
         jComboBox3.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "This Month", "Last Month", "This Quarter", "This Semiannual", "This Year", "Last Year", "All Time" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "This Month", "Last Month", "This Quarter", "This Semiannual", "This Year", "Last Year" }));
         jComboBox3.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBox3ItemStateChanged(evt);
@@ -1182,10 +1182,6 @@ public class PaymentManagement extends javax.swing.JPanel {
         cheackCondition();
     }//GEN-LAST:event_jTextField17KeyReleased
 
-    private void jTextField18KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField18KeyReleased
-        cheackCondition();
-    }//GEN-LAST:event_jTextField18KeyReleased
-
     private void jTextField20KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField20KeyReleased
         cheackCondition();
     }//GEN-LAST:event_jTextField20KeyReleased
@@ -1193,6 +1189,10 @@ public class PaymentManagement extends javax.swing.JPanel {
     private void jComboBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox3ItemStateChanged
         cheackCondition();
     }//GEN-LAST:event_jComboBox3ItemStateChanged
+
+    private void jTextField18KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField18KeyReleased
+        cheackCondition();
+    }//GEN-LAST:event_jTextField18KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1932,17 +1932,19 @@ public class PaymentManagement extends javax.swing.JPanel {
         StringBuilder query_1 = new StringBuilder(""
                 + "SELECT payment.student_id,"
                 + "class_pay.class_id AS related_id,"
-                + "class.teacher_nic,payment.date,"
+                + "class.teacher_nic,"
+                + "payment.date AS date_column, "
                 + "class.fee AS fee "
                 + "FROM payment "
                 + "JOIN class_pay ON class_pay.payment_id = payment.id "
-                + "JOIN class ON class.id = class_pay.class_id");
+                + "JOIN class ON class.id = class_pay.class_id ");
 
         StringBuilder query_2 = new StringBuilder(""
-                + "SELECT payment.student_id,"
-                + "course_pay.course_id AS related_id,"
-                + "course.teacher_nic,"
-                + "payment.date,course_pay.fee "
+                + "SELECT payment.student_id, "
+                + "`course_pay`.`course_id` AS `related_id`, "
+                + "`course`.`teacher_nic`, "
+                + "payment.date AS date_column, "
+                + "`course_pay`.`fee` "
                 + "FROM payment "
                 + "JOIN course_pay ON course_pay.payment_id = payment.id "
                 + "JOIN course ON course.id = course_pay.course_id ");
@@ -1957,13 +1959,13 @@ public class PaymentManagement extends javax.swing.JPanel {
             isChecked = true;
         }
 
-        if (classID.length() == 6) {
+        if (classID.length() == 6 || classID.length() == 6) {
             if (!isChecked) {
                 query_1.append("WHERE ");
                 query_2.append("WHERE ");
             }
             query_1.append("`class_pay`.`class_id` = '" + classID + "' AND ");
-            query_2.append("`course_pay`.`course_id` = '" + classID + "' AND ");
+            query_2.append("`course_pay`.`course_id` = '" + courseID + "' AND ");
             isChecked = true;
         }
 
@@ -1973,7 +1975,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                 query_2.append("WHERE ");
             }
             query_1.append("`class`.`teacher_nic` = '" + teacherID + "' AND ");
-            query_2.append("`class`.`teacher_nic` = '" + teacherID + "' AND ");
+            query_2.append("`course`.`teacher_nic` = '" + teacherID + "' AND ");
             isChecked = true;
         }
 
@@ -2044,7 +2046,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         StringBuilder query = new StringBuilder(query_1);
         query.append("UNION ALL ");
         query.append(query_2);
-        query.append("ORDER BY `payment`.`date` DESC");
+        query.append(" ORDER BY `date_column` DESC");
         makeReport(query.toString());
     }
 
@@ -2060,10 +2062,10 @@ public class PaymentManagement extends javax.swing.JPanel {
             while (resultSet.next()) {
                 Vector v = new Vector();
                 v.add(String.valueOf(row));
-                v.add(resultSet.getString("student"));
-                v.add(resultSet.getString("class"));
-                v.add(resultSet.getString("teacher"));
-                v.add(resultSet.getString("date"));
+                v.add(resultSet.getString("student_id"));
+                v.add(resultSet.getString("related_id"));
+                v.add(resultSet.getString("teacher_nic"));
+                v.add(resultSet.getString("date_column"));
                 v.add(resultSet.getString("fee"));
 
                 row++;
