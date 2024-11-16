@@ -27,14 +27,9 @@ public class DB {
 
             if (STATE == DBState.Cloud) {
                 connection = DriverManager.getConnection("jdbc:mysql://final-project-final-project.i.aivencloud.com:19332/tution_db", "avnadmin", "AVNS_1AEuyZC9iNXKbvo72Mv");
-
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tution_db", "root", "pahan@sql@2003");
-
-
             } else if (STATE == DBState.Local) {
                 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tution_db", "root", "JANINDU@23829");
             }
-
         }
     }
 
