@@ -127,11 +127,11 @@ public class ClassManagement extends javax.swing.JPanel {
         jLabel64 = new javax.swing.JLabel();
         jComboBox34 = new javax.swing.JComboBox<>();
         jLabel65 = new javax.swing.JLabel();
-        jLabel66 = new javax.swing.JLabel();
         jTextField25 = new javax.swing.JTextField();
-        jDateChooser3 = new com.toedter.calendar.JDateChooser();
         jLabel67 = new javax.swing.JLabel();
         jButton21 = new javax.swing.JButton();
+        jLabel66 = new javax.swing.JLabel();
+        jLabel69 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -473,9 +473,6 @@ public class ClassManagement extends javax.swing.JPanel {
         jLabel65.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel65.setText("Fee");
 
-        jLabel66.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jLabel66.setText("End Date");
-
         jTextField25.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
 
         jLabel67.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
@@ -488,6 +485,10 @@ public class ClassManagement extends javax.swing.JPanel {
                 jButton21ActionPerformed(evt);
             }
         });
+
+        jLabel66.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+
+        jLabel69.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -518,31 +519,34 @@ public class ClassManagement extends javax.swing.JPanel {
                         .addGap(10, 10, 10)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                            .addComponent(jComboBox5, 0, 150, Short.MAX_VALUE)))
+                            .addComponent(jComboBox5, 0, 145, Short.MAX_VALUE)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox6, 0, 150, Short.MAX_VALUE)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                            .addComponent(jComboBox6, 0, 149, Short.MAX_VALUE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE))
                         .addGap(10, 10, 10)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel63, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                            .addComponent(jComboBox33, 0, 150, Short.MAX_VALUE))
+                            .addComponent(jLabel63, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+                            .addComponent(jComboBox33, 0, 149, Short.MAX_VALUE))
                         .addGap(10, 10, 10)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel64, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                            .addComponent(jComboBox34, 0, 150, Short.MAX_VALUE))
+                            .addComponent(jLabel64, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+                            .addComponent(jComboBox34, 0, 149, Short.MAX_VALUE))
                         .addGap(10, 10, 10)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel65, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                            .addComponent(jTextField25, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                            .addComponent(jLabel65, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+                            .addComponent(jTextField25, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel66, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel69, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)))
                         .addGap(10, 10, 10)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel66, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                            .addComponent(jDateChooser3, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel67, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                            .addComponent(jButton21, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))))
+                            .addComponent(jLabel67, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                            .addComponent(jButton21, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))))
                 .addGap(6, 6, 6))
         );
         jPanel6Layout.setVerticalGroup(
@@ -579,15 +583,15 @@ public class ClassManagement extends javax.swing.JPanel {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel64, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel65, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel66, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel67, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jComboBox34, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel69, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel66, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -1673,9 +1677,7 @@ public class ClassManagement extends javax.swing.JPanel {
                 String fee = String.valueOf(jTable4.getValueAt(row, 11));
                 jTextField25.setText(fee);
 
-                String endingDate = String.valueOf(jTable4.getValueAt(row, 12));
-                Date date = dateFormat.parse(endingDate);
-                jDateChooser3.setDate(date);
+               
 
                 ResultSet rs2 = DB.search("SELECT * FROM `teacher` INNER JOIN `employee` ON `employee`.`id`=`teacher`.`employee_id` INNER JOIN `gender` ON `gender`.`id`=`employee`.`gender_id` WHERE `teacher`.`nic`='" + tnic + "'");
 
@@ -1755,7 +1757,6 @@ public class ClassManagement extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JComboBox<String> jComboBox9;
     private com.toedter.calendar.JDateChooser jDateChooser2;
-    private com.toedter.calendar.JDateChooser jDateChooser3;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1817,6 +1818,7 @@ public class ClassManagement extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -2063,7 +2065,7 @@ public class ClassManagement extends javax.swing.JPanel {
             String type = String.valueOf(jComboBox34.getSelectedItem());
             String fee = jTextField25.getText();
             String registerDate = SetDate.getDate("yyyy-MM-dd HH:mm:ss");
-            Date endDate = jDateChooser3.getDate();
+            //Date endDate = jDateChooser3.getDate();
             SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
             //String endDateWithTime = dateTimeFormat.format(endDate);
             Calendar calendar = Calendar.getInstance();
@@ -2071,7 +2073,7 @@ public class ClassManagement extends javax.swing.JPanel {
             calendar.set(Calendar.MINUTE, 0);
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
-            Date today = calendar.getTime();
+            //Date today = calendar.getTime();
             if (teacherID.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Select Teacher First", "Alert!", JOptionPane.WARNING_MESSAGE);
                 //jTextField1.grabFocus();
@@ -2122,9 +2124,7 @@ public class ClassManagement extends javax.swing.JPanel {
                 // The input is valid, as it contains only digits
                 JOptionPane.showMessageDialog(this, "Invalid Amount", "Alert!", JOptionPane.WARNING_MESSAGE);
                 // Proceed with additional logic here if needed
-            } else if (endDate == null || endDate.before(today)) {
-                JOptionPane.showMessageDialog(this, "Please Select  valid Date", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (dayVector == null) {
+            }  else if (dayVector == null) {
                 JOptionPane.showMessageDialog(this, "Please select Day and time.", "Invalid Date", JOptionPane.WARNING_MESSAGE);
 
             } else {
@@ -2136,7 +2136,7 @@ public class ClassManagement extends javax.swing.JPanel {
                 } else {
                     DB.IUD("INSERT INTO `class` (`id`,`fee`,`register_date`,`end_date`,`teacher_nic`,`subject_id`,`grade_id`,"
                             + "`class_type_id`,`class_method_id`,`class_language_id`,`class_status_id`,`room_type_id`,`employee_id`,`class_modal_id`) VALUES"
-                            + "('" + classID + "','" + fee + "','" + registerDate + "','" + dateTimeFormat.format(endDate) + "','" + teacherID + "','" + subjectMap.get(subject) + "','" + gradeMap.get(grade) + "',"
+                            + "('" + classID + "','" + fee + "','" + registerDate + "','" + teacherID + "','" + subjectMap.get(subject) + "','" + gradeMap.get(grade) + "',"
                             + "'" + classTypeMap.get(type) + "','" + classMethodMap.get(method) + "','" + classLanguageMap.get(language) + "','" + classStatusMap.get(status) + "'"
                             + ",'" + hallMap.get(hall) + "','0126','" + classModalMap.get(model) + "')");
 
@@ -2261,7 +2261,7 @@ public class ClassManagement extends javax.swing.JPanel {
             String type = String.valueOf(jComboBox34.getSelectedItem());
             String fee = jTextField25.getText();
             String registerDate = SetDate.getDate("yyyy-MM-dd HH:mm:ss");
-            Date endDate = jDateChooser3.getDate();
+            //Date endDate = jDateChooser3.getDate();
             SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
             //String endDateWithTime = dateTimeFormat.format(endDate);
             Calendar calendar = Calendar.getInstance();
@@ -2269,7 +2269,7 @@ public class ClassManagement extends javax.swing.JPanel {
             calendar.set(Calendar.MINUTE, 0);
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
-            Date today = calendar.getTime();
+           // Date today = calendar.getTime();
             if (teacherID.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Select Teacher First", "Alert!", JOptionPane.WARNING_MESSAGE);
                 //jTextField1.grabFocus();
@@ -2320,20 +2320,18 @@ public class ClassManagement extends javax.swing.JPanel {
                 // The input is valid, as it contains only digits
                 JOptionPane.showMessageDialog(this, "Invalid Amount", "Alert!", JOptionPane.WARNING_MESSAGE);
                 // Proceed with additional logic here if needed
-            } else if (endDate == null || endDate.before(today)) {
-                JOptionPane.showMessageDialog(this, "Please Select  valid Date", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
 
                 ResultSet rs = DB.search("SELECT * FROM  `class` WHERE teacher_nic='" + teacherID + "' AND subject_id='" + subjectMap.get(subject) + "' "
                         + "AND grade_id='" + gradeMap.get(grade) + "' AND class_type_id='" + classTypeMap.get(type) + "' AND "
                         + "class_method_id='" + classMethodMap.get(method) + "' AND class_language_id='" + classLanguageMap.get(language) + "' "
                         + "AND class_status_id='" + classStatusMap.get(status) + "' AND room_type_id='" + hallMap.get(hall) + "' "
-                        + "AND class_modal_id='" + classModalMap.get(model) + "'AND`fee`='" + fee + "' AND `end_date`='" + dateTimeFormat.format(endDate) + "'");
+                        + "AND class_modal_id='" + classModalMap.get(model) + "'AND`fee`='" + fee + "' ");
                 if (rs.next() && dayVector == null) {
                     JOptionPane.showMessageDialog(this, "Nothing to Update ", "Alert!", JOptionPane.WARNING_MESSAGE);
                 } else {
                     if (!rs.next()) {
-                        DB.IUD("UPDATE `class` SET `fee` = '" + fee + "', `register_date` = '" + registerDate + "', `end_date` = '" + dateTimeFormat.format(endDate) + "',"
+                        DB.IUD("UPDATE `class` SET `fee` = '" + fee + "', `register_date` = '" + registerDate + "',"
                                 + " `teacher_nic` = '" + teacherID + "', `subject_id` = '" + subjectMap.get(subject) + "', `grade_id` = '" + gradeMap.get(grade) + "', "
                                 + "`class_type_id` = '" + classTypeMap.get(type) + "', `class_method_id` = '" + classMethodMap.get(method) + "', "
                                 + "`class_language_id` = '" + classLanguageMap.get(language) + "', `class_status_id` = '" + classStatusMap.get(status) + "', "
@@ -2405,7 +2403,7 @@ public class ClassManagement extends javax.swing.JPanel {
         jComboBox6.setSelectedItem("Select");
         jComboBox33.setSelectedItem("Select");
         jComboBox34.setSelectedItem("Select");
-        jDateChooser3.setDate(null);
+        //jDateChooser3.setDate(null);
         loadClassesTable("");
         generateClassID();
         jButton5.setEnabled(true);
