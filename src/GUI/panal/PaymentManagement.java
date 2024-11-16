@@ -8,7 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Year;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
@@ -38,7 +40,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         initComponents();
         cleanClass();
         cleanCourse();
-        makeReport("");
+        cheackCondition();
     }
 
     @SuppressWarnings("unchecked")
@@ -124,8 +126,6 @@ public class PaymentManagement extends javax.swing.JPanel {
         jTextField17 = new javax.swing.JTextField();
         jTextField18 = new javax.swing.JTextField();
         jLabel27 = new javax.swing.JLabel();
-        jTextField19 = new javax.swing.JTextField();
-        jLabel28 = new javax.swing.JLabel();
         jTextField20 = new javax.swing.JTextField();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
@@ -887,23 +887,38 @@ public class PaymentManagement extends javax.swing.JPanel {
         jLabel25.setText("Student ID");
 
         jTextField16.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
+        jTextField16.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField16KeyReleased(evt);
+            }
+        });
 
         jLabel26.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jLabel26.setText("Class ID");
 
         jTextField17.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
+        jTextField17.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField17KeyReleased(evt);
+            }
+        });
 
         jTextField18.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
+        jTextField18.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField18KeyReleased(evt);
+            }
+        });
 
         jLabel27.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jLabel27.setText("Course ID");
 
-        jTextField19.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
-
-        jLabel28.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
-        jLabel28.setText("Course ID");
-
         jTextField20.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
+        jTextField20.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField20KeyReleased(evt);
+            }
+        });
 
         jLabel29.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jLabel29.setText("Teacher ID");
@@ -912,7 +927,12 @@ public class PaymentManagement extends javax.swing.JPanel {
         jLabel30.setText("Time");
 
         jComboBox3.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "This Month", "Last Month", "This Quarter", "This Semiannual", "This Year", "Last Year", "All Time", " " }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "This Month", "Last Month", "This Quarter", "This Semiannual", "This Year", "Last Year" }));
+        jComboBox3.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox3ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -933,27 +953,19 @@ public class PaymentManagement extends javax.swing.JPanel {
                     .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField19)
-                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextField20)
                     .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(106, Short.MAX_VALUE))
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(242, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addComponent(jLabel28)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(jLabel27)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1045,18 +1057,19 @@ public class PaymentManagement extends javax.swing.JPanel {
                     .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane3)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jFormattedTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jFormattedTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -1161,6 +1174,26 @@ public class PaymentManagement extends javax.swing.JPanel {
         printReport(false, "");
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void jTextField16KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField16KeyReleased
+        cheackCondition();
+    }//GEN-LAST:event_jTextField16KeyReleased
+
+    private void jTextField17KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField17KeyReleased
+        cheackCondition();
+    }//GEN-LAST:event_jTextField17KeyReleased
+
+    private void jTextField20KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField20KeyReleased
+        cheackCondition();
+    }//GEN-LAST:event_jTextField20KeyReleased
+
+    private void jComboBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox3ItemStateChanged
+        cheackCondition();
+    }//GEN-LAST:event_jComboBox3ItemStateChanged
+
+    private void jTextField18KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField18KeyReleased
+        cheackCondition();
+    }//GEN-LAST:event_jTextField18KeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField classBalance;
@@ -1210,7 +1243,6 @@ public class PaymentManagement extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
@@ -1242,7 +1274,6 @@ public class PaymentManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField16;
     private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
-    private javax.swing.JTextField jTextField19;
     private javax.swing.JTextField jTextField20;
     private javax.swing.JTextField leval;
     private javax.swing.JFormattedTextField paying_fee;
@@ -1889,15 +1920,140 @@ public class PaymentManagement extends javax.swing.JPanel {
         cleanCourse();
     }
 
-    private void makeReport(String Condtion) {
-        try {
+    private void cheackCondition() {
+        String studentID = jTextField16.getText();
+        String classID = jTextField17.getText();
+        String courseID = jTextField18.getText();
+        String teacherID = jTextField20.getText();
+        int date = jComboBox3.getSelectedIndex();
 
-            ResultSet resultSet = DB.search("SELECT `payment`.`student_id` AS `student`,"
-                    + " `class`.`id` AS `class`, `class`.`teacher_nic` AS `teacher`,"
-                    + " `payment`.`date` AS `date`, `class`.`fee`  FROM `payment` "
-                    + "INNER JOIN `class_pay` ON `class_pay`.`payment_id` = `payment`.`id` "
-                    + "INNER JOIN `class` ON `class`.id = `class_pay`.`class_id` "
-                    + "WHERE `class`.`teacher_nic` = '912345678V';");
+        boolean isChecked = false;
+
+        StringBuilder query_1 = new StringBuilder(""
+                + "SELECT payment.student_id,"
+                + "class_pay.class_id AS related_id,"
+                + "class.teacher_nic,"
+                + "payment.date AS date_column, "
+                + "class.fee AS fee "
+                + "FROM payment "
+                + "JOIN class_pay ON class_pay.payment_id = payment.id "
+                + "JOIN class ON class.id = class_pay.class_id ");
+
+        StringBuilder query_2 = new StringBuilder(""
+                + "SELECT payment.student_id, "
+                + "`course_pay`.`course_id` AS `related_id`, "
+                + "`course`.`teacher_nic`, "
+                + "payment.date AS date_column, "
+                + "`course_pay`.`fee` "
+                + "FROM payment "
+                + "JOIN course_pay ON course_pay.payment_id = payment.id "
+                + "JOIN course ON course.id = course_pay.course_id ");
+
+        if (studentID.length() == 8) {
+            if (!isChecked) {
+                query_1.append("WHERE ");
+                query_2.append("WHERE ");
+            }
+            query_1.append("`payment`.`student_id` = '" + studentID + "' AND ");
+            query_2.append("`payment`.`student_id` = '" + studentID + "' AND ");
+            isChecked = true;
+        }
+
+        if (classID.length() == 6 || classID.length() == 6) {
+            if (!isChecked) {
+                query_1.append("WHERE ");
+                query_2.append("WHERE ");
+            }
+            query_1.append("`class_pay`.`class_id` = '" + classID + "' AND ");
+            query_2.append("`course_pay`.`course_id` = '" + courseID + "' AND ");
+            isChecked = true;
+        }
+
+        if (teacherID.length() == 10 || teacherID.length() == 12) {
+            if (!isChecked) {
+                query_1.append("WHERE ");
+                query_2.append("WHERE ");
+            }
+            query_1.append("`class`.`teacher_nic` = '" + teacherID + "' AND ");
+            query_2.append("`course`.`teacher_nic` = '" + teacherID + "' AND ");
+            isChecked = true;
+        }
+
+        // Set of Date 
+        Year thisYear = Year.now();
+        String thisMonth = YearMonth.now().format(DateTimeFormatter.ofPattern("MM"));
+        String lastMonth = YearMonth.now().minusMonths(1).format(DateTimeFormatter.ofPattern("MM"));
+        String quarter = YearMonth.now().minusMonths(2).format(DateTimeFormatter.ofPattern("MM"));
+        String semiannual = YearMonth.now().minusMonths(5).format(DateTimeFormatter.ofPattern("MM"));
+        Year lastYear = thisYear.minusYears(1);
+
+        switch (date) {
+            case 0:
+                if (!isChecked) {
+                    query_1.append("WHERE ");
+                    query_2.append("WHERE ");
+                }
+                query_1.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) = '" + thisMonth + "' ");
+                query_2.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) = '" + thisMonth + "' ");
+                break;
+
+            case 1:
+                if (!isChecked) {
+                    query_1.append("WHERE ");
+                    query_2.append("WHERE ");
+                }
+                query_1.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) = '" + lastMonth + "' ");
+                query_2.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) = '" + lastMonth + "' ");
+                break;
+
+            case 2:
+                if (!isChecked) {
+                    query_1.append("WHERE ");
+                    query_2.append("WHERE ");
+                }
+                query_1.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) >= '" + quarter + "' ");
+                query_2.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) >= '" + quarter + "' ");
+                break;
+
+            case 3:
+                if (!isChecked) {
+                    query_1.append("WHERE ");
+                    query_2.append("WHERE ");
+                }
+                query_1.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) >= '" + semiannual + "' ");
+                query_2.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) >= '" + semiannual + "' ");
+                break;
+
+            case 4:
+                if (!isChecked) {
+                    query_1.append("WHERE ");
+                    query_2.append("WHERE ");
+                }
+                query_1.append("YEAR(date) = '" + thisYear + "' ");
+                query_2.append("YEAR(date) = '" + thisYear + "' ");
+                break;
+
+            case 5:
+                if (!isChecked) {
+                    query_1.append("WHERE ");
+                    query_2.append("WHERE ");
+                }
+                query_1.append("YEAR(date) = '" + lastYear + "' ");
+                query_2.append("YEAR(date) = '" + lastYear + "' ");
+                break;
+        }
+
+        StringBuilder query = new StringBuilder(query_1);
+        query.append("UNION ALL ");
+        query.append(query_2);
+        query.append(" ORDER BY `date_column` DESC");
+        makeReport(query.toString());
+    }
+
+    private void makeReport(String query) {
+        try {
+            System.out.println(query);
+            ResultSet resultSet = DB.search(query);
 
             DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
             model.setRowCount(0);
@@ -1906,10 +2062,10 @@ public class PaymentManagement extends javax.swing.JPanel {
             while (resultSet.next()) {
                 Vector v = new Vector();
                 v.add(String.valueOf(row));
-                v.add(resultSet.getString("student"));
-                v.add(resultSet.getString("class"));
-                v.add(resultSet.getString("teacher"));
-                v.add(resultSet.getString("date"));
+                v.add(resultSet.getString("student_id"));
+                v.add(resultSet.getString("related_id"));
+                v.add(resultSet.getString("teacher_nic"));
+                v.add(resultSet.getString("date_column"));
                 v.add(resultSet.getString("fee"));
 
                 row++;
