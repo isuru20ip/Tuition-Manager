@@ -927,7 +927,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         jLabel30.setText("Time");
 
         jComboBox3.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "This Month", "Last Month", "This Quarter", "This Semiannual", "This Year", "Last Year" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "This Month", "Last Month", "This Quarter", "This Semiannual", "This Year", "Last Year", "All Time" }));
         jComboBox3.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBox3ItemStateChanged(evt);
@@ -1926,26 +1926,36 @@ public class PaymentManagement extends javax.swing.JPanel {
         String courseID = jTextField18.getText();
         String teacherID = jTextField20.getText();
         int date = jComboBox3.getSelectedIndex();
-
+        
         boolean isChecked = false;
+        
         StringBuilder query = new StringBuilder("SELECT `payment`.`student_id` AS `student`,"
                 + "`class`.`id` AS `class`, "
                 + "`class`.`teacher_nic` AS `teacher`,"
                 + "`payment`.`date` AS `date`, `class`.`fee`  FROM `payment` "
                 + "INNER JOIN `class_pay` ON `class_pay`.`payment_id` = `payment`.`id` "
-                + "INNER JOIN `class` ON `class`.id = `class_pay`.`class_id` WHERE ");
+                + "INNER JOIN `class` ON `class`.id = `class_pay`.`class_id` ");
 
         if (studentID.length() == 8) {
+            if (!isChecked) {
+                query.append("WHERE ");
+            }
             query.append("`payment`.`student_id` = '" + studentID + "' AND ");
             isChecked = true;
         }
 
         if (classID.length() == 6) {
+            if (!isChecked) {
+                query.append("WHERE ");
+            }
             query.append("`class_pay`.`class_id` = '" + classID + "' AND ");
             isChecked = true;
         }
 
         if (teacherID.length() == 10 || teacherID.length() == 12) {
+            if (!isChecked) {
+                query.append("WHERE ");
+            }
             query.append("`class`.`teacher_nic` = '" + teacherID + "' AND ");
             isChecked = true;
         }
@@ -1960,28 +1970,48 @@ public class PaymentManagement extends javax.swing.JPanel {
 
         switch (date) {
             case 0:
-                query.append("YEAR(date) = " + thisYear + " AND MONTH(DATE) = " + thisMonth);
+                if (!isChecked) {
+                    query.append("WHERE ");
+                }
+                query.append("YEAR(date) = '"+thisYear+"' AND MONTH(DATE) = '"+thisMonth+"' ");
                 break;
 
             case 1:
+                if (!isChecked) {
+                    query.append("WHERE ");
+                }
                 query.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) = '" + lastMonth + "' ");
                 break;
 
             case 2:
+                if (!isChecked) {
+                    query.append("WHERE ");
+                }
                 query.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) >= '" + quarter + "' ");
                 break;
 
             case 3:
+                if (!isChecked) {
+                    query.append("WHERE ");
+                }
                 query.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) >= '" + semiannual + "' ");
                 break;
 
             case 4:
+                if (!isChecked) {
+                    query.append("WHERE ");
+                }
                 query.append("YEAR(date) = '" + thisYear + "' ");
                 break;
             case 5:
+                if (!isChecked) {
+                    query.append("WHERE ");
+                }
                 query.append("YEAR(date) = '" + lastYear + "' ");
                 break;
         }
+        
+        query.append("ORDER BY `payment`.`date` DESC");
 
         makeReport(query.toString());
     }
