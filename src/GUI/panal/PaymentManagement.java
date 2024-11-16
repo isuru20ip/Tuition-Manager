@@ -1926,37 +1926,54 @@ public class PaymentManagement extends javax.swing.JPanel {
         String courseID = jTextField18.getText();
         String teacherID = jTextField20.getText();
         int date = jComboBox3.getSelectedIndex();
-        
+
         boolean isChecked = false;
-        
-        StringBuilder query = new StringBuilder("SELECT `payment`.`student_id` AS `student`,"
-                + "`class`.`id` AS `class`, "
-                + "`class`.`teacher_nic` AS `teacher`,"
-                + "`payment`.`date` AS `date`, `class`.`fee`  FROM `payment` "
-                + "INNER JOIN `class_pay` ON `class_pay`.`payment_id` = `payment`.`id` "
-                + "INNER JOIN `class` ON `class`.id = `class_pay`.`class_id` ");
+
+        StringBuilder query_1 = new StringBuilder(""
+                + "SELECT payment.student_id,"
+                + "class_pay.class_id AS related_id,"
+                + "class.teacher_nic,payment.date,"
+                + "class.fee AS fee "
+                + "FROM payment "
+                + "JOIN class_pay ON class_pay.payment_id = payment.id "
+                + "JOIN class ON class.id = class_pay.class_id");
+
+        StringBuilder query_2 = new StringBuilder(""
+                + "SELECT payment.student_id,"
+                + "course_pay.course_id AS related_id,"
+                + "course.teacher_nic,"
+                + "payment.date,course_pay.fee "
+                + "FROM payment "
+                + "JOIN course_pay ON course_pay.payment_id = payment.id "
+                + "JOIN course ON course.id = course_pay.course_id ");
 
         if (studentID.length() == 8) {
             if (!isChecked) {
-                query.append("WHERE ");
+                query_1.append("WHERE ");
+                query_2.append("WHERE ");
             }
-            query.append("`payment`.`student_id` = '" + studentID + "' AND ");
+            query_1.append("`payment`.`student_id` = '" + studentID + "' AND ");
+            query_2.append("`payment`.`student_id` = '" + studentID + "' AND ");
             isChecked = true;
         }
 
         if (classID.length() == 6) {
             if (!isChecked) {
-                query.append("WHERE ");
+                query_1.append("WHERE ");
+                query_2.append("WHERE ");
             }
-            query.append("`class_pay`.`class_id` = '" + classID + "' AND ");
+            query_1.append("`class_pay`.`class_id` = '" + classID + "' AND ");
+            query_2.append("`course_pay`.`course_id` = '" + classID + "' AND ");
             isChecked = true;
         }
 
         if (teacherID.length() == 10 || teacherID.length() == 12) {
             if (!isChecked) {
-                query.append("WHERE ");
+                query_1.append("WHERE ");
+                query_2.append("WHERE ");
             }
-            query.append("`class`.`teacher_nic` = '" + teacherID + "' AND ");
+            query_1.append("`class`.`teacher_nic` = '" + teacherID + "' AND ");
+            query_2.append("`class`.`teacher_nic` = '" + teacherID + "' AND ");
             isChecked = true;
         }
 
@@ -1971,48 +1988,63 @@ public class PaymentManagement extends javax.swing.JPanel {
         switch (date) {
             case 0:
                 if (!isChecked) {
-                    query.append("WHERE ");
+                    query_1.append("WHERE ");
+                    query_2.append("WHERE ");
                 }
-                query.append("YEAR(date) = '"+thisYear+"' AND MONTH(DATE) = '"+thisMonth+"' ");
+                query_1.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) = '" + thisMonth + "' ");
+                query_2.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) = '" + thisMonth + "' ");
                 break;
 
             case 1:
                 if (!isChecked) {
-                    query.append("WHERE ");
+                    query_1.append("WHERE ");
+                    query_2.append("WHERE ");
                 }
-                query.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) = '" + lastMonth + "' ");
+                query_1.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) = '" + lastMonth + "' ");
+                query_2.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) = '" + lastMonth + "' ");
                 break;
 
             case 2:
                 if (!isChecked) {
-                    query.append("WHERE ");
+                    query_1.append("WHERE ");
+                    query_2.append("WHERE ");
                 }
-                query.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) >= '" + quarter + "' ");
+                query_1.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) >= '" + quarter + "' ");
+                query_2.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) >= '" + quarter + "' ");
                 break;
 
             case 3:
                 if (!isChecked) {
-                    query.append("WHERE ");
+                    query_1.append("WHERE ");
+                    query_2.append("WHERE ");
                 }
-                query.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) >= '" + semiannual + "' ");
+                query_1.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) >= '" + semiannual + "' ");
+                query_2.append("YEAR(date) = '" + thisYear + "' AND MONTH(DATE) >= '" + semiannual + "' ");
                 break;
 
             case 4:
                 if (!isChecked) {
-                    query.append("WHERE ");
+                    query_1.append("WHERE ");
+                    query_2.append("WHERE ");
                 }
-                query.append("YEAR(date) = '" + thisYear + "' ");
+                query_1.append("YEAR(date) = '" + thisYear + "' ");
+                query_2.append("YEAR(date) = '" + thisYear + "' ");
                 break;
+
             case 5:
                 if (!isChecked) {
-                    query.append("WHERE ");
+                    query_1.append("WHERE ");
+                    query_2.append("WHERE ");
                 }
-                query.append("YEAR(date) = '" + lastYear + "' ");
+                query_1.append("YEAR(date) = '" + lastYear + "' ");
+                query_2.append("YEAR(date) = '" + lastYear + "' ");
                 break;
         }
-        
-        query.append("ORDER BY `payment`.`date` DESC");
 
+        StringBuilder query = new StringBuilder(query_1);
+        query.append("UNION ALL ");
+        query.append(query_2);
+        query.append("ORDER BY `payment`.`date` DESC");
         makeReport(query.toString());
     }
 
