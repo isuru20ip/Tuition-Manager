@@ -5,9 +5,11 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import modal.DB;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modal.IDGenarator;
+import modal.LogCenter;
 
 public class HallManagement extends javax.swing.JPanel {
 
@@ -132,6 +134,11 @@ public class HallManagement extends javax.swing.JPanel {
         jButton4.setBackground(new java.awt.Color(255, 255, 153));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton4.setText("Print");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -227,58 +234,20 @@ public class HallManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        int row = jTable1.getSelectedRow();
-
-        String capacity = String.valueOf(jTable1.getValueAt(row, 1));
-        jTextField1.setText(capacity);
-
-        String type = String.valueOf(jTable1.getValueAt(row, 2));
-        jComboBox1.setSelectedItem(type);
-
-        jButton1.setEnabled(false);
+        viewRow();
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
-        String value = jTextField2.getText();
-        
-        try {
-            
-            String query = ("Select * From `class_room` "
-                    + "INNER JOIN `room_type` ON `class_room`.`room_type_id` = `room_type`.`id` ");
-
-            if (value.matches("^[H0-9]$")){
-                query += "WHERE `class_room`.`id` LIKE '%"+value+"%' "; 
-
-            }else if (value.matches("^[A-Za-z]+/[A-Za-z]+\\d{6}$")){
-                query += " WHERE `room_type`.`type` LIKE '%" + value + "%'";
-                
-            }else{
-                query += "WHERE `class_room`.`capacity` LIKE '%" + value + "%' ";
-            }
-            
-            ResultSet resultSet = DB.search(query);
-
-            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
-            dtm.setRowCount(0);
-            
-            while (resultSet.next()) {
-                Vector<String> vector = new Vector<>();
-                vector.add(resultSet.getString("id"));
-                vector.add(resultSet.getString("capacity"));
-                vector.add(resultSet.getString("room_type.type"));
-
-                dtm.addRow(vector);
-            }
-            
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-        
+        searchHall();
     }//GEN-LAST:event_jTextField2KeyReleased
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        
+
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -299,7 +268,7 @@ public class HallManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 
-    //load hall type
+    //load Class Room type
     private void hallType() {
 
         try {
@@ -316,8 +285,11 @@ public class HallManagement extends javax.swing.JPanel {
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
             jComboBox1.setModel(model);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
     }
 
@@ -341,12 +313,15 @@ public class HallManagement extends javax.swing.JPanel {
                 model.addRow(vector);
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
     }
 
-    //insert new Hall
+    //insert new Class room
     private void addHall() {
         try {
 
@@ -370,12 +345,15 @@ public class HallManagement extends javax.swing.JPanel {
                 reset();
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
     }
 
-    //Update Hall
+    //Update Class Rooms
     private void updateHall() {
         try {
 
@@ -397,9 +375,67 @@ public class HallManagement extends javax.swing.JPanel {
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
+    }
+    
+    //Search Class Room
+    private void searchHall(){
+        String value = jTextField2.getText();
+
+        try {
+
+            String query = ("Select * From `class_room` "
+                    + "INNER JOIN `room_type` ON `class_room`.`room_type_id` = `room_type`.`id` ");
+
+            if (value.matches("^[H0-9]$")) {
+                query += "WHERE `class_room`.`id` LIKE '%" + value + "%' ";
+
+            } else if (value.matches("^[A-Za-z]+/[A-Za-z]+\\d{6}$")) {
+                query += " WHERE `room_type`.`type` LIKE '%" + value + "%'";
+
+            } else {
+                query += "WHERE `class_room`.`capacity` LIKE '%" + value + "%' ";
+            }
+
+            ResultSet resultSet = DB.search(query);
+
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            dtm.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("id"));
+                vector.add(resultSet.getString("capacity"));
+                vector.add(resultSet.getString("room_type.type"));
+
+                dtm.addRow(vector);
+            }
+
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+    }
+    
+    
+    //Table row selected
+    private void viewRow(){
+        int row = jTable1.getSelectedRow();
+
+        String capacity = String.valueOf(jTable1.getValueAt(row, 1));
+        jTextField1.setText(capacity);
+
+        String type = String.valueOf(jTable1.getValueAt(row, 2));
+        jComboBox1.setSelectedItem(type);
+
+        jButton1.setEnabled(false);
     }
 
     //clear all
@@ -407,8 +443,8 @@ public class HallManagement extends javax.swing.JPanel {
         jComboBox1.setSelectedIndex(0);
         jTextField1.setText("");
         jTextField2.setText("");
-    
-        jButton1.setEnabled(true);
+
+        jButton1.setEnabled(true); //add new hall button enable
     }
 
 }
