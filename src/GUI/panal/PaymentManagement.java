@@ -2097,7 +2097,6 @@ public class PaymentManagement extends javax.swing.JPanel {
 
     private void makeReport(String query) {
         try {
-            System.out.println(query);
             ResultSet resultSet = DB.search(query);
 
             DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
