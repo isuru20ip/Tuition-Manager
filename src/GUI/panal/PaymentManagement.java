@@ -1436,39 +1436,39 @@ public class PaymentManagement extends javax.swing.JPanel {
                     class_add.setEnabled(false);
                 }
 
-            }
-        } else {
+            } else {
 
-            ResultSet rs = DB.search("SELECT `class_enrollment`.`register_date` "
-                    + "FROM `class_enrollment` "
-                    + "WHERE `class_enrollment`.`class_id` = '" + classIdCombo.getSelectedItem() + "' "
-                    + "AND `class_enrollment`.`student_id` = '" + studentID.getText() + "'");
-            rs.next();
-            //get enroled year and month
-            String date = rs.getString(1).substring(0, 7);
-            YearMonth lastDue = YearMonth.parse(date);
+                ResultSet rs = DB.search("SELECT `class_enrollment`.`register_date` "
+                        + "FROM `class_enrollment` "
+                        + "WHERE `class_enrollment`.`class_id` = '" + classIdCombo.getSelectedItem() + "' "
+                        + "AND `class_enrollment`.`student_id` = '" + studentID.getText() + "'");
+                rs.next();
+                //get enroled year and month
+                String date = rs.getString(1).substring(0, 7);
+                YearMonth lastDue = YearMonth.parse(date);
 
-            // get curren year and month
-            String toDay = new SimpleDateFormat("yyyy-MM").format(new Date());
-            YearMonth thisMonth = YearMonth.parse(toDay);
+                // get curren year and month
+                String toDay = new SimpleDateFormat("yyyy-MM").format(new Date());
+                YearMonth thisMonth = YearMonth.parse(toDay);
 
-            // if not last and curent month are not equal
-            if (!lastDue.equals(thisMonth)) {
-                class_add.setEnabled(true);
+                // if not last and curent month are not equal
+                if (!lastDue.equals(thisMonth)) {
+                    class_add.setEnabled(true);
 
-                Vector<YearMonth> monthsBetween = new Vector<>();
+                    Vector<YearMonth> monthsBetween = new Vector<>();
 
-                YearMonth current = lastDue;
-                monthsBetween.add(current);
-                while (!current.isAfter(thisMonth)) {
-                    if (!current.equals(lastDue)) {
-                        monthsBetween.add(current);
+                    YearMonth current = lastDue;
+                    monthsBetween.add(current);
+                    while (!current.isAfter(thisMonth)) {
+                        if (!current.equals(lastDue)) {
+                            monthsBetween.add(current);
+                        }
+                        current = current.plusMonths(1);
                     }
-                    current = current.plusMonths(1);
-                }
 
-                DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel(monthsBetween);
-                dueM_01.setModel(comboBoxModel);
+                    DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel(monthsBetween);
+                    dueM_01.setModel(comboBoxModel);
+                }
             }
         }
     }
