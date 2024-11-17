@@ -1509,7 +1509,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                 v.add(hallfee01.getText());
                 v.add(classFee01.getText());
                 double total = Double.parseDouble(hallfee01.getText()) + Double.parseDouble(classFee01.getText());
-                v.add(total);
+                v.add(String.valueOf(total));
             }
 
             dtm.addRow(v);
