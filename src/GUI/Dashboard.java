@@ -7,7 +7,7 @@ import GUI.panal.PaymentManagement;
 
 //import GUI.panal.Reporting;
 //import GUI.panal.Settings;
- import GUI.panal.Settings;
+import GUI.panal.Settings;
 
 //  import GUI.panal.Reporting;
 import GUI.panal.Settings;
@@ -35,7 +35,7 @@ import modal.beans.Admin;
 public class Dashboard extends javax.swing.JFrame {
 
     private Admin admin;
-    
+
     public Dashboard(Admin bean) {
         initComponents();
         this.admin = bean;
@@ -455,7 +455,7 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    loadPanal(new HallManagement());
+        loadPanal(new HallManagement());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     //student management
@@ -476,7 +476,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-       // loadPanal(new Reporting());
+        // loadPanal(new Reporting());
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
@@ -489,7 +489,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     //payment mmanagement
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        loadPanal(new PaymentManagement());
+        loadPanal(new PaymentManagement(admin));
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -517,7 +517,7 @@ public class Dashboard extends javax.swing.JFrame {
         loadPanal(new ClassScheduleManagement(this));
     }//GEN-LAST:event_jButton10ActionPerformed
 
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel date;
     private javax.swing.JButton jButton1;

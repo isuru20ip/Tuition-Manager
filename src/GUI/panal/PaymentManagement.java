@@ -18,16 +18,19 @@ import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modal.HomeInfo;
 import modal.LogCenter;
 import modal.SetDate;
 import modal.Validator;
+import modal.beans.Admin;
 import modal.beans.Home;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -36,7 +39,10 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class PaymentManagement extends javax.swing.JPanel {
 
-    public PaymentManagement() {
+    private Admin admin;
+
+    public PaymentManagement(Admin user) {
+        this.admin = user;
         initComponents();
         cleanClass();
         cleanCourse();
@@ -1605,7 +1611,13 @@ public class PaymentManagement extends javax.swing.JPanel {
                     }
                     DB.IUD("INSERT INTO `class_pay` (`class_id`, `due_month`, `payment_id`, `hall_fee`,`is_free`) VALUES ('" + classID + "', '" + due_month + "', '" + paymentID + "','" + hall_fee + "','" + is_free + "')");
                 }
-                printInvoive();
+                HashMap<String, String> data = new HashMap<>();
+                data.put("ST", studentID.getText());
+                data.put("TO", classTotal.getText());
+                data.put("CA", classPayment.getText());
+                data.put("BA", classBalance.getText());
+                // prin invoice
+                printInvoive(data, classTable, true);
                 clear();
             }
 
@@ -1616,8 +1628,51 @@ public class PaymentManagement extends javax.swing.JPanel {
         }
     }
 
-    private void printInvoive() {
+    private void printInvoive(HashMap data, JTable table, boolean isClass) {
+        try {
 
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(table.getModel());
+
+            //get System Data 
+            Home home = new HomeInfo().getHome();
+
+            // paramters
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("institute", home.getHomeName());
+            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("mobile", "Mobile" + home.getMobile());
+            params.put("admin", "Admin " + admin.getUserName());
+            params.put("student", data.get("ST"));
+            params.put("date", SetDate.getDate("yyyy-MM-dd hh:mm:ss"));
+            params.put("land", "Land" + home.getLandLine());
+            params.put("Total", data.get("TO"));
+            params.put("Cash", data.get("CA"));
+            params.put("Balance", data.get("BA"));
+
+            JasperPrint print;
+            if (isClass) {
+                print = JasperFillManager.fillReport("src//report//bill.jasper", params, dataSource);
+            } else {
+                print = JasperFillManager.fillReport("src//report//bill2.jasper", params, dataSource);
+            }
+
+            boolean printSuccess = JasperPrintManager.printReport(print, true);
+
+            if (!printSuccess) {
+                JOptionPane.showMessageDialog(this, "Invoice Printing Faild");
+            }
+
+            JasperViewer.viewReport(print, false);
+
+        } catch (JRException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (FileNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        }
     }
 
     // loard and find course by student ID
@@ -1657,7 +1712,6 @@ public class PaymentManagement extends javax.swing.JPanel {
     // clean all feilds
     private void cleanCourse() {
 
-        student_id.setEditable(true);
         student_id.grabFocus();
         student_name.setText("");
 
@@ -1682,6 +1736,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         course_payment.setText("");
         course_balacnce.setText("");
         course_pay.setEnabled(false);
+        student_id.setEditable(true);
     }
 
     private void selectCourse() {
@@ -1886,7 +1941,14 @@ public class PaymentManagement extends javax.swing.JPanel {
 
                     DB.IUD("INSERT INTO `course_pay` (`course_id`, `fee`, `payment_id`, `is_free`) VALUES ('" + courdeID + "', '" + fee + "', '" + paymentID + "', 0);");
                 }
-                printInvoive();
+
+                HashMap<String, String> data = new HashMap<>();
+                data.put("ST", student_id.getText());
+                data.put("TO", course_total.getText());
+                data.put("CA", course_payment.getText());
+                data.put("BA", course_balacnce.getText());
+                // prin invoice
+                printInvoive(data, course_table, false);
                 clearAll();
             }
 
@@ -1942,7 +2004,7 @@ public class PaymentManagement extends javax.swing.JPanel {
             isChecked = true;
         }
 
-        if (!classID.isEmpty()|| !courseID.isEmpty()) {
+        if (!classID.isEmpty() || !courseID.isEmpty()) {
             if (!isChecked) {
                 query_1.append("WHERE ");
                 query_2.append("WHERE ");
@@ -2119,7 +2181,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         jTextField18.setText("");
         jTextField20.setText("");
         jComboBox3.setSelectedIndex(0);
-        
+
         cheackCondition();
     }
 }
