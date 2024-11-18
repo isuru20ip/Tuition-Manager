@@ -37,6 +37,8 @@ public class TeacherManagement extends javax.swing.JPanel {
         initComponents();
         loadTeacher("");
         loadTStatus();
+        TeacherReportLoad("", "", "", "");
+        TeacherPaymentLoad("");
     }
 
     /**
@@ -79,7 +81,6 @@ public class TeacherManagement extends javax.swing.JPanel {
         jPanel7 = new javax.swing.JPanel();
         jComboBox3 = new javax.swing.JComboBox<>();
         jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
         jButton6 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jTextField7 = new javax.swing.JTextField();
@@ -350,13 +351,20 @@ public class TeacherManagement extends javax.swing.JPanel {
         jPanel7.setBackground(new java.awt.Color(234, 238, 244));
 
         jComboBox3.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "New to Old", "Item 2", "Item 3", "Item 4" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "New to Old", "Old to New" }));
+        jComboBox3.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox3ItemStateChanged(evt);
+            }
+        });
 
         jComboBox4.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Status", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBox5.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Gender", "Item 2", "Item 3", "Item 4" }));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Type", "Hall Class", "Group Class" }));
+        jComboBox4.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox4ItemStateChanged(evt);
+            }
+        });
 
         jButton6.setBackground(new java.awt.Color(51, 204, 0));
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -371,9 +379,7 @@ public class TeacherManagement extends javax.swing.JPanel {
                 .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 310, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel7Layout.setVerticalGroup(
@@ -383,16 +389,27 @@ public class TeacherManagement extends javax.swing.JPanel {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel8.setBackground(new java.awt.Color(234, 238, 244));
 
+        jTextField7.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField7KeyReleased(evt);
+            }
+        });
+
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("NIC");
+
+        jTextField8.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField8KeyReleased(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -400,6 +417,11 @@ public class TeacherManagement extends javax.swing.JPanel {
 
         jButton7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton7.setText("Clear");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -439,11 +461,11 @@ public class TeacherManagement extends javax.swing.JPanel {
 
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jRadioButton1.setText("Class & Course");
+        jRadioButton1.setText("Teacher Enrollment");
 
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jRadioButton2.setText("Payment History");
+        jRadioButton2.setText("Teacher Payment");
 
         jButton8.setBackground(new java.awt.Color(0, 102, 204));
         jButton8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -480,11 +502,11 @@ public class TeacherManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Name", "NIC", "Email"
+                "NIC", "Name", "Email", "Subject", "Class Type", "Course", "Join_Date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -499,11 +521,11 @@ public class TeacherManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Teacher NIC", "Employee Name", "Date", "Commission", "Earn"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -684,8 +706,28 @@ public class TeacherManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTextField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyReleased
-        SearchStudent();
+        SearchTeacher(); // Search Management Table
     }//GEN-LAST:event_jTextField6KeyReleased
+
+    private void jTextField7KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField7KeyReleased
+        SearchReport1(); // Search Report Table
+    }//GEN-LAST:event_jTextField7KeyReleased
+
+    private void jTextField8KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField8KeyReleased
+        SearchReport1(); // Search Email
+    }//GEN-LAST:event_jTextField8KeyReleased
+
+    private void jComboBox4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox4ItemStateChanged
+        SearchReport1(); // Search Type
+    }//GEN-LAST:event_jComboBox4ItemStateChanged
+
+    private void jComboBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox3ItemStateChanged
+        SearchReport1(); //Search New and Old
+    }//GEN-LAST:event_jComboBox3ItemStateChanged
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        ClearReport(); //Clear Report Section
+    }//GEN-LAST:event_jButton7ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -700,7 +742,6 @@ public class TeacherManagement extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1007,7 +1048,7 @@ public class TeacherManagement extends javax.swing.JPanel {
     }
 
     //Search Teacher   
-    private void SearchStudent() {
+    private void SearchTeacher() {
 
         String value = jTextField6.getText();
 
@@ -1031,6 +1072,171 @@ public class TeacherManagement extends javax.swing.JPanel {
 
         jButton3.setEnabled(true); // Add Button Enable
         loadTeacher("");
+
+    }
+
+    //End Panel 01
+    //Start Panel 02 Reporting
+    //Search Report
+    private void SearchReport1() {
+        // Retrieve values from both text fields
+        String NicValue = jTextField7.getText();
+        String emailValue = jTextField8.getText();
+        String comboBoxValue = (String) jComboBox4.getSelectedItem();
+        String sortOrder = jComboBox3.getSelectedItem().toString(); // Sort Enrollment
+
+        // Pass both values to the StudentReportLoad method
+        TeacherReportLoad(NicValue, emailValue, comboBoxValue, sortOrder);
+        TeacherPaymentLoad(NicValue);
+    }
+
+    //End Search
+    //JTable 02 
+    private void TeacherReportLoad(String NicValue, String emailValue, String comboBoxValue, String sortOrder) {
+        try {
+            // SQL query to get teacher data with the updated query
+            String query = "SELECT teacher.nic AS teacher_nic, "
+                    + "CONCAT(teacher.fname, ' ', teacher.lname) AS teacher_name, "
+                    + "teacher.email AS teacher_email, "
+                    + "subject.name AS subject_name, "
+                    + "class_type.type AS class_type, "
+                    + "course.id AS course_id, "
+                    + "teacher.join_date AS teacher_join_date "
+                    + "FROM teacher "
+                    + "LEFT JOIN class ON class.teacher_nic = teacher.nic "
+                    + "LEFT JOIN subject ON subject.id = class.subject_id "
+                    + "LEFT JOIN class_type ON class_type.id = class.class_type_id "
+                    + "LEFT JOIN course ON course.subject_id = class.subject_id";
+
+            boolean hasConditions = false;
+
+            // Add condition for teacher NIC (ID) if it's not empty
+            if (NicValue != null && !NicValue.trim().isEmpty()) {
+                NicValue = NicValue.trim();
+
+                // Check if NIC is 10 characters long (9 digits + V/v/X/x)
+                if (NicValue.length() == 10 && NicValue.matches("^\\d{9}[VvXx]$")) {
+                    query += (hasConditions ? " AND " : " WHERE ") + "teacher.nic LIKE '%" + NicValue + "%'";
+                    hasConditions = true;
+                } // Check if NIC is 12 characters long (only digits)
+                else if (NicValue.length() == 12 && NicValue.matches("^\\d{12}$")) {
+                    query += (hasConditions ? " AND " : " WHERE ") + "teacher.nic LIKE '%" + NicValue + "%'";
+                    hasConditions = true;
+                }
+            }
+
+            // Add condition for email if it's not empty
+            if (emailValue != null && !emailValue.isEmpty()) {
+                query += (hasConditions ? " AND " : " WHERE ") + "teacher.email LIKE '%" + emailValue + "%'";
+                hasConditions = true;
+            }
+
+            // Add condition for comboBoxValue (teacher status) if it's not empty
+            if (comboBoxValue != null && !comboBoxValue.isEmpty() && !comboBoxValue.equals("All Type")) {
+                query += (hasConditions ? " AND " : " WHERE ") + "class_type.type LIKE '%" + comboBoxValue + "%'";
+            }
+
+            // Add sorting based on ComboBox sort order (New to Old or Old to New)
+            if ("New to Old".equals(sortOrder)) {
+                query += " ORDER BY teacher.join_date DESC";
+            } else if ("Old to New".equals(sortOrder)) {
+                query += " ORDER BY teacher.join_date ASC";
+            } else {
+                query += " ORDER BY teacher.nic"; // Default sort order
+            }
+
+            // Execute the query and fetch results
+            ResultSet resultSet = DB.search(query);
+
+            // Prepare table model for displaying data
+            DefaultTableModel dtm = (DefaultTableModel) jTable2.getModel();
+            dtm.setRowCount(0); // Clear existing rows
+
+            // Process the result set and populate the table with the teacher data
+            while (resultSet.next()) {
+                Vector<String> v = new Vector<>();
+                v.add(resultSet.getString("teacher_nic"));  // Teacher NIC (ID)
+                v.add(resultSet.getString("teacher_name"));  // Teacher name
+                v.add(resultSet.getString("teacher_email"));  // Teacher email
+                v.add(resultSet.getString("subject_name"));  // Subject name
+                v.add(resultSet.getString("class_type"));  // Class type
+                v.add(resultSet.getString("course_id"));  // Course ID
+                v.add(resultSet.getString("teacher_join_date"));  // Teacher join date
+
+                dtm.addRow(v);  // Add the vector as a row to the table model
+            }
+
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connection Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+    }
+
+    //Payment Load Teacher
+    private void TeacherPaymentLoad(String NicValue) {
+        try {
+            // Initial query
+            String query = "SELECT teacher.nic AS teacher_nic, "
+                    + "CONCAT(employee.fname, ' ', employee.lname) AS employee_full_name, "
+                    + "teacher_paymet.date AS payment_date, "
+                    + "teacher_paymet.commission, "
+                    + "teacher_paymet.earn "
+                    + "FROM teacher_paymet "
+                    + "INNER JOIN teacher ON teacher_paymet.teacher_nic = teacher.nic "
+                    + "INNER JOIN employee ON teacher_paymet.employee_id = employee.id";
+
+            boolean hasConditions = false;
+
+            // Add condition for teacher NIC (ID) if it's not empty
+            if (NicValue != null && !NicValue.trim().isEmpty()) {
+                NicValue = NicValue.trim();
+
+                // Check if NIC is 10 characters long (9 digits + V/v/X/x)
+                if (NicValue.length() == 10 && NicValue.matches("^\\d{9}[VvXx]$")) {
+                    query += (hasConditions ? " AND " : " WHERE ") + "teacher.nic LIKE '%" + NicValue + "%'";
+                    hasConditions = true;
+                } // Check if NIC is 12 characters long (only digits)
+                else if (NicValue.length() == 12 && NicValue.matches("^\\d{12}$")) {
+                    query += (hasConditions ? " AND " : " WHERE ") + "teacher.nic LIKE '%" + NicValue + "%'";
+                    hasConditions = true;
+                }
+            }
+
+            // Execute the query and fetch results
+            ResultSet resultSet = DB.search(query);
+
+            // Prepare table model for displaying data
+            DefaultTableModel dtm = (DefaultTableModel) jTable3.getModel();
+            dtm.setRowCount(0); // Clear existing rows
+
+            // Process the result set and populate the table with the teacher data
+            while (resultSet.next()) {
+                Vector<String> v = new Vector<>();
+                v.add(resultSet.getString("teacher_nic"));  // Teacher NIC (ID)
+                v.add(resultSet.getString("employee_full_name"));  // Employee Full name
+                v.add(resultSet.getString("payment_date"));  // Payment Date
+                v.add(resultSet.getString("commission"));  // Commission
+                v.add(resultSet.getString("earn"));  // Earnings
+
+                dtm.addRow(v);  // Add the vector as a row to the table model
+            }
+
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connection Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+    }
+
+    private void ClearReport() {
+
+        jTextField7.setText("");
+        jTextField8.setText("");
+        jComboBox4.setSelectedItem("All Type");
+        jComboBox3.setSelectedIndex(0);
+        TeacherPaymentLoad("");
+        TeacherReportLoad("","","","");
 
     }
 
