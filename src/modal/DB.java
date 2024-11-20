@@ -30,8 +30,6 @@ public class DB {
             } else if (STATE == DBState.Local) {
                 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tution_db", "root", "vihanga20062006");
 
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tution_db", "root", "pahan@sql@2003");
-
             }
         }
     }
