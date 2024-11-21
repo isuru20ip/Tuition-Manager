@@ -593,7 +593,7 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void salaryCalculationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salaryCalculationActionPerformed
-        loadPanal(new SalaryCalculation());
+        loadPanal(new SalaryCalculation(admin));
     }//GEN-LAST:event_salaryCalculationActionPerformed
 
     private void employeeManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeManagementActionPerformed
