@@ -16,7 +16,7 @@ public class SignIn extends javax.swing.JFrame {
         initComponents();
         jTextField1.setText("nuwan");
         jPasswordField1.setText("nuwan@123");
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/source/Main logo.png")));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/GUI/Mainlogo.png")));
 
     }
 
@@ -46,7 +46,7 @@ public class SignIn extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/Main logo.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Mainlogo.png"))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("User Name");
@@ -126,7 +126,7 @@ public class SignIn extends javax.swing.JFrame {
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
