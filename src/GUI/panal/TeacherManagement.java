@@ -23,6 +23,7 @@ import modal.DB;
 import modal.IDGenarator;
 import modal.LogCenter;
 import modal.Validator;
+import modal.beans.Admin;
 
 /**
  *
@@ -30,11 +31,14 @@ import modal.Validator;
  */
 public class TeacherManagement extends javax.swing.JPanel {
 
+    private Admin admin;
+
     /**
      * Creates new form Student_Registration
      */
-    public TeacherManagement() {
+    public TeacherManagement(Admin admin) {
         initComponents();
+        this.admin = admin;
         loadTeacher("");
         loadTStatus();
         TeacherReportLoad("", "", "", "");
@@ -941,16 +945,17 @@ public class TeacherManagement extends javax.swing.JPanel {
                 SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                 String joinDate = sdfDateTime.format(new Date());
-                String sampleEmployeeID = "0126";
+                String EmployeeID = admin.getUserID();
 
                 DB.IUD("INSERT INTO `teacher`(`nic`,`fname`,`lname`,`mobile`,`email`,`join_date`,`employee_id`,`address_id`,`customer_status_id`)"
                         + "VALUES ('" + nic + "','" + fname + "','" + lname + "','" + mobile + "','" + email + "','" + joinDate + "',"
-                        + "'" + sampleEmployeeID + "',"
+                        + "'" + EmployeeID + "',"
                         + "'" + TeacherAddressId + "','" + teacherStatus.get(status) + "')");
 
                 JOptionPane.showMessageDialog(this, "New Teacher Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                 loadTeacher("");
+                clearAll();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1236,7 +1241,7 @@ public class TeacherManagement extends javax.swing.JPanel {
         jComboBox4.setSelectedItem("All Type");
         jComboBox3.setSelectedIndex(0);
         TeacherPaymentLoad("");
-        TeacherReportLoad("","","","");
+        TeacherReportLoad("", "", "", "");
 
     }
 
