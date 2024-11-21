@@ -41,7 +41,7 @@ public class CourseManagement extends javax.swing.JPanel {
         loadStatus();
         loadHall();
         loadCourseTable("");
-        
+
     }
 
     public JTextField getjTextField7() {
@@ -338,7 +338,7 @@ public class CourseManagement extends javax.swing.JPanel {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Course Data", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Poppins Medium", 0, 18))); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jLabel4.setText("Class ID");
+        jLabel4.setText("Course ID");
 
         jLabel5.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel5.setText("Grade");
@@ -461,15 +461,11 @@ public class CourseManagement extends javax.swing.JPanel {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel72, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                             .addComponent(jDateChooser6, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                        .addGap(10, 10, 10)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel73, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                .addGap(10, 10, 10))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel74, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                .addGap(10, 10, 10)))
+                            .addComponent(jLabel73, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(jLabel74, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                        .addGap(10, 10, 10)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel67, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                             .addComponent(jButton21, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))))
@@ -973,14 +969,14 @@ public class CourseManagement extends javax.swing.JPanel {
     public String getClassID() {
         return jTextField1.getText();
     }
-    
+
     public void setDate(Vector date) {
         this.dayVector = date;
         for (ClassDay vnm : dayVector) {
             System.out.println(vnm.getDay());
         }
     }
-    
+
     private void generateClassID() {
         try {
             String classID = IDGenarator.generateID("CO", "course");
@@ -1108,8 +1104,6 @@ public class CourseManagement extends javax.swing.JPanel {
         }
     }
 
-   
-
     private void registerClass() {
         try {
             String teacherID = jTextField7.getText();
@@ -1120,19 +1114,12 @@ public class CourseManagement extends javax.swing.JPanel {
             String method = String.valueOf(jComboBox4.getSelectedItem());
             String status = String.valueOf(jComboBox5.getSelectedItem());
             String hall = String.valueOf(jComboBox6.getSelectedItem());
-           
+            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd");
             String fee = jTextField27.getText();
             String registerDate = SetDate.getDate("yyyy-MM-dd HH:mm:ss");
             Date startDate = jDateChooser5.getDate();
             Date endDate = jDateChooser6.getDate();
-            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
-            //String endDateWithTime = dateTimeFormat.format(endDate);
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 0);
-            calendar.set(Calendar.MINUTE, 0);
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
-            Date today = calendar.getTime();
+
             if (teacherID.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Select Teacher First", "Alert!", JOptionPane.WARNING_MESSAGE);
                 //jTextField1.grabFocus();
@@ -1163,7 +1150,7 @@ public class CourseManagement extends javax.swing.JPanel {
             } else if (method.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Please Select method", "Alert!", JOptionPane.WARNING_MESSAGE);
 
-            } else  if (status.equals("Select")) {
+            } else if (status.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Please Select status", "Alert!", JOptionPane.WARNING_MESSAGE);
 
             } else if (hall.equals("Select")) {
@@ -1177,10 +1164,10 @@ public class CourseManagement extends javax.swing.JPanel {
                 // The input is valid, as it contains only digits
                 JOptionPane.showMessageDialog(this, "Invalid Amount", "Alert!", JOptionPane.WARNING_MESSAGE);
                 // Proceed with additional logic here if needed
-            } else if (startDate == null || startDate.before(today)) {
-                JOptionPane.showMessageDialog(this, "Please Select  valid Date", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (endDate == null || endDate.before(today)) {
-                JOptionPane.showMessageDialog(this, "Please Select  valid Date", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (startDate == null) {
+                JOptionPane.showMessageDialog(this, "Please Select Date", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (endDate == null) {
+                JOptionPane.showMessageDialog(this, "Please Select Date", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (dayVector == null) {
                 JOptionPane.showMessageDialog(this, "Please select Day and time.", "Invalid Date", JOptionPane.WARNING_MESSAGE);
 
@@ -1214,7 +1201,7 @@ public class CourseManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    
+
     private void loadCourseTable(String value) {
         try {
             String query = "SELECT course.*, teacher.nic AS teacher_nic, teacher.fname AS fname, teacher.lname AS lname, "
@@ -1265,6 +1252,7 @@ public class CourseManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
+
     private void SearchTeacher() {
 
         String value = jTextField7.getText();
@@ -1273,6 +1261,7 @@ public class CourseManagement extends javax.swing.JPanel {
         loadCourseTable(value);
 
     }
+
     private void teacherCourseCount() {
         String tnic = jTextField7.getText();
         try {
@@ -1285,116 +1274,111 @@ public class CourseManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    
-//    private void updateCourse() {
-//        try {
-//            String teacherID = jTextField7.getText();
-//            String classID = jTextField1.getText();
-//            String grade = String.valueOf(jComboBox1.getSelectedItem());
-//            String subject = String.valueOf(jComboBox2.getSelectedItem());
-//            String language = String.valueOf(jComboBox3.getSelectedItem());
-//            String method = String.valueOf(jComboBox4.getSelectedItem());
-//            String status = String.valueOf(jComboBox5.getSelectedItem());
-//            String hall = String.valueOf(jComboBox6.getSelectedItem());
-//            String fee = jTextField27.getText();
-//            String registerDate = SetDate.getDate("yyyy-MM-dd HH:mm:ss");
-//            Date startDate = jDateChooser5.getDate();
-//            Date endDate = jDateChooser6.getDate();
-//            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
-//            //String endDateWithTime = dateTimeFormat.format(endDate);
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.set(Calendar.HOUR_OF_DAY, 0);
-//            calendar.set(Calendar.MINUTE, 0);
-//            calendar.set(Calendar.SECOND, 0);
-//            calendar.set(Calendar.MILLISECOND, 0);
-//            Date today = calendar.getTime();
-//            if (teacherID.isEmpty()) {
-//                JOptionPane.showMessageDialog(this, "Please Select Teacher First", "Alert!", JOptionPane.WARNING_MESSAGE);
-//                //jTextField1.grabFocus();
-//
-//            } else if (classID.isEmpty()) {
-//
-//                int choice = JOptionPane.showConfirmDialog(this, "class ID is empty generate New ID",
-//                        "warning", JOptionPane.YES_NO_OPTION);
-//
-//                // Check the user's choice and display a corresponding message 
-//                if (choice == JOptionPane.YES_OPTION) {
-//                    generateClassID();
-//                    JOptionPane.showMessageDialog(this, "generate Id");
-//                } else if (choice == JOptionPane.NO_OPTION) {
-//                    // If the user chose 'No', show a message indicating that changes are not saved 
-//                    JOptionPane.showMessageDialog(this, "Changes not saved.");
-//                }
-//
-//            } else if (grade.equals("Select")) {
-//                JOptionPane.showMessageDialog(this, "Please Select grade", "Alert!", JOptionPane.WARNING_MESSAGE);
-//
-//            } else if (subject.equals("Select")) {
-//                JOptionPane.showMessageDialog(this, "Please Select subject", "Alert!", JOptionPane.WARNING_MESSAGE);
-//
-//            } else if (language.equals("Select")) {
-//                JOptionPane.showMessageDialog(this, "Please Select language", "Alert!", JOptionPane.WARNING_MESSAGE);
-//
-//            } else if (method.equals("Select")) {
-//                JOptionPane.showMessageDialog(this, "Please Select method", "Alert!", JOptionPane.WARNING_MESSAGE);
-//
-//            } else  if (status.equals("Select")) {
-//                JOptionPane.showMessageDialog(this, "Please Select status", "Alert!", JOptionPane.WARNING_MESSAGE);
-//
-//            } else if (hall.equals("Select")) {
-//                JOptionPane.showMessageDialog(this, "Please Select hall", "Alert!", JOptionPane.WARNING_MESSAGE);
-//
-//            } else  if (fee.isEmpty()) {
-//                JOptionPane.showMessageDialog(this, "Please Enter Fee Amount", "Alert!", JOptionPane.WARNING_MESSAGE);
-//                //jTextField1.grabFocus();
-//
-//            } else if (!fee.matches("\\d+(\\.\\d+)?")) {
-//                // The input is valid, as it contains only digits
-//                JOptionPane.showMessageDialog(this, "Invalid Amount", "Alert!", JOptionPane.WARNING_MESSAGE);
-//                // Proceed with additional logic here if needed
-//            } else if (endDate == null || endDate.before(today)) {
-//                JOptionPane.showMessageDialog(this, "Please Select  valid Date", "Warning", JOptionPane.WARNING_MESSAGE);
-//            } else {
-//
-//                ResultSet rs = DB.search("SELECT * FROM  `class` WHERE teacher_nic='" + teacherID + "' AND subject_id='" + subjectMap.get(subject) + "' "
-//                        + "AND grade_id='" + gradeMap.get(grade) + "' AND class_type_id='" + classTypeMap.get(type) + "' AND "
-//                        + "class_method_id='" + classMethodMap.get(method) + "' AND class_language_id='" + classLanguageMap.get(language) + "' "
-//                        + "AND class_status_id='" + classStatusMap.get(status) + "' AND room_type_id='" + hallMap.get(hall) + "' "
-//                        + "AND class_modal_id='" + classModalMap.get(model) + "'AND`fee`='" + fee + "' AND `end_date`='" + dateTimeFormat.format(endDate) + "'");
-//                if (rs.next() && dayVector == null) {
-//                    JOptionPane.showMessageDialog(this, "Nothing to Update ", "Alert!", JOptionPane.WARNING_MESSAGE);
-//                } else {
-//                    if (!rs.next()) {
-//                        DB.IUD("UPDATE `class` SET `fee` = '" + fee + "', `register_date` = '" + registerDate + "', `end_date` = '" + dateTimeFormat.format(endDate) + "',"
-//                                + " `teacher_nic` = '" + teacherID + "', `subject_id` = '" + subjectMap.get(subject) + "', `grade_id` = '" + gradeMap.get(grade) + "', "
-//                                + "`class_type_id` = '" + classTypeMap.get(type) + "', `class_method_id` = '" + classMethodMap.get(method) + "', "
-//                                + "`class_language_id` = '" + classLanguageMap.get(language) + "', `class_status_id` = '" + classStatusMap.get(status) + "', "
-//                                + "`room_type_id` = '" + hallMap.get(hall) + "', `employee_id` ='0126' ,`class_modal_id`='" + classModalMap.get(model) + "'"
-//                                + "WHERE `id`='" + classID + "'");
-//
-//                    }
-//
-//                    if (dayVector != null) {
-//                        DB.IUD("DELETE FROM `class_day` WHERE `class_id`='" + classID + "'");
-//                        for (ClassDay vnm : dayVector) {
-//                            String time12hr = vnm.getTime();  // Example time
-//                            SimpleDateFormat format12hr = new SimpleDateFormat("hh:mm a");
-//                            SimpleDateFormat format24hr = new SimpleDateFormat("HH:mm:ss");
-//                            Date day = format12hr.parse(time12hr);
-//                            String time24hr = format24hr.format(day);
-//                            DB.IUD("INSERT INTO `class_day` (`time`,`week_day_id`,`class_id`) VALUES ('" + time24hr + "','" + vnm.getId() + "','" + jTextField1.getText() + "')");
-//
-//                        }
-//
-//                    }
-//
-//                    reset();
-//                    loadClassesTable("");
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
+    private void updateCourse() {
+        try {
+            String teacherID = jTextField7.getText();
+            String courseID = jTextField1.getText();
+            String grade = String.valueOf(jComboBox1.getSelectedItem());
+            String subject = String.valueOf(jComboBox2.getSelectedItem());
+            String language = String.valueOf(jComboBox3.getSelectedItem());
+            String method = String.valueOf(jComboBox4.getSelectedItem());
+            String status = String.valueOf(jComboBox5.getSelectedItem());
+            String hall = String.valueOf(jComboBox6.getSelectedItem());
+            String fee = jTextField27.getText();
+            String registerDate = SetDate.getDate("yyyy-MM-dd HH:mm:ss");
+            Date startDate = jDateChooser5.getDate();
+            Date endDate = jDateChooser6.getDate();
+            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd");
+           
+            if (teacherID.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Select Teacher First", "Alert!", JOptionPane.WARNING_MESSAGE);
+                //jTextField1.grabFocus();
+
+            } else if (courseID.isEmpty()) {
+
+                int choice = JOptionPane.showConfirmDialog(this, "class ID is empty generate New ID",
+                        "warning", JOptionPane.YES_NO_OPTION);
+
+                // Check the user's choice and display a corresponding message 
+                if (choice == JOptionPane.YES_OPTION) {
+                    generateClassID();
+                    JOptionPane.showMessageDialog(this, "generate Id");
+                } else if (choice == JOptionPane.NO_OPTION) {
+                    // If the user chose 'No', show a message indicating that changes are not saved 
+                    JOptionPane.showMessageDialog(this, "Changes not saved.");
+                }
+
+            } else if (grade.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select grade", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (subject.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select subject", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (language.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select language", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (method.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select method", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else  if (status.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select status", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else if (hall.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select hall", "Alert!", JOptionPane.WARNING_MESSAGE);
+
+            } else  if (fee.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Fee Amount", "Alert!", JOptionPane.WARNING_MESSAGE);
+                //jTextField1.grabFocus();
+
+            } else if (!fee.matches("\\d+(\\.\\d+)?")) {
+                // The input is valid, as it contains only digits
+                JOptionPane.showMessageDialog(this, "Invalid Amount", "Alert!", JOptionPane.WARNING_MESSAGE);
+                // Proceed with additional logic here if needed
+            } else if (startDate == null) {
+                JOptionPane.showMessageDialog(this, "Please Select Date", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (endDate == null) {
+                JOptionPane.showMessageDialog(this, "Please Select Date", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+
+                ResultSet rs = DB.search("SELECT * FROM  `course` WHERE teacher_nic='" + teacherID + "' AND subject_id='" + subjectMap.get(subject) + "' "
+                        + "AND grade_id='" + gradeMap.get(grade) + "' AND "
+                        + "class_method_id='" + classMethodMap.get(method) + "' AND class_language_id='" + classLanguageMap.get(language) + "' "
+                        + "AND class_status_id='" + classStatusMap.get(status) + "' AND room_type_id='" + hallMap.get(hall) + "' "
+                        + "AND `fee`='" + fee + "' AND `start_date`='" + dateTimeFormat.format(startDate) + "'AND `end_date`='" + dateTimeFormat.format(endDate) + "'");
+                if (rs.next() && dayVector == null) {
+                    JOptionPane.showMessageDialog(this, "Nothing to Update ", "Alert!", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    if (!rs.next()) {
+                        DB.IUD("UPDATE `course` SET `fee` = '" + fee + "', `register_date` = '" + registerDate + "', `end_date` = '" + dateTimeFormat.format(endDate) + "',"
+                                + " `teacher_nic` = '" + teacherID + "', `subject_id` = '" + subjectMap.get(subject) + "', `grade_id` = '" + gradeMap.get(grade) + "', "
+                                + "`class_method_id` = '" + classMethodMap.get(method) + "', "
+                                + "`class_language_id` = '" + classLanguageMap.get(language) + "', `class_status_id` = '" + classStatusMap.get(status) + "', "
+                                + "`room_type_id` = '" + hallMap.get(hall) + "', `employee_id` ='0126' ,"
+                                + "WHERE `id`='" + courseID + "'");
+
+                    }
+
+                    if (dayVector != null) {
+                        DB.IUD("DELETE FROM `course_day` WHERE `course_id`='" + courseID + "'");
+                        for (ClassDay vnm : dayVector) {
+                            String time12hr = vnm.getTime();  // Example time
+                            SimpleDateFormat format12hr = new SimpleDateFormat("hh:mm a");
+                            SimpleDateFormat format24hr = new SimpleDateFormat("HH:mm:ss");
+                            Date day = format12hr.parse(time12hr);
+                            String time24hr = format24hr.format(day);
+                            DB.IUD("INSERT INTO `course_day` (`time`,`week_day_id`,`course_id`) VALUES ('" + time24hr + "','" + vnm.getId() + "','" + jTextField1.getText() + "')");
+
+                        }
+
+                    }
+
+                    //reset();
+                    //loadClassesTable("");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

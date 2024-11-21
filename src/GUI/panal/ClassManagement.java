@@ -54,7 +54,6 @@ public class ClassManagement extends javax.swing.JPanel {
     }
 
     //private String ClassId;
-
     private void generateClassID() {
         try {
             String classID = IDGenarator.generateID("CL", "class");
@@ -536,13 +535,10 @@ public class ClassManagement extends javax.swing.JPanel {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel65, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
                             .addComponent(jTextField25, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE))
+                        .addGap(10, 10, 10)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel66, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel69, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)))
+                            .addComponent(jLabel66, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                            .addComponent(jLabel69, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
                         .addGap(10, 10, 10)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel67, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
@@ -645,11 +641,11 @@ public class ClassManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "NIC", "Teacher Name", "Class ID", "Grade", "Subject", "Language", "Method", "Modal", "Status", "Hall ", "Type", "Fee", "Ending Date", "Days"
+                "NIC", "Teacher Name", "Class ID", "Grade", "Subject", "Language", "Method", "Modal", "Status", "Hall ", "Type", "Fee", "Days"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, true, false, true, false, false, false, false
+                false, false, false, false, false, false, false, true, false, true, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1636,64 +1632,55 @@ public class ClassManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     private void jTable4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable4MouseClicked
-        jButton4.setEnabled(true);
-        jButton5.setEnabled(false);
-        try {
+
+        if (evt.getClickCount() == 2) {
+            jButton4.setEnabled(true);
+            jButton5.setEnabled(false);
             int row = jTable4.getSelectedRow();
-            if (row != -1) { // Valid row check
-                String tnic = String.valueOf(jTable4.getValueAt(row, 0));
-                jTextField7.setText(tnic);
-//                
+            try {
 
-//                String firstName = String.valueOf(jTable4.getValueAt(row, 1));
-//                jTextField6.setText(firstName);
-                String classId = String.valueOf(jTable4.getValueAt(row, 2));
-                jTextField1.setText(classId);
+                if (row != -1) { // Valid row check
+                    String tnic = String.valueOf(jTable4.getValueAt(row, 0));
+                    jTextField7.setText(tnic);
 
-                String grade = String.valueOf(jTable4.getValueAt(row, 3));
-                jComboBox1.setSelectedItem(grade);
+                    String classId = String.valueOf(jTable4.getValueAt(row, 2));
+                    jTextField1.setText(classId);
 
-                String subject = String.valueOf(jTable4.getValueAt(row, 4));
-                jComboBox2.setSelectedItem(subject);
+                    String grade = String.valueOf(jTable4.getValueAt(row, 3));
+                    jComboBox1.setSelectedItem(grade);
 
-                String language = String.valueOf(jTable4.getValueAt(row, 5));
-                jComboBox3.setSelectedItem(language);
+                    String subject = String.valueOf(jTable4.getValueAt(row, 4));
+                    jComboBox2.setSelectedItem(subject);
 
-                String method = String.valueOf(jTable4.getValueAt(row, 6));
-                jComboBox4.setSelectedItem(method);
+                    String language = String.valueOf(jTable4.getValueAt(row, 5));
+                    jComboBox3.setSelectedItem(language);
 
-                String modal = String.valueOf(jTable4.getValueAt(row, 7));
-                jComboBox5.setSelectedItem(modal);
+                    String method = String.valueOf(jTable4.getValueAt(row, 6));
+                    jComboBox4.setSelectedItem(method);
 
-                String status = String.valueOf(jTable4.getValueAt(row, 8));
-                jComboBox6.setSelectedItem(status);
+                    String modal = String.valueOf(jTable4.getValueAt(row, 7));
+                    jComboBox5.setSelectedItem(modal);
 
-                String hall = String.valueOf(jTable4.getValueAt(row, 9));
-                jComboBox33.setSelectedItem(hall);
+                    String status = String.valueOf(jTable4.getValueAt(row, 8));
+                    jComboBox6.setSelectedItem(status);
 
-                String type = String.valueOf(jTable4.getValueAt(row, 10));
-                jComboBox34.setSelectedItem(type);
+                    String hall = String.valueOf(jTable4.getValueAt(row, 9));
+                    jComboBox33.setSelectedItem(hall);
 
-                String fee = String.valueOf(jTable4.getValueAt(row, 11));
-                jTextField25.setText(fee);
+                    String type = String.valueOf(jTable4.getValueAt(row, 10));
+                    jComboBox34.setSelectedItem(type);
 
-               
-
-                ResultSet rs2 = DB.search("SELECT * FROM `teacher` INNER JOIN `employee` ON `employee`.`id`=`teacher`.`employee_id` INNER JOIN `gender` ON `gender`.`id`=`employee`.`gender_id` WHERE `teacher`.`nic`='" + tnic + "'");
-
-                if (rs2.next()) {
-                    jTextField6.setText(rs2.getString("fname"));
-                    jTextField9.setText(rs2.getString("lname"));
-                    jTextField8.setText(rs2.getString("gender.name"));
+                    String fee = String.valueOf(jTable4.getValueAt(row, 11));
+                    jTextField25.setText(fee);
 
                 }
-                teacherClassCount();
-            }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
+        //teacherClassCount();
     }//GEN-LAST:event_jTable4MouseClicked
 
     private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
@@ -2065,15 +2052,7 @@ public class ClassManagement extends javax.swing.JPanel {
             String type = String.valueOf(jComboBox34.getSelectedItem());
             String fee = jTextField25.getText();
             String registerDate = SetDate.getDate("yyyy-MM-dd HH:mm:ss");
-            //Date endDate = jDateChooser3.getDate();
-            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
-            //String endDateWithTime = dateTimeFormat.format(endDate);
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 0);
-            calendar.set(Calendar.MINUTE, 0);
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
-            //Date today = calendar.getTime();
+
             if (teacherID.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Select Teacher First", "Alert!", JOptionPane.WARNING_MESSAGE);
                 //jTextField1.grabFocus();
@@ -2124,7 +2103,7 @@ public class ClassManagement extends javax.swing.JPanel {
                 // The input is valid, as it contains only digits
                 JOptionPane.showMessageDialog(this, "Invalid Amount", "Alert!", JOptionPane.WARNING_MESSAGE);
                 // Proceed with additional logic here if needed
-            }  else if (dayVector == null) {
+            } else if (dayVector == null) {
                 JOptionPane.showMessageDialog(this, "Please select Day and time.", "Invalid Date", JOptionPane.WARNING_MESSAGE);
 
             } else {
@@ -2171,81 +2150,7 @@ public class ClassManagement extends javax.swing.JPanel {
         }
     }
 
-    private void loadClassesTable(String value) {
-        try {
-            String query = "SELECT class.*, teacher.nic AS teacher_nic, teacher.fname AS fname, teacher.lname AS lname, "
-                    + "grade.name AS grade_name, subject.name AS subject_name, class_language.name AS language_name, "
-                    + "class_method.method AS method_name, class_modal.modal AS modal_name, class_status.status AS status_name, "
-                    + "room_type.type AS room_type_name, class_type.type AS class_type_name, "
-                    + "GROUP_CONCAT(week_day.day ORDER BY week_day.id SEPARATOR ', ') AS days "
-                    + "FROM `class` "
-                    + "INNER JOIN `teacher` ON `class`.`teacher_nic` = `teacher`.`nic` "
-                    + "INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id` "
-                    + "INNER JOIN `subject` ON `subject`.`id` = `class`.`subject_id` "
-                    + "INNER JOIN `class_language` ON `class_language`.`id` = `class`.`class_language_id` "
-                    + "INNER JOIN `class_method` ON `class_method`.`id` = `class`.`class_method_id` "
-                    + "INNER JOIN `class_modal` ON `class_modal`.`id` = `class`.`class_modal_id` "
-                    + "INNER JOIN `class_status` ON `class_status`.`id` = `class`.`class_status_id` "
-                    + "INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` "
-                    + "INNER JOIN `class_type` ON `class_type`.`id` = `class`.`class_type_id` "
-                    + "LEFT JOIN `class_day` ON `class_day`.`class_id` = `class`.`id` "
-                    + "LEFT JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` ";
-
-            // Apply the WHERE clause conditionally
-            if (!value.matches("")) {
-                query += " WHERE `teacher`.`nic`='" + value + "' ";
-            }
-
-            // Add the GROUP BY clause
-            query += " GROUP BY `class`.`id`";
-
-            ResultSet resultSet = DB.search(query);
-            DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
-            model.setRowCount(0);
-            while (resultSet.next()) {
-                Vector<String> vector = new Vector<>();
-                vector.add(resultSet.getString("teacher_nic"));
-                vector.add(resultSet.getString("fname") + " " + resultSet.getString("lname"));
-                vector.add(resultSet.getString("id"));
-                vector.add(resultSet.getString("grade_name"));
-                vector.add(resultSet.getString("subject_name"));
-                vector.add(resultSet.getString("language_name"));
-                vector.add(resultSet.getString("method_name"));
-                vector.add(resultSet.getString("modal_name"));
-                vector.add(resultSet.getString("status_name"));
-                vector.add(resultSet.getString("room_type_name"));
-                vector.add(resultSet.getString("class_type_name"));
-                vector.add(resultSet.getString("fee"));
-                vector.add(resultSet.getString("end_date"));
-                vector.add(resultSet.getString("days"));
-                model.addRow(vector);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void teacherClassCount() {
-        String tnic = jTextField7.getText();
-        try {
-            ResultSet rs1 = DB.search("SELECT COUNT(*) AS count FROM `class` WHERE `teacher_nic`='" + tnic + "'");
-            if (rs1.next()) {
-                int count = rs1.getInt("count");
-                jTextField10.setText(String.valueOf(count));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void SearchTeacher() {
-
-        String value = jTextField7.getText();
-        teacherClassCount();
-
-        loadClassesTable(value);
-
-    }
+    
 
     private void updateClass() {
         try {
@@ -2261,15 +2166,7 @@ public class ClassManagement extends javax.swing.JPanel {
             String type = String.valueOf(jComboBox34.getSelectedItem());
             String fee = jTextField25.getText();
             String registerDate = SetDate.getDate("yyyy-MM-dd HH:mm:ss");
-            //Date endDate = jDateChooser3.getDate();
-            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
-            //String endDateWithTime = dateTimeFormat.format(endDate);
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 0);
-            calendar.set(Calendar.MINUTE, 0);
-            calendar.set(Calendar.SECOND, 0);
-            calendar.set(Calendar.MILLISECOND, 0);
-           // Date today = calendar.getTime();
+
             if (teacherID.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Select Teacher First", "Alert!", JOptionPane.WARNING_MESSAGE);
                 //jTextField1.grabFocus();
@@ -2362,31 +2259,114 @@ public class ClassManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
+    
+    private void loadClassesTable(String value) {
+
+        try {
+            String query = "SELECT class.*, teacher.nic AS teacher_nic, teacher.fname AS fname, teacher.lname AS lname, "
+                    + "grade.name AS grade_name, subject.name AS subject_name, class_language.name AS language_name, "
+                    + "class_method.method AS method_name, class_modal.modal AS modal_name, class_status.status AS status_name, "
+                    + "room_type.type AS room_type_name, class_type.type AS class_type_name, "
+                    + "GROUP_CONCAT(week_day.day ORDER BY week_day.id SEPARATOR ', ') AS days "
+                    + "FROM `class` "
+                    + "INNER JOIN `teacher` ON `class`.`teacher_nic` = `teacher`.`nic` "
+                    + "INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id` "
+                    + "INNER JOIN `subject` ON `subject`.`id` = `class`.`subject_id` "
+                    + "INNER JOIN `class_language` ON `class_language`.`id` = `class`.`class_language_id` "
+                    + "INNER JOIN `class_method` ON `class_method`.`id` = `class`.`class_method_id` "
+                    + "INNER JOIN `class_modal` ON `class_modal`.`id` = `class`.`class_modal_id` "
+                    + "INNER JOIN `class_status` ON `class_status`.`id` = `class`.`class_status_id` "
+                    + "INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` "
+                    + "INNER JOIN `class_type` ON `class_type`.`id` = `class`.`class_type_id` "
+                    + "LEFT JOIN `class_day` ON `class_day`.`class_id` = `class`.`id` "
+                    + "LEFT JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` ";
+
+            // Apply the WHERE clause conditionally
+            if (!value.matches("")) {
+                query += " WHERE `teacher`.`nic`='" + value + "' ";
+            }
+
+            // Add the GROUP BY clause
+            query += " GROUP BY `class`.`id`";
+
+            ResultSet resultSet = DB.search(query);
+            DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
+            model.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("teacher_nic"));
+                vector.add(resultSet.getString("fname") + " " + resultSet.getString("lname"));
+                vector.add(resultSet.getString("id"));
+                vector.add(resultSet.getString("grade_name"));
+                vector.add(resultSet.getString("subject_name"));
+                vector.add(resultSet.getString("language_name"));
+                vector.add(resultSet.getString("method_name"));
+                vector.add(resultSet.getString("modal_name"));
+                vector.add(resultSet.getString("status_name"));
+                vector.add(resultSet.getString("room_type_name"));
+                vector.add(resultSet.getString("class_type_name"));
+                vector.add(resultSet.getString("fee"));
+                vector.add(resultSet.getString("days"));
+                model.addRow(vector);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void teacherClassCount() {
+        String tnic = jTextField7.getText();
+        try {
+            ResultSet rs1 = DB.search("SELECT COUNT(*) AS count FROM `class` WHERE `teacher_nic`='" + tnic + "'");
+            if (rs1.next()) {
+                int count = rs1.getInt("count");
+                jTextField10.setText(String.valueOf(count));
+                ResultSet rs2 = DB.search("SELECT * FROM `teacher` INNER JOIN `employee` ON `employee`.`id`=`teacher`.`employee_id` INNER JOIN `gender` ON `gender`.`id`=`employee`.`gender_id` WHERE `teacher`.`nic`='" + tnic + "'");
+
+                if (rs2.next()) {
+                    jTextField6.setText(rs2.getString("fname"));
+                    jTextField9.setText(rs2.getString("lname"));
+                    jTextField8.setText(rs2.getString("gender.name"));
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void SearchTeacher() {
+
+        String value = jTextField7.getText();
+
+        loadClassesTable(value);
+
+    }
 
     private void documentListner() {
         jTextField7.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                teacherClassCount();
+                //teacherClassCount();
                 SearchTeacher();
+
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                teacherClassCount();
+                //teacherClassCount();
                 SearchTeacher();
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                teacherClassCount();
+                //teacherClassCount();
                 SearchTeacher();
             }
         });
 
     }
-
-    
 
     private void reset() {
         jTextField6.setText("");
@@ -2403,7 +2383,7 @@ public class ClassManagement extends javax.swing.JPanel {
         jComboBox6.setSelectedItem("Select");
         jComboBox33.setSelectedItem("Select");
         jComboBox34.setSelectedItem("Select");
-        //jDateChooser3.setDate(null);
+
         loadClassesTable("");
         generateClassID();
         jButton5.setEnabled(true);
