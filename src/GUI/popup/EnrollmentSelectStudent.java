@@ -8,6 +8,8 @@ import GUI.panal.EnrollmentManagement;
 import java.sql.ResultSet;
 import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
 
@@ -18,13 +20,18 @@ import modal.DB;
 public class EnrollmentSelectStudent extends javax.swing.JDialog {
 
     EnrollmentManagement em;
+
     /**
      * Creates new form EnrollmentSelectStudent
      */
     public EnrollmentSelectStudent(EnrollmentManagement parent, boolean modal) {
-         em= (EnrollmentManagement) parent;
+        em = (EnrollmentManagement) parent;
         initComponents();
         loadStudents("SELECT * FROM `student` ORDER BY `student`.`id` ASC");
+
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+        studentTable.setDefaultRenderer(Object.class, renderer);
     }
 
     /**
@@ -153,26 +160,26 @@ public class EnrollmentSelectStudent extends javax.swing.JDialog {
     }//GEN-LAST:event_studentNicFieldKeyReleased
 
     private void studentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_studentTableMouseClicked
-      try {
-    int selectedRow = studentTable.getSelectedRow();
+        try {
+            int selectedRow = studentTable.getSelectedRow();
 
-    // Check if the row is selected and if it's a double-click event
-    if (selectedRow != -1 && evt.getClickCount() == 2) {
-        if (enrollmentSelectStudent != null) {
+            // Check if the row is selected and if it's a double-click event
+            if (selectedRow != -1 && evt.getClickCount() == 2) {
+                if (enrollmentSelectStudent != null) {
 //             Set the selected student ID to the text field
-            em.getjTextField1().setText(String.valueOf(studentTable.getValueAt(selectedRow, 0)));
-            em.getjTextField2().setText(String.valueOf(studentTable.getValueAt(selectedRow, 1)));
-            em.getjTextField3().setText(String.valueOf(studentTable.getValueAt(selectedRow, 2)));
-            em.getjTextField4().setText(String.valueOf(studentTable.getValueAt(selectedRow, 4)));
-            em.getjTextField5().setText(String.valueOf(studentTable.getValueAt(selectedRow, 5)));
+                    em.getjTextField1().setText(String.valueOf(studentTable.getValueAt(selectedRow, 0)));
+                    em.getjTextField2().setText(String.valueOf(studentTable.getValueAt(selectedRow, 1)));
+                    em.getjTextField3().setText(String.valueOf(studentTable.getValueAt(selectedRow, 2)));
+                    em.getjTextField4().setText(String.valueOf(studentTable.getValueAt(selectedRow, 4)));
+                    em.getjTextField5().setText(String.valueOf(studentTable.getValueAt(selectedRow, 5)));
+                }
+                this.dispose();
+            }
+        } catch (Exception e) {
+            // Log the exception for debugging (avoid leaving it empty)
+            e.printStackTrace();
+
         }
-        this.dispose();
-    }
-} catch (Exception e) {
-    // Log the exception for debugging (avoid leaving it empty)
-    e.printStackTrace();
-   
-}
 
     }//GEN-LAST:event_studentTableMouseClicked
 
@@ -233,7 +240,5 @@ public class EnrollmentSelectStudent extends javax.swing.JDialog {
         loadStudents("SELECT * FROM `student` WHERE `nic` LIKE '%" + nic + "%' ORDER BY `student`.`id` ASC");
         studentNicField.setText(nic);
     }
-
-
 
 }
