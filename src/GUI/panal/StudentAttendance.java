@@ -1017,9 +1017,9 @@ public class StudentAttendance extends javax.swing.JPanel {
             } else if (SubjectID == null) {
                 JOptionPane.showMessageDialog(this, "Class is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
-                if (st_ID.length() == 5) {
+                if (st_ID.length() >= 8) {
 
-                    ResultSet resultSet = DB.search("SELECT * FROM `class_enrollment` "
+                    ResultSet resultSet = DB.search("SELECT * FROM `class_enrollment` " 
                             + "INNER JOIN `class` ON `class_enrollment`.`class_id` = `class`.`id`"
                             + "INNER JOIN `student` ON  `class_enrollment`.`student_id` = `student`.`id`"
                             + "WHERE `class`.`grade_id` = '" + gradeId + "' AND `class`.`subject_id` = '" + SubjectID + "' AND `student_id` = '" + st_ID + "'");
@@ -1165,7 +1165,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
             String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-            if (empID.length() == 4) {
+            if (empID.length() >=9) {
 
                 ResultSet resultSet = DB.search("SELECT * FROM `employee` WHERE `id`= '" + empID + "'");
 
