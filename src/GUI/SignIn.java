@@ -206,8 +206,9 @@ public class SignIn extends javax.swing.JFrame {
                     String mobile = resultSet.getString("mobile");
                     String status = resultSet.getString("status");
                     String type = resultSet.getString("name");
+                    String userID = resultSet.getString("employee_id");
 
-                    Dashboard dashboard = new Dashboard(new Admin(userName, mobile, status, type));
+                    Dashboard dashboard = new Dashboard(new Admin(userName,userID, mobile, status, type));
                     dashboard.setVisible(true);
                     this.dispose();
 
