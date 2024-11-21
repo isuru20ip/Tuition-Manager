@@ -838,6 +838,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
         jComboBox1.setEnabled(true);
         jComboBox2.setEnabled(true);
         jTextField1.grabFocus();
+        this.EmployeeId = null;
     }
 
     private void searchEmployee() {
