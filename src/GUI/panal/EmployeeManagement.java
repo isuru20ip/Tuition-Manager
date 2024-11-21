@@ -582,7 +582,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
         // Check if the Address ID already exists
-        if (EmployeeId != null) {
+        if (AddressId != null) {
             JOptionPane.showMessageDialog(this, "Address ID already exists", "Warning", JOptionPane.WARNING_MESSAGE);
             return; // Exit if the ID exists
         }
@@ -839,10 +839,10 @@ public class EmployeeManagement extends javax.swing.JPanel {
         jComboBox2.setEnabled(true);
         jTextField1.grabFocus();
         this.EmployeeId = null;
+        this.AddressId = null;
     }
 
     private void searchEmployee() {
-
         String value = jTextField5.getText(); // Get the input from the JTextField
         loadEmployee(value);
     }
