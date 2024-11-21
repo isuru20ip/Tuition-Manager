@@ -38,9 +38,38 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         loadScheduleStatus();
         loadClassSchedulTable();
 
-        loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
-                + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
-                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' ORDER BY `class`.`id` ASC");
+        loadAutoClassScheduleTable("SELECT "
+                + "    `class_day`.*, "
+                + "    `week_day`.*, "
+                + "    `class`.*, "
+                + "    `subject`.*, "
+                + "    `room_type`.*, "
+                + "    `teacher`.*, "
+                + "    `grade`.*, "
+                + "    `class_schedule`.*, "
+                + "    `student_count`.`total_students` "
+                + "FROM "
+                + "    `class_day` "
+                + "INNER JOIN "
+                + "    `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` "
+                + "INNER JOIN "
+                + "    `class` ON `class`.`id` = `class_day`.`class_id` "
+                + "INNER JOIN "
+                + "    `subject` ON `subject`.`id` = `class`.`subject_id` "
+                + "INNER JOIN "
+                + "    `room_type` ON `room_type`.`id` = `class`.`room_type_id` "
+                + "INNER JOIN "
+                + "    `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` "
+                + "INNER JOIN "
+                + "    `grade` ON `grade`.`id` = `class`.`grade_id` "
+                + "INNER JOIN "
+                + "    `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` "
+                + "LEFT JOIN "
+                + "    (SELECT `class_id`, COUNT(`student_id`) AS total_students "
+                + "     FROM `class_enrollment` "
+                + "     GROUP BY `class_id`) AS `student_count` ON `class`.`id` = `student_count`.`class_id` "
+                + "WHERE "
+                + "    `week_day`.`day` = '" + dayOfWeek + "' ORDER BY `class`.`id` ASC");
         loadHallType();
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
@@ -104,13 +133,49 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        students = new javax.swing.JLabel();
         courseSchedule = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jComboBox4 = new javax.swing.JComboBox<>();
+        jComboBox5 = new javax.swing.JComboBox<>();
+        jComboBox6 = new javax.swing.JComboBox<>();
+        jTextField4 = new javax.swing.JTextField();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jTextField5 = new javax.swing.JTextField();
+        jTextField6 = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        students1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel29 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         time1.setTextRefernce(startTimeField);
@@ -503,17 +568,17 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         table1.setBackground(new java.awt.Color(240, 240, 240));
         table1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Class Id", "Teacher ID", "Teacher Name", "Grade", "Subject", "Hall Type", "Class Date", "Class Day", "Class Time"
+                "Class Id", "Teacher ID", "Teacher Name", "Grade", "Subject", "Hall Type", "Class Date", "Class Day", "Class Time", "Student Count"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -541,10 +606,22 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         });
 
         jLabel7.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 255));
         jLabel7.setText("Today Sheduled Class Table");
 
         jLabel8.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 0, 255));
         jLabel8.setText("Class Scheduled Table");
+
+        jLabel9.setFont(new java.awt.Font("Poppins", 3, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("Count Of Student For Class ->");
+
+        students.setFont(new java.awt.Font("Poppins", 3, 14)); // NOI18N
+        students.setForeground(new java.awt.Color(0, 153, 153));
+        students.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        students.setText("Null");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -563,6 +640,10 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(students, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2)))
                 .addContainerGap())
         );
@@ -572,9 +653,12 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(students, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(2, 2, 2)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -600,19 +684,43 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Today Scheduled", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Poppins", 0, 18))); // NOI18N
 
-        jTable1.setBackground(new java.awt.Color(240, 240, 240));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane3.setViewportView(jTable1);
+        jLabel10.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("Subject");
+
+        jLabel11.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Hall Type");
+
+        jLabel18.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel18.setText("Grade");
+
+        jLabel19.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel19.setText("Teacher ID");
+
+        jLabel20.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("Couse ID");
+
+        jTextField1.setEditable(false);
+        jTextField1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jTextField2.setEditable(false);
+        jTextField2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jTextField3.setEditable(false);
+        jTextField3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jComboBox1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+
+        jComboBox2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -620,15 +728,42 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 945, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTable4.setModel(new javax.swing.table.DefaultTableModel(
@@ -644,38 +779,234 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         ));
         jScrollPane5.setViewportView(jTable4);
 
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Manual Schedule Select Area", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Poppins", 0, 18))); // NOI18N
+
+        jComboBox3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+
+        jComboBox4.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+
+        jComboBox5.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+
+        jComboBox6.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+
+        jTextField4.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+
+        jLabel23.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel23.setText("Course ID");
+
+        jLabel24.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel24.setText("Hall");
+
+        jLabel25.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel25.setText("Hall Type");
+
+        jLabel26.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel26.setText("Capacity");
+
+        jLabel27.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel27.setText("Schedule Status");
+
+        jLabel28.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel28.setText("Course Date");
+
+        jButton3.setBackground(new java.awt.Color(255, 204, 204));
+        jButton3.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        jButton3.setText("Reset");
+
+        jButton4.setBackground(new java.awt.Color(204, 255, 204));
+        jButton4.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        jButton4.setText("Update Status");
+
+        jButton5.setBackground(new java.awt.Color(204, 204, 255));
+        jButton5.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        jButton5.setText("Schedule New Course");
+
+        jButton6.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jButton6.setText("End");
+
+        jButton7.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jButton7.setText("Start");
+
+        jTextField5.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+
+        jTextField6.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBox3, 0, 110, Short.MAX_VALUE)
+                            .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)))
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                        .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBox5, 0, 142, Short.MAX_VALUE)
+                            .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField4)
+                            .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
+                        .addGap(12, 12, 12)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox6, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel27, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+                    .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 168, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel25, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel28, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
+
+        jLabel21.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel21.setText("Today Sheduled Course Table");
+
+        jLabel22.setFont(new java.awt.Font("Poppins", 3, 14)); // NOI18N
+        jLabel22.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel22.setText("Count Of Student For Course ->");
+
+        students1.setFont(new java.awt.Font("Poppins", 3, 14)); // NOI18N
+        students1.setForeground(new java.awt.Color(0, 153, 153));
+        students1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        students1.setText("Null");
+
+        jButton1.setBackground(new java.awt.Color(255, 204, 204));
+        jButton1.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        jButton1.setText("Reset");
+
+        jLabel29.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel29.setForeground(new java.awt.Color(0, 0, 255));
+        jLabel29.setText("Course Schedule Table");
 
         javax.swing.GroupLayout courseScheduleLayout = new javax.swing.GroupLayout(courseSchedule);
         courseSchedule.setLayout(courseScheduleLayout);
         courseScheduleLayout.setHorizontalGroup(
             courseScheduleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, courseScheduleLayout.createSequentialGroup()
+            .addGroup(courseScheduleLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5)
+                .addGroup(courseScheduleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 955, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(courseScheduleLayout.createSequentialGroup()
+                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(students1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))
+                    .addGroup(courseScheduleLayout.createSequentialGroup()
+                        .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         courseScheduleLayout.setVerticalGroup(
             courseScheduleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(courseScheduleLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addGroup(courseScheduleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(courseScheduleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(courseScheduleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(students1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)))
+                .addGap(3, 3, 3)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))
         );
 
         jTabbedPaneClassSchedule.addTab("Course Schedule", new javax.swing.ImageIcon(getClass().getResource("/source/add class.png")), courseSchedule); // NOI18N
@@ -709,6 +1040,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         UpdateClasses uc = new UpdateClasses(parentFrame, true); // Create the dialog, setting parentFrame as its owner
         uc.setVisible(true);
+
+        loadClassSchedulTable();
+
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void classIDComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classIDComboboxActionPerformed
@@ -741,6 +1075,8 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
                     classIDCombobox.setSelectedItem(String.valueOf(table1.getValueAt(selectedRow, 0)));
                     hallTypeComboBox2.setSelectedItem(String.valueOf(table1.getValueAt(selectedRow, 5)));
+                    students.setText(String.valueOf(table1.getValueAt(selectedRow, 9)));
+                   
 
                     // Parse and set date for jDateChooser1
                     String dateStr = String.valueOf(table1.getValueAt(selectedRow, 6));
@@ -773,7 +1109,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_table1MouseClicked
 
     private void hallTypeComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hallTypeComboBox2ItemStateChanged
-        loadroomdata(); //change hall data from double tap with table1
+     loadroomdata(); //change hall data from double tap with table1
     }//GEN-LAST:event_hallTypeComboBox2ItemStateChanged
 
     private void selectHallTypeComboBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_selectHallTypeComboBox3ItemStateChanged
@@ -903,15 +1239,38 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
                 // Refresh the class schedule table
                 loadClassSchedulTable();
-                loadAutoClassScheduleTable("SELECT * FROM `class_day` "
-                        + "INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` "
-                        + "INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` "
-                        + "INNER JOIN `subject` ON `subject`.`id` = `class`.`subject_id` "
-                        + "INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` "
-                        + "INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` "
-                        + "INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id` "
-                        + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` "
-                        + "WHERE `week_day`.`day` = '" + dayOfWeek + "' ORDER BY `class`.`id` ASC");
+                loadAutoClassScheduleTable("SELECT "
+                + "    `class_day`.*, "
+                + "    `week_day`.*, "
+                + "    `class`.*, "
+                + "    `subject`.*, "
+                + "    `room_type`.*, "
+                + "    `teacher`.*, "
+                + "    `grade`.*, "
+                + "    `class_schedule`.*, "
+                + "    `student_count`.`total_students` "
+                + "FROM "
+                + "    `class_day` "
+                + "INNER JOIN "
+                + "    `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` "
+                + "INNER JOIN "
+                + "    `class` ON `class`.`id` = `class_day`.`class_id` "
+                + "INNER JOIN "
+                + "    `subject` ON `subject`.`id` = `class`.`subject_id` "
+                + "INNER JOIN "
+                + "    `room_type` ON `room_type`.`id` = `class`.`room_type_id` "
+                + "INNER JOIN "
+                + "    `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` "
+                + "INNER JOIN "
+                + "    `grade` ON `grade`.`id` = `class`.`grade_id` "
+                + "INNER JOIN "
+                + "    `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` "
+                + "LEFT JOIN "
+                + "    (SELECT `class_id`, COUNT(`student_id`) AS total_students "
+                + "     FROM `class_enrollment` "
+                + "     GROUP BY `class_id`) AS `student_count` ON `class`.`id` = `student_count`.`class_id` "
+                + "WHERE "
+                + "    `week_day`.`day` = '" + dayOfWeek + "' ORDER BY `class`.`id` ASC");
 
                 reset();
             }
@@ -930,22 +1289,50 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     private javax.swing.JTextField endTimeField;
     private javax.swing.JComboBox<String> hallLoadCombobox;
     private javax.swing.JComboBox<String> hallTypeComboBox2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JComboBox<String> jComboBox4;
+    private javax.swing.JComboBox<String> jComboBox5;
+    private javax.swing.JComboBox<String> jComboBox6;
     private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -958,6 +1345,12 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     private javax.swing.JTabbedPane jTabbedPaneClassSchedule;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable4;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     private javax.swing.JButton resetAllButton;
     private javax.swing.JButton scheduleButton;
     private javax.swing.JComboBox<String> scheduleStatusCombobox;
@@ -968,12 +1361,15 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> selectHallTypeComboBox3;
     private javax.swing.JButton startButton;
     private javax.swing.JTextField startTimeField;
+    private javax.swing.JLabel students;
+    private javax.swing.JLabel students1;
     private javax.swing.JTable table1;
     private cambodia.raven.Time time1;
     private cambodia.raven.Time time2;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
-
+    
+    
     // Hash Maps
     private static HashMap<String, String> scheduleStautusMap = new HashMap<>(); //for get id from schedule status
 
@@ -1095,6 +1491,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 vector.add(resultSet.getString("class_schedule.class_date"));
                 vector.add(resultSet.getString("week_day.day"));
                 vector.add(resultSet.getString("class_day.time"));
+                vector.add(resultSet.getString("student_count.total_students"));
 
                 tableModel.addRow(vector);
             }
@@ -1268,6 +1665,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         capacityField.setText("");
         startTimeField.setText("");
         endTimeField.setText("");
+        students.setText("");
         jDateChooser1.setDate(null);
         loadClassSchedulTable();
 
@@ -1292,8 +1690,37 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         searchGradeField.setText("");
         searchTeacherIdField.setText("");
 
-        loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
-                + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
-                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' ORDER BY `class`.`id` ASC");
+        loadAutoClassScheduleTable("SELECT "
+                + "    `class_day`.*, "
+                + "    `week_day`.*, "
+                + "    `class`.*, "
+                + "    `subject`.*, "
+                + "    `room_type`.*, "
+                + "    `teacher`.*, "
+                + "    `grade`.*, "
+                + "    `class_schedule`.*, "
+                + "    `student_count`.`total_students` "
+                + "FROM "
+                + "    `class_day` "
+                + "INNER JOIN "
+                + "    `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` "
+                + "INNER JOIN "
+                + "    `class` ON `class`.`id` = `class_day`.`class_id` "
+                + "INNER JOIN "
+                + "    `subject` ON `subject`.`id` = `class`.`subject_id` "
+                + "INNER JOIN "
+                + "    `room_type` ON `room_type`.`id` = `class`.`room_type_id` "
+                + "INNER JOIN "
+                + "    `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` "
+                + "INNER JOIN "
+                + "    `grade` ON `grade`.`id` = `class`.`grade_id` "
+                + "INNER JOIN "
+                + "    `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` "
+                + "LEFT JOIN "
+                + "    (SELECT `class_id`, COUNT(`student_id`) AS total_students "
+                + "     FROM `class_enrollment` "
+                + "     GROUP BY `class_id`) AS `student_count` ON `class`.`id` = `student_count`.`class_id` "
+                + "WHERE "
+                + "    `week_day`.`day` = '" + dayOfWeek + "' ORDER BY `class`.`id` ASC");
     }
 }

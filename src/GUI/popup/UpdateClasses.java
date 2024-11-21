@@ -231,7 +231,7 @@ public class UpdateClasses extends javax.swing.JDialog {
 
         jLabel3.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Schedule Status");
+        jLabel3.setText("Schedule ID");
 
         scheduleStatusUpdateCombobox.setBackground(new java.awt.Color(240, 240, 240));
         scheduleStatusUpdateCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
@@ -369,6 +369,10 @@ public class UpdateClasses extends javax.swing.JDialog {
 
                     resetTable();
                     reset();
+
+                    JOptionPane.showMessageDialog(this, "Update Successfully", "Warning", JOptionPane.WARNING_MESSAGE);
+                    this.dispose();
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
