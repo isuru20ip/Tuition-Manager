@@ -28,18 +28,20 @@ import javax.swing.table.DefaultTableModel;
 import modal.IDGenarator;
 import modal.LogCenter;
 import modal.Validator;
+import modal.beans.Admin;
 
 /**
  *
  * @author pahan
  */
 public class StudentManagement extends javax.swing.JPanel {
-
+    private Admin admin;
     /**
      * Creates new form Student_Registration
      */
-    public StudentManagement() {
+    public StudentManagement(Admin admin) {
         initComponents();
+        this.admin = admin;
         loadSGender();
         loadSStatus();
         loadStudent("");
@@ -1098,7 +1100,7 @@ public class StudentManagement extends javax.swing.JPanel {
 
                     String Dob = sdf.format(dob);
                     String joinDate = sdfDateTime.format(new Date());
-                    String sampleEmployeeID = "0126";
+                    String sampleEmployeeID = admin.getUserName();
 
                     String generatedID = IDGenarator.generateID("ST", "student"); //Generate Student ID
 
