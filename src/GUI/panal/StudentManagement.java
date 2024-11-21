@@ -28,18 +28,20 @@ import javax.swing.table.DefaultTableModel;
 import modal.IDGenarator;
 import modal.LogCenter;
 import modal.Validator;
+import modal.beans.Admin;
 
 /**
  *
  * @author pahan
  */
 public class StudentManagement extends javax.swing.JPanel {
-
+    private Admin admin;
     /**
      * Creates new form Student_Registration
      */
-    public StudentManagement() {
+    public StudentManagement(Admin admin) {
         initComponents();
+        this.admin = admin;
         loadSGender();
         loadSStatus();
         loadStudent("");
@@ -1098,14 +1100,14 @@ public class StudentManagement extends javax.swing.JPanel {
 
                     String Dob = sdf.format(dob);
                     String joinDate = sdfDateTime.format(new Date());
-                    String sampleEmployeeID = "0126";
+                    String EmployeeID = admin.getUserID(); //Employee Sign In
 
                     String generatedID = IDGenarator.generateID("ST", "student"); //Generate Student ID
 
                     DB.IUD("INSERT INTO `student`(`id`,`fname`,`lname`,`birthday`,`nic`,`mobile`,`email`,`join_date`,`gender_id`,`guardian_id`,`address_id`,`employee_id`,`customer_status_id`)"
                             + "VALUES ('" + generatedID + "','" + fname + "','" + lname + "','" + Dob + "','" + nic + "','" + mobile + "','" + email + "','" + joinDate + "',"
                             + "'" + studentGender.get(gender) + "','" + GuardianId + "','" + StudentAddressId + "',"
-                            + "'" + sampleEmployeeID + "','" + studentStatus.get(status) + "')");
+                            + "'" + EmployeeID + "','" + studentStatus.get(status) + "')");
 
                     JOptionPane.showMessageDialog(this, "New Student Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
 

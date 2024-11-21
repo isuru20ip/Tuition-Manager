@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modal.beans;
 
 /**
@@ -9,11 +5,6 @@ package modal.beans;
  * @author Asus
  */
 public class Admin {
-    
-   private String userName; 
-   private String mobile;
-   private String status;
-   private String type;
 
     /**
      * @return the userName
@@ -27,6 +18,20 @@ public class Admin {
      */
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    /**
+     * @return the userID
+     */
+    public String getUserID() {
+        return userID;
+    }
+
+    /**
+     * @param userID the userID to set
+     */
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     /**
@@ -71,16 +76,37 @@ public class Admin {
         this.type = type;
     }
 
+    /**
+     * @return the fname
+     */
+    public String getFname() {
+        return fname;
+    }
+
+    /**
+     * @param fname the fname to set
+     */
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
     public Admin() {
     }
 
-    public Admin(String userName, String mobile, String status, String type) {
+    public Admin(String userName, String userID, String mobile, String status, String type, String fname) {
         this.userName = userName;
+        this.userID = userID;
         this.mobile = mobile;
         this.status = status;
         this.type = type;
+        this.fname = fname;
     }
     
-    
-    
+   private String userName;
+   private String userID;
+   private String mobile;
+   private String status;
+   private String type;
+   private String fname;   
+   
 }
