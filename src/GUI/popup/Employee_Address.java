@@ -324,7 +324,6 @@ public class Employee_Address extends javax.swing.JDialog {
                         loadAddress(Eid);
                         refresh();
                        
-
                     }
 
                 }
@@ -354,7 +353,6 @@ public class Employee_Address extends javax.swing.JDialog {
                 // Ensure `em` is not null before calling `setAddressId`
                 if (em != null) {
                     em.setAddressId(aid);
-                    System.out.println("Address ID set for Employee: " + aid);
                 } else {
                     System.out.println("Error: Employee object (em) is null. Cannot set address ID.");
                 }
