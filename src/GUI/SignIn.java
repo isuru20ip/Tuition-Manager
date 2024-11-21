@@ -16,8 +16,8 @@ public class SignIn extends javax.swing.JFrame {
     
     public SignIn() {
         initComponents();
-        jTextField1.setText("nuwan");
-        jPasswordField1.setText("nuwan@123");
+        jTextField1.setText("isuru20");
+        jPasswordField1.setText("123456");
         icon();
     }
 
@@ -154,6 +154,17 @@ public class SignIn extends javax.swing.JFrame {
         t.start();
     }//GEN-LAST:event_formWindowOpened
 
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        FlatMacLightLaf.setup();
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new SignIn().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -170,7 +181,7 @@ public class SignIn extends javax.swing.JFrame {
 
     //Set Icon Image
     public void icon() {
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/source/Main logo.png")));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/source/Mainlogo.png")));
     }
 
     //SignIn

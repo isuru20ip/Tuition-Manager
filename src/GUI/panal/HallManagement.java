@@ -109,7 +109,15 @@ public class HallManagement extends javax.swing.JPanel {
             new String [] {
                 "ID", "Hall Capacity", "Hall Type"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -359,6 +367,7 @@ public class HallManagement extends javax.swing.JPanel {
 
             String type = String.valueOf(jComboBox1.getSelectedItem());
             String capacity = jTextField1.getText();
+            String hID = jTextField2.getText();
 
             if (capacity.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter Hall Capacity", "warning", JOptionPane.WARNING_MESSAGE);
@@ -368,7 +377,9 @@ public class HallManagement extends javax.swing.JPanel {
 
             } else {
 
-                DB.IUD("UPDATE `class_room` SET `capacity` = '" + capacity + "', `room_type_id` = '" + hallTypeMap.get(type) + "'");
+                DB.IUD("UPDATE `class_room` SET `capacity` = '" + capacity + "', "
+                        + "`room_type_id` = '" + hallTypeMap.get(type) + "'"
+                                + " WHERE `id` = '"+hID+"' ");
 
                 loadHall();
                 reset();
@@ -392,10 +403,10 @@ public class HallManagement extends javax.swing.JPanel {
             String query = ("Select * From `class_room` "
                     + "INNER JOIN `room_type` ON `class_room`.`room_type_id` = `room_type`.`id` ");
 
-            if (value.matches("^[H0-9]$")) {
+            if (value.matches("^H00000([1-9]|1[0-9]|20)$")) {
                 query += "WHERE `class_room`.`id` LIKE '%" + value + "%' ";
 
-            } else if (value.matches("^[A-Za-z]+/[A-Za-z]+\\d{6}$")) {
+            } else if (value.matches("^A\\/C|N|A|Normal$")) {
                 query += " WHERE `room_type`.`type` LIKE '%" + value + "%'";
 
             } else {
@@ -434,6 +445,9 @@ public class HallManagement extends javax.swing.JPanel {
 
         String type = String.valueOf(jTable1.getValueAt(row, 2));
         jComboBox1.setSelectedItem(type);
+        
+        String hID = String.valueOf(jTable1.getValueAt(row, 0));
+        jTextField2.setText(hID);
 
         jButton1.setEnabled(false);
     }
