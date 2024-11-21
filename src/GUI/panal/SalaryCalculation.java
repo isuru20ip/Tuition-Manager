@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
 import modal.SetDate;
+import modal.beans.Admin;
 
 /**
  *
@@ -29,19 +30,21 @@ public class SalaryCalculation extends javax.swing.JPanel {
     /**
      * Creates new form SalaryCalculation
      */
-    public SalaryCalculation() {
+    private Admin admin;
+
+    public SalaryCalculation(Admin bean) {
         initComponents();
         loadSallary("", "");
         date();
+        this.admin = bean;
         jButton1.setEnabled(false);
         jButton2.setEnabled(false);
         jButton3.setEnabled(false);
         jButton7.setEnabled(false);
         jRadioButton1.setEnabled(false);
-        
         loadTeacherSallary();
     }
-    
+
     private String attendedDates;
     private String teacherSalaryDate;
 
@@ -121,7 +124,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jPanel3.setBackground(new java.awt.Color(234, 238, 244));
 
         jLabel8.setFont(new java.awt.Font("SchulbuchNord", 0, 24)); // NOI18N
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel8.setText("Employee Salary Calculation");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -136,12 +139,12 @@ public class SalaryCalculation extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel8)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(234, 238, 244));
-        jPanel4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jPanel4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
 
         jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField3.setToolTipText("Employee ID");
@@ -199,7 +202,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
         jFormattedTextField6.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         jFormattedTextField6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jFormattedTextField6.setText("0");
+        jFormattedTextField6.setText("0.00");
         jFormattedTextField6.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jFormattedTextField6.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
         jFormattedTextField6.addActionListener(new java.awt.event.ActionListener() {
@@ -215,7 +218,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
         jFormattedTextField7.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         jFormattedTextField7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jFormattedTextField7.setText("0");
+        jFormattedTextField7.setText("0.00");
         jFormattedTextField7.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jFormattedTextField7.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
 
@@ -305,7 +308,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jRadioButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+                        .addComponent(jRadioButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
                         .addGap(95, 95, 95)
                         .addComponent(jRadioButton2))
                     .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -314,20 +317,20 @@ public class SalaryCalculation extends javax.swing.JPanel {
                         .addComponent(jTextField3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton6)))
-                .addGap(117, 117, 117)
+                .addGap(126, 126, 126)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jDateChooser3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jFormattedTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                        .addComponent(jFormattedTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton7)))
                 .addGap(98, 98, 98)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel16))
                     .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -341,7 +344,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
                     .addComponent(jTextField3)
                     .addComponent(jDateChooser3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jFormattedTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -349,7 +352,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
                     .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -359,7 +362,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
                                 .addGap(22, 22, 22))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel13)
@@ -368,7 +371,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
                             .addComponent(jFormattedTextField5)
                             .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)))
+                            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -381,7 +384,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
         );
 
         jPanel5.setBackground(new java.awt.Color(234, 238, 244));
-        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
         jLabel17.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -482,7 +485,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
                         .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(8, 8, 8)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(jButton4)
                 .addContainerGap())
@@ -493,14 +496,18 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -511,11 +518,11 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jPanel2.setBackground(new java.awt.Color(234, 238, 244));
 
         jLabel1.setFont(new java.awt.Font("SchulbuchNord", 1, 24)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel1.setText("Teachers Salary Calculation");
 
         jLabel2.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jLabel2.setText("Teacher ID :");
+        jLabel2.setText("Teacher NIC :");
 
         jLabel3.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel3.setText("Name :");
@@ -556,9 +563,9 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         jFormattedTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jFormattedTextField1.setText("0.00");
-        jFormattedTextField1.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jFormattedTextField1.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
 
-        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0%"))));
+        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         jFormattedTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jFormattedTextField2.setText("0.00");
         jFormattedTextField2.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
@@ -573,10 +580,15 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jFormattedTextField3.setText("0.00");
         jFormattedTextField3.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
 
-        jButton2.setBackground(new java.awt.Color(0, 204, 51));
+        jButton2.setBackground(new java.awt.Color(0, 102, 102));
         jButton2.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Pay");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -606,7 +618,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
             }
         });
 
-        jButton8.setBackground(new java.awt.Color(255, 102, 102));
+        jButton8.setBackground(new java.awt.Color(255, 51, 51));
         jButton8.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setText("Clear All");
@@ -741,25 +753,25 @@ public class SalaryCalculation extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
+
         Double sallaryPerDay = null;
         Double bonus = null;
         Double total = null;
         java.sql.Date today;
-        
+
         String employeId = jTextField3.getText();
         String salary = jLabel19.getText();
         String bonusString = jFormattedTextField6.getText();
         String totalString = jFormattedTextField7.getText();
-        
+
         try {
-            
+
             sallaryPerDay = Double.parseDouble(salary);
             today = java.sql.Date.valueOf(jLabel18.getText());
             String workedDays = this.attendedDates;
             bonus = Double.parseDouble(bonusString);
             total = Double.parseDouble(totalString);
-            
+
             if (employeId == null || employeId.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Employee ID is required.", "Warning", JOptionPane.ERROR_MESSAGE);
             } else if (sallaryPerDay == 0) {
@@ -771,14 +783,14 @@ public class SalaryCalculation extends javax.swing.JPanel {
             } else if (total < 0) {
                 JOptionPane.showMessageDialog(this, "Total must be a non-negative number.", "Warning", JOptionPane.ERROR_MESSAGE);
             } else {
-                
+
                 DB.IUD("INSERT INTO `emp_sallary` (`payment_day`,`sallay_per_day`,`working_day`,`bonus`,`sub_total`,`employee_id`)"
                         + "VALUES ('" + today + "','" + sallaryPerDay + "','" + workedDays + "','" + bonus + "','" + total + "','" + employeId + "')");
-                
+
                 JOptionPane.showMessageDialog(this, "Successfully Paid", "Success", JOptionPane.INFORMATION_MESSAGE);
                 loadSallary("", "");
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -817,7 +829,16 @@ public class SalaryCalculation extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField3KeyReleased
 
     private void jFormattedTextField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField6KeyReleased
-        calculate();
+
+        String num = jFormattedTextField6.getText();
+
+        if (num.matches(".*[a-zA-Z!@#$%^&*()_+=\\[\\]{}|;:',<>,./?`~].*") || num.isEmpty() || num.isBlank()) {
+            JOptionPane.showMessageDialog(this, "You can't add Letters or Special Characters here", "Warning", JOptionPane.WARNING_MESSAGE);
+            jFormattedTextField6.setText("0.00");
+
+        } else {
+            calculate();
+        }
     }//GEN-LAST:event_jFormattedTextField6KeyReleased
 
     private void jLabel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MouseClicked
@@ -829,28 +850,29 @@ public class SalaryCalculation extends javax.swing.JPanel {
     }//GEN-LAST:event_jFormattedTextField5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        
+
         try {
-            
+
             String emp_id = jTextField3.getText();
-            
+
             if (emp_id.isEmpty() || emp_id.isBlank()) {
                 JOptionPane.showMessageDialog(this, "Please Enter An Employee ID", "Attention", JOptionPane.WARNING_MESSAGE);
-                
+
             } else {
                 ResultSet resultSet = DB.search("SELECT * FROM `employee` INNER JOIN `emp_type` ON `employee`.`emp_type_id` = `emp_type`.`id` WHERE "
                         + "`employee`.`id` = '" + emp_id + "'");
-                
+
                 if (resultSet.next()) {
                     String employeeType = resultSet.getString("emp_type_id");
-                    
+
                     if (employeeType.equals("1")) {
                         JOptionPane.showMessageDialog(this, "This Id Owns For Master Admin, Enter Another One", "Attention", JOptionPane.WARNING_MESSAGE);
                         reset();
-                        
+
                     } else {
                         jLabel19.setText(resultSet.getString("emp_type.salary"));
                         jButton7.setEnabled(true);
+                        jButton7.grabFocus();
                         loadLastPaidDate(emp_id);
                     }
                 } else {
@@ -858,7 +880,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
                     reset();
                 }
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -885,7 +907,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
         // if (evt.getPropertyName().equals("date")) {
         java.util.Date selectedDate = jDateChooser4.getDate();
-        
+
         if (selectedDate != null) {
             String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(selectedDate);
             loadSallary("", formattedDate);
@@ -899,9 +921,9 @@ public class SalaryCalculation extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        
+
         String teacherNic = jTextField1.getText();
-        
+
         if (teacherNic.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please Enter A Teacher NIC to Calculate Payment", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
@@ -910,7 +932,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        reomve();
+        refresh();
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jFormattedTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField2KeyReleased
@@ -925,6 +947,41 @@ public class SalaryCalculation extends javax.swing.JPanel {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        String commissionS = jFormattedTextField2.getText();
+        String earnS = jFormattedTextField3.getText();
+
+        try {
+
+            Double commission = null;
+            Double earn = null;
+            String employeeUserName = admin.getUserName();
+
+            ResultSet resultSet = DB.search("SELECT * FROM emp_access WHERE user_name = '" + employeeUserName + "'");
+
+            if (resultSet.next()) {
+
+                String empID = resultSet.getString("employee_id");
+                String tNic = jTextField1.getText();
+                String today = this.teacherSalaryDate;
+                commission = Double.parseDouble(commissionS);
+                earn = Double.parseDouble(earnS);
+
+                DB.IUD("INSERT INTO `teacher_paymet` (`teacher_nic`,`employee_id`,`date`,`commission`,`earn`)"
+                        + "VALUES ('" + tNic + "','" + empID + "','" + today + "','" + commission + "','" + earn + "')");
+
+                JOptionPane.showMessageDialog(this, "Peyment Succeed", "Payment", JOptionPane.INFORMATION_MESSAGE);
+
+                refresh();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -987,27 +1044,29 @@ public class SalaryCalculation extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void loadSallary(String eid, String formattedDate) {
-        
+
         try {
-            
+
             DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
             renderer.setHorizontalAlignment(SwingConstants.CENTER);
-            jTable2.setDefaultRenderer(Object.class, renderer);
-            
+            jTable2
+                    .setDefaultRenderer(Object.class,
+                            renderer);
+
             String query = "SELECT * FROM `emp_sallary`";
-            
+
             if (!eid.isEmpty() && formattedDate.isEmpty()) {
                 query += " WHERE employee_id LIKE '%" + eid + "%'";
-                
+
             } else if (eid.isEmpty() && !formattedDate.isEmpty()) {
                 query += " WHERE payment_day LIKE '%" + formattedDate + "%'";
             }
-            
+
             ResultSet resultSet = DB.search(query);
-            
+
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
             model.setRowCount(0);
-            
+
             while (resultSet.next()) {
                 Vector vector = new Vector();
                 vector.add(resultSet.getString("employee_id"));
@@ -1016,52 +1075,65 @@ public class SalaryCalculation extends javax.swing.JPanel {
                 vector.add(resultSet.getString("working_day"));
                 vector.add(resultSet.getString("bonus"));
                 vector.add(resultSet.getString("sub_total"));
-                
+
                 model.addRow(vector);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
     private void date() {
         String Date = SetDate.getDate("yyyy-MM-dd");
         jLabel18.setText(Date);
         ((JTextField) jDateChooser3.getDateEditor().getUiComponent()).setHorizontalAlignment(JTextField.CENTER);
         this.teacherSalaryDate = Date;
     }
-    
+
     private void loadLastPaidDate(String emp_id) {
-        
+
+        // Convert the date from jLabel18 to java.sql.Date
+        String toDateS = jLabel18.getText();
+        java.sql.Date today = java.sql.Date.valueOf(toDateS); // Ensure jLabel18 is in "YYYY-MM-DD" format
+
         try {
-            
-            ResultSet resultSet = DB.search("SELECT `payment_day` FROM `emp_sallary` WHERE `employee_id` = '" + emp_id + "' ORDER BY `payment_day` DESC LIMIT 1");
-            
+
+            ResultSet resultSet = DB.search("SELECT * "
+                    + "FROM `emp_sallary`"
+                    + "RIGHT JOIN `employee` ON `emp_sallary`.`employee_id` = `employee`.`id`"
+                    + "WHERE `employee`.`id` = '" + emp_id + "'"
+                    + "ORDER BY `payment_day` DESC LIMIT 1");
+
             if (resultSet.next()) {
                 // Retrieve the most recent payment date
                 java.sql.Date lastPaidDate = resultSet.getDate("payment_day");
+                java.sql.Date joinedDate = resultSet.getDate("employee.join_date");
 
-                // Add one day to the last paid date
-                LocalDate localDate = lastPaidDate.toLocalDate().plusDays(1);
-                java.sql.Date fromDate = Date.valueOf(localDate);
-                jDateChooser3.setDate(fromDate);
-                jDateChooser3.setEnabled(false);
+                if (lastPaidDate == null) {
 
-                // Convert the date from jLabel18 to java.sql.Date
-                String toDateS = jLabel18.getText();
-                java.sql.Date today = java.sql.Date.valueOf(toDateS); // Ensure jLabel18 is in "YYYY-MM-DD" format
+                    jDateChooser3.setDate(joinedDate);
+                    jDateChooser3.setEnabled(false);
 
-                if (lastPaidDate.equals(today)) {
+                } else if (lastPaidDate.equals(today)) {
+
                     jRadioButton1.setSelected(true);
                     jRadioButton2.setEnabled(false);
                     JOptionPane.showMessageDialog(this, "This Months' Salary Has Paid For This Employee");
+
                 } else {
+
+                    // Add one day to the last paid date
+                    LocalDate localDate = lastPaidDate.toLocalDate().plusDays(1);
+                    java.sql.Date fromDate = Date.valueOf(localDate);
+                    jDateChooser3.setDate(fromDate);
+                    jDateChooser3.setEnabled(false);
+
                     jRadioButton2.setSelected(true);
                     jRadioButton1.setEnabled(false);
                 }
-                
+
             } else {
                 // Clear the date if no records found
                 jDateChooser3.setEnabled(true);
@@ -1069,16 +1141,16 @@ public class SalaryCalculation extends javax.swing.JPanel {
                 jRadioButton2.setSelected(true);
                 jRadioButton1.setEnabled(false);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
     private double total = 0;
     private double bonus = 0;
-    
+
     private void calculate() {
 
         // Give Bonus
@@ -1087,30 +1159,30 @@ public class SalaryCalculation extends javax.swing.JPanel {
         } else {
             bonus = Double.parseDouble(jFormattedTextField6.getText());
         }
-        
+
         this.total = Double.parseDouble(jFormattedTextField5.getText());
         this.total += bonus;
-        
+
         jFormattedTextField7.setText(String.valueOf(this.total));
     }
-    
+
     private void total() {
-        
+
         try {
-            
+
             String employee_id = jTextField3.getText();
             java.util.Date utilDate = jDateChooser3.getDate(); // Convert utilDate to sqlDate for the SQL query
 
             if (employee_id.isEmpty() || employee_id.isBlank()) {
                 JOptionPane.showMessageDialog(this, "Please Enter An Employee ID", "Attention", JOptionPane.WARNING_MESSAGE);
-                
+
             } else if (utilDate == null) {
                 JOptionPane.showMessageDialog(this, "Please Select A Start Date to Calculate", "Attention", JOptionPane.WARNING_MESSAGE);
-                
+
             } else {
-                
+
                 java.sql.Date fromDate = new java.sql.Date(utilDate.getTime());
-                
+
                 String toDate = jLabel18.getText(); // Assuming this is in "YYYY-MM-DD" format
 
                 double salaryPerDay = Double.parseDouble(jLabel19.getText()); // Convert salary per day to double
@@ -1118,7 +1190,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
                 // SQL query to count distinct dates
                 ResultSet rs = DB.search("SELECT `employee_id`, COUNT(DISTINCT `date`) AS days_attended FROM `emp_attendance` WHERE `employee_id` = '" + employee_id + "'"
                         + " AND `date` BETWEEN '" + fromDate + "' AND '" + toDate + "' GROUP BY `employee_id`");
-                
+
                 if (rs.next()) {
                     this.attendedDates = rs.getString("days_attended");
                     int daysAttended = Integer.parseInt(attendedDates); // Convert to integer
@@ -1135,12 +1207,12 @@ public class SalaryCalculation extends javax.swing.JPanel {
                     reset();
                 }
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     private void reset() {
         jTextField3.setText("");
         jDateChooser3.setDate(null);
@@ -1156,25 +1228,25 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jButton7.setEnabled(false);
         loadSallary("", "");
     }
-    
+
     private void searchSallary() {
         String eid = jTextField5.getText();
         loadSallary(eid, "");
     }
-    
+
     private void loadTeacherSallary() {
-        
+
         try {
-            
+
             ResultSet rs = DB.search("SELECT * FROM `teacher_paymet` INNER JOIN `teacher` ON `teacher_paymet`.`teacher_nic` = `teacher`.`nic`");
-            
+
             DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
             renderer.setHorizontalAlignment(SwingConstants.CENTER);
             jTable1.setDefaultRenderer(Object.class, renderer);
-            
+
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
-            
+
             while (rs.next()) {
                 Vector vector = new Vector();
                 vector.add(rs.getString("teacher.fname") + " " + rs.getString("teacher.lname"));
@@ -1182,66 +1254,69 @@ public class SalaryCalculation extends javax.swing.JPanel {
                 vector.add(rs.getString("date"));
                 vector.add(rs.getString("earn"));
                 vector.add(rs.getString("commission"));
-                
+
                 model.addRow(vector);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
 
     //2024-11-17
     private void loadTeacherSalaryData(String teacherNic) {
-        
+
         try {
-            
+
             ResultSet resultSet = DB.search(
                     "SELECT * FROM teacher "
                     + "LEFT JOIN teacher_paymet ON teacher.nic = teacher_paymet.teacher_nic "
                     + "WHERE teacher.nic = '" + teacherNic + "' "
                     + "ORDER BY teacher_paymet.date DESC LIMIT 1");
-            
+
             if (resultSet.next()) {
 
                 //get Teacher Data
                 String teacherName = resultSet.getString("teacher.fname") + " " + resultSet.getString("teacher.lname");
                 java.sql.Date registeredDate = resultSet.getDate("teacher.join_date");
                 java.sql.Date lastPaidDate = resultSet.getDate("teacher_paymet.date");
-                
-                jTextField2.setText(teacherName);
-                
-                if (lastPaidDate != null) {
 
-                    // Add one day to the last paid date
-                    // LocalDate localDate = lastPaidDate.toLocalDate().plusDays(1);
-                    // java.sql.Date fromDate = Date.valueOf(localDate);
+                jTextField2.setText(teacherName);
+                java.sql.Date toady = java.sql.Date.valueOf(this.teacherSalaryDate);  // Convert LocalDate to java.sql.Date
+
+                if (lastPaidDate == null) {
+                    jLabel4.setText("Registerd Date :");
+                    jDateChooser1.setDate(registeredDate);
+                    jDateChooser1.setEnabled(false);
+
+                } else if (lastPaidDate.equals(toady)) {
+                    JOptionPane.showMessageDialog(this, "Already Salary has paid for this teacher", "Warning", JOptionPane.WARNING_MESSAGE);
+                    refresh();
+
+                } else {
                     jLabel4.setText("Last Payement Date :");
                     jDateChooser1.setDate(lastPaidDate);
                     jDateChooser1.setEnabled(false);
-                    
-                } else {
-                    jLabel4.setText("Registerd Date :");
-                    jDateChooser1.setDate(registeredDate);
+
                 }
                 //get Teacher Data
 
                 jButton1.setEnabled(true);
-                
+
             } else {
                 //if there is no valid teacher nic
                 JOptionPane.showMessageDialog(this, "Please enter a Valid Teacher NIC", "Warning", JOptionPane.WARNING_MESSAGE);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
     private void calculateTeacherSalary(String teacherNic) {
-        
+
         java.util.Date paidDay = jDateChooser1.getDate(); // Convert utilDate to sqlDate for the SQL query
 
         try {
@@ -1263,24 +1338,31 @@ public class SalaryCalculation extends javax.swing.JPanel {
                     + "AND payment.date BETWEEN '" + paidDay + "' AND '" + this.teacherSalaryDate + "' "
                     + ") AS fee_summary "
                     + "GROUP BY teacher_nic");
-            
+
             if (rs.next()) {
                 String count = rs.getString("monthly_income");
-                jFormattedTextField1.setText(count);
-                jFormattedTextField3.setText(count);
-                jButton2.setEnabled(true);
+
+                if (count == null || count.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "No payment records found for this teacher's Classes or Courses.");
+                    refresh();
+                } else {
+                    jFormattedTextField1.setText(count);
+                    jFormattedTextField3.setText(count);
+                    jButton2.setEnabled(true);
+                }
             }
             //Calculate Payment
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
 
     //Cut Institute Commission From Teachers' Monthly Income
     private double teacherSalarytotal = 0;
     private double instituteCommission = 0;
-    
+
     private void addCommission() {
 
         // Give Bonus
@@ -1289,15 +1371,15 @@ public class SalaryCalculation extends javax.swing.JPanel {
         } else {
             instituteCommission = Double.parseDouble(jFormattedTextField2.getText());
         }
-        
+
         this.teacherSalarytotal = Double.parseDouble(jFormattedTextField1.getText());
         this.teacherSalarytotal -= instituteCommission;
-        
+
         jFormattedTextField3.setText(String.valueOf(this.teacherSalarytotal));
     }
-    
-    private void reomve() {
-        
+
+    private void refresh() {
+
         jTextField1.setText("");
         jTextField2.setText("");
         jDateChooser1.setDate(null);
@@ -1308,7 +1390,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jTextField1.grabFocus();
         jButton1.setEnabled(false);
         jButton2.setEnabled(false);
-        
+        loadTeacherSallary();
     }
-    
+
 }
