@@ -79,7 +79,6 @@ public class sub_dashboard extends javax.swing.JPanel {
         jPanel5 = new RoundedPanel(20, Color.BLACK);
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new RoundedPanel(20, Color.white);
-        jLabel2 = new javax.swing.JLabel();
         jPanel2 = new RoundedPanel(20, Color.white);
         jPanel3 = new RoundedPanel(20, Color.white);
         jPanel15 = new RoundedPanel(20, new Color(200,200,198),DropShadowBorder());
@@ -99,23 +98,15 @@ public class sub_dashboard extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setPreferredSize(new java.awt.Dimension(123, 0));
 
-        jLabel2.setText("Teachers");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel2)
-                .addContainerGap(32, Short.MAX_VALUE))
+            .addGap(0, 108, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addContainerGap(76, Short.MAX_VALUE))
+            .addGap(0, 105, Short.MAX_VALUE)
         );
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
@@ -255,7 +246,6 @@ public class sub_dashboard extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel14;
