@@ -28,23 +28,25 @@ import javax.swing.table.DefaultTableModel;
 import modal.IDGenarator;
 import modal.LogCenter;
 import modal.Validator;
+import modal.beans.Admin;
 
 /**
  *
  * @author pahan
  */
 public class StudentManagement extends javax.swing.JPanel {
-
+    private Admin admin;
     /**
      * Creates new form Student_Registration
      */
-    public StudentManagement() {
+    public StudentManagement(Admin admin) {
         initComponents();
+        this.admin = admin;
         loadSGender();
         loadSStatus();
         loadStudent("");
         setupRadioButtons();
-        StudentReportLoad("", "", "","");
+        StudentReportLoad("", "", "", "");
         StudentPaymentReportLoad("");
 
     }
@@ -574,11 +576,11 @@ public class StudentManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Name", "Email", "Subject", "Courses", "Status", "Payment Model", "Joine Date"
+                "ID", "Email", "Class or Courses", "Status", "Payment Model", "Joine Date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1098,14 +1100,14 @@ public class StudentManagement extends javax.swing.JPanel {
 
                     String Dob = sdf.format(dob);
                     String joinDate = sdfDateTime.format(new Date());
-                    String sampleEmployeeID = "0126";
+                    String EmployeeID = admin.getUserID(); //Employee Sign In
 
                     String generatedID = IDGenarator.generateID("ST", "student"); //Generate Student ID
 
                     DB.IUD("INSERT INTO `student`(`id`,`fname`,`lname`,`birthday`,`nic`,`mobile`,`email`,`join_date`,`gender_id`,`guardian_id`,`address_id`,`employee_id`,`customer_status_id`)"
                             + "VALUES ('" + generatedID + "','" + fname + "','" + lname + "','" + Dob + "','" + nic + "','" + mobile + "','" + email + "','" + joinDate + "',"
                             + "'" + studentGender.get(gender) + "','" + GuardianId + "','" + StudentAddressId + "',"
-                            + "'" + sampleEmployeeID + "','" + studentStatus.get(status) + "')");
+                            + "'" + EmployeeID + "','" + studentStatus.get(status) + "')");
 
                     JOptionPane.showMessageDialog(this, "New Student Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
 
@@ -1328,34 +1330,35 @@ public class StudentManagement extends javax.swing.JPanel {
         String sortOrder = jComboBox3.getSelectedItem().toString(); // Sort Enrollment
 
         // Pass both values to the StudentReportLoad method
-        StudentReportLoad(idValue, emailValue, comboBoxValue , sortOrder);
+        StudentReportLoad(idValue, emailValue, comboBoxValue, sortOrder);
         StudentPaymentReportLoad(idValue);
     }
 
     //Jtable 02
-    private void StudentReportLoad(String idValue, String emailValue, String comboBoxValue,String sortOrder) {
+    private void StudentReportLoad(String idValue, String emailValue, String comboBoxValue, String sortOrder) {
         try {
-            String query = "SELECT student.id AS id, "
-                    + "student.fname AS name, "
+            // Base query (fixed the missing ON condition in the JOIN)
+            String query = "SELECT DISTINCT "
+                    + "student.id AS id, "
                     + "student.email AS email, "
-                    + "subject.name AS subject, "
-                    + "course.subject_id AS course_id, "
+                    + "CASE "
+                    + "    WHEN class.id IS NOT NULL THEN class.id "
+                    + "    ELSE course.id "
+                    + "END AS class_or_course_id, "
                     + "customer_status.status AS status, "
                     + "payment_modal.modal AS payment_modal, "
-                    + "student.join_date AS join_date, "
-                    + "CASE WHEN course_enrollment.student_id IS NOT NULL THEN 'Yes' ELSE 'No' END AS has_taken_course "
+                    + "student.join_date AS join_date "
                     + "FROM student "
                     + "LEFT JOIN class_enrollment ON student.id = class_enrollment.student_id "
                     + "LEFT JOIN class ON class_enrollment.class_id = class.id "
                     + "LEFT JOIN course_enrollment ON student.id = course_enrollment.student_id "
                     + "LEFT JOIN course ON course_enrollment.course_id = course.id "
-                    + "LEFT JOIN subject ON class.subject_id = subject.id "
                     + "LEFT JOIN customer_status ON student.customer_status_id = customer_status.id "
-                    + "LEFT JOIN payment_modal ON course_enrollment.payment_modal_id = payment_modal.id ";
+                    + "LEFT JOIN payment_modal ON course_enrollment.payment_modal_id = payment_modal.id";
 
             boolean hasConditions = false;
 
-            // Add condition for student ID if it's not empty
+            // Add condition for student ID if it's not empty and valid
             if (idValue != null && idValue.matches("^ST\\d*$")) {
                 query += " WHERE student.id LIKE '%" + idValue + "%'";
                 hasConditions = true;
@@ -1367,18 +1370,17 @@ public class StudentManagement extends javax.swing.JPanel {
                 hasConditions = true;
             }
 
-            // Add condition for comboBoxValue if it's not empty
+            // Add condition for comboBoxValue if it's not empty and valid
             if (comboBoxValue != null && !comboBoxValue.isEmpty() && !comboBoxValue.equals("Select")) {
                 query += (hasConditions ? " AND " : " WHERE ") + "customer_status.status LIKE '%" + comboBoxValue + "%'";
             }
+
             // Add sorting based on ComboBox sort order (new to old or old to new)
             if ("New to Old".equals(sortOrder)) {
                 query += " ORDER BY student.join_date DESC";
             } else if ("Old to New".equals(sortOrder)) {
                 query += " ORDER BY student.join_date ASC";
             }
-
-            
 
             // Execute the query
             ResultSet resultSet = DB.search(query);
@@ -1391,10 +1393,8 @@ public class StudentManagement extends javax.swing.JPanel {
             while (resultSet.next()) {
                 Vector<String> v = new Vector<>();
                 v.add(resultSet.getString("id"));  // Student ID
-                v.add(resultSet.getString("name"));  // Student name
                 v.add(resultSet.getString("email"));  // Student email
-                v.add(resultSet.getString("subject"));  // Subject name
-                v.add(resultSet.getString("course_id"));  // Course ID
+                v.add(resultSet.getString("class_or_course_id"));  // Class or Course ID
                 v.add(resultSet.getString("status"));  // Customer status
                 v.add(resultSet.getString("payment_modal"));  // Payment modal
                 v.add(resultSet.getString("join_date"));  // Student join date
@@ -1407,6 +1407,7 @@ public class StudentManagement extends javax.swing.JPanel {
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
+
     }
 
 //Jtable 03
@@ -1478,7 +1479,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jTextField7.setText("");
         jTextField8.setText("");
         jComboBox4.setSelectedItem("Select");
-        StudentReportLoad("", "", "","");
+        StudentReportLoad("", "", "", "");
         StudentPaymentReportLoad("");
 
     }

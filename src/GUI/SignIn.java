@@ -1,6 +1,5 @@
 package GUI;
 
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
@@ -11,11 +10,10 @@ import java.awt.event.*;
 
 public class SignIn extends javax.swing.JFrame {
 
-    
     public SignIn() {
         initComponents();
-        jTextField1.setText("nuwan");
-        jPasswordField1.setText("nuwan@123");
+        jTextField1.setText("hasano");
+        jPasswordField1.setText("123456");
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/GUI/Mainlogo.png")));
 
     }
@@ -206,8 +204,10 @@ public class SignIn extends javax.swing.JFrame {
                     String mobile = resultSet.getString("mobile");
                     String status = resultSet.getString("status");
                     String type = resultSet.getString("name");
+                    String userID = resultSet.getString("employee_id");
+                    String fname =  resultSet.getString("fname");
 
-                    Dashboard dashboard = new Dashboard(new Admin(userName, mobile, status, type));
+                    Dashboard dashboard = new Dashboard(new Admin(userName,userID, mobile, status, type,fname));
                     dashboard.setVisible(true);
                     this.dispose();
 
