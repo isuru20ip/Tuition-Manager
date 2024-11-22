@@ -641,11 +641,11 @@ public class ClassManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "NIC", "Teacher Name", "Class ID", "Grade", "Subject", "Language", "Method", "Modal", "Status", "Hall ", "Type", "Fee", "Days"
+                "NIC", "Teacher Name", "Class ID", "Grade", "Subject", "Language", "Method", "Modal", "Status", "Hall ", "Type", "Fee", "Days", "Time"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, true, false, true, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1884,7 +1884,7 @@ public class ClassManagement extends javax.swing.JPanel {
 
     private void loadGrades() {
         try {
-            ResultSet resultSet = DB.search("SELECT * FROM `grade` WHERE `id` IN ('1', '2','3','4','5','6','7','8','9','10','11','12','13','14','15','16')");
+            ResultSet resultSet = DB.search("SELECT * FROM `grade` WHERE `id` IN ('1', '2','3','4','5','6','7','8','9','10','11','12','13','14','16')");
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
@@ -2113,11 +2113,11 @@ public class ClassManagement extends javax.swing.JPanel {
                 if (rs.next()) {
                     JOptionPane.showMessageDialog(this, "This class Already registered ", "Alert!", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    DB.IUD("INSERT INTO `class` (`id`,`fee`,`register_date`,`end_date`,`teacher_nic`,`subject_id`,`grade_id`,"
+                    DB.IUD("INSERT INTO `class` (`id`,`fee`,`register_date`,`teacher_nic`,`subject_id`,`grade_id`,"
                             + "`class_type_id`,`class_method_id`,`class_language_id`,`class_status_id`,`room_type_id`,`employee_id`,`class_modal_id`) VALUES"
                             + "('" + classID + "','" + fee + "','" + registerDate + "','" + teacherID + "','" + subjectMap.get(subject) + "','" + gradeMap.get(grade) + "',"
                             + "'" + classTypeMap.get(type) + "','" + classMethodMap.get(method) + "','" + classLanguageMap.get(language) + "','" + classStatusMap.get(status) + "'"
-                            + ",'" + hallMap.get(hall) + "','0126','" + classModalMap.get(model) + "')");
+                            + ",'" + hallMap.get(hall) + "','EMP000001','" + classModalMap.get(model) + "')");
 
                     for (ClassDay vnm : dayVector) {
                         String time12hr = vnm.getTime();  // Example time
@@ -2129,7 +2129,7 @@ public class ClassManagement extends javax.swing.JPanel {
                     }
                     System.out.println("success");
                     reset();
-                    //loadClass();
+
                 }
             }
         } catch (Exception e) {
@@ -2149,8 +2149,6 @@ public class ClassManagement extends javax.swing.JPanel {
             System.out.println(vnm.getDay());
         }
     }
-
-    
 
     private void updateClass() {
         try {
@@ -2232,7 +2230,7 @@ public class ClassManagement extends javax.swing.JPanel {
                                 + " `teacher_nic` = '" + teacherID + "', `subject_id` = '" + subjectMap.get(subject) + "', `grade_id` = '" + gradeMap.get(grade) + "', "
                                 + "`class_type_id` = '" + classTypeMap.get(type) + "', `class_method_id` = '" + classMethodMap.get(method) + "', "
                                 + "`class_language_id` = '" + classLanguageMap.get(language) + "', `class_status_id` = '" + classStatusMap.get(status) + "', "
-                                + "`room_type_id` = '" + hallMap.get(hall) + "', `employee_id` ='0126' ,`class_modal_id`='" + classModalMap.get(model) + "'"
+                                + "`room_type_id` = '" + hallMap.get(hall) + "', `employee_id` ='EMP000001' ,`class_modal_id`='" + classModalMap.get(model) + "'"
                                 + "WHERE `id`='" + classID + "'");
 
                     }
@@ -2259,7 +2257,7 @@ public class ClassManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    
+
     private void loadClassesTable(String value) {
 
         try {
@@ -2267,7 +2265,8 @@ public class ClassManagement extends javax.swing.JPanel {
                     + "grade.name AS grade_name, subject.name AS subject_name, class_language.name AS language_name, "
                     + "class_method.method AS method_name, class_modal.modal AS modal_name, class_status.status AS status_name, "
                     + "room_type.type AS room_type_name, class_type.type AS class_type_name, "
-                    + "GROUP_CONCAT(week_day.day ORDER BY week_day.id SEPARATOR ', ') AS days "
+                    + "GROUP_CONCAT(week_day.day ORDER BY week_day.id SEPARATOR ', ') AS days, "
+                    + "GROUP_CONCAT(class_day.time SEPARATOR ', ') AS time "
                     + "FROM `class` "
                     + "INNER JOIN `teacher` ON `class`.`teacher_nic` = `teacher`.`nic` "
                     + "INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id` "
@@ -2308,6 +2307,7 @@ public class ClassManagement extends javax.swing.JPanel {
                 vector.add(resultSet.getString("class_type_name"));
                 vector.add(resultSet.getString("fee"));
                 vector.add(resultSet.getString("days"));
+                vector.add(resultSet.getString("time"));
                 model.addRow(vector);
             }
         } catch (Exception e) {
@@ -2369,6 +2369,7 @@ public class ClassManagement extends javax.swing.JPanel {
     }
 
     private void reset() {
+
         jTextField6.setText("");
         jTextField7.setText("");
         jTextField8.setText("");
