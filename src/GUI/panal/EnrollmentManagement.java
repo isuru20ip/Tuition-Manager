@@ -9,7 +9,11 @@ import GUI.popup.EnrollmentSelectStudent;
 import GUI.popup.UpdateEnrollment;
 import javax.swing.JFrame;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -30,6 +34,10 @@ public class EnrollmentManagement extends javax.swing.JPanel {
      */
     public EnrollmentManagement(JFrame parent) {
         initComponents();
+        loadClasses();
+        loadPaymentModel();
+        loadStatus();
+
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         enTable.setDefaultRenderer(Object.class, renderer);
@@ -373,7 +381,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Enrollment ID", "Class ID", "Student Name", "Enrollment Status", "Register Date", "Eployee", "Payment Model"
+                "Enrollment ID", "Class ID", "Student ID ", "Enrollment Status", "Register Date", "Employee", "Payment Model"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -384,6 +392,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        enTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(enTable);
 
         jButton9.setBackground(new java.awt.Color(204, 255, 204));
@@ -393,6 +402,11 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         jButton4.setBackground(new java.awt.Color(255, 204, 204));
         jButton4.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
         jButton4.setText("Reset");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         paymentModelCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         paymentModelCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
@@ -706,23 +720,32 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             String pModel = String.valueOf(paymentModelCombobox.getSelectedItem());
             String eStatus = String.valueOf(enrollmentStatusCombobox.getSelectedItem());
 
+            String curruntDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
             if (sID.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Select A Student.", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (cID.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Select A Class.", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (pModel.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Select A Payment Model.", "Warning", JOptionPane.WARNING_MESSAGE);
-            }else if (eStatus.equals("Select")) {
+            } else if (eStatus.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Select A Payment Status.", "Warning", JOptionPane.WARNING_MESSAGE);
-            }
-            else {
-                ResultSet resultset = DB.search("");
-            }
+            } else {
+                ResultSet resultset = DB.search("SELECT * FROM `class_enrollment` WHERE `class_id` = '" + cID + "' AND `student_id` = '" + sID + "'");
 
-            EnrollmentClassSelection ecs = new EnrollmentClassSelection(this, true);
+                if (!resultset.next()) {
+                    JOptionPane.showMessageDialog(this, "Already Exists.", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    DB.IUD("INSERT INTO `class_enrollment` (`class_id`, `student_id`, `enrollment_status_id`, `register_date`, `employee_id`, `payment_modal_id`)"
+                            + "VALUES ('" + cID + "', '" + sID + "', '" + enrollmentStatusMap.get(eStatus) + "', '" + curruntDate + "', '0128', '" + paymentModelMap.get(pModel) + "') ");
+                }
+                JOptionPane.showMessageDialog(this, "Successfull.", "Information", JOptionPane.INFORMATION_MESSAGE);
+
+                resetData();
+            }
 
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -742,6 +765,10 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         uc.setVisible(true);
         uc.setEnrollment(uc);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        resetData();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -807,6 +834,11 @@ public class EnrollmentManagement extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> paymentModelCombobox;
     // End of variables declaration//GEN-END:variables
 
+    private static HashMap<String, String> paymentModelMap = new HashMap<>(); //for get id from payment model
+    private static HashMap<String, String> enrollmentStatusMap = new HashMap<>(); //for get id from status
+
+    EnrollmentClassSelection ecs = new EnrollmentClassSelection(this, true);
+
     public JTextField getjTextField1() {
         return jTextField1;
     }
@@ -846,12 +878,17 @@ public class EnrollmentManagement extends javax.swing.JPanel {
     public JTextField getjTextField10() {
         return jTextField10;
     }
-    
+
     private void loadClasses() {
 
         try {
 
-            ResultSet resultSet = DB.search("");
+            ResultSet resultSet = DB.search("SELECT * FROM `class_enrollment`"
+                    + "INNER JOIN `class` ON `class`.`id` = `class_enrollment`.`class_id`"
+                    + "INNER JOIN `student` ON `student`.`id` = `class_enrollment`.`student_id`"
+                    + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `class_enrollment`.`enrollment_status_id`"
+                    + "INNER JOIN `employee` ON `employee`.`id` = `class_enrollment`.`employee_id`"
+                    + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `class_enrollment`.`payment_modal_id` ORDER BY `class_enrollment`.`id` ASC");
 
             DefaultTableModel tableModel = (DefaultTableModel) enTable.getModel();
             tableModel.setRowCount(0);
@@ -859,10 +896,12 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             while (resultSet.next()) {
                 Vector vector = new Vector();
                 vector.add(resultSet.getString("id"));
-                vector.add(resultSet.getString("teacher.fname") + " " + resultSet.getString("teacher.lname"));
-                vector.add(resultSet.getString("class_type.type"));
-                vector.add(resultSet.getString("subject.name"));
-                vector.add(resultSet.getString("grade.name"));
+                vector.add(resultSet.getString("class.id"));
+                vector.add(resultSet.getString("student.id"));
+                vector.add(resultSet.getString("enrollment_status.name"));
+                vector.add(resultSet.getString("register_date"));
+                vector.add(resultSet.getString("employee.fname") + " " + resultSet.getString("employee.lname"));
+                vector.add(resultSet.getString("payment_modal.modal"));
 
                 tableModel.addRow(vector);
             }
@@ -871,6 +910,71 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
 
+    }
+
+    private void loadPaymentModel() {
+
+        try {
+
+            ResultSet resultSet = DB.search("SELECT * FROM `payment_modal`");
+
+            Vector<String> vector = new Vector<>();
+
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("modal"));
+                paymentModelMap.put(resultSet.getString("modal"), resultSet.getString("id"));
+
+            }
+
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(vector);
+            paymentModelCombobox.setModel(comboBoxModel);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void loadStatus() {
+        try {
+
+            ResultSet resultSet = DB.search("SELECT * FROM `enrollment_status`");
+
+            Vector<String> vector = new Vector<>();
+
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("name"));
+                enrollmentStatusMap.put(resultSet.getString("name"), resultSet.getString("id"));
+
+            }
+
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(vector);
+            enrollmentStatusCombobox.setModel(comboBoxModel);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void resetData() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextField6.setText("");
+        jTextField7.setText("");
+        jTextField8.setText("");
+        jTextField9.setText("");
+        jTextField10.setText("");
+        paymentModelCombobox.setSelectedIndex(0);
+        enrollmentStatusCombobox.setSelectedIndex(0);
+        loadClasses();
     }
 
 }
