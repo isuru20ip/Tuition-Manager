@@ -76,6 +76,7 @@ public class UpdateClasses extends javax.swing.JDialog {
         classScheduleUpdateTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
 
         jPanel1.setBackground(new java.awt.Color(234, 238, 244));
 

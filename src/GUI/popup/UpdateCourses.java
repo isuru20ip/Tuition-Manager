@@ -51,7 +51,7 @@ public class UpdateCourses extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1027, 446));
+        setAlwaysOnTop(true);
         setResizable(false);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
