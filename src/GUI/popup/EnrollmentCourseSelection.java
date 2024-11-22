@@ -18,27 +18,27 @@ import modal.DB;
  *
  * @author dell
  */
-public class EnrollmentClassSelection extends javax.swing.JDialog {
+public class EnrollmentCourseSelection extends javax.swing.JDialog {
 
     EnrollmentManagement em;
 
     /**
-     * Creates new form EnrollmentClassSelection
+     * Creates new form EnrollmentCourseSelection
      */
-    public EnrollmentClassSelection(EnrollmentManagement parent, boolean modal) {
+    public EnrollmentCourseSelection(EnrollmentManagement parent, boolean modal) {
         em = (EnrollmentManagement) parent;
         initComponents();
+
         loadSubject();
-        loadClasses("SELECT * FROM `class`"
-                + "INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic`"
-                + "INNER JOIN `class_type` ON `class_type`.`id` = `class`.`class_type_id`"
-                + "INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id`"
-                + "INNER JOIN `subject` ON `subject`.`id` = `class`.`subject_id`"
-                + "INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id` ORDER BY `class`.`id` ASC");
+        loadClasses("SELECT * FROM `course`"
+                + "INNER JOIN `teacher` ON `teacher`.`nic` = `course`.`teacher_nic`"
+                + "INNER JOIN `room_type` ON `room_type`.`id` = `course`.`room_type_id`"
+                + "INNER JOIN `subject` ON `subject`.`id` = `course`.`subject_id`"
+                + "INNER JOIN `grade` ON `grade`.`id` = `course`.`grade_id` ORDER BY `course`.`id` ASC");
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
-        enrollmentClassTable.setDefaultRenderer(Object.class, renderer);
+        enrollmentCourseTable.setDefaultRenderer(Object.class, renderer);
     }
 
     /**
@@ -50,19 +50,41 @@ public class EnrollmentClassSelection extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        enrollmentCourseTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         searchClassIdField = new javax.swing.JTextField();
         searchSubjectCombobox = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        enrollmentClassTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
-        setAutoRequestFocus(false);
-        setResizable(false);
+
+        enrollmentCourseTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Course ID", "Teacher Name", "Room Type", "Subject", "Grade"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        enrollmentCourseTable.getTableHeader().setReorderingAllowed(false);
+        enrollmentCourseTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                enrollmentCourseTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(enrollmentCourseTable);
 
         jLabel1.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -127,30 +149,6 @@ public class EnrollmentClassSelection extends javax.swing.JDialog {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        enrollmentClassTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Class ID", "Teacher Name", "Class Type", "Subject", "Grade", "Room Type"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        enrollmentClassTable.getTableHeader().setReorderingAllowed(false);
-        enrollmentClassTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                enrollmentClassTableMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(enrollmentClassTable);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -174,19 +172,19 @@ public class EnrollmentClassSelection extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void enrollmentClassTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enrollmentClassTableMouseClicked
+    private void enrollmentCourseTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enrollmentCourseTableMouseClicked
         try {
-            int selectedRow = enrollmentClassTable.getSelectedRow();
+            int selectedRow = enrollmentCourseTable.getSelectedRow();
 
             // Check if the row is selected and if it's a double-click event
             if (selectedRow != -1 && evt.getClickCount() == 2) {
-                if (enrollmentClassSelection != null) {
-//             Set the selected student ID to the text field
-                    em.getjTextField6().setText(String.valueOf(enrollmentClassTable.getValueAt(selectedRow, 0)));
-                    em.getjTextField7().setText(String.valueOf(enrollmentClassTable.getValueAt(selectedRow, 1)));
-                    em.getjTextField8().setText(String.valueOf(enrollmentClassTable.getValueAt(selectedRow, 2)));
-                    em.getjTextField9().setText(String.valueOf(enrollmentClassTable.getValueAt(selectedRow, 3)));
-                    em.getjTextField10().setText(String.valueOf(enrollmentClassTable.getValueAt(selectedRow, 4)));
+                if (enrollmentCourseSelection != null) {
+                    //             Set the selected student ID to the text field
+                    em.getjTextField6().setText(String.valueOf(enrollmentCourseTable.getValueAt(selectedRow, 0)));
+                    em.getjTextField7().setText(String.valueOf(enrollmentCourseTable.getValueAt(selectedRow, 1)));
+                    em.getjTextField8().setText(String.valueOf(enrollmentCourseTable.getValueAt(selectedRow, 2)));
+                    em.getjTextField9().setText(String.valueOf(enrollmentCourseTable.getValueAt(selectedRow, 3)));
+                    em.getjTextField10().setText(String.valueOf(enrollmentCourseTable.getValueAt(selectedRow, 4)));
                 }
                 this.dispose();
             }
@@ -195,7 +193,7 @@ public class EnrollmentClassSelection extends javax.swing.JDialog {
             e.printStackTrace();
 
         }
-    }//GEN-LAST:event_enrollmentClassTableMouseClicked
+    }//GEN-LAST:event_enrollmentCourseTableMouseClicked
 
     private void searchClassIdFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchClassIdFieldKeyReleased
         search();
@@ -208,12 +206,11 @@ public class EnrollmentClassSelection extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         searchClassIdField.setText("");
         searchSubjectCombobox.setSelectedIndex(0);
-        loadClasses("SELECT * FROM `class`"
-                + "INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic`"
-                + "INNER JOIN `class_type` ON `class_type`.`id` = `class`.`class_type_id`"
-                + "INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id`"
-                + "INNER JOIN `subject` ON `subject`.`id` = `class`.`subject_id`"
-                + "INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id` ORDER BY `class`.`id` ASC");
+        loadClasses("SELECT * FROM `course`"
+                + "INNER JOIN `teacher` ON `teacher`.`nic` = `course`.`teacher_nic`"
+                + "INNER JOIN `room_type` ON `room_type`.`id` = `course`.`room_type_id`"
+                + "INNER JOIN `subject` ON `subject`.`id` = `course`.`subject_id`"
+                + "INNER JOIN `grade` ON `grade`.`id` = `course`.`grade_id` ORDER BY `course`.`id` ASC");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -221,7 +218,7 @@ public class EnrollmentClassSelection extends javax.swing.JDialog {
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable enrollmentClassTable;
+    private javax.swing.JTable enrollmentCourseTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -231,12 +228,12 @@ public class EnrollmentClassSelection extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> searchSubjectCombobox;
     // End of variables declaration//GEN-END:variables
 
-    private EnrollmentClassSelection enrollmentClassSelection;
+    private EnrollmentCourseSelection enrollmentCourseSelection;
 
-    public void setEnrollment(EnrollmentClassSelection enrollmentClassSelection) {
-        this.enrollmentClassSelection = enrollmentClassSelection;
+    public void setEnrollment(EnrollmentCourseSelection enrollmentCourseSelection) {
+        this.enrollmentCourseSelection = enrollmentCourseSelection;
     }
-    
+
     private void loadSubject() {
         try {
 
@@ -264,17 +261,16 @@ public class EnrollmentClassSelection extends javax.swing.JDialog {
 
             ResultSet resultSet = DB.search(query);
 
-            DefaultTableModel tableModel = (DefaultTableModel) enrollmentClassTable.getModel();
+            DefaultTableModel tableModel = (DefaultTableModel) enrollmentCourseTable.getModel();
             tableModel.setRowCount(0);
 
             while (resultSet.next()) {
                 Vector vector = new Vector();
                 vector.add(resultSet.getString("id"));
                 vector.add(resultSet.getString("teacher.fname") + " " + resultSet.getString("teacher.lname"));
-                vector.add(resultSet.getString("class_type.type"));
+                vector.add(resultSet.getString("room_type.type"));
                 vector.add(resultSet.getString("subject.name"));
                 vector.add(resultSet.getString("grade.name"));
-                vector.add(resultSet.getString("room_type.type"));
                 
                 tableModel.addRow(vector);
             }
@@ -287,23 +283,21 @@ public class EnrollmentClassSelection extends javax.swing.JDialog {
 
     private void search() {
         String id = searchClassIdField.getText();
-        loadClasses("SELECT * FROM `class`"
-                + "INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic`"
-                + "INNER JOIN `class_type` ON `class_type`.`id` = `class`.`class_type_id`"
-                + "INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id`"
-                + "INNER JOIN `subject` ON `subject`.`id` = `class`.`subject_id`"
-                + "INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id` WHERE `class`.`id` LIKE '%" + id + "%' ORDER BY `class`.`id` ASC");
+        loadClasses("SELECT * FROM `course`"
+                + "INNER JOIN `teacher` ON `teacher`.`nic` = `course`.`teacher_nic`"
+                + "INNER JOIN `room_type` ON `room_type`.`id` = `course`.`room_type_id`"
+                + "INNER JOIN `subject` ON `subject`.`id` = `course`.`subject_id`"
+                + "INNER JOIN `grade` ON `grade`.`id` = `course`.`grade_id` WHERE `class`.`id` LIKE '%" + id + "%' ORDER BY `class`.`id` ASC");
     }
 
     private void search1() {
 
         String subject = String.valueOf(searchSubjectCombobox.getSelectedItem());
-        loadClasses("SELECT * FROM `class`"
-                + "INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic`"
-                + "INNER JOIN `class_type` ON `class_type`.`id` = `class`.`class_type_id`"
-                + "INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id`"
-                + "INNER JOIN `subject` ON `subject`.`id` = `class`.`subject_id`"
-                + "INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id` WHERE `subject`.`name` LIKE '%" + subject + "%' ORDER BY `class`.`id` ASC");
+        loadClasses("SELECT * FROM `course`"
+                + "INNER JOIN `teacher` ON `teacher`.`nic` = `course`.`teacher_nic`"
+                + "INNER JOIN `room_type` ON `room_type`.`id` = `course`.`room_type_id`"
+                + "INNER JOIN `subject` ON `subject`.`id` = `course`.`subject_id`"
+                + "INNER JOIN `grade` ON `grade`.`id` = `course`.`grade_id` WHERE `subject`.`name` LIKE '%" + subject + "%' ORDER BY `class`.`id` ASC");
     }
 
 }

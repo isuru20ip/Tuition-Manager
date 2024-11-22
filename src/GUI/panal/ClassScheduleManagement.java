@@ -1232,7 +1232,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 // Insert the new schedule
 
                 DB.IUD("INSERT INTO `class_schedule` (`class_id`, `class_room_id`, `class_date`, `shedule_time`, `employee_id`, `schedule_status_id`, `start_time`, `end_time`)"
-                        + "VALUES ('" + id + "', '" + hall + "', '" + sdf.format(classdate1) + "', '" + curruntDate + "', '0129', '"
+                        + "VALUES ('" + id + "', '" + hall + "', '" + sdf.format(classdate1) + "', '" + curruntDate + "', 'EMP000001', '"
                         + scheduleStautusMap.get(scheduleStatus) + "', '" + time24hr1 + "', '" + time24hr2 + "')");
 
                 JOptionPane.showMessageDialog(this, "Schedule created successfully.", "Information", JOptionPane.INFORMATION_MESSAGE);

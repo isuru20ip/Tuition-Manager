@@ -5,6 +5,7 @@
 package GUI.panal;
 
 import GUI.popup.EnrollmentClassSelection;
+import GUI.popup.EnrollmentCourseSelection;
 import GUI.popup.EnrollmentSelectStudent;
 import GUI.popup.UpdateEnrollment;
 import javax.swing.JFrame;
@@ -34,13 +35,15 @@ public class EnrollmentManagement extends javax.swing.JPanel {
      */
     public EnrollmentManagement(JFrame parent) {
         initComponents();
-        loadClasses();
+        loadClassesEnrollment();
+        loadCoursesEnrollment();
         loadPaymentModel();
         loadStatus();
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         enTable.setDefaultRenderer(Object.class, renderer);
+        enTable1.setDefaultRenderer(Object.class, renderer);
     }
 
     /**
@@ -80,6 +83,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         jTextField8 = new javax.swing.JTextField();
         jTextField9 = new javax.swing.JTextField();
         jTextField10 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         enTable = new javax.swing.JTable();
@@ -89,6 +93,8 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         enrollmentStatusCombobox = new javax.swing.JComboBox<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        enTable1 = new javax.swing.JTable();
         courseEnroll = new javax.swing.JPanel();
         EnrollmentView = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
@@ -272,7 +278,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
         jButton3.setBackground(new java.awt.Color(255, 255, 204));
         jButton3.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton3.setText("Select");
+        jButton3.setText("Class");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -281,7 +287,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
         jLabel9.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Class ID");
+        jLabel9.setText("Class/Course ID");
 
         jLabel8.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -305,6 +311,15 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
         jTextField10.setEditable(false);
 
+        jButton2.setBackground(new java.awt.Color(255, 255, 204));
+        jButton2.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        jButton2.setText("Course");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -314,26 +329,28 @@ public class EnrollmentManagement extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addGap(18, 24, Short.MAX_VALUE)
                         .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 24, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 24, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                     .addComponent(jTextField9))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 24, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                     .addComponent(jTextField10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -353,7 +370,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -381,7 +400,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Enrollment ID", "Class ID", "Student ID ", "Enrollment Status", "Register Date", "Employee", "Payment Model"
+                "Class Enrollment ID", "Class ID", "Student ID ", "Enrollment Status", "Register Date", "Employee", "Payment Model"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -422,6 +441,25 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         enrollmentStatusCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         enrollmentStatusCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
 
+        enTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Course Enrollment ID", "Course ID", "Student ID ", "Enrollment Status", "Register Date", "Employee", "Payment Model"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        enTable1.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(enTable1);
+
         javax.swing.GroupLayout classEnrollLayout = new javax.swing.GroupLayout(classEnroll);
         classEnroll.setLayout(classEnrollLayout);
         classEnrollLayout.setHorizontalGroup(
@@ -429,23 +467,24 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             .addGroup(classEnrollLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(classEnrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, classEnrollLayout.createSequentialGroup()
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 243, Short.MAX_VALUE)
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 243, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(classEnrollLayout.createSequentialGroup()
                         .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(paymentModelCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(enrollmentStatusCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addComponent(enrollmentStatusCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         classEnrollLayout.setVerticalGroup(
@@ -457,16 +496,19 @@ public class EnrollmentManagement extends javax.swing.JPanel {
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(classEnrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(classEnrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(paymentModelCombobox)
+                    .addComponent(paymentModelCombobox, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(enrollmentStatusCombobox))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(classEnrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -476,7 +518,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         courseEnroll.setLayout(courseEnrollLayout);
         courseEnrollLayout.setHorizontalGroup(
             courseEnrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 970, Short.MAX_VALUE)
+            .addGap(0, 967, Short.MAX_VALUE)
         );
         courseEnrollLayout.setVerticalGroup(
             courseEnrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -566,35 +608,35 @@ public class EnrollmentManagement extends javax.swing.JPanel {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                         .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                         .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                         .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                         .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                         .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                         .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                         .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                         .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                         .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jPanel8Layout.setVerticalGroup(
@@ -656,7 +698,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             .addGroup(EnrollmentViewLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(EnrollmentViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 958, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 955, Short.MAX_VALUE)
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EnrollmentViewLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -731,17 +773,38 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             } else if (eStatus.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Select A Payment Status.", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
-                ResultSet resultset = DB.search("SELECT * FROM `class_enrollment` WHERE `class_id` = '" + cID + "' AND `student_id` = '" + sID + "'");
+                //insert class enrollment
+                if (cID.matches("CL\\d{6}")) {
+                    ResultSet resultset = DB.search("SELECT * FROM `class_enrollment` WHERE `class_id` = '" + cID + "' AND `student_id` = '" + sID + "'");
 
-                if (!resultset.next()) {
-                    JOptionPane.showMessageDialog(this, "Already Exists.", "Warning", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    DB.IUD("INSERT INTO `class_enrollment` (`class_id`, `student_id`, `enrollment_status_id`, `register_date`, `employee_id`, `payment_modal_id`)"
-                            + "VALUES ('" + cID + "', '" + sID + "', '" + enrollmentStatusMap.get(eStatus) + "', '" + curruntDate + "', '0128', '" + paymentModelMap.get(pModel) + "') ");
+                    if (resultset.next()) {
+                        JOptionPane.showMessageDialog(this, "Already Exists.", "Warning", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        DB.IUD("INSERT INTO `class_enrollment` (`class_id`, `student_id`, `enrollment_status_id`, `register_date`, `employee_id`, `payment_modal_id`)"
+                                + "VALUES ('" + cID + "', '" + sID + "', '" + enrollmentStatusMap.get(eStatus) + "', '" + curruntDate + "', 'EMP000001', '" + paymentModelMap.get(pModel) + "') ");
+
+                        JOptionPane.showMessageDialog(this, "Insert Class Enrollment is Successfull.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        resetData();
+                    }
+
+                    //inert course enrollment
+                } else if (cID.matches("CO\\d{6}")) {
+
+                    ResultSet resultset = DB.search("SELECT * FROM `course_enrollment` WHERE `course_id` = '" + cID + "' AND `student_id` = '" + sID + "'");
+
+                    if (resultset.next()) {
+                        JOptionPane.showMessageDialog(this, "Already Exists.", "Warning", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        DB.IUD("INSERT INTO `course_enrollment` (`student_id`, `course_id`, `enrollment_status_id`, `register_date`, `employee_id`, `payment_modal_id`)"
+                                + "VALUES ('" + sID + "', '" + cID + "', '" + enrollmentStatusMap.get(eStatus) + "', '" + curruntDate + "', 'EMP000001', '" + paymentModelMap.get(pModel) + "') ");
+
+                        JOptionPane.showMessageDialog(this, "Insert Course Enrollment is Successfull..", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        resetData();
+
+                    }
+
                 }
-                JOptionPane.showMessageDialog(this, "Successfull.", "Information", JOptionPane.INFORMATION_MESSAGE);
 
-                resetData();
             }
 
         } catch (Exception e) {
@@ -770,14 +833,24 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         resetData();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this); // Get the JFrame ancestor of the JPanel
+
+        EnrollmentCourseSelection uc = new EnrollmentCourseSelection(this, true); // Create the dialog, setting parentFrame as its owner
+        uc.setVisible(true);
+        uc.setEnrollment(uc);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel EnrollmentView;
     private javax.swing.JPanel classEnroll;
     private javax.swing.JPanel courseEnroll;
     private javax.swing.JTable enTable;
+    private javax.swing.JTable enTable1;
     private javax.swing.JComboBox<String> enrollmentStatusCombobox;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -816,6 +889,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPaneEnrollment;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
@@ -836,8 +910,6 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
     private static HashMap<String, String> paymentModelMap = new HashMap<>(); //for get id from payment model
     private static HashMap<String, String> enrollmentStatusMap = new HashMap<>(); //for get id from status
-
-    EnrollmentClassSelection ecs = new EnrollmentClassSelection(this, true);
 
     public JTextField getjTextField1() {
         return jTextField1;
@@ -879,7 +951,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         return jTextField10;
     }
 
-    private void loadClasses() {
+    private void loadClassesEnrollment() {
 
         try {
 
@@ -974,7 +1046,40 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         jTextField10.setText("");
         paymentModelCombobox.setSelectedIndex(0);
         enrollmentStatusCombobox.setSelectedIndex(0);
-        loadClasses();
+        loadClassesEnrollment();
+        loadCoursesEnrollment();
+    }
+
+    private void loadCoursesEnrollment() {
+        try {
+
+            ResultSet resultSet = DB.search("SELECT * FROM `course_enrollment`"
+                    + "INNER JOIN `course` ON `course`.`id` = `course_enrollment`.`course_id`"
+                    + "INNER JOIN `student` ON `student`.`id` = `course_enrollment`.`student_id`"
+                    + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `course_enrollment`.`enrollment_status_id`"
+                    + "INNER JOIN `employee` ON `employee`.`id` = `course_enrollment`.`employee_id`"
+                    + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `course_enrollment`.`payment_modal_id` ORDER BY `course_enrollment`.`id` ASC");
+
+            DefaultTableModel tableModel = (DefaultTableModel) enTable1.getModel();
+            tableModel.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector vector = new Vector();
+                vector.add(resultSet.getString("id"));
+                vector.add(resultSet.getString("course.id"));
+                vector.add(resultSet.getString("student.id"));
+                vector.add(resultSet.getString("enrollment_status.name"));
+                vector.add(resultSet.getString("register_date"));
+                vector.add(resultSet.getString("employee.fname") + " " + resultSet.getString("employee.lname"));
+                vector.add(resultSet.getString("payment_modal.modal"));
+
+                tableModel.addRow(vector);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
