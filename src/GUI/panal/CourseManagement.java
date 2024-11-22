@@ -17,10 +17,13 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
 import modal.IDGenarator;
 import modal.SetDate;
+import modal.beans.Admin;
 import modal.beans.ClassDay;
 
 /**
@@ -32,8 +35,10 @@ public class CourseManagement extends javax.swing.JPanel {
     /**
      * Creates new form CourseManagement
      */
-    public CourseManagement() {
+    public CourseManagement(Admin admin) {
         initComponents();
+        documentListner();
+        this.admin = admin;
         generateCourseID();
         loadGrades();
         loadLanguages();
@@ -43,23 +48,7 @@ public class CourseManagement extends javax.swing.JPanel {
         loadCourseTable("");
         jButton4.setEnabled(false);
     }
-
-    public JTextField getjTextField7() {
-        return jTextField7;
-
-    }
-
-    public JTextField getjTextField6() {
-        return jTextField6;
-    }
-
-    public JTextField getjTextField9() {
-        return jTextField9;
-    }
-
-    public JTextField getjTextField8() {
-        return jTextField8;
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -87,7 +76,7 @@ public class CourseManagement extends javax.swing.JPanel {
         jTextField9 = new javax.swing.JTextField();
         jTextField8 = new javax.swing.JTextField();
         jTextField10 = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
@@ -199,19 +188,9 @@ public class CourseManagement extends javax.swing.JPanel {
 
         jTextField7.setEditable(false);
         jTextField7.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
-            }
-        });
 
         jTextField6.setEditable(false);
         jTextField6.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
-            }
-        });
 
         jTextField9.setEditable(false);
         jTextField9.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
@@ -221,6 +200,15 @@ public class CourseManagement extends javax.swing.JPanel {
 
         jTextField10.setEditable(false);
         jTextField10.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+
+        jButton2.setBackground(new java.awt.Color(153, 255, 153));
+        jButton2.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jButton2.setText("Search");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -250,9 +238,9 @@ public class CourseManagement extends javax.swing.JPanel {
                         .addGap(10, 10, 10)
                         .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                         .addGap(10, 10, 10)
-                        .addComponent(jTextField10, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                        .addComponent(jTextField10, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
                         .addGap(10, 10, 10)
-                        .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
                         .addGap(2, 2, 2))))
         );
         jPanel4Layout.setVerticalGroup(
@@ -273,7 +261,7 @@ public class CourseManagement extends javax.swing.JPanel {
                     .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -295,11 +283,11 @@ public class CourseManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "NIC", "Teacher Name", "Course ID", "Grade", "Subject", "Language", "Method", "Status", "Hall Type", "Fee", "Starting Date", "Ending Date", "Day"
+                "NIC", "Teacher Name", "Course ID", "Grade", "Subject", "Language", "Method", "Status", "Hall Type", "Fee", "Starting Date", "Ending Date", "Day", "Time"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -596,20 +584,10 @@ public class CourseManagement extends javax.swing.JPanel {
 
         jTextField11.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jTextField11.setText("200333211145");
-        jTextField11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField11ActionPerformed(evt);
-            }
-        });
         jPanel9.add(jTextField11);
 
         jTextField12.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jTextField12.setText("Janindu");
-        jTextField12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField12ActionPerformed(evt);
-            }
-        });
         jPanel9.add(jTextField12);
 
         jTextField13.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
@@ -708,11 +686,6 @@ public class CourseManagement extends javax.swing.JPanel {
         );
 
         jTextField4.setText("C:\\Users\\janindu\\Documents\\TuitionManager");
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
 
         jButton11.setBackground(new java.awt.Color(51, 153, 255));
         jButton11.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
@@ -820,29 +793,9 @@ public class CourseManagement extends javax.swing.JPanel {
         jTabbedPane1.getAccessibleContext().setAccessibleName("Course Registration");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
-
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         reset();
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField11ActionPerformed
-
-    private void jTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField12ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField12ActionPerformed
-
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
@@ -872,61 +825,69 @@ public class CourseManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       updateCourse();
+        updateCourse();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         jButton4.setEnabled(true);
-            jButton5.setEnabled(false);
-            int row = jTable1.getSelectedRow();
-            try {
+        jButton5.setEnabled(false);
+        int row = jTable1.getSelectedRow();
+        try {
 
-                if (row != -1) { // Valid row check
-                    String tnic = String.valueOf(jTable1.getValueAt(row, 0));
-                    jTextField7.setText(tnic);
+            if (row != -1) { // Valid row check
+                String tnic = String.valueOf(jTable1.getValueAt(row, 0));
+                jTextField7.setText(tnic);
 
-                    String classId = String.valueOf(jTable1.getValueAt(row, 2));
-                    jTextField1.setText(classId);
+                String classId = String.valueOf(jTable1.getValueAt(row, 2));
+                jTextField1.setText(classId);
 
-                    String grade = String.valueOf(jTable1.getValueAt(row, 3));
-                    jComboBox1.setSelectedItem(grade);
+                String grade = String.valueOf(jTable1.getValueAt(row, 3));
+                jComboBox1.setSelectedItem(grade);
 
-                    String subject = String.valueOf(jTable1.getValueAt(row, 4));
-                    jComboBox2.setSelectedItem(subject);
+                String subject = String.valueOf(jTable1.getValueAt(row, 4));
+                jComboBox2.setSelectedItem(subject);
 
-                    String language = String.valueOf(jTable1.getValueAt(row, 5));
-                    jComboBox3.setSelectedItem(language);
+                String language = String.valueOf(jTable1.getValueAt(row, 5));
+                jComboBox3.setSelectedItem(language);
 
-                    String method = String.valueOf(jTable1.getValueAt(row, 6));
-                    jComboBox4.setSelectedItem(method);
+                String method = String.valueOf(jTable1.getValueAt(row, 6));
+                jComboBox4.setSelectedItem(method);
 
-                    String modal = String.valueOf(jTable1.getValueAt(row, 7));
-                    jComboBox5.setSelectedItem(modal);
+                String modal = String.valueOf(jTable1.getValueAt(row, 7));
+                jComboBox5.setSelectedItem(modal);
 
-                    String status = String.valueOf(jTable1.getValueAt(row, 8));
-                    jComboBox6.setSelectedItem(status);
+                String status = String.valueOf(jTable1.getValueAt(row, 8));
+                jComboBox6.setSelectedItem(status);
 
-                    String fee = String.valueOf(jTable1.getValueAt(row, 9));
-                    jTextField27.setText(fee);
-                    
-                    String startDate = String.valueOf(jTable1.getValueAt(row, 10));
-                    Date sDate = dateFormat.parse(startDate);
-                    jDateChooser5.setDate(sDate);
-                    
-                    String endDate = String.valueOf(jTable1.getValueAt(row, 11));
-                    Date eDate = dateFormat.parse(endDate);
-                    jDateChooser6.setDate(eDate);
-                }
+                String fee = String.valueOf(jTable1.getValueAt(row, 9));
+                jTextField27.setText(fee);
 
-            } catch (Exception e) {
-                e.printStackTrace();
+                String startDate = String.valueOf(jTable1.getValueAt(row, 10));
+                Date sDate = dateFormat.parse(startDate);
+                jDateChooser5.setDate(sDate);
+
+                String endDate = String.valueOf(jTable1.getValueAt(row, 11));
+                Date eDate = dateFormat.parse(endDate);
+                jDateChooser6.setDate(eDate);
+                
+              
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        SearchTeacher();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -956,7 +917,6 @@ public class CourseManagement extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
@@ -1023,22 +983,38 @@ public class CourseManagement extends javax.swing.JPanel {
     private HashMap<String, String> classTypeMap = new HashMap<>();
     private HashMap<String, String> hallMap = new HashMap<>();
     private HashMap<String, String> classStatusMap = new HashMap<>();
+    
+    private Admin admin;
+    //jdialog side to pass nic
+    public JTextField getjTextField7() {
+        return jTextField7;
 
+    }
+    //jdialog side to pass fname
+    public JTextField getjTextField6() {
+        return jTextField6;
+    }
+    //jdialog side to pass lname
+    public JTextField getjTextField9() {
+        return jTextField9;
+    }
+    //jdialog side to pass gender
+    public JTextField getjTextField8() {
+        return jTextField8;
+    }
     // store class time & days
     private Vector<ClassDay> dayVector;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public String getClassID() {
+    public String getCourseID() {
         return jTextField1.getText();
     }
 
     public void setDate(Vector date) {
         this.dayVector = date;
-        for (ClassDay vnm : dayVector) {
-            System.out.println(vnm.getDay());
-        }
+       
     }
-
+    //generate ClassId;
     private void generateCourseID() {
         try {
             String courseID = IDGenarator.generateID("CO", "course");
@@ -1047,7 +1023,7 @@ public class CourseManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-
+    //load grades for combobox and hashmap
     private void loadGrades() {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `grade` WHERE `id` IN ('17', '19','20')");
@@ -1066,7 +1042,7 @@ public class CourseManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-
+     //load subjects for combobox and hashmap
     private void loadSubjects() {
 
         String selectedGrade = String.valueOf(jComboBox1.getSelectedItem());
@@ -1089,7 +1065,7 @@ public class CourseManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-
+    //load languages for combobox and hashmap
     private void loadLanguages() {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `class_language`");
@@ -1108,7 +1084,7 @@ public class CourseManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-
+    //load method for combobox and hashmap
     private void loadMethod() {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `class_method`");
@@ -1127,7 +1103,7 @@ public class CourseManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-
+     //load status for combobox and hashmap
     private void loadStatus() {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `class_status`");
@@ -1146,7 +1122,7 @@ public class CourseManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-
+    //load halls for combobox and hashmap
     private void loadHall() {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `room_type`");
@@ -1165,7 +1141,7 @@ public class CourseManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-
+    //register a course
     private void registerCourse() {
         try {
             String teacherID = jTextField7.getText();
@@ -1176,7 +1152,7 @@ public class CourseManagement extends javax.swing.JPanel {
             String method = String.valueOf(jComboBox4.getSelectedItem());
             String status = String.valueOf(jComboBox5.getSelectedItem());
             String hall = String.valueOf(jComboBox6.getSelectedItem());
-            
+            String employeeID = admin.getUserID();
             String fee = jTextField27.getText();
             String registerDate = SetDate.getDate("yyyy-MM-dd HH:mm:ss");
             Date startDate = jDateChooser5.getDate();
@@ -1236,7 +1212,8 @@ public class CourseManagement extends javax.swing.JPanel {
             } else {
 
                 ResultSet rs = DB.search("SELECT * FROM  `course` WHERE teacher_nic='" + teacherID + "' AND subject_id='" + subjectMap.get(subject) + "' AND grade_id='" + gradeMap.get(grade) + "'  AND "
-                        + "class_method_id='" + classMethodMap.get(method) + "' AND class_language_id='" + classLanguageMap.get(language) + "' AND class_status_id='" + classStatusMap.get(status) + "' AND room_type_id='" + hallMap.get(hall) + "' ");
+                        + "class_method_id='" + classMethodMap.get(method) + "' AND class_language_id='" + classLanguageMap.get(language) + "' AND class_status_id='" + classStatusMap.get(status) + "' AND room_type_id='" + hallMap.get(hall) + "' "
+                        + "AND `start_date`='" + dateFormat.format(startDate) + "'AND `end_date`='" + dateFormat.format(endDate) + "' ");
                 if (rs.next()) {
                     JOptionPane.showMessageDialog(this, "This class Already registered ", "Alert!", JOptionPane.WARNING_MESSAGE);
                 } else {
@@ -1244,7 +1221,7 @@ public class CourseManagement extends javax.swing.JPanel {
                             + "`class_method_id`,`class_language_id`,`class_status_id`,`room_type_id`,`employee_id`) VALUES"
                             + "('" + classID + "','" + fee + "','" + registerDate + "','" + dateFormat.format(startDate) + "','" + dateFormat.format(endDate) + "','" + teacherID + "','" + subjectMap.get(subject) + "','" + gradeMap.get(grade) + "',"
                             + "'" + classMethodMap.get(method) + "','" + classLanguageMap.get(language) + "','" + classStatusMap.get(status) + "'"
-                            + ",'" + hallMap.get(hall) + "','EMP000001')");
+                            + ",'" + hallMap.get(hall) + "','" + employeeID + "')");
 
                     for (ClassDay vnm : dayVector) {
                         String time12hr = vnm.getTime();  // Example time
@@ -1256,13 +1233,14 @@ public class CourseManagement extends javax.swing.JPanel {
                     }
                     System.out.println("success");
                     reset();
-                    
+
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    //update a course
     private void updateCourse() {
         try {
             String teacherID = jTextField7.getText();
@@ -1277,8 +1255,8 @@ public class CourseManagement extends javax.swing.JPanel {
             String registerDate = SetDate.getDate("yyyy-MM-dd HH:mm:ss");
             Date startDate = jDateChooser5.getDate();
             Date endDate = jDateChooser6.getDate();
-            SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd");
-           
+            String employeeID = admin.getUserID();
+
             if (teacherID.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Select Teacher First", "Alert!", JOptionPane.WARNING_MESSAGE);
                 //jTextField1.grabFocus();
@@ -1309,13 +1287,13 @@ public class CourseManagement extends javax.swing.JPanel {
             } else if (method.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Please Select method", "Alert!", JOptionPane.WARNING_MESSAGE);
 
-            } else  if (status.equals("Select")) {
+            } else if (status.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Please Select status", "Alert!", JOptionPane.WARNING_MESSAGE);
 
             } else if (hall.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Please Select hall", "Alert!", JOptionPane.WARNING_MESSAGE);
 
-            } else  if (fee.isEmpty()) {
+            } else if (fee.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter Fee Amount", "Alert!", JOptionPane.WARNING_MESSAGE);
                 //jTextField1.grabFocus();
 
@@ -1333,16 +1311,16 @@ public class CourseManagement extends javax.swing.JPanel {
                         + "AND grade_id='" + gradeMap.get(grade) + "' AND "
                         + "class_method_id='" + classMethodMap.get(method) + "' AND class_language_id='" + classLanguageMap.get(language) + "' "
                         + "AND class_status_id='" + classStatusMap.get(status) + "' AND room_type_id='" + hallMap.get(hall) + "' "
-                        + "AND `fee`='" + fee + "' AND `start_date`='" + dateTimeFormat.format(startDate) + "'AND `end_date`='" + dateTimeFormat.format(endDate) + "'");
+                        + "AND `fee`='" + fee + "' AND `start_date`='" + dateFormat.format(startDate) + "'AND `end_date`='" + dateFormat.format(endDate) + "'");
                 if (rs.next() && dayVector == null) {
                     JOptionPane.showMessageDialog(this, "Nothing to Update ", "Alert!", JOptionPane.WARNING_MESSAGE);
                 } else {
                     if (!rs.next()) {
-                        DB.IUD("UPDATE `course` SET `fee` = '" + fee + "', `register_date` = '" + registerDate + "', `end_date` = '" + dateTimeFormat.format(endDate) + "',"
+                        DB.IUD("UPDATE `course` SET `fee` = '" + fee + "', `register_date` = '" + registerDate + "', `start_date` = '" + dateFormat.format(startDate) + "',`end_date` = '" + dateFormat.format(endDate) + "',"
                                 + " `teacher_nic` = '" + teacherID + "', `subject_id` = '" + subjectMap.get(subject) + "', `grade_id` = '" + gradeMap.get(grade) + "', "
                                 + "`class_method_id` = '" + classMethodMap.get(method) + "', "
                                 + "`class_language_id` = '" + classLanguageMap.get(language) + "', `class_status_id` = '" + classStatusMap.get(status) + "', "
-                                + "`room_type_id` = '" + hallMap.get(hall) + "', `employee_id` ='0126' ,"
+                                + "`room_type_id` = '" + hallMap.get(hall) + "', `employee_id` ='"+employeeID+"' "
                                 + "WHERE `id`='" + courseID + "'");
 
                     }
@@ -1369,14 +1347,15 @@ public class CourseManagement extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-
+    //load table from database
     private void loadCourseTable(String value) {
         try {
             String query = "SELECT course.*, teacher.nic AS teacher_nic, teacher.fname AS fname, teacher.lname AS lname, "
                     + "grade.name AS grade_name, subject.name AS subject_name, class_language.name AS language_name, "
                     + "class_method.method AS method_name,class_status.status AS status_name, "
                     + "room_type.type AS room_type_name, "
-                    + "GROUP_CONCAT(week_day.day ORDER BY week_day.id SEPARATOR ', ') AS days "
+                    + "GROUP_CONCAT(week_day.day ORDER BY week_day.id SEPARATOR ', ') AS days, "
+                    + "GROUP_CONCAT(course_day.time SEPARATOR ', ') AS time "
                     + "FROM `course` "
                     + "INNER JOIN `teacher` ON `course`.`teacher_nic` = `teacher`.`nic` "
                     + "INNER JOIN `grade` ON `grade`.`id` = `course`.`grade_id` "
@@ -1414,22 +1393,21 @@ public class CourseManagement extends javax.swing.JPanel {
                 vector.add(resultSet.getString("start_date"));
                 vector.add(resultSet.getString("end_date"));
                 vector.add(resultSet.getString("days"));
+                vector.add(resultSet.getString("time"));
                 model.addRow(vector);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    //search teacher
     private void SearchTeacher() {
 
         String value = jTextField7.getText();
-        //teacherClassCount();
-
         loadCourseTable(value);
 
     }
-
+    //teacher class count
     private void teacherCourseCount() {
         String tnic = jTextField7.getText();
         try {
@@ -1437,14 +1415,39 @@ public class CourseManagement extends javax.swing.JPanel {
             if (rs1.next()) {
                 int count = rs1.getInt("count");
                 jTextField10.setText(String.valueOf(count));
+                ResultSet rs2 = DB.search("SELECT * FROM `teacher` INNER JOIN `employee` ON `employee`.`id`=`teacher`.`employee_id` INNER JOIN `gender` ON `gender`.`id`=`employee`.`gender_id` WHERE `teacher`.`nic`='" + tnic + "'");
+
+                if (rs2.next()) {
+                    jTextField6.setText(rs2.getString("fname"));
+                    jTextField9.setText(rs2.getString("lname"));
+                    jTextField8.setText(rs2.getString("gender.name"));
+
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    private void documentListner() {
+        jTextField7.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                teacherCourseCount();
+            }
 
-    
-    
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                teacherCourseCount();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                teacherCourseCount();
+            }
+        });
+
+    }
+    //reset
     private void reset() {
         jTextField6.setText("");
         jTextField7.setText("");

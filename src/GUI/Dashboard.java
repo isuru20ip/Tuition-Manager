@@ -621,11 +621,11 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_hallManagementActionPerformed
 
     private void courseManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseManagementActionPerformed
-        loadPanal(new CourseManagement());
+        loadPanal(new CourseManagement(admin));
     }//GEN-LAST:event_courseManagementActionPerformed
 
     private void classManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classManagementActionPerformed
-        loadPanal(new ClassManagement());
+        loadPanal(new ClassManagement(admin));
     }//GEN-LAST:event_classManagementActionPerformed
 
     private void teacherManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teacherManagementActionPerformed

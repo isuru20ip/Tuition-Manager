@@ -29,8 +29,10 @@ public class CourseDayTime extends javax.swing.JDialog {
         root = parent;
         loadDays();
         // get Class Id from classManagement Panal
-        jLabel11.setText(root.getClassID());
+        jLabel11.setText(root.getCourseID());
         loadTable();
+        //jButton3.setEnabled(false);
+        registerDayValidate();
     }
 
     /**
@@ -226,6 +228,7 @@ public class CourseDayTime extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         addNewDate();
+        registerDayValidate();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -257,6 +260,7 @@ public class CourseDayTime extends javax.swing.JDialog {
                         // Remove from classDays list
                         classDays.removeIf(classDay -> classDay.getDay().equals(day) && classDay.getTime().equals(time));
                         updateTable(); // Refresh the table after deletion
+                        registerDayValidate();
                     }
                 }
             }
@@ -286,6 +290,16 @@ public class CourseDayTime extends javax.swing.JDialog {
     private Vector<ClassDay> classDays = new Vector<>();
     // store classManagement panal 
     private CourseManagement root;
+    
+   private void registerDayValidate() {
+    if (classDays != null && !classDays.isEmpty()) {
+        jButton3.setEnabled(true);
+    } else {
+        jButton3.setEnabled(false);
+        loadTable();
+    }
+}
+
 
     private void loadDays() {
         try {
@@ -319,6 +333,7 @@ public class CourseDayTime extends javax.swing.JDialog {
         } else if (time2.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please Select Time", "Alert!", JOptionPane.WARNING_MESSAGE);
         } else {
+           
             for (ClassDay existingClassDay : classDays) {
                 if (existingClassDay.getDay().equals(day) && existingClassDay.getTime().equals(time2)) {
                     JOptionPane.showMessageDialog(this, "This day and time are already scheduled.", "Duplicate Entry", JOptionPane.WARNING_MESSAGE);

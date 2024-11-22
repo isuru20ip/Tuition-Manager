@@ -28,6 +28,7 @@ public class ClassDayTime extends javax.swing.JDialog {
         // get Class Id from classManagement Panal
         jLabel11.setText(root.getClassID());
         loadTable();
+        registerDayValidate();
     }
 
     /**
@@ -238,6 +239,7 @@ public class ClassDayTime extends javax.swing.JDialog {
     // add new date and time
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         addNewDate();
+        registerDayValidate();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // send selected date into panal
@@ -259,17 +261,18 @@ public class ClassDayTime extends javax.swing.JDialog {
                     String time = (String) jTable1.getValueAt(row, 1);
 
                     int result = JOptionPane.showConfirmDialog(
-                        jTable1,
-                        "Are you sure you want to delete this entry?",
-                        "Confirm Delete",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE
+                            jTable1,
+                            "Are you sure you want to delete this entry?",
+                            "Confirm Delete",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.WARNING_MESSAGE
                     );
 
                     if (result == JOptionPane.YES_OPTION) {
                         // Remove from classDays list
                         classDays.removeIf(classDay -> classDay.getDay().equals(day) && classDay.getTime().equals(time));
                         updateTable(); // Refresh the table after deletion
+                        registerDayValidate();
                     }
                 }
             }
@@ -300,6 +303,15 @@ public class ClassDayTime extends javax.swing.JDialog {
     // store classManagement panal 
     private ClassManagement root;
 
+    private void registerDayValidate() {
+        if (classDays != null && !classDays.isEmpty()) {
+            jButton3.setEnabled(true);
+        } else {
+            jButton3.setEnabled(false);
+            loadTable();
+        }
+    }
+
     private void loadDays() {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `week_day`");
@@ -319,7 +331,7 @@ public class ClassDayTime extends javax.swing.JDialog {
     private void refresh() {
         jComboBox1.setSelectedIndex(0);
         jTextField2.setText("");
-        
+
     }
 
     private void addNewDate() {
