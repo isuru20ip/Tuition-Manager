@@ -51,6 +51,7 @@ public class Dashboard extends javax.swing.JFrame {
         initComponents();
         main.add(a);
         this.admin = bean;
+        pageStart();
         time();
         date();
         setName();
@@ -662,6 +663,73 @@ public class Dashboard extends javax.swing.JFrame {
         loadPanal(new Settings());
     }//GEN-LAST:event_settingsActionPerformed
 
+    
+    private void pageStart() {
+    
+    String userType = admin.getType();
+        
+        if (userType.equals("Master Admin")) {
+            studentManagement.setEnabled(true);
+            teacherManagement.setEnabled(true);
+            classManagement.setEnabled(true);
+            courseManagement.setEnabled(true);
+            hallManagement.setEnabled(true);
+            studentEnrollment.setEnabled(true);
+            classSManagement.setEnabled(true);
+            attendance.setEnabled(true);
+            paymentManagement.setEnabled(true);
+            employeeManagement.setEnabled(true);
+            salaryCalculation.setEnabled(true);
+            systemAManagement.setEnabled(true);
+            settings.setEnabled(true);
+            
+        } else if (userType.equals("Admin")) {
+            studentManagement.setEnabled(true);
+            teacherManagement.setEnabled(true);
+            classManagement.setEnabled(true);
+            courseManagement.setEnabled(true);
+            hallManagement.setEnabled(true);
+            studentEnrollment.setEnabled(true);
+            classSManagement.setEnabled(true);
+            paymentManagement.setEnabled(false);
+            attendance.setEnabled(true);
+            employeeManagement.setEnabled(true);
+            salaryCalculation.setEnabled(false);
+            systemAManagement.setEnabled(false);
+            settings.setEnabled(false);
+            
+        } else if (userType.equals("Cashier")) {
+            studentManagement.setEnabled(true);
+            teacherManagement.setEnabled(false);
+            classManagement.setEnabled(false);
+            courseManagement.setEnabled(false);
+            hallManagement.setEnabled(false);
+            studentEnrollment.setEnabled(false);
+            classSManagement.setEnabled(false);
+            attendance.setEnabled(false);
+            paymentManagement.setEnabled(true);
+            employeeManagement.setEnabled(false);
+            salaryCalculation.setEnabled(false);
+            systemAManagement.setEnabled(false);
+            settings.setEnabled(false);
+            
+        } else if (userType.equals("Attendance Marker")) {
+            studentManagement.setEnabled(false);
+            teacherManagement.setEnabled(false);
+            classManagement.setEnabled(false);
+            courseManagement.setEnabled(false);
+            hallManagement.setEnabled(false);
+            studentEnrollment.setEnabled(false);
+            classSManagement.setEnabled(false);
+            attendance.setEnabled(true);
+            paymentManagement.setEnabled(false);
+            employeeManagement.setEnabled(false);
+            salaryCalculation.setEnabled(false);
+            systemAManagement.setEnabled(false);
+            settings.setEnabled(false);
+        }
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton attendance;
