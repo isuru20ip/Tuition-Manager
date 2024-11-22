@@ -1100,18 +1100,18 @@ public class TeacherManagement extends javax.swing.JPanel {
     private void TeacherReportLoad(String NicValue, String emailValue, String comboBoxValue, String sortOrder) {
         try {
             // SQL query to get teacher data with the updated query
-            String query = "SELECT teacher.nic AS teacher_nic, "
-                    + "CONCAT(teacher.fname, ' ', teacher.lname) AS teacher_name, "
-                    + "teacher.email AS teacher_email, "
-                    + "subject.name AS subject_name, "
-                    + "class_type.type AS class_type, "
-                    + "course.id AS course_id, "
-                    + "teacher.join_date AS teacher_join_date "
-                    + "FROM teacher "
-                    + "LEFT JOIN class ON class.teacher_nic = teacher.nic "
-                    + "LEFT JOIN subject ON subject.id = class.subject_id "
-                    + "LEFT JOIN class_type ON class_type.id = class.class_type_id "
-                    + "LEFT JOIN course ON course.subject_id = class.subject_id";
+           String query = "SELECT DISTINCT teacher.nic AS teacher_nic, "
+                         + "CONCAT(teacher.fname, ' ', teacher.lname) AS teacher_name, "
+                         + "teacher.email AS teacher_email, "
+                         + "subject.name AS subject_name, "
+                         + "class_type.type AS class_type, "
+                         + "course.id AS course_id, "
+                         + "teacher.join_date AS teacher_join_date "
+                         + "FROM teacher "
+                         + "LEFT JOIN class ON class.teacher_nic = teacher.nic "
+                         + "LEFT JOIN subject ON subject.id = class.subject_id "
+                         + "LEFT JOIN class_type ON class_type.id = class.class_type_id "
+                         + "LEFT JOIN course ON course.subject_id = class.subject_id";
 
             boolean hasConditions = false;
 

@@ -35,7 +35,9 @@ import modal.beans.Admin;
  * @author pahan
  */
 public class StudentManagement extends javax.swing.JPanel {
+
     private Admin admin;
+
     /**
      * Creates new form Student_Registration
      */
@@ -1122,17 +1124,14 @@ public class StudentManagement extends javax.swing.JPanel {
 
     //Update Student
     private void UpdateStudent() {
-
         int row = jTable1.getSelectedRow();
         if (row == -1) {
-
             JOptionPane.showMessageDialog(this, "Please Select a Student to Update", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
             String StudentId = String.valueOf(jTable1.getValueAt(row, 0));
 
             try {
-                //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
+                // Getting the input data
                 String fname = jTextField1.getText();
                 String lname = jTextField2.getText();
                 String nic = jTextField3.getText();
@@ -1140,44 +1139,26 @@ public class StudentManagement extends javax.swing.JPanel {
                 String email = jTextField5.getText();
                 String status = String.valueOf(jComboBox2.getSelectedItem());
 
+                // Validate the fields
                 if (fname.isEmpty()) {
-
                     JOptionPane.showMessageDialog(this, "Please Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-
                 } else if (lname.isEmpty()) {
-
                     JOptionPane.showMessageDialog(this, "Please Enter Your Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-
-                } else if (nic.isEmpty()) {
-
-                    JOptionPane.showMessageDialog(this, "Please Enter Your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-
-                } else if (!Validator.NIC.validate(nic)) {
+                } else if (nic.isEmpty() && !nic.isEmpty() && !Validator.NIC.validate(nic)) {
                     JOptionPane.showMessageDialog(this, "Invalid NIC format", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else if (mobile.isEmpty()) {
-
                     JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
-
                 } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
-
                     JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
-
                 } else if (email.isEmpty()) {
-
                     JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
-
                 } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
-
                     JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else if (status.equals("Select")) {
-
                     JOptionPane.showMessageDialog(this, "Please Select a Status", "Warning", JOptionPane.WARNING_MESSAGE);
-
                 } else {
-
-                    //check if the address already exists
+                    // Check for duplicates in the table, except for the current row
                     boolean isFound = false;
-
                     for (int i = 0; i < jTable1.getRowCount(); i++) {
                         String getFname = String.valueOf(jTable1.getValueAt(i, 1));
                         String getLname = String.valueOf(jTable1.getValueAt(i, 2));
@@ -1186,7 +1167,7 @@ public class StudentManagement extends javax.swing.JPanel {
                         String getStatus = String.valueOf(jTable1.getValueAt(i, 8));
 
                         // Check if this entry matches the data for the student, avoiding duplication
-                        if (getFname.equals(fname) && getLname.equals(lname) && getMobile.equals(mobile) && getNic.equals(nic) && i != row) {
+                        if (getFname.equals(fname) && getLname.equals(lname) && getMobile.equals(mobile) && (nic.isEmpty() || getNic.equals(nic)) && i != row) {
                             JOptionPane.showMessageDialog(this, "This Student has already been added", "Warning", JOptionPane.WARNING_MESSAGE);
                             isFound = true;
                             break;
@@ -1195,9 +1176,14 @@ public class StudentManagement extends javax.swing.JPanel {
 
                     // If no duplicate is found, proceed with the update
                     if (!isFound) {
-                        // Update statement for the selected student ID
-                        DB.IUD("UPDATE `student` SET `fname`='" + fname + "', `lname` = '" + lname + "',"
-                                + " `mobile` ='" + mobile + "', `customer_status_id`='" + studentStatus.get(status) + "' WHERE `id`='" + StudentId + "'");
+                        // Prepare the update query
+                        String query = "UPDATE `student` SET `fname`='" + fname + "', `lname` = '" + lname + "',"
+                                + " `mobile` ='" + mobile + "', `customer_status_id`='" + studentStatus.get(status) + "'"
+                                + (nic.isEmpty() ? "" : ", `nic` = '" + nic + "'") // Only update NIC if it's not empty
+                                + " WHERE `id`='" + StudentId + "'";
+
+                        // Execute the update query
+                        DB.IUD(query);
 
                         JOptionPane.showMessageDialog(this, "Student Details Successfully Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
 
@@ -1207,11 +1193,8 @@ public class StudentManagement extends javax.swing.JPanel {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
-
         }
-
     }
 
 // Viwe Address Button
@@ -1372,7 +1355,17 @@ public class StudentManagement extends javax.swing.JPanel {
 
             // Add condition for comboBoxValue if it's not empty and valid
             if (comboBoxValue != null && !comboBoxValue.isEmpty() && !comboBoxValue.equals("Select")) {
-                query += (hasConditions ? " AND " : " WHERE ") + "customer_status.status LIKE '%" + comboBoxValue + "%'";
+                // Check if we should filter by Active, Inactive, or Suspend status
+                if (comboBoxValue.equals("Active")) {
+                    // Filter for active users
+                    query += (hasConditions ? " AND " : " WHERE ") + "customer_status.status = 'Active'";
+                } else if (comboBoxValue.equals("Inactive")) {
+                    // Filter for inactive users
+                    query += (hasConditions ? " AND " : " WHERE ") + "customer_status.status = 'Inactive'";
+                } else if (comboBoxValue.equals("Suspended")) {
+                    // Filter for suspended users
+                    query += (hasConditions ? " AND " : " WHERE ") + "customer_status.status = 'Suspended'";
+                }
             }
 
             // Add sorting based on ComboBox sort order (new to old or old to new)
