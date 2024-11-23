@@ -976,6 +976,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
             String grade = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
             String gradeId = gradeMap.get(grade);
+            System.out.println(gradeId);
 
             String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
