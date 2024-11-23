@@ -976,7 +976,6 @@ public class StudentAttendance extends javax.swing.JPanel {
 
             String grade = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
             String gradeId = gradeMap.get(grade);
-            System.out.println(gradeId);
 
             String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
@@ -1020,7 +1019,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             } else {
                 if (st_ID.length() >= 8) {
 
-                    ResultSet resultSet = DB.search("SELECT * FROM `class_enrollment` " 
+                    ResultSet resultSet = DB.search("SELECT * FROM `class_enrollment` "
                             + "INNER JOIN `class` ON `class_enrollment`.`class_id` = `class`.`id`"
                             + "INNER JOIN `student` ON  `class_enrollment`.`student_id` = `student`.`id`"
                             + "WHERE `class`.`grade_id` = '" + gradeId + "' AND `class`.`subject_id` = '" + SubjectID + "' AND `student_id` = '" + st_ID + "'");
@@ -1095,7 +1094,6 @@ public class StudentAttendance extends javax.swing.JPanel {
                 } else {
                     dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
                     String employeeUserName = admin.getUserName();
-                    System.out.println(employeeUserName);
 
                     ResultSet resultSet2 = DB.search("SELECT * FROM emp_access WHERE user_name = '" + employeeUserName + "'");
 
@@ -1110,9 +1108,36 @@ public class StudentAttendance extends javax.swing.JPanel {
                         } else if (StudenName.isEmpty()) {
                             JOptionPane.showMessageDialog(this, "Please Enter Student ID", "Warning", JOptionPane.WARNING_MESSAGE);
                         } else {
-                            DB.IUD("INSERT INTO class_attendance "
-                                    + "(`marked_time`,`class_schedule_id`,`student_id`,`employee_id`) "
-                                    + "VALUES('" + dateFormat + "','" + scheduleID + "','" + StudenID + "','" + empID + "')");
+
+                            boolean cnaMark = false;
+
+                            ResultSet resultSet3 = DB.search("SELECT * FROM class_pay "
+                                    + "INNER JOIN payment ON class_pay.payment_id = payment.id "
+                                    + "WHERE class_pay.class_id = '" + resultSet.getString("class_id") + "' "
+                                    + "AND MONTH(class_pay.due_month) = MONTH('d" + dateFormat + "') "
+                                    + "AND student_id = '" + StudenID + "';");
+
+                            if (resultSet3.next()) {
+                                cnaMark = true;
+                            } else {
+                                int option = JOptionPane.showConfirmDialog(this, "The student has not completed the class payment for this month. However, would you still like to mark his attendance?",
+                                        "Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+                                if (option == JOptionPane.YES_OPTION) {
+                                    cnaMark = true;
+                                } else {
+                                    cnaMark = false;
+                                    clearMarkin();
+                                }
+                            }
+
+                            if (cnaMark) {
+                                DB.IUD("INSERT INTO class_attendance "
+                                        + "(`marked_time`,`class_schedule_id`,`student_id`,`employee_id`) "
+                                        + "VALUES('" + dateFormat + "','" + scheduleID + "','" + StudenID + "','" + empID + "')");
+                            }
+                            clearMarkin();
+                            loadClassAttnTable();
                         }
 
                     }
@@ -1155,6 +1180,12 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     }
 
+    private void clearMarkin() {
+
+        Studen_ID_TextField.setText("");
+        Student_Name_TextField.setText("");
+    }
+
     // <<..........................................Studen Class Attendance Marking.........................................>>
     // <<..........................................Employee Attendance Marking.........................................>>
     // Search Employee Details
@@ -1166,7 +1197,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
             String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-            if (empID.length() >=9) {
+            if (empID.length() >= 9) {
 
                 ResultSet resultSet = DB.search("SELECT * FROM `employee` WHERE `id`= '" + empID + "'");
 
