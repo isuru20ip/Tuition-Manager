@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -424,7 +425,59 @@ public class UpdateEnrollments extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
+        try {
+            String student = studentTextField.getText();
+            String ClassCourse = classCourseIdTextField.getText();
+            String pmoodel = String.valueOf(paymentModalCombobox.getSelectedItem());
+            String status = String.valueOf(statusCombobox.getSelectedItem());
+
+            if (student.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Select A row From Tables.", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (ClassCourse.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Select A row From Tables.", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (pmoodel.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Select Payment Modal.", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (status.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Select Enrolment Status.", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                // update class enrollment
+                if (ClassCourse.matches("CL\\d{6}")) {
+
+                    ResultSet resultSet = DB.search("SELECT * FROM `class_enrollment` WHERE `class_id` = '" + ClassCourse + "' AND `student_id` = '" + student + "' AND `enrollment_status_id` = '"+enrollmentStatusMap.get(status)+"' AND `payment_modal_id` = '"+paymentModelMap.get(pmoodel)+"'");
+
+                    if (resultSet.next()) {
+                        JOptionPane.showMessageDialog(this, "No Updates Available.", "Warning", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        DB.IUD("UPDATE `class_enrollment`"
+                                + "SET `payment_modal_id` = '"+paymentModelMap.get(pmoodel)+"', `enrollment_status_id` = '"+enrollmentStatusMap.get(status)+"'"
+                                + "WHERE `student_id` = '" + student + "' AND `class_id` = '" + ClassCourse + "'");
+                        JOptionPane.showMessageDialog(this,"Class Enrollment Update Successfull", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        reset();
+                    }
+
+                    //update course enrollment
+                } else if (ClassCourse.matches("CO\\d{6}")) {
+                    ResultSet resultSet = DB.search("SELECT * FROM `course_enrollment` WHERE `course_id` = '" + ClassCourse + "' AND `student_id` = '" + student + "' AND `enrollment_status_id` = '"+enrollmentStatusMap.get(status)+"' AND `payment_modal_id` = '"+paymentModelMap.get(pmoodel)+"'");
+
+                    if (resultSet.next()) {
+                        JOptionPane.showMessageDialog(this, "No Updates Available.", "Warning", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        DB.IUD("UPDATE `course_enrollment`"
+                                + "SET `payment_modal_id` = '"+paymentModelMap.get(pmoodel)+"', `enrollment_status_id` = '"+enrollmentStatusMap.get(status)+"'"
+                                + "WHERE `student_id` = '" + student + "' AND `course_id` = '" + ClassCourse + "'");
+                        
+                        JOptionPane.showMessageDialog(this,"Course Enrollment Update Successfull", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        reset();
+                    }
+                }
+                
+                this.dispose();
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

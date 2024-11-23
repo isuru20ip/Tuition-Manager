@@ -837,6 +837,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
         UpdateEnrollments uc = new UpdateEnrollments(parentFrame, true); // Create the dialog, setting parentFrame as its owner
         uc.setVisible(true);
+
+        loadClassesEnrollment();
+        loadCoursesEnrollment();
     }//GEN-LAST:event_jButton9ActionPerformed
 
 
