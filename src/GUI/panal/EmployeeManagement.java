@@ -439,10 +439,6 @@ public class EmployeeManagement extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jTextField3.grabFocus();
 
-            } else if (employee_status.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please Select An Employee Status", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jComboBox3.grabFocus();
-
             } else {
 
                 ResultSet resultSet = DB.search("SELECT * FROM `employee` INNER JOIN `emp_status` ON `employee`.`emp_status_id` = `emp_status`.`id`"
@@ -545,10 +541,6 @@ public class EmployeeManagement extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Please Select An Employee Type", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jComboBox2.grabFocus();
 
-            } else if (employee_status.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please Select An Employee Status", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jComboBox3.grabFocus();
-
             } else if (this.AddressId == null) {
                 JOptionPane.showMessageDialog(this, "Please Enter An Address", "Alert!", JOptionPane.WARNING_MESSAGE);
                 jButton4.grabFocus();
@@ -562,12 +554,20 @@ public class EmployeeManagement extends javax.swing.JPanel {
                     jTextField3.grabFocus();
 
                 } else {
+                    ResultSet resultSet2 = DB.search("SELECT `id` FROM `emp_status` WHERE `status` ='" + employee_status + "' ");
+                    if (resultSet2.next()) {
 
-                    DB.IUD("INSERT INTO `employee` (`id`,`fname`,`lname`,`mobile`,`join_date`,`address_id`,`emp_status_id`,`gender_id`,`emp_type_id`) VALUES"
-                            + "('" + newID + "','" + fname + "','" + lname + "','" + mobile + "','" + Date + "','" + AddressId + "','" + employeeStatusMap.get(employee_status) + "','" + genderMap.get(gender) + "','" + employeeTypeMap.get(employee_type) + "')");
+                        String emp_status = resultSet2.getString("id");
 
-                    JOptionPane.showMessageDialog(this, "New Employee Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    refresh();
+                        DB.IUD("INSERT INTO `employee` (`id`,`fname`,`lname`,`mobile`,`join_date`,`address_id`,`emp_status_id`,`gender_id`,`emp_type_id`) VALUES"
+                                + "('" + newID + "','" + fname + "','" + lname + "','" + mobile + "','" + Date + "','" + AddressId + "','" + emp_status + "','" + genderMap.get(gender) + "','" + employeeTypeMap.get(employee_type) + "')");
+
+                        JOptionPane.showMessageDialog(this, "New Employee Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        refresh();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "There is No Employee Status Like That In the database", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                        refresh();
+                    }
                 }
 
             }
