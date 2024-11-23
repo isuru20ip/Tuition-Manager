@@ -191,7 +191,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedPanel(20, new Color(200,200,198),DropShadowBorder())"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedPanel(20, new Color(200,200,198))"/>
       </AuxValues>
 
       <Layout>

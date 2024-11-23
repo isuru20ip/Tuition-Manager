@@ -81,7 +81,7 @@ public class sub_dashboard extends javax.swing.JPanel {
         jPanel1 = new RoundedPanel(20, Color.white);
         jPanel2 = new RoundedPanel(20, Color.white);
         jPanel3 = new RoundedPanel(20, Color.white);
-        jPanel15 = new RoundedPanel(20, new Color(200,200,198),DropShadowBorder());
+        jPanel15 = new RoundedPanel(20, new Color(200,200,198));
         jPanel14 = new RoundedPanel(20, Color.white);
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
