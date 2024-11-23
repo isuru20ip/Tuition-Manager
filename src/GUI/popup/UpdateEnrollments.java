@@ -27,8 +27,18 @@ public class UpdateEnrollments extends javax.swing.JDialog {
         initComponents();
         loadPaymentModel();
         loadStatus();
-        loadClassesEnrollment();
-        loadCoursesEnrollment();
+        loadClassesEnrollment("SELECT * FROM `class_enrollment`"
+                + "INNER JOIN `class` ON `class`.`id` = `class_enrollment`.`class_id`"
+                + "INNER JOIN `student` ON `student`.`id` = `class_enrollment`.`student_id`"
+                + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `class_enrollment`.`enrollment_status_id`"
+                + "INNER JOIN `employee` ON `employee`.`id` = `class_enrollment`.`employee_id`"
+                + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `class_enrollment`.`payment_modal_id` ORDER BY `class_enrollment`.`id` ASC");
+        loadCoursesEnrollment("SELECT * FROM `course_enrollment`"
+                + "INNER JOIN `course` ON `course`.`id` = `course_enrollment`.`course_id`"
+                + "INNER JOIN `student` ON `student`.`id` = `course_enrollment`.`student_id`"
+                + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `course_enrollment`.`enrollment_status_id`"
+                + "INNER JOIN `employee` ON `employee`.`id` = `course_enrollment`.`employee_id`"
+                + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `course_enrollment`.`payment_modal_id` ORDER BY `course_enrollment`.`id` ASC");
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -196,6 +206,11 @@ public class UpdateEnrollments extends javax.swing.JDialog {
         jButton1.setBackground(new java.awt.Color(204, 255, 204));
         jButton1.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
         jButton1.setText("Update Status");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 0, 255));
@@ -210,6 +225,11 @@ public class UpdateEnrollments extends javax.swing.JDialog {
         jButton2.setBackground(new java.awt.Color(255, 204, 204));
         jButton2.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
         jButton2.setText("Reset");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -267,19 +287,11 @@ public class UpdateEnrollments extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(391, 391, 391)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane3)
                             .addComponent(jScrollPane2))
                         .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(427, 427, 427))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -305,15 +317,18 @@ public class UpdateEnrollments extends javax.swing.JDialog {
                         .addGap(165, 165, 165)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchCourseIDField, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(searchCourseIDField, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -321,9 +336,9 @@ public class UpdateEnrollments extends javax.swing.JDialog {
                     .addComponent(searchcClassIDField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                .addGap(7, 7, 7)
-                .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel9)
+                .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -404,6 +419,14 @@ public class UpdateEnrollments extends javax.swing.JDialog {
         searchCurse();
     }//GEN-LAST:event_searchCourseIDFieldKeyReleased
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        reset();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -477,15 +500,10 @@ public class UpdateEnrollments extends javax.swing.JDialog {
     private static HashMap<String, String> paymentModelMap = new HashMap<>(); //for get id from payment model
     private static HashMap<String, String> enrollmentStatusMap = new HashMap<>(); //for get id from status
 
-    private void loadClassesEnrollment() {
+    private void loadClassesEnrollment(String query) {
         try {
 
-            ResultSet resultSet = DB.search("SELECT * FROM `class_enrollment`"
-                    + "INNER JOIN `class` ON `class`.`id` = `class_enrollment`.`class_id`"
-                    + "INNER JOIN `student` ON `student`.`id` = `class_enrollment`.`student_id`"
-                    + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `class_enrollment`.`enrollment_status_id`"
-                    + "INNER JOIN `employee` ON `employee`.`id` = `class_enrollment`.`employee_id`"
-                    + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `class_enrollment`.`payment_modal_id` ORDER BY `class_enrollment`.`id` ASC");
+            ResultSet resultSet = DB.search(query);
 
             DefaultTableModel tableModel = (DefaultTableModel) updateTable1.getModel();
             tableModel.setRowCount(0);
@@ -509,15 +527,10 @@ public class UpdateEnrollments extends javax.swing.JDialog {
 
     }
 
-    private void loadCoursesEnrollment() {
+    private void loadCoursesEnrollment(String query) {
         try {
 
-            ResultSet resultSet = DB.search("SELECT * FROM `course_enrollment`"
-                    + "INNER JOIN `course` ON `course`.`id` = `course_enrollment`.`course_id`"
-                    + "INNER JOIN `student` ON `student`.`id` = `course_enrollment`.`student_id`"
-                    + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `course_enrollment`.`enrollment_status_id`"
-                    + "INNER JOIN `employee` ON `employee`.`id` = `course_enrollment`.`employee_id`"
-                    + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `course_enrollment`.`payment_modal_id` ORDER BY `course_enrollment`.`id` ASC");
+            ResultSet resultSet = DB.search(query);
 
             DefaultTableModel tableModel = (DefaultTableModel) updateTable2.getModel();
             tableModel.setRowCount(0);
@@ -586,19 +599,70 @@ public class UpdateEnrollments extends javax.swing.JDialog {
         }
     }
 
+    // students search from classes
     private void searchStudents1() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sS1 = searchStudentIDField1.getText();
+        loadClassesEnrollment("SELECT * FROM `class_enrollment`"
+                + "INNER JOIN `class` ON `class`.`id` = `class_enrollment`.`class_id`"
+                + "INNER JOIN `student` ON `student`.`id` = `class_enrollment`.`student_id`"
+                + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `class_enrollment`.`enrollment_status_id`"
+                + "INNER JOIN `employee` ON `employee`.`id` = `class_enrollment`.`employee_id`"
+                + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `class_enrollment`.`payment_modal_id` WHERE `class_enrollment`.`student_id` LIKE '%" + sS1 + "%' ORDER BY `class_enrollment`.`id` ASC");
     }
 
+    // search classes
     private void searchClass() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sC = searchcClassIDField.getText();
+        loadClassesEnrollment("SELECT * FROM `class_enrollment`"
+                + "INNER JOIN `class` ON `class`.`id` = `class_enrollment`.`class_id`"
+                + "INNER JOIN `student` ON `student`.`id` = `class_enrollment`.`student_id`"
+                + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `class_enrollment`.`enrollment_status_id`"
+                + "INNER JOIN `employee` ON `employee`.`id` = `class_enrollment`.`employee_id`"
+                + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `class_enrollment`.`payment_modal_id` WHERE `class_enrollment`.`class_id` LIKE '%" + sC + "%' ORDER BY `class_enrollment`.`id` ASC");
     }
 
+// students search from courses
     private void searchStudents2() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sS2 = searchStudendIDField2.getText();
+        loadCoursesEnrollment("SELECT * FROM `course_enrollment`"
+                + "INNER JOIN `course` ON `course`.`id` = `course_enrollment`.`course_id`"
+                + "INNER JOIN `student` ON `student`.`id` = `course_enrollment`.`student_id`"
+                + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `course_enrollment`.`enrollment_status_id`"
+                + "INNER JOIN `employee` ON `employee`.`id` = `course_enrollment`.`employee_id`"
+                + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `course_enrollment`.`payment_modal_id` WHERE `course_enrollment`.`student_id` LIKE '%" + sS2 + "%' ORDER BY `course_enrollment`.`id` ASC");
     }
 
+    // search courses
     private void searchCurse() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sCo = searchCourseIDField.getText();
+        loadCoursesEnrollment("SELECT * FROM `course_enrollment`"
+                + "INNER JOIN `course` ON `course`.`id` = `course_enrollment`.`course_id`"
+                + "INNER JOIN `student` ON `student`.`id` = `course_enrollment`.`student_id`"
+                + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `course_enrollment`.`enrollment_status_id`"
+                + "INNER JOIN `employee` ON `employee`.`id` = `course_enrollment`.`employee_id`"
+                + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `course_enrollment`.`payment_modal_id` WHERE `course_enrollment`.`course_id` LIKE '%" + sCo + "%' ORDER BY `course_enrollment`.`id` ASC");
+    }
+
+    private void reset() {
+        searchCourseIDField.setText("");
+        searchStudendIDField2.setText("");
+        searchStudentIDField1.setText("");
+        searchcClassIDField.setText("");
+        studentTextField.setText("");
+        classCourseIdTextField.setText("");
+        paymentModalCombobox.setSelectedIndex(0);
+        statusCombobox.setSelectedIndex(0);
+        loadClassesEnrollment("SELECT * FROM `class_enrollment`"
+                + "INNER JOIN `class` ON `class`.`id` = `class_enrollment`.`class_id`"
+                + "INNER JOIN `student` ON `student`.`id` = `class_enrollment`.`student_id`"
+                + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `class_enrollment`.`enrollment_status_id`"
+                + "INNER JOIN `employee` ON `employee`.`id` = `class_enrollment`.`employee_id`"
+                + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `class_enrollment`.`payment_modal_id` ORDER BY `class_enrollment`.`id` ASC");
+        loadCoursesEnrollment("SELECT * FROM `course_enrollment`"
+                + "INNER JOIN `course` ON `course`.`id` = `course_enrollment`.`course_id`"
+                + "INNER JOIN `student` ON `student`.`id` = `course_enrollment`.`student_id`"
+                + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `course_enrollment`.`enrollment_status_id`"
+                + "INNER JOIN `employee` ON `employee`.`id` = `course_enrollment`.`employee_id`"
+                + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `course_enrollment`.`payment_modal_id` ORDER BY `course_enrollment`.`id` ASC");
     }
 }
