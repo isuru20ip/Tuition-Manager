@@ -26,7 +26,6 @@ public class EmployeeManagement extends javax.swing.JPanel {
         initComponents();
         loadGender();
         loadEmployeeType();
-        loadEmployeeStatus();
         loadEmployee("");
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
@@ -184,7 +183,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active" }));
 
         jButton3.setBackground(new java.awt.Color(0, 204, 102));
         jButton3.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
@@ -613,6 +612,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 
+        loadEmployeeStatus();
         int selected_row = jTable1.getSelectedRow();
 
         this.EmployeeId = String.valueOf(jTable1.getValueAt(selected_row, 0));
@@ -788,7 +788,12 @@ public class EmployeeManagement extends javax.swing.JPanel {
             vector.add("Select");
 
             while (resultSet.next()) {
-                vector.add(resultSet.getString("name"));
+
+                String name = resultSet.getString("name");
+
+                if (!"Master Admin".equals(name)) {
+                    vector.add(resultSet.getString("name"));
+                }
                 employeeTypeMap.put(resultSet.getString("name"), resultSet.getString("id"));
             }
 
@@ -807,7 +812,6 @@ public class EmployeeManagement extends javax.swing.JPanel {
             ResultSet resultSet = DB.search("SELECT * FROM `emp_status`");
 
             Vector<String> vector = new Vector<>();
-            vector.add("Select");
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("status"));
@@ -830,7 +834,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
         jTextField5.setText("");
         jComboBox1.setSelectedIndex(0);
         jComboBox2.setSelectedIndex(0);
-        jComboBox3.setSelectedIndex(0);
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Active"}));
         jTable1.clearSelection();
         loadEmployee("");
         jButton3.setEnabled(true);
