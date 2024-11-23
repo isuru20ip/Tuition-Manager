@@ -1960,6 +1960,7 @@ public class PaymentManagement extends javax.swing.JPanel {
 
     }
 
+    // clear all 
     private void clearAll() {
         student_id.setText("");
         cleanCourse();
