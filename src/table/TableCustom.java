@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import scroll.ScrollBarCustomUI;
 
@@ -55,7 +56,6 @@ public class TableCustom {
                 hoverRow.setIndex(-1);
                 table.repaint();
             }
-
         });
         table.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
@@ -78,7 +78,30 @@ public class TableCustom {
         });
     }
 
+    public static void reset(JScrollPane scroll) {
+        JTable table = (JTable) scroll.getViewport().getComponent(0);
+
+        // Reset table to default model and style
+        table.setModel(new DefaultTableModel());  // Reset model to default
+        table.setSelectionBackground(null);       // Remove custom selection background
+        table.getTableHeader().setReorderingAllowed(true);  // Enable column reordering
+        table.getTableHeader().setDefaultRenderer(null);     // Reset the header renderer
+        table.setRowHeight(16);                   // Reset default row height
+        table.setShowVerticalLines(false);        // Remove grid lines
+        table.setGridColor(null);                 // Reset grid color
+        table.setForeground(Color.BLACK);         // Reset table text color
+        table.setSelectionForeground(Color.BLACK);// Reset selection text color
+
+        // Reset custom scrollbars
+        scroll.setBorder(null);
+        scroll.getVerticalScrollBar().setUI(null);
+        scroll.getHorizontalScrollBar().setUI(null);
+        scroll.getViewport().setBackground(null);
+        scroll.setCorner(JScrollPane.UPPER_RIGHT_CORNER, null);
+    }
+
     public static enum TableType {
         MULTI_LINE, DEFAULT
     }
 }
+

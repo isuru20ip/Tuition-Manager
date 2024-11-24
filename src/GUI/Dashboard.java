@@ -45,10 +45,11 @@ public class Dashboard extends javax.swing.JFrame {
 
     private Admin admin;
     
-    sub_dashboard a = new sub_dashboard();
+    
 
     public Dashboard(Admin bean) {
         initComponents();
+        sub_dashboard a = new sub_dashboard();
         main.add(a);
         this.admin = bean;
         pageStart();
