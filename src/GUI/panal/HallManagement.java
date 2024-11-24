@@ -254,7 +254,7 @@ public class HallManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
 
@@ -295,7 +295,7 @@ public class HallManagement extends javax.swing.JPanel {
 
         } catch (ClassNotFoundException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
-        
+
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
@@ -323,7 +323,7 @@ public class HallManagement extends javax.swing.JPanel {
 
         } catch (ClassNotFoundException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
-        
+
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
@@ -355,7 +355,7 @@ public class HallManagement extends javax.swing.JPanel {
 
         } catch (ClassNotFoundException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
-            
+
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
@@ -365,37 +365,46 @@ public class HallManagement extends javax.swing.JPanel {
     private void updateHall() {
         try {
 
-            String type = String.valueOf(jComboBox1.getSelectedItem());
-            String capacity = jTextField1.getText();
-            String hID = jTextField2.getText();
+            int row = jTable1.getSelectedRow();
 
-            if (capacity.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Hall Capacity", "warning", JOptionPane.WARNING_MESSAGE);
+            if (row >= 0) {
+                String type = String.valueOf(jComboBox1.getSelectedItem());
+                String capacity = jTextField1.getText();
 
-            } else if (type.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please select Hall Type", "Warning", JOptionPane.WARNING_MESSAGE);
+                String hID = String.valueOf(jTable1.getValueAt(row, 0));
 
+                if (capacity.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please Enter Hall Capacity", "warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (type.equals("Select")) {
+                    JOptionPane.showMessageDialog(this, "Please select Hall Type", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else {
+
+                    DB.IUD("UPDATE `class_room` SET `capacity` = '" + capacity + "', "
+                            + "`room_type_id` = '" + hallTypeMap.get(type) + "'"
+                            + " WHERE `id` = '" + hID + "' ");
+
+                    loadHall();
+                    reset();
+
+                }
             } else {
-
-                DB.IUD("UPDATE `class_room` SET `capacity` = '" + capacity + "', "
-                        + "`room_type_id` = '" + hallTypeMap.get(type) + "'"
-                                + " WHERE `id` = '"+hID+"' ");
-
-                loadHall();
-                reset();
+                JOptionPane.showMessageDialog(this, "Select a row", "warning", JOptionPane.WARNING_MESSAGE);
 
             }
 
         } catch (ClassNotFoundException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
-        
+
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
+
     }
-    
+
     //Search Class Room
-    private void searchHall(){
+    private void searchHall() {
         String value = jTextField2.getText();
 
         try {
@@ -429,15 +438,14 @@ public class HallManagement extends javax.swing.JPanel {
 
         } catch (ClassNotFoundException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
-        
+
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
     }
-    
-    
+
     //Table row selected
-    private void viewRow(){
+    private void viewRow() {
         int row = jTable1.getSelectedRow();
 
         String capacity = String.valueOf(jTable1.getValueAt(row, 1));
@@ -445,9 +453,6 @@ public class HallManagement extends javax.swing.JPanel {
 
         String type = String.valueOf(jTable1.getValueAt(row, 2));
         jComboBox1.setSelectedItem(type);
-        
-        String hID = String.valueOf(jTable1.getValueAt(row, 0));
-        jTextField2.setText(hID);
 
         jButton1.setEnabled(false);
     }
