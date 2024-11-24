@@ -4,9 +4,26 @@
  */
 package GUI.panal;
 
+import GUI.popup.GuardianDetails;
+import GUI.popup.StudentAddress;
 import GUI.popup.TeacherAddress;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import modal.DB;
+import modal.IDGenarator;
+import modal.LogCenter;
+import modal.Validator;
+import modal.beans.Admin;
 
 /**
  *
@@ -14,11 +31,18 @@ import javax.swing.SwingUtilities;
  */
 public class TeacherManagement extends javax.swing.JPanel {
 
+    private Admin admin;
+
     /**
      * Creates new form Student_Registration
      */
-    public TeacherManagement() {
+    public TeacherManagement(Admin admin) {
         initComponents();
+        this.admin = admin;
+        loadTeacher("");
+        loadTStatus();
+        TeacherReportLoad("", "", "", "");
+        TeacherPaymentLoad("");
     }
 
     /**
@@ -41,8 +65,6 @@ public class TeacherManagement extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
@@ -63,15 +85,12 @@ public class TeacherManagement extends javax.swing.JPanel {
         jPanel7 = new javax.swing.JPanel();
         jComboBox3 = new javax.swing.JComboBox<>();
         jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
         jButton6 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jTextField7 = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jTextField8 = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
         jButton7 = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jRadioButton1 = new javax.swing.JRadioButton();
@@ -80,6 +99,8 @@ public class TeacherManagement extends javax.swing.JPanel {
         jPanel10 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -108,12 +129,6 @@ public class TeacherManagement extends javax.swing.JPanel {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("NIC");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Gender");
-
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Mobile");
@@ -127,6 +142,12 @@ public class TeacherManagement extends javax.swing.JPanel {
         jLabel10.setText("Status");
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField6KeyReleased(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -170,14 +191,12 @@ public class TeacherManagement extends javax.swing.JPanel {
                         .addGap(50, 50, 50)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox2, 0, 149, Short.MAX_VALUE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField3))
-                        .addGap(48, 48, 48)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE))
+                        .addGap(55, 55, 55)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, 0, 153, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(60, 60, 60)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox2, 0, 149, Short.MAX_VALUE))
+                        .addGap(57, 57, 57)
                         .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -206,23 +225,18 @@ public class TeacherManagement extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel4))
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel5))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton1))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel6)))
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel10)))
+                            .addComponent(jButton1))
                         .addGap(20, 20, 20)
                         .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel8))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel10)))
+                        .addComponent(jLabel8)))
                 .addContainerGap())
         );
 
@@ -231,11 +245,11 @@ public class TeacherManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "First Name", "Last Name", "NIC", "Mobile", "Email", "Gender", "Address"
+                "NIC", "First Name", "Last Name", "Mobile", "Email", "Address", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -243,6 +257,11 @@ public class TeacherManagement extends javax.swing.JPanel {
             }
         });
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -261,14 +280,29 @@ public class TeacherManagement extends javax.swing.JPanel {
         jButton3.setBackground(new java.awt.Color(51, 204, 0));
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton3.setText("Add");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setBackground(new java.awt.Color(0, 102, 204));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton4.setText("Update");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setBackground(new java.awt.Color(255, 51, 51));
         jButton5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton5.setText("Clear");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -321,13 +355,20 @@ public class TeacherManagement extends javax.swing.JPanel {
         jPanel7.setBackground(new java.awt.Color(234, 238, 244));
 
         jComboBox3.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "New to Old", "Item 2", "Item 3", "Item 4" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "New to Old", "Old to New" }));
+        jComboBox3.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox3ItemStateChanged(evt);
+            }
+        });
 
         jComboBox4.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Status", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBox5.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Gender", "Item 2", "Item 3", "Item 4" }));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Type", "Hall Class", "Group Class" }));
+        jComboBox4.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox4ItemStateChanged(evt);
+            }
+        });
 
         jButton6.setBackground(new java.awt.Color(51, 204, 0));
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -342,9 +383,7 @@ public class TeacherManagement extends javax.swing.JPanel {
                 .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 310, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel7Layout.setVerticalGroup(
@@ -354,27 +393,39 @@ public class TeacherManagement extends javax.swing.JPanel {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel8.setBackground(new java.awt.Color(234, 238, 244));
 
+        jTextField7.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField7KeyReleased(evt);
+            }
+        });
+
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("NIC");
+
+        jTextField8.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField8KeyReleased(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setText("Email");
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("Mobile");
-
         jButton7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton7.setText("Clear");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -384,9 +435,6 @@ public class TeacherManagement extends javax.swing.JPanel {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextField9)
-                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextField8)
@@ -399,21 +447,17 @@ public class TeacherManagement extends javax.swing.JPanel {
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                .addGap(34, 34, 34)
+                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(23, 23, 23)
+                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(16, 16, 16))
+                .addGap(31, 31, 31))
         );
 
         jPanel9.setBackground(new java.awt.Color(234, 238, 244));
@@ -421,11 +465,11 @@ public class TeacherManagement extends javax.swing.JPanel {
 
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jRadioButton1.setText("Class & Course");
+        jRadioButton1.setText("Teacher Enrollment");
 
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jRadioButton2.setText("Payment History");
+        jRadioButton2.setText("Teacher Payment");
 
         jButton8.setBackground(new java.awt.Color(0, 102, 204));
         jButton8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -447,10 +491,10 @@ public class TeacherManagement extends javax.swing.JPanel {
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jRadioButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton8))
         );
@@ -462,10 +506,38 @@ public class TeacherManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "NIC", "Name", "Email", "Subject", "Class Type", "Course", "Join_Date"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable2.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(jTable2);
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Teacher NIC", "Employee Name", "Date", "Commission", "Earn"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable3.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(jTable3);
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -473,13 +545,18 @@ public class TeacherManagement extends javax.swing.JPanel {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2))
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3)))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(17, 17, 17))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -490,12 +567,10 @@ public class TeacherManagement extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12)
                         .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -508,10 +583,11 @@ public class TeacherManagement extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(29, 29, 29))
                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
 
         jTabbedPane2.addTab("Teacher Reporting", new javax.swing.ImageIcon(getClass().getResource("/source/reports.png")), jPanel3); // NOI18N
@@ -555,10 +631,107 @@ public class TeacherManagement extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       TeacherAddress tc_address = new TeacherAddress((JFrame) SwingUtilities.getWindowAncestor(this), true);
-        tc_address.setVisible(true);
-        
+
+        ViweTAddress(); // Address Button Clicked
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        InsertTeacher(); // Add Teacher
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int row = jTable1.getSelectedRow();
+
+        String nic = String.valueOf(jTable1.getValueAt(row, 0));
+        jTextField3.setText(nic);
+
+        String fname = String.valueOf(jTable1.getValueAt(row, 1));
+        jTextField1.setText(fname);
+
+        String lname = String.valueOf(jTable1.getValueAt(row, 2));
+        jTextField2.setText(lname);
+
+        String mobile = String.valueOf(jTable1.getValueAt(row, 3));
+        jTextField4.setText(mobile);
+
+        String email = String.valueOf(jTable1.getValueAt(row, 4));
+        jTextField5.setText(email);
+        jTextField5.setEditable(false);
+
+        String type = String.valueOf(jTable1.getValueAt(row, 6));
+        jComboBox2.setSelectedItem(type);
+
+        if (evt.getClickCount() == 2) {
+
+            int row1 = jTable1.getSelectedRow();
+            if (row1 != -1) {
+
+                String Nic = String.valueOf(jTable1.getValueAt(row1, 0));
+
+                try {
+                    ResultSet rs = DB.search("SELECT * FROM `teacher` WHERE `nic` = '" + Nic + "'");
+
+                    if (rs.next()) {
+                        String adId = rs.getString("address_id");
+
+                        TeacherAddress teacherAddress = new TeacherAddress(this, true, adId);
+
+                        teacherAddress.addWindowListener(new java.awt.event.WindowAdapter() {
+
+                            @Override
+                            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                                loadTeacher(""); // Refresh student data when dialog closes
+                            }
+                        });
+
+                        teacherAddress.setVisible(true);
+
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a row to view the address.", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        jButton1.setEnabled(false);
+        jButton3.setEnabled(false);
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        clearAll();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        UpdateTeacher();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTextField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyReleased
+        SearchTeacher(); // Search Management Table
+    }//GEN-LAST:event_jTextField6KeyReleased
+
+    private void jTextField7KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField7KeyReleased
+        SearchReport1(); // Search Report Table
+    }//GEN-LAST:event_jTextField7KeyReleased
+
+    private void jTextField8KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField8KeyReleased
+        SearchReport1(); // Search Email
+    }//GEN-LAST:event_jTextField8KeyReleased
+
+    private void jComboBox4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox4ItemStateChanged
+        SearchReport1(); // Search Type
+    }//GEN-LAST:event_jComboBox4ItemStateChanged
+
+    private void jComboBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox3ItemStateChanged
+        SearchReport1(); //Search New and Old
+    }//GEN-LAST:event_jComboBox3ItemStateChanged
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        ClearReport(); //Clear Report Section
+    }//GEN-LAST:event_jButton7ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -570,22 +743,18 @@ public class TeacherManagement extends javax.swing.JPanel {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -602,9 +771,11 @@ public class TeacherManagement extends javax.swing.JPanel {
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
@@ -613,6 +784,465 @@ public class TeacherManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
+
+    //Teacher Gender <k:gender , v:select>
+    private static HashMap<String, String> teacherGender = new HashMap<>();
+
+    //Student Status <k:status , v:select>
+    private static HashMap<String, String> teacherStatus = new HashMap<>();
+
+    private String TeacherAddressId; // Can be used to store teacher Address Id
+
+    // Class-level variable to check if the dialog is open
+    private TeacherAddress teachertAddressDialog;
+
+    public void setTeacherAddressId(String Taid) {
+        this.TeacherAddressId = Taid;
+
+    }
+
+    //Teacher Status Load
+    private void loadTStatus() {
+
+        try {
+
+            ResultSet resultSet = DB.search("SELECT * FROM `customer_status`");
+            Vector<String> v = new Vector<>();
+            v.add("Select");
+
+            while (resultSet.next()) {
+                v.add(resultSet.getString("status"));
+                teacherStatus.put(resultSet.getString("status"), resultSet.getString("id"));
+
+                DefaultComboBoxModel sModel = new DefaultComboBoxModel(v);
+                jComboBox2.setModel(sModel);
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+
+    }
+
+    //Teacher Details Load Table jTable1
+    private void loadTeacher(String value) {
+        try {
+
+            String query = "SELECT * FROM `teacher`"
+                    + "INNER JOIN `employee` ON `teacher`.`employee_id`=`employee`.`id`"
+                    + "INNER JOIN `address` ON `teacher`.`address_id`=`address`.`id`"
+                    + "INNER JOIN `customer_status` ON `teacher`.`customer_status_id`=`customer_status`.`id`";
+
+            if (value.matches("\\d+")) {
+                query += " WHERE teacher.mobile LIKE '%" + value + "%'";
+
+            } else if (value.matches("^ST\\d*$")) {
+                query += " WHERE teacher.nic LIKE '%" + value + "%'";
+
+            } else {
+                query += " WHERE teacher.fname LIKE '%" + value + "%'";
+            }
+
+            ResultSet resultSet = DB.search(query);
+
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+            dtm.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector<String> v = new Vector();
+                v.add(resultSet.getString("nic"));
+                v.add(resultSet.getString("fname"));
+                v.add(resultSet.getString("lname"));
+                v.add(resultSet.getString("mobile"));
+                v.add(resultSet.getString("email"));
+                v.add(resultSet.getString("address.line_01") + " , " + resultSet.getString("address.line_02"));
+                v.add(resultSet.getString("customer_status.status"));
+                dtm.addRow(v);
+
+            }
+
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+
+    }
+
+    private void ViweTAddress() {
+        // Check if the Address ID already exists
+        if (TeacherAddressId != null) {
+            JOptionPane.showMessageDialog(this, "Address ID already exists", "Warning", JOptionPane.WARNING_MESSAGE);
+            return; // Exit if the ID exists
+        }
+
+        // If the dialog is already created, just bring it to the front
+        if (teachertAddressDialog != null && teachertAddressDialog.isVisible()) {
+            teachertAddressDialog.toFront(); // Bring the dialog to the front if it's already visible
+        } else {
+            // Otherwise, create and show a new dialog
+            teachertAddressDialog = new TeacherAddress(this, true, null);
+            teachertAddressDialog.setVisible(true);
+        }
+
+    }
+
+    // Insert Teacher 
+    private void InsertTeacher() {
+
+        try {
+
+            String fname = jTextField1.getText();
+            String lname = jTextField2.getText();
+            String nic = jTextField3.getText();
+            String mobile = jTextField4.getText();
+            String email = jTextField5.getText();
+            String status = String.valueOf(jComboBox2.getSelectedItem());
+
+            if (fname.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (lname.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (nic.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (!Validator.NIC.validate(nic)) {
+                JOptionPane.showMessageDialog(this, "Invalid NIC format", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (mobile.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (email.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
+
+                JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (status.equals("Select")) {
+
+                JOptionPane.showMessageDialog(this, "Please Select a Status", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else if (TeacherAddressId == null) {
+
+                JOptionPane.showMessageDialog(this, "Please Enter an Address", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } else {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                String joinDate = sdfDateTime.format(new Date());
+                String EmployeeID = admin.getUserID();
+
+                DB.IUD("INSERT INTO `teacher`(`nic`,`fname`,`lname`,`mobile`,`email`,`join_date`,`employee_id`,`address_id`,`customer_status_id`)"
+                        + "VALUES ('" + nic + "','" + fname + "','" + lname + "','" + mobile + "','" + email + "','" + joinDate + "',"
+                        + "'" + EmployeeID + "',"
+                        + "'" + TeacherAddressId + "','" + teacherStatus.get(status) + "')");
+
+                JOptionPane.showMessageDialog(this, "New Teacher Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                loadTeacher("");
+                clearAll();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //Update Teacher
+    private void UpdateTeacher() {
+        int row = jTable1.getSelectedRow();
+        if (row == -1) {
+
+            JOptionPane.showMessageDialog(this, "Please Select a Teacher to Update", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            String Nic = String.valueOf(jTable1.getValueAt(row, 0));
+
+            try {
+                //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                String fname = jTextField1.getText();
+                String lname = jTextField2.getText();
+                String nic = jTextField3.getText();
+                String mobile = jTextField4.getText();
+                String email = jTextField5.getText();
+                String status = String.valueOf(jComboBox2.getSelectedItem());
+
+                if (fname.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (lname.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Your Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (nic.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (!Validator.NIC.validate(nic)) {
+                    JOptionPane.showMessageDialog(this, "Invalid NIC format", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (mobile.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (email.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
+
+                    JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (status.equals("Select")) {
+
+                    JOptionPane.showMessageDialog(this, "Please Select a Status", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else {
+
+                    //check if the address already exists
+                    boolean isFound = false;
+
+                    for (int i = 0; i < jTable1.getRowCount(); i++) {
+                        String getFname = String.valueOf(jTable1.getValueAt(i, 1));
+                        String getLname = String.valueOf(jTable1.getValueAt(i, 2));
+                        String getMobile = String.valueOf(jTable1.getValueAt(i, 3));
+
+                        String getStatus = String.valueOf(jTable1.getValueAt(i, 6));
+
+                        // Check if this entry matches the data for the student, avoiding duplication
+                    }
+
+                    // If no duplicate is found, proceed with the update
+                    if (!isFound) {
+                        // Update statement for the selected student ID
+                        DB.IUD("UPDATE `teacher` SET `fname`='" + fname + "', `lname` = '" + lname + "',"
+                                + " `mobile` ='" + mobile + "', `customer_status_id`='" + teacherStatus.get(status) + "' WHERE `nic`='" + nic + "'");
+
+                        JOptionPane.showMessageDialog(this, "Teacher Details Successfully Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                        // Refresh table data and clear input fields
+                        loadTeacher("");
+                        clearAll();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+
+        }
+
+    }
+
+    //Search Teacher   
+    private void SearchTeacher() {
+
+        String value = jTextField6.getText();
+
+        loadTeacher(value);
+
+    }
+
+    // Clear All 
+    private void clearAll() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField6.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextField5.setEditable(true);
+        jComboBox2.setSelectedItem("Select");
+        TeacherAddressId = null;
+
+        jButton1.setEnabled(true); //Address Button Enable
+
+        jButton3.setEnabled(true); // Add Button Enable
+        loadTeacher("");
+
+    }
+
+    //End Panel 01
+    //Start Panel 02 Reporting
+    //Search Report
+    private void SearchReport1() {
+        // Retrieve values from both text fields
+        String NicValue = jTextField7.getText();
+        String emailValue = jTextField8.getText();
+        String comboBoxValue = (String) jComboBox4.getSelectedItem();
+        String sortOrder = jComboBox3.getSelectedItem().toString(); // Sort Enrollment
+
+        // Pass both values to the StudentReportLoad method
+        TeacherReportLoad(NicValue, emailValue, comboBoxValue, sortOrder);
+        TeacherPaymentLoad(NicValue);
+    }
+
+    //End Search
+    //JTable 02 
+    private void TeacherReportLoad(String NicValue, String emailValue, String comboBoxValue, String sortOrder) {
+        try {
+            // SQL query to get teacher data with the updated query
+            String query = "SELECT teacher.nic AS teacher_nic, "
+                    + "CONCAT(teacher.fname, ' ', teacher.lname) AS teacher_name, "
+                    + "teacher.email AS teacher_email, "
+                    + "subject.name AS subject_name, "
+                    + "class_type.type AS class_type, "
+                    + "course.id AS course_id, "
+                    + "teacher.join_date AS teacher_join_date "
+                    + "FROM teacher "
+                    + "LEFT JOIN class ON class.teacher_nic = teacher.nic "
+                    + "LEFT JOIN subject ON subject.id = class.subject_id "
+                    + "LEFT JOIN class_type ON class_type.id = class.class_type_id "
+                    + "LEFT JOIN course ON course.subject_id = class.subject_id";
+
+            boolean hasConditions = false;
+
+            // Add condition for teacher NIC (ID) if it's not empty
+            if (NicValue != null && !NicValue.trim().isEmpty()) {
+                NicValue = NicValue.trim();
+
+                // Check if NIC is 10 characters long (9 digits + V/v/X/x)
+                if (NicValue.length() == 10 && NicValue.matches("^\\d{9}[VvXx]$")) {
+                    query += (hasConditions ? " AND " : " WHERE ") + "teacher.nic LIKE '%" + NicValue + "%'";
+                    hasConditions = true;
+                } // Check if NIC is 12 characters long (only digits)
+                else if (NicValue.length() == 12 && NicValue.matches("^\\d{12}$")) {
+                    query += (hasConditions ? " AND " : " WHERE ") + "teacher.nic LIKE '%" + NicValue + "%'";
+                    hasConditions = true;
+                }
+            }
+
+            // Add condition for email if it's not empty
+            if (emailValue != null && !emailValue.isEmpty()) {
+                query += (hasConditions ? " AND " : " WHERE ") + "teacher.email LIKE '%" + emailValue + "%'";
+                hasConditions = true;
+            }
+
+            // Add condition for comboBoxValue (teacher status) if it's not empty
+            if (comboBoxValue != null && !comboBoxValue.isEmpty() && !comboBoxValue.equals("All Type")) {
+                query += (hasConditions ? " AND " : " WHERE ") + "class_type.type LIKE '%" + comboBoxValue + "%'";
+            }
+
+            // Add sorting based on ComboBox sort order (New to Old or Old to New)
+            if ("New to Old".equals(sortOrder)) {
+                query += " ORDER BY teacher.join_date DESC";
+            } else if ("Old to New".equals(sortOrder)) {
+                query += " ORDER BY teacher.join_date ASC";
+            } else {
+                query += " ORDER BY teacher.nic"; // Default sort order
+            }
+
+            // Execute the query and fetch results
+            ResultSet resultSet = DB.search(query);
+
+            // Prepare table model for displaying data
+            DefaultTableModel dtm = (DefaultTableModel) jTable2.getModel();
+            dtm.setRowCount(0); // Clear existing rows
+
+            // Process the result set and populate the table with the teacher data
+            while (resultSet.next()) {
+                Vector<String> v = new Vector<>();
+                v.add(resultSet.getString("teacher_nic"));  // Teacher NIC (ID)
+                v.add(resultSet.getString("teacher_name"));  // Teacher name
+                v.add(resultSet.getString("teacher_email"));  // Teacher email
+                v.add(resultSet.getString("subject_name"));  // Subject name
+                v.add(resultSet.getString("class_type"));  // Class type
+                v.add(resultSet.getString("course_id"));  // Course ID
+                v.add(resultSet.getString("teacher_join_date"));  // Teacher join date
+
+                dtm.addRow(v);  // Add the vector as a row to the table model
+            }
+
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connection Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+    }
+
+    //Payment Load Teacher
+    private void TeacherPaymentLoad(String NicValue) {
+        try {
+            // Initial query
+            String query = "SELECT teacher.nic AS teacher_nic, "
+                    + "CONCAT(employee.fname, ' ', employee.lname) AS employee_full_name, "
+                    + "teacher_paymet.date AS payment_date, "
+                    + "teacher_paymet.commission, "
+                    + "teacher_paymet.earn "
+                    + "FROM teacher_paymet "
+                    + "INNER JOIN teacher ON teacher_paymet.teacher_nic = teacher.nic "
+                    + "INNER JOIN employee ON teacher_paymet.employee_id = employee.id";
+
+            boolean hasConditions = false;
+
+            // Add condition for teacher NIC (ID) if it's not empty
+            if (NicValue != null && !NicValue.trim().isEmpty()) {
+                NicValue = NicValue.trim();
+
+                // Check if NIC is 10 characters long (9 digits + V/v/X/x)
+                if (NicValue.length() == 10 && NicValue.matches("^\\d{9}[VvXx]$")) {
+                    query += (hasConditions ? " AND " : " WHERE ") + "teacher.nic LIKE '%" + NicValue + "%'";
+                    hasConditions = true;
+                } // Check if NIC is 12 characters long (only digits)
+                else if (NicValue.length() == 12 && NicValue.matches("^\\d{12}$")) {
+                    query += (hasConditions ? " AND " : " WHERE ") + "teacher.nic LIKE '%" + NicValue + "%'";
+                    hasConditions = true;
+                }
+            }
+
+            // Execute the query and fetch results
+            ResultSet resultSet = DB.search(query);
+
+            // Prepare table model for displaying data
+            DefaultTableModel dtm = (DefaultTableModel) jTable3.getModel();
+            dtm.setRowCount(0); // Clear existing rows
+
+            // Process the result set and populate the table with the teacher data
+            while (resultSet.next()) {
+                Vector<String> v = new Vector<>();
+                v.add(resultSet.getString("teacher_nic"));  // Teacher NIC (ID)
+                v.add(resultSet.getString("employee_full_name"));  // Employee Full name
+                v.add(resultSet.getString("payment_date"));  // Payment Date
+                v.add(resultSet.getString("commission"));  // Commission
+                v.add(resultSet.getString("earn"));  // Earnings
+
+                dtm.addRow(v);  // Add the vector as a row to the table model
+            }
+
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connection Problem", ex);
+        } catch (SQLException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        }
+    }
+
+    private void ClearReport() {
+
+        jTextField7.setText("");
+        jTextField8.setText("");
+        jComboBox4.setSelectedItem("All Type");
+        jComboBox3.setSelectedIndex(0);
+        TeacherPaymentLoad("");
+        TeacherReportLoad("", "", "", "");
+
+    }
+
 }

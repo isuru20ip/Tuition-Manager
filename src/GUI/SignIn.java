@@ -1,6 +1,5 @@
 package GUI;
 
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
@@ -8,16 +7,17 @@ import modal.DB;
 import modal.beans.Admin;
 import javax.swing.Timer;
 import java.awt.event.*;
+import java.sql.SQLException;
+import modal.LogCenter;
 
 public class SignIn extends javax.swing.JFrame {
-
+    
     
     public SignIn() {
         initComponents();
-        jTextField1.setText("nuwan");
-        jPasswordField1.setText("nuwan@123");
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/source/Main logo.png")));
-
+        jTextField1.setText("isuru20");
+        jPasswordField1.setText("123456");
+        icon();
     }
 
     @SuppressWarnings("unchecked")
@@ -46,7 +46,7 @@ public class SignIn extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/Main logo.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Mainlogo.png"))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("User Name");
@@ -126,7 +126,7 @@ public class SignIn extends javax.swing.JFrame {
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -144,20 +144,7 @@ public class SignIn extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    int i = 39;
-    Timer t = new Timer(1000, new ActionListener() {
-
-        public void actionPerformed(ActionEvent e) {
-            i--;
-            if (i > 0) {
-                jLabel5.setText("" + i);
-            } else {
-                dispose();
-            }
-        }
-
-    });
-
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         signIn();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -166,9 +153,6 @@ public class SignIn extends javax.swing.JFrame {
         t.start();
     }//GEN-LAST:event_formWindowOpened
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         FlatMacLightLaf.setup();
@@ -194,6 +178,12 @@ public class SignIn extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
+    //Set Icon Image
+    public void icon() {
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/source/Mainlogo.png")));
+    }
+
+    //SignIn
     public void signIn() {
 
         String uname = jTextField1.getText();
@@ -220,22 +210,41 @@ public class SignIn extends javax.swing.JFrame {
                     String mobile = resultSet.getString("mobile");
                     String status = resultSet.getString("status");
                     String type = resultSet.getString("name");
+                    String userID = resultSet.getString("employee_id");
+                    String fname =  resultSet.getString("fname");
 
-                    Dashboard dashboard = new Dashboard(new Admin(userName, mobile, status, type));
+                    Dashboard dashboard = new Dashboard(new Admin(userName,userID, mobile, status, type,fname));
                     dashboard.setVisible(true);
                     this.dispose();
 
                 } else {
                     JOptionPane.showMessageDialog(this, "Invalid email or Password !!", "Warning", JOptionPane.WARNING_MESSAGE);
-                
+
                 }
 
-            } catch (Exception e) {
-e.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            } catch (SQLException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
             }
 
         }
 
     }
+
+    //Count Down Timer
+    int i = 39;
+    Timer t = new Timer(1000, new ActionListener() {
+
+        public void actionPerformed(ActionEvent e) {
+            i--;
+            if (i > 0) {
+                jLabel5.setText("" + i);
+            } else {
+                dispose();
+            }
+        }
+
+    });
 
 }

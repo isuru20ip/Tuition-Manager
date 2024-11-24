@@ -65,73 +65,45 @@ public class Home implements Serializable{
     }
 
     /**
-     * @return the phone01
+     * @return the landLine
      */
-    public String getPhone01() {
-        return phone01;
+    public String getLandLine() {
+        return landLine;
     }
 
     /**
-     * @param phone01 the phone01 to set
+     * @param landLine the landLine to set
      */
-    public void setPhone01(String phone01) {
-        this.phone01 = phone01;
+    public void setLandLine(String landLine) {
+        this.landLine = landLine;
     }
 
     /**
-     * @return the phone02
+     * @return the mobile
      */
-    public String getPhone02() {
-        return phone02;
+    public String getMobile() {
+        return mobile;
     }
 
     /**
-     * @param phone02 the phone02 to set
+     * @param mobile the mobile to set
      */
-    public void setPhone02(String phone02) {
-        this.phone02 = phone02;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     /**
-     * @return the phone03
+     * @return the email
      */
-    public String getPhone03() {
-        return phone03;
+    public String getEmail() {
+        return email;
     }
 
     /**
-     * @param phone03 the phone03 to set
+     * @param email the email to set
      */
-    public void setPhone03(String phone03) {
-        this.phone03 = phone03;
-    }
-
-    /**
-     * @return the webLink
-     */
-    public String getWebLink() {
-        return webLink;
-    }
-
-    /**
-     * @param webLink the webLink to set
-     */
-    public void setWebLink(String webLink) {
-        this.webLink = webLink;
-    }
-
-    /**
-     * @return the fax
-     */
-    public String getFax() {
-        return fax;
-    }
-
-    /**
-     * @param fax the fax to set
-     */
-    public void setFax(String fax) {
-        this.fax = fax;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**
@@ -148,33 +120,89 @@ public class Home implements Serializable{
         this.logo = logo;
     }
 
-    public Home() {
+    /**
+     * @return the host
+     */
+    public String getHost() {
+        return host;
     }
 
-    public Home(String homeName, String line01, String line02, String City, String phone01, String phone02, String phone03, String webLink, String fax, String logo) {
-        this.homeName = homeName;
-        this.line01 = line01;
-        this.line02 = line02;
-        this.City = City;
-        this.phone01 = phone01;
-        this.phone02 = phone02;
-        this.phone03 = phone03;
-        this.webLink = webLink;
-        this.fax = fax;
-        this.logo = logo;
+    /**
+     * @param host the host to set
+     */
+    public void setHost(String host) {
+        this.host = host;
     }
-    
-    
-    
+
+    /**
+     * @return the port
+     */
+    public String getPort() {
+        return port;
+    }
+
+    /**
+     * @param port the port to set
+     */
+    public void setPort(String port) {
+        this.port = port;
+    }
+
+    /**
+     * @return the database
+     */
+    public String getDatabase() {
+        return database;
+    }
+
+    /**
+     * @param database the database to set
+     */
+    public void setDatabase(String database) {
+        this.database = database;
+    }
+
+    /**
+     * @return the admin
+     */
+    public String getAdmin() {
+        return admin;
+    }
+
+    /**
+     * @param admin the admin to set
+     */
+    public void setAdmin(String admin) {
+        this.admin = admin;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     private String homeName;
     private String line01;
     private String line02;
     private String City;
-    private String phone01;
-    private String phone02;
-    private String phone03;
-    private String webLink;
-    private String fax;
+    private String landLine;
+    private String mobile;
+    private String email;
     private String logo;
+    
+    private String host;
+    private String port;
+    private String database;
+    private String admin;
+    private String password;
     
 }
