@@ -23,6 +23,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
+import modal.beans.Admin;
 
 /**
  *
@@ -33,13 +34,13 @@ public class EnrollmentManagement extends javax.swing.JPanel {
     /**
      * Creates new form EnrollmentManagement
      */
-    public EnrollmentManagement(JFrame parent) {
+    public EnrollmentManagement(Admin admin) {
         initComponents();
         loadClassesEnrollment();
         loadCoursesEnrollment();
         loadPaymentModel();
         loadStatus();
-
+        this.admin = admin;
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         enTable.setDefaultRenderer(Object.class, renderer);
@@ -120,7 +121,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(234, 238, 244));
         setToolTipText("");
-        setPreferredSize(new java.awt.Dimension(967, 652));
+        setPreferredSize(new java.awt.Dimension(967, 668));
 
         jTabbedPaneEnrollment.setBackground(new java.awt.Color(234, 238, 244));
         jTabbedPaneEnrollment.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
@@ -495,9 +496,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         classEnrollLayout.setVerticalGroup(
             classEnrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(classEnrollLayout.createSequentialGroup()
-                .addContainerGap(7, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(classEnrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -509,7 +510,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(classEnrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -762,7 +763,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             } else if (pModel.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Select A Payment Model.", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (eStatus.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Select A Payment Status.", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Select Status.", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
                 //insert class enrollment
                 if (cID.matches("CL\\d{6}")) {
@@ -772,7 +773,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(this, "Already Exists.", "Warning", JOptionPane.WARNING_MESSAGE);
                     } else {
                         DB.IUD("INSERT INTO `class_enrollment` (`class_id`, `student_id`, `enrollment_status_id`, `register_date`, `employee_id`, `payment_modal_id`)"
-                                + "VALUES ('" + cID + "', '" + sID + "', '" + enrollmentStatusMap.get(eStatus) + "', '" + curruntDate + "', 'EMP000001', '" + paymentModelMap.get(pModel) + "') ");
+                                + "VALUES ('" + cID + "', '" + sID + "', '" + enrollmentStatusMap.get(eStatus) + "', '" + curruntDate + "', '"+admin.getUserID()+"', '" + paymentModelMap.get(pModel) + "') ");
 
                         JOptionPane.showMessageDialog(this, "Insert Class Enrollment is Successfull.", "Information", JOptionPane.INFORMATION_MESSAGE);
                         resetData();
@@ -787,7 +788,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(this, "Already Exists.", "Warning", JOptionPane.WARNING_MESSAGE);
                     } else {
                         DB.IUD("INSERT INTO `course_enrollment` (`student_id`, `course_id`, `enrollment_status_id`, `register_date`, `employee_id`, `payment_modal_id`)"
-                                + "VALUES ('" + sID + "', '" + cID + "', '" + enrollmentStatusMap.get(eStatus) + "', '" + curruntDate + "', 'EMP000001', '" + paymentModelMap.get(pModel) + "') ");
+                                + "VALUES ('" + sID + "', '" + cID + "', '" + enrollmentStatusMap.get(eStatus) + "', '" + curruntDate + "', '"+admin.getUserID()+"', '" + paymentModelMap.get(pModel) + "') ");
 
                         JOptionPane.showMessageDialog(this, "Insert Course Enrollment is Successfull..", "Information", JOptionPane.INFORMATION_MESSAGE);
                         resetData();
@@ -908,6 +909,8 @@ public class EnrollmentManagement extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> paymentModelCombobox;
     // End of variables declaration//GEN-END:variables
 
+    private Admin admin;
+    
     private static HashMap<String, String> paymentModelMap = new HashMap<>(); //for get id from payment model
     private static HashMap<String, String> enrollmentStatusMap = new HashMap<>(); //for get id from status
 

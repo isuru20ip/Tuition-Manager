@@ -206,7 +206,7 @@ public class UpdateEnrollments extends javax.swing.JDialog {
 
         jButton1.setBackground(new java.awt.Color(204, 255, 204));
         jButton1.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton1.setText("Update Status");
+        jButton1.setText("Save Changes");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);

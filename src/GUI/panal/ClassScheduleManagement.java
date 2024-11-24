@@ -607,7 +607,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         jLabel7.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel7.setText("Today Sheduled Class Table");
+        jLabel7.setText("Today Classes Table");
 
         jLabel8.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 255));
