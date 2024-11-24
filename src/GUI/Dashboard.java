@@ -51,8 +51,10 @@ public class Dashboard extends javax.swing.JFrame {
         initComponents();
         main.add(a);
         this.admin = bean;
+        pageStart();
         time();
         date();
+        setName();
         
         setIconImage();
         
@@ -91,13 +93,19 @@ public class Dashboard extends javax.swing.JFrame {
         LocalDateTime now = LocalDateTime.now();
         date.setText(dates.format(now));
     }
+    
+    private void setName(){
+    
+        String userName = admin.getFname();
+        jLabel3.setText(userName);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new RoundedPanel(20, Color.white);
+        jPanel2 = new RoundedPanel(20, new Color(250, 249, 246));
         jPanel9 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -138,7 +146,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(200, 200, 198));
 
-        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setBackground(new java.awt.Color(250, 249, 246));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Mainlogo.png"))); // NOI18N
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -147,10 +155,10 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(77, 77, 77)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(67, 67, 67))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -350,7 +358,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(hallManagement)
                     .addComponent(courseManagement)
                     .addComponent(salaryCalculation))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -388,6 +396,7 @@ public class Dashboard extends javax.swing.JFrame {
         jButton15.setBackground(new java.awt.Color(51, 255, 255));
         jButton15.setFont(new java.awt.Font("SchulbuchNord", 0, 18)); // NOI18N
         jButton15.setText("LOG OUT");
+        jButton15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton15.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton15MouseClicked(evt);
@@ -398,34 +407,36 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(32, Short.MAX_VALUE)
-                .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(31, 31, 31)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
         );
 
         jPanel3.setBackground(new java.awt.Color(200, 200, 198));
 
-        jLabel2.setFont(new java.awt.Font("SchulbuchNord", 0, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("SchulbuchNord", 0, 28)); // NOI18N
         jLabel2.setText("Hi,");
 
-        jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 25)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 30)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 0, 51));
         jLabel3.setText("Vihanga");
 
         date.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
@@ -488,7 +499,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 169, Short.MAX_VALUE)
+            .addGap(0, 167, Short.MAX_VALUE)
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -501,7 +512,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 247, Short.MAX_VALUE)
+            .addGap(0, 245, Short.MAX_VALUE)
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -653,6 +664,73 @@ public class Dashboard extends javax.swing.JFrame {
         loadPanal(new Settings());
     }//GEN-LAST:event_settingsActionPerformed
 
+    
+    private void pageStart() {
+    
+    String userType = admin.getType();
+        
+        if (userType.equals("Master Admin")) {
+            studentManagement.setEnabled(true);
+            teacherManagement.setEnabled(true);
+            classManagement.setEnabled(true);
+            courseManagement.setEnabled(true);
+            hallManagement.setEnabled(true);
+            studentEnrollment.setEnabled(true);
+            classSManagement.setEnabled(true);
+            attendance.setEnabled(true);
+            paymentManagement.setEnabled(true);
+            employeeManagement.setEnabled(true);
+            salaryCalculation.setEnabled(true);
+            systemAManagement.setEnabled(true);
+            settings.setEnabled(true);
+            
+        } else if (userType.equals("Admin")) {
+            studentManagement.setEnabled(true);
+            teacherManagement.setEnabled(true);
+            classManagement.setEnabled(true);
+            courseManagement.setEnabled(true);
+            hallManagement.setEnabled(true);
+            studentEnrollment.setEnabled(true);
+            classSManagement.setEnabled(true);
+            paymentManagement.setEnabled(false);
+            attendance.setEnabled(true);
+            employeeManagement.setEnabled(true);
+            salaryCalculation.setEnabled(false);
+            systemAManagement.setEnabled(false);
+            settings.setEnabled(false);
+            
+        } else if (userType.equals("Cashier")) {
+            studentManagement.setEnabled(true);
+            teacherManagement.setEnabled(false);
+            classManagement.setEnabled(false);
+            courseManagement.setEnabled(false);
+            hallManagement.setEnabled(false);
+            studentEnrollment.setEnabled(false);
+            classSManagement.setEnabled(false);
+            attendance.setEnabled(false);
+            paymentManagement.setEnabled(true);
+            employeeManagement.setEnabled(false);
+            salaryCalculation.setEnabled(false);
+            systemAManagement.setEnabled(false);
+            settings.setEnabled(false);
+            
+        } else if (userType.equals("Attendance Marker")) {
+            studentManagement.setEnabled(false);
+            teacherManagement.setEnabled(false);
+            classManagement.setEnabled(false);
+            courseManagement.setEnabled(false);
+            hallManagement.setEnabled(false);
+            studentEnrollment.setEnabled(false);
+            classSManagement.setEnabled(false);
+            attendance.setEnabled(true);
+            paymentManagement.setEnabled(false);
+            employeeManagement.setEnabled(false);
+            salaryCalculation.setEnabled(false);
+            systemAManagement.setEnabled(false);
+            settings.setEnabled(false);
+        }
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton attendance;
