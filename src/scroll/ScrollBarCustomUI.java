@@ -11,6 +11,8 @@ public class ScrollBarCustomUI extends BasicScrollBarUI {
 
     private boolean isMin;
     private boolean isMax;
+    
+    
 
     @Override
     public void installUI(JComponent c) {

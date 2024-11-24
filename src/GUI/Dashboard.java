@@ -253,7 +253,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         hallManagement.setFont(new java.awt.Font("SchulbuchNord", 0, 14)); // NOI18N
-        hallManagement.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/hall.png"))); // NOI18N
+        hallManagement.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/mainhall.jpg"))); // NOI18N
         hallManagement.setText(" Hall Management");
         hallManagement.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         hallManagement.setContentAreaFilled(false);
@@ -359,7 +359,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(hallManagement)
                     .addComponent(courseManagement)
                     .addComponent(salaryCalculation))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -500,7 +500,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 167, Short.MAX_VALUE)
+            .addGap(0, 169, Short.MAX_VALUE)
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -513,7 +513,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 245, Short.MAX_VALUE)
+            .addGap(0, 247, Short.MAX_VALUE)
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
