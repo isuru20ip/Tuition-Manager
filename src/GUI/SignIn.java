@@ -7,15 +7,17 @@ import modal.DB;
 import modal.beans.Admin;
 import javax.swing.Timer;
 import java.awt.event.*;
+import java.sql.SQLException;
+import modal.LogCenter;
 
 public class SignIn extends javax.swing.JFrame {
-
+    
+    
     public SignIn() {
         initComponents();
-        jTextField1.setText("hasano");
+        jTextField1.setText("isuru20");
         jPasswordField1.setText("123456");
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/GUI/Mainlogo.png")));
-
+        icon();
     }
 
     @SuppressWarnings("unchecked")
@@ -142,20 +144,7 @@ public class SignIn extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    int i = 39;
-    Timer t = new Timer(1000, new ActionListener() {
-
-        public void actionPerformed(ActionEvent e) {
-            i--;
-            if (i > 0) {
-                jLabel5.setText("" + i);
-            } else {
-                dispose();
-            }
-        }
-
-    });
-
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         signIn();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -178,6 +167,12 @@ public class SignIn extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
+    //Set Icon Image
+    public void icon() {
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/source/Mainlogo.png")));
+    }
+
+    //SignIn
     public void signIn() {
 
         String uname = jTextField1.getText();
@@ -213,15 +208,32 @@ public class SignIn extends javax.swing.JFrame {
 
                 } else {
                     JOptionPane.showMessageDialog(this, "Invalid email or Password !!", "Warning", JOptionPane.WARNING_MESSAGE);
-                
+
                 }
 
-            } catch (Exception e) {
-e.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            } catch (SQLException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
             }
 
         }
 
     }
+
+    //Count Down Timer
+    int i = 39;
+    Timer t = new Timer(1000, new ActionListener() {
+
+        public void actionPerformed(ActionEvent e) {
+            i--;
+            if (i > 0) {
+                jLabel5.setText("" + i);
+            } else {
+                dispose();
+            }
+        }
+
+    });
 
 }
