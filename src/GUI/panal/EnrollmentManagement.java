@@ -518,7 +518,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        jTabbedPaneEnrollment.addTab("Class Enrollment", classEnroll);
+        jTabbedPaneEnrollment.addTab("Class Enrollment", new javax.swing.ImageIcon(getClass().getResource("/source/student enroll.png")), classEnroll); // NOI18N
 
         EnrollmentView.setBackground(new java.awt.Color(234, 238, 244));
 
@@ -710,7 +710,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
                 .addGap(1, 1, 1))
         );
 
-        jTabbedPaneEnrollment.addTab("View & Report", EnrollmentView);
+        jTabbedPaneEnrollment.addTab("View & Report", new javax.swing.ImageIcon(getClass().getResource("/source/reports.png")), EnrollmentView); // NOI18N
 
         jLabel1.setBackground(new java.awt.Color(234, 238, 244));
         jLabel1.setFont(new java.awt.Font("Poppins", 0, 24)); // NOI18N
@@ -773,7 +773,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(this, "Already Exists.", "Warning", JOptionPane.WARNING_MESSAGE);
                     } else {
                         DB.IUD("INSERT INTO `class_enrollment` (`class_id`, `student_id`, `enrollment_status_id`, `register_date`, `employee_id`, `payment_modal_id`)"
-                                + "VALUES ('" + cID + "', '" + sID + "', '" + enrollmentStatusMap.get(eStatus) + "', '" + curruntDate + "', '"+admin.getUserID()+"', '" + paymentModelMap.get(pModel) + "') ");
+                                + "VALUES ('" + cID + "', '" + sID + "', '" + enrollmentStatusMap.get(eStatus) + "', '" + curruntDate + "', '" + admin.getUserID() + "', '" + paymentModelMap.get(pModel) + "') ");
 
                         JOptionPane.showMessageDialog(this, "Insert Class Enrollment is Successfull.", "Information", JOptionPane.INFORMATION_MESSAGE);
                         resetData();
@@ -788,7 +788,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(this, "Already Exists.", "Warning", JOptionPane.WARNING_MESSAGE);
                     } else {
                         DB.IUD("INSERT INTO `course_enrollment` (`student_id`, `course_id`, `enrollment_status_id`, `register_date`, `employee_id`, `payment_modal_id`)"
-                                + "VALUES ('" + sID + "', '" + cID + "', '" + enrollmentStatusMap.get(eStatus) + "', '" + curruntDate + "', '"+admin.getUserID()+"', '" + paymentModelMap.get(pModel) + "') ");
+                                + "VALUES ('" + sID + "', '" + cID + "', '" + enrollmentStatusMap.get(eStatus) + "', '" + curruntDate + "', '" + admin.getUserID() + "', '" + paymentModelMap.get(pModel) + "') ");
 
                         JOptionPane.showMessageDialog(this, "Insert Course Enrollment is Successfull..", "Information", JOptionPane.INFORMATION_MESSAGE);
                         resetData();
@@ -839,8 +839,8 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         UpdateEnrollments uc = new UpdateEnrollments(parentFrame, true); // Create the dialog, setting parentFrame as its owner
         uc.setVisible(true);
 
-        loadClassesEnrollment();
-        loadCoursesEnrollment();
+        resetData();
+
     }//GEN-LAST:event_jButton9ActionPerformed
 
 
@@ -910,7 +910,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private Admin admin;
-    
+
     private static HashMap<String, String> paymentModelMap = new HashMap<>(); //for get id from payment model
     private static HashMap<String, String> enrollmentStatusMap = new HashMap<>(); //for get id from status
 
