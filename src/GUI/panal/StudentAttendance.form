@@ -481,11 +481,17 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="Find Dates"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="class_attn_record_find_buttonActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="class_CheckBox">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="if You Want Search past attendance record "/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="class_CheckBoxActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JSeparator" name="jSeparator7">
                     </Component>

@@ -262,8 +262,18 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         class_attn_record_find_button.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         class_attn_record_find_button.setText("Find Dates");
+        class_attn_record_find_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                class_attn_record_find_buttonActionPerformed(evt);
+            }
+        });
 
         class_CheckBox.setText("if You Want Search past attendance record ");
+        class_CheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                class_CheckBoxActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout student_attn_class_panelLayout = new javax.swing.GroupLayout(student_attn_class_panel);
         student_attn_class_panel.setLayout(student_attn_class_panelLayout);
@@ -836,6 +846,14 @@ public class StudentAttendance extends javax.swing.JPanel {
         MarkClassAttn();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void class_CheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_class_CheckBoxActionPerformed
+        searchClassAttnChecBox();
+    }//GEN-LAST:event_class_CheckBoxActionPerformed
+
+    private void class_attn_record_find_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_class_attn_record_find_buttonActionPerformed
+        searchClassAttn();
+    }//GEN-LAST:event_class_attn_record_find_buttonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Class_Attn_Table;
@@ -1152,6 +1170,117 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     }
 
+    private void searchClassAttn() {
+        try {
+            String ST_name = Student_Name_TextField.getText();
+            String ST_ID = Studen_ID_TextField.getText();
+
+            String grade = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
+            String gradeId = gradeMap.get(grade);
+
+            String subject = String.valueOf(jComboBox_classLoad.getSelectedItem());
+            String SubjectID = classMap.get(subject);
+
+            if (gradeId == null) {
+                JOptionPane.showMessageDialog(this, "Please Select Grade", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (SubjectID == null) {
+                JOptionPane.showMessageDialog(this, "Please Select Class", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+
+                System.out.println(gradeId);
+                System.out.println(grade);
+                System.out.println(SubjectID);
+                System.out.println(subject);
+
+                ResultSet resultSet = DB.search("SELECT * FROM `class_schedule` "
+                        + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
+                        + "WHERE `class`.`grade_id` = '" + gradeId + "' "
+                        + "AND `class`.`subject_id` = '" + SubjectID + "'");
+
+                if (resultSet.next()) {
+
+                    String scheduleID = resultSet.getString("id");
+                    System.out.println(scheduleID);
+
+                    String query = "SELECT * FROM `class_attendance` "
+                            + " WHERE`marked_time` BETWEEN ";
+
+                    Date fromDate;
+                    Date toDate;
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+                    if (ST_name.isEmpty()) {
+                        if (class_From_DateChooser.getDate() != null) {
+                            fromDate = class_From_DateChooser.getDate();
+                            query += "'" + format.format(fromDate) + "' AND ";
+                        } else {
+                            query += "'2024-01-01' AND ";
+                        }
+
+                        if (class_to_DateChooser.getDate() != null) {
+                            toDate = class_to_DateChooser.getDate();
+                            query += "'" + format.format(toDate) + "' ";
+                        } else {
+                            query += "'" + format.format(new Date()) + "' ";
+                        }
+
+                    } else {
+                        if (class_From_DateChooser.getDate() != null) {
+                            fromDate = class_From_DateChooser.getDate();
+                            query += "'" + format.format(fromDate) + "' AND ";
+                        } else {
+                            query += "'2024-01-01' AND ";
+                        }
+
+                        if (class_to_DateChooser.getDate() != null) {
+                            toDate = class_to_DateChooser.getDate();
+                            query += "'" + format.format(toDate) + "' AND ";
+                        } else {
+                            query += "'" + format.format(new Date()) + "' AND ";
+                        }
+
+                        query += "`student_id` = '" + ST_ID + "' AND `class_schedule_id` = '" + scheduleID + "' ";
+                    }
+
+                    query += " ORDER BY `marked_time` ASC";
+
+                    ResultSet resultSet1 = DB.search(query);
+
+                    DefaultTableModel tableModel = (DefaultTableModel) Class_Attn_Table.getModel();
+                    tableModel.setRowCount(0);
+
+                    while (resultSet1.next()) {
+                        Vector<String> ClassVector = new Vector<>();
+                        ClassVector.add(resultSet1.getString("marked_time"));
+                        ClassVector.add(resultSet1.getString("class_schedule_id"));
+                        ClassVector.add(resultSet1.getString("student_id"));
+                        ClassVector.add(resultSet1.getString("employee_id"));
+
+                        tableModel.addRow(ClassVector);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "This is Not Scheduled Class", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void searchClassAttnChecBox() {
+
+        if (class_CheckBox.isSelected()) {
+            class_From_DateChooser.setEnabled(true);
+            class_to_DateChooser.setEnabled(true);
+            class_attn_record_find_button.setEnabled(true);
+        } else {
+            class_From_DateChooser.setEnabled(false);
+            class_to_DateChooser.setEnabled(false);
+            class_attn_record_find_button.setEnabled(false);
+        }
+    }
+
     private void loadClassAttnTable() {
 
         try {
@@ -1268,6 +1397,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
                 loadEmpAttnTabel();
                 resetEmployeePage();
+                employee_ID_Field.grabFocus();
 
             }
 
@@ -1294,7 +1424,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
                 loadEmpAttnTabel();
                 resetEmployeePage();
-
+                employee_ID_Field.grabFocus();
             }
 
         } catch (Exception e) {
