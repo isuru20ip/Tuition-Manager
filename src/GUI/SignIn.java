@@ -15,7 +15,7 @@ public class SignIn extends javax.swing.JFrame {
     
     public SignIn() {
         initComponents();
-        jTextField1.setText("isuru20");
+        jTextField1.setText("hasano");
         jPasswordField1.setText("123456");
         icon();
     }

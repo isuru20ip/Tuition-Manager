@@ -21,6 +21,7 @@ import GUI.panal.EnrollmentManagement;
 import GUI.panal.HallManagement;
 import GUI.panal.SalaryCalculation;
 import GUI.panal.sub_dashboard;
+import GUI.panal.systemAccess;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -677,7 +678,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton15MouseClicked
 
     private void systemAManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_systemAManagementActionPerformed
-        // TODO add your handling code here:
+        loadPanal(new systemAccess(admin));
     }//GEN-LAST:event_systemAManagementActionPerformed
 
     private void settingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsActionPerformed
