@@ -100,6 +100,11 @@ public class Dashboard extends javax.swing.JFrame {
         String userName = admin.getFname();
         jLabel3.setText(userName);
     }
+    
+    private void changeColor(){
+    
+        
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -650,6 +655,20 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void subDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subDashboardActionPerformed
         loadPanal(new sub_dashboard());
+        
+         subDashboard.addActionListener(new ActionListener() {
+            private boolean isClicked = false;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (isClicked) {
+                    subDashboard.setBackground(new Color(240,240,240)); // Original color
+                } else {
+                    subDashboard.setBackground(Color.black); // New color
+                }
+                isClicked = !isClicked; // Toggle state
+            }
+        });
     }//GEN-LAST:event_subDashboardActionPerformed
 
     private void jButton15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton15MouseClicked
