@@ -153,7 +153,6 @@ public class SignIn extends javax.swing.JFrame {
         t.start();
     }//GEN-LAST:event_formWindowOpened
 
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
