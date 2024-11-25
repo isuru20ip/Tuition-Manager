@@ -1101,10 +1101,6 @@ public class PaymentManagement extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void studentIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_studentIDKeyReleased
-        findStudent();
-    }//GEN-LAST:event_studentIDKeyReleased
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         clear();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -1184,6 +1180,10 @@ public class PaymentManagement extends javax.swing.JPanel {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         cleanReport();
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void studentIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_studentIDKeyReleased
+        findStudent();
+    }//GEN-LAST:event_studentIDKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
