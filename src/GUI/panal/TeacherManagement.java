@@ -806,24 +806,51 @@ public class TeacherManagement extends javax.swing.JPanel {
     private void loadTStatus() {
 
         try {
-
+            // Execute the query to fetch customer status data
             ResultSet resultSet = DB.search("SELECT * FROM `customer_status`");
+
+            // Initialize a vector to hold the status options for the combo box
             Vector<String> v = new Vector<>();
             v.add("Select");
 
+            // Initialize a flag to track if "active" status is found
+            boolean activeStatusFound = false;
+
+            // Loop through the result set and populate the vector and map
             while (resultSet.next()) {
-                v.add(resultSet.getString("status"));
-                teacherStatus.put(resultSet.getString("status"), resultSet.getString("id"));
+                String status = resultSet.getString("status");
+                String id = resultSet.getString("id");
 
-                DefaultComboBoxModel sModel = new DefaultComboBoxModel(v);
-                jComboBox2.setModel(sModel);
+                // Add status to the vector for combo box population
+                v.add(status);
 
+                // Add status and id to the map
+                teacherStatus.put(status, id);
+
+                // Check if "Active" status exists in the result set
+                if ("Active".equalsIgnoreCase(status)) {
+                    activeStatusFound = true;
+                }
+            }
+
+            // Set the combo box model with the populated vector
+            DefaultComboBoxModel<String> sModel = new DefaultComboBoxModel<>(v);
+            jComboBox2.setModel(sModel);
+
+            // After setting the model, if "Active" status is found, set it as the default selection
+            if (activeStatusFound) {
+                jComboBox2.setSelectedItem("Active");
+            } else {
+                // If "Active" status is not found, set it to the "Select" option by default
+                jComboBox2.setSelectedIndex(0);
             }
 
         } catch (ClassNotFoundException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            JOptionPane.showMessageDialog(null, "Error connecting to the database: " + ex.getMessage());
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+            JOptionPane.showMessageDialog(null, "SQL error occurred: " + ex.getMessage());
         }
 
     }
@@ -1077,6 +1104,7 @@ public class TeacherManagement extends javax.swing.JPanel {
 
         jButton3.setEnabled(true); // Add Button Enable
         loadTeacher("");
+        loadTStatus();
 
     }
 
@@ -1100,18 +1128,18 @@ public class TeacherManagement extends javax.swing.JPanel {
     private void TeacherReportLoad(String NicValue, String emailValue, String comboBoxValue, String sortOrder) {
         try {
             // SQL query to get teacher data with the updated query
-           String query = "SELECT DISTINCT teacher.nic AS teacher_nic, "
-                         + "CONCAT(teacher.fname, ' ', teacher.lname) AS teacher_name, "
-                         + "teacher.email AS teacher_email, "
-                         + "subject.name AS subject_name, "
-                         + "class_type.type AS class_type, "
-                         + "course.id AS course_id, "
-                         + "teacher.join_date AS teacher_join_date "
-                         + "FROM teacher "
-                         + "LEFT JOIN class ON class.teacher_nic = teacher.nic "
-                         + "LEFT JOIN subject ON subject.id = class.subject_id "
-                         + "LEFT JOIN class_type ON class_type.id = class.class_type_id "
-                         + "LEFT JOIN course ON course.subject_id = class.subject_id";
+            String query = "SELECT DISTINCT teacher.nic AS teacher_nic, "
+                    + "CONCAT(teacher.fname, ' ', teacher.lname) AS teacher_name, "
+                    + "teacher.email AS teacher_email, "
+                    + "subject.name AS subject_name, "
+                    + "class_type.type AS class_type, "
+                    + "course.id AS course_id, "
+                    + "teacher.join_date AS teacher_join_date "
+                    + "FROM teacher "
+                    + "LEFT JOIN class ON class.teacher_nic = teacher.nic "
+                    + "LEFT JOIN subject ON subject.id = class.subject_id "
+                    + "LEFT JOIN class_type ON class_type.id = class.class_type_id "
+                    + "LEFT JOIN course ON course.subject_id = class.subject_id";
 
             boolean hasConditions = false;
 
