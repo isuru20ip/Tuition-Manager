@@ -16,7 +16,7 @@ public class DB {
     }
 
     // Set DB state
-    private static final DBState STATE = DBState.Cloud;
+    private static final DBState STATE = DBState.Local;
 
     // DB Connection
     private static Connection connection;
