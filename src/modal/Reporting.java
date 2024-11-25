@@ -1,8 +1,11 @@
 package modal;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import javax.swing.JFileChooser;
+import modal.beans.Admin;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -31,51 +34,62 @@ public class Reporting {
     }
 
     // save reports
-    public boolean saveReport(String reportName, HashMap parm, JRDataSource dataSource) throws JRException {
+    public boolean saveReport(String reportName, HashMap parm, JRDataSource dataSource, Admin admin) throws JRException, IOException, FileNotFoundException, ClassNotFoundException {
         String path = getFolder();
         if (path == null) {
             return false;
         }
         JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm, dataSource);
         JasperExportManager.exportReportToPdfFile(print, path + "/" + reportName + modal.SetDate.getDate("yyyy-MM-dd HH.mm").replace(" ", "_") + ".pdf");
+
+        // send Email
+        Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + "is Saved by " + admin.getUserName() + "\n Path: " + path);
         return true;
     }
 
     // save reports
-    public boolean saveReport(String reportName, HashMap parm) throws JRException {
+    public boolean saveReport(String reportName, HashMap parm, Admin admin) throws JRException, IOException, FileNotFoundException, ClassNotFoundException {
         String path = getFolder();
         if (path == null) {
             return false;
         }
-
         JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm);
         JasperExportManager.exportReportToPdfFile(print, path + "/" + reportName + modal.SetDate.getDate("yyyy-MM-dd HH.mm").replace(" ", "_") + ".pdf");
+        // send Email
+        Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + "is Saved by " + admin.getUserName() + "\n Path: " + path);
         return true;
     }
 
     // viwe reports
-    public void viewReport(String reportName, HashMap parm, JRDataSource dataSourse) throws JRException {
+    public void viewReport(String reportName, HashMap parm, JRDataSource dataSourse, Admin admin) throws JRException, IOException, FileNotFoundException, ClassNotFoundException {
         JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm, dataSourse);
         JasperViewer.viewReport(print, false);
+
+        // send Email
+        Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + "is viewed by " + admin.getUserName());
     }
 
-    // view reports
-    public void viewReport(String reportName, HashMap parm) throws JRException {
+    // viwe reports
+    public void viewReport(String reportName, HashMap parm, Admin admin) throws JRException, IOException, FileNotFoundException, ClassNotFoundException {
         JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm);
         JasperViewer.viewReport(print, false);
+
+        // send Email
+        Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + "is viewed by " + admin.getUserName());
     }
 
     // print reports
     public boolean printReport(String reportName, HashMap parm, JRDataSource dataSourse) throws JRException {
         JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm, dataSourse);
         return JasperPrintManager.printReport(print, true);
-       
+
     }
 
     // print reports
     public boolean printReport(String reportName, HashMap parm) throws JRException {
         JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm);
         return JasperPrintManager.printReport(print, true);
-       
+
     }
+
 }
