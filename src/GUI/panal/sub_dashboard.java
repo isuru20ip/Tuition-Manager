@@ -34,13 +34,15 @@ public class sub_dashboard extends javax.swing.JPanel {
      */
     public sub_dashboard() {
         initComponents();
-        TableCustom.apply(jScrollPane1, TableCustom.TableType.DEFAULT);
+        //TableCustom.apply(jScrollPane1, TableCustom.TableType.DEFAULT);
         loadScheduleClass();
         rowCount();
 
         sVGImage1.setSvgImage("source/menuSub.svg", 30, 30);
         sVGImage2.setSvgImage("source/menuSubB.svg", 30, 30);
         sVGImage3.setSvgImage("source/menuSubB.svg", 30, 30);
+        sVGImage4.setSvgImage("source/classroom.svg", 70, 70);
+        sVGImage5.setSvgImage("source/hall.svg", 50, 50);
 
     }
 
@@ -80,7 +82,7 @@ public class sub_dashboard extends javax.swing.JPanel {
 
         //student row count
         try {
-            String query = "SELECT COUNT (*) AS row_count FROM tution_db.student;";
+            String query = "SELECT COUNT(*) AS row_count FROM tution_db.`student`";
 
             ResultSet resultSet = DB.search(query);
 
@@ -95,7 +97,7 @@ public class sub_dashboard extends javax.swing.JPanel {
 
         //teacher row count
         try {
-            String query = "SELECT COUNT (*) AS row_count FROM tution_db.teacher;";
+            String query = "SELECT COUNT(*) AS row_count FROM tution_db.`teacher`";
 
             ResultSet resultSet = DB.search(query);
 
@@ -110,8 +112,8 @@ public class sub_dashboard extends javax.swing.JPanel {
 
         //cashier row count
         try {
-            String query = "SELECT COUNT (*) AS row_count FROM `employee` INNER JOIN `emp_type` ON `employee`.emp_type_id = `emp_type`.`id` "
-                    + "WHERE `emp_type`.`name` = 'Cashier';";
+            String query = "SELECT COUNT(*) AS row_count FROM `employee` INNER JOIN `emp_type` ON `employee`.`emp_type_id` = `emp_type`.`id` "
+                    + "WHERE `emp_type`.`name` = 'Cashier'";
 
             ResultSet resultSet = DB.search(query);
 
@@ -126,8 +128,8 @@ public class sub_dashboard extends javax.swing.JPanel {
 
         //admin row count
         try {
-            String query = "SELECT COUNT (*) AS row_count FROM `employee` INNER JOIN `emp_type` ON `employee`.emp_type_id = `emp_type`.`id` "
-                    + "WHERE `emp_type`.`name` = 'Admin';";
+            String query = "SELECT COUNT(*) AS row_count FROM `employee` INNER JOIN `emp_type` ON `employee`.`emp_type_id` = `emp_type`.`id` "
+                    + "WHERE `emp_type`.`name` = 'Admin'";
 
             ResultSet resultSet = DB.search(query);
 
@@ -142,8 +144,8 @@ public class sub_dashboard extends javax.swing.JPanel {
 
         //attendance marker row count
         try {
-            String query = "SELECT COUNT (*) AS row_count FROM `employee` INNER JOIN `emp_type` ON `employee`.emp_type_id = `emp_type`.`id` "
-                    + "WHERE `emp_type`.`name` = 'Attendance Marker';";
+            String query = "SELECT COUNT(*) AS row_count FROM `employee` INNER JOIN `emp_type` ON `employee`.`emp_type_id` = `emp_type`.`id` "
+                    + "WHERE `emp_type`.`name` = 'Attendance Marker'";
 
             ResultSet resultSet = DB.search(query);
 
@@ -154,6 +156,38 @@ public class sub_dashboard extends javax.swing.JPanel {
 
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "attendancemarkerRowCount", e);
+        }
+        
+        //hall class row count
+        try {
+            String query = "SELECT COUNT(*) AS row_count FROM `class` INNER JOIN `class_type` ON `class`.`room_type_id` = `class_type`.`id` "
+                    + "WHERE `class_type`.`type` = 'Hall Class'";
+
+            ResultSet resultSet = DB.search(query);
+            
+            if (resultSet.next()) {
+                int rowCount = resultSet.getInt("row_count");
+                jLabel17.setText(String.valueOf(rowCount));
+            }
+
+        } catch (Exception e) {
+            LogCenter.logger.log(Level.WARNING, "hallclassRowCount", e);
+        }
+        
+        //group class row count
+        try {
+            String query = "SELECT COUNT(*) AS row_count FROM `class` INNER JOIN `class_type` ON `class`.`room_type_id` = `class_type`.`id` "
+                    + "WHERE `class_type`.`type` = 'Group Classes'";
+
+            ResultSet resultSet = DB.search(query);
+            
+            if (resultSet.next()) {
+                int rowCount = resultSet.getInt("row_count");
+                jLabel16.setText(String.valueOf(rowCount));
+            }
+
+        } catch (Exception e) {
+            LogCenter.logger.log(Level.WARNING, "groupclassRowCount", e);
         }
 
     }
@@ -193,6 +227,12 @@ public class sub_dashboard extends javax.swing.JPanel {
         jPanel9 = new javax.swing.JPanel();
         sVGImage2 = new modal.SVGImage();
         jLabel15 = new javax.swing.JLabel();
+        jPanel11 = new RoundedPanel(10, Color.black);
+        sVGImage4 = new modal.SVGImage();
+        sVGImage5 = new modal.SVGImage();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
         jPanel14 = new RoundedPanel(20, Color.white);
         jPanel10 = new javax.swing.JPanel();
         sVGImage3 = new modal.SVGImage();
@@ -380,7 +420,9 @@ public class sub_dashboard extends javax.swing.JPanel {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sVGImage1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(sVGImage1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -400,14 +442,14 @@ public class sub_dashboard extends javax.swing.JPanel {
                         .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
                         .addGap(156, 156, 156))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(248, 248, 248)
                                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addGap(118, 118, 118)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGap(23, 23, 23)
@@ -483,16 +525,56 @@ public class sub_dashboard extends javax.swing.JPanel {
         jLabel15.setFont(new java.awt.Font("Segoe UI Historic", 1, 20)); // NOI18N
         jLabel15.setText("Study Areas");
 
+        jPanel11.setBackground(new java.awt.Color(250, 249, 246));
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 5, Short.MAX_VALUE)
+        );
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 50)); // NOI18N
+
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 50)); // NOI18N
+
+        jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        jLabel18.setText("Group Classes");
+
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
         jPanel15Layout.setHorizontalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
+            .addGroup(jPanel15Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(jLabel15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel15Layout.createSequentialGroup()
+                                .addComponent(sVGImage4, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel15))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel15Layout.createSequentialGroup()
+                                .addGap(0, 70, Short.MAX_VALUE)
+                                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel15Layout.createSequentialGroup()
+                                .addComponent(jLabel18)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(25, 25, 25))
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(sVGImage5, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -501,6 +583,25 @@ public class sub_dashboard extends javax.swing.JPanel {
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15))
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(sVGImage4, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel15Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel15Layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(jLabel18)))
+                        .addGap(26, 26, 26)))
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(sVGImage5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -528,7 +629,7 @@ public class sub_dashboard extends javax.swing.JPanel {
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
-                .addContainerGap(205, Short.MAX_VALUE)
+                .addContainerGap(194, Short.MAX_VALUE)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
@@ -605,6 +706,9 @@ public class sub_dashboard extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -615,6 +719,7 @@ public class sub_dashboard extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
@@ -630,6 +735,8 @@ public class sub_dashboard extends javax.swing.JPanel {
     private modal.SVGImage sVGImage1;
     private modal.SVGImage sVGImage2;
     private modal.SVGImage sVGImage3;
+    private modal.SVGImage sVGImage4;
+    private modal.SVGImage sVGImage5;
     // End of variables declaration//GEN-END:variables
 
     //rounded panel
