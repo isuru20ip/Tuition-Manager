@@ -1590,9 +1590,8 @@ public class PaymentManagement extends javax.swing.JPanel {
     // make payments
     private void makePayment() {
         try {
-            String EMP = "0127";
             String currentTime = SetDate.getDate("yyyy-MM-dd hh:MM:ss");
-            DB.IUD("INSERT INTO `payment` (`total`, `date`, `student_id`, `employee_id`) VALUES ('" + classTotal.getText() + "', '" + currentTime + "', '" + studentID.getText() + "', '" + EMP + "')");
+            DB.IUD("INSERT INTO `payment` (`total`, `date`, `student_id`, `employee_id`) VALUES ('" + classTotal.getText() + "', '" + currentTime + "', '" + studentID.getText() + "', '" + admin.getUserID() + "')");
 
             ResultSet rs = DB.search("SELECT LAST_INSERT_ID() AS id");
 
