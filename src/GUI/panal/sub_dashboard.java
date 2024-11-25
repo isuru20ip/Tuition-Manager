@@ -34,7 +34,7 @@ public class sub_dashboard extends javax.swing.JPanel {
      */
     public sub_dashboard() {
         initComponents();
-        TableCustom.apply(jScrollPane1, TableCustom.TableType.DEFAULT);
+        //TableCustom.apply(jScrollPane1, TableCustom.TableType.DEFAULT);
         loadScheduleClass();
         rowCount();
 
@@ -82,7 +82,7 @@ public class sub_dashboard extends javax.swing.JPanel {
 
         //student row count
         try {
-            String query = "SELECT COUNT (*) AS row_count FROM tution_db.student;";
+            String query = "SELECT COUNT(*) AS row_count FROM tution_db.`student`";
 
             ResultSet resultSet = DB.search(query);
 
@@ -97,7 +97,7 @@ public class sub_dashboard extends javax.swing.JPanel {
 
         //teacher row count
         try {
-            String query = "SELECT COUNT (*) AS row_count FROM tution_db.teacher;";
+            String query = "SELECT COUNT(*) AS row_count FROM tution_db.`teacher`";
 
             ResultSet resultSet = DB.search(query);
 
@@ -112,8 +112,8 @@ public class sub_dashboard extends javax.swing.JPanel {
 
         //cashier row count
         try {
-            String query = "SELECT COUNT (*) AS row_count FROM `employee` INNER JOIN `emp_type` ON `employee`.emp_type_id = `emp_type`.`id` "
-                    + "WHERE `emp_type`.`name` = 'Cashier';";
+            String query = "SELECT COUNT(*) AS row_count FROM `employee` INNER JOIN `emp_type` ON `employee`.`emp_type_id` = `emp_type`.`id` "
+                    + "WHERE `emp_type`.`name` = 'Cashier'";
 
             ResultSet resultSet = DB.search(query);
 
@@ -128,8 +128,8 @@ public class sub_dashboard extends javax.swing.JPanel {
 
         //admin row count
         try {
-            String query = "SELECT COUNT (*) AS row_count FROM `employee` INNER JOIN `emp_type` ON `employee`.emp_type_id = `emp_type`.`id` "
-                    + "WHERE `emp_type`.`name` = 'Admin';";
+            String query = "SELECT COUNT(*) AS row_count FROM `employee` INNER JOIN `emp_type` ON `employee`.`emp_type_id` = `emp_type`.`id` "
+                    + "WHERE `emp_type`.`name` = 'Admin'";
 
             ResultSet resultSet = DB.search(query);
 
@@ -144,8 +144,8 @@ public class sub_dashboard extends javax.swing.JPanel {
 
         //attendance marker row count
         try {
-            String query = "SELECT COUNT (*) AS row_count FROM `employee` INNER JOIN `emp_type` ON `employee`.emp_type_id = `emp_type`.`id` "
-                    + "WHERE `emp_type`.`name` = 'Attendance Marker';";
+            String query = "SELECT COUNT(*) AS row_count FROM `employee` INNER JOIN `emp_type` ON `employee`.`emp_type_id` = `emp_type`.`id` "
+                    + "WHERE `emp_type`.`name` = 'Attendance Marker'";
 
             ResultSet resultSet = DB.search(query);
 
@@ -160,8 +160,8 @@ public class sub_dashboard extends javax.swing.JPanel {
         
         //hall class row count
         try {
-            String query = "SELECT COUNT (*) AS row_count FROM `class` INNER JOIN `class_type` ON `class`.`room_type_id` = `class_type`.`id` "
-                    + "WHERE `class_type`.`type` = 'Hall Class';";
+            String query = "SELECT COUNT(*) AS row_count FROM `class` INNER JOIN `class_type` ON `class`.`room_type_id` = `class_type`.`id` "
+                    + "WHERE `class_type`.`type` = 'Hall Class'";
 
             ResultSet resultSet = DB.search(query);
             
@@ -176,8 +176,8 @@ public class sub_dashboard extends javax.swing.JPanel {
         
         //group class row count
         try {
-            String query = "SELECT COUNT (*) AS row_count FROM `class` INNER JOIN `class_type` ON `class`.`room_type_id` = `class_type`.`id` "
-                    + "WHERE `class_type`.`type` = 'Group Classes';";
+            String query = "SELECT COUNT(*) AS row_count FROM `class` INNER JOIN `class_type` ON `class`.`room_type_id` = `class_type`.`id` "
+                    + "WHERE `class_type`.`type` = 'Group Classes'";
 
             ResultSet resultSet = DB.search(query);
             
