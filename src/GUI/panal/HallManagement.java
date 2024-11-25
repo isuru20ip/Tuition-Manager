@@ -1,15 +1,28 @@
 package GUI.panal;
 
+import GUI.SignIn;
+import com.formdev.flatlaf.FlatLightLaf;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import modal.DB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import modal.IDGenarator;
 import modal.LogCenter;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class HallManagement extends javax.swing.JPanel {
 
@@ -255,8 +268,39 @@ public class HallManagement extends javax.swing.JPanel {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
-    }//GEN-LAST:event_jButton4ActionPerformed
+        try {
+            // Compile the Jasper report from .jrxml to .jasper
+            JasperReport jasperReport = JasperCompileManager.compileReport("src/report/hall_reports.jrxml");
 
+            // Retrieve data from the table
+            HashMap<String, Object> dataList = new HashMap<>();
+
+            for (int i = 0; i < jTable1.getRowCount(); i++) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("COLUMN_0", jTable1.getValueAt(i, 0));
+                data.put("COLUMN_1", jTable1.getValueAt(i, 1));
+                data.put("COLUMN_2", jTable1.getValueAt(i, 2));
+                dataList.get(data);
+            }
+
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
+
+            // Parameters (empty in this case)
+            Map<String, Object> parameters = new HashMap<>();
+
+            // Fill the report
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+
+            // Export the report to a PDF file
+            JasperExportManager.exportReportToPdfFile(jasperPrint, "src/report/hallreport.pdf");
+
+            JOptionPane.showMessageDialog(this, "Report generated successfully!");
+        } catch (JRException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error generating report: " + e.getMessage());
+        }
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

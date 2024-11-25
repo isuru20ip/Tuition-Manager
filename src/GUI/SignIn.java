@@ -1,5 +1,6 @@
 package GUI;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
@@ -8,6 +9,7 @@ import modal.beans.Admin;
 import javax.swing.Timer;
 import java.awt.event.*;
 import java.sql.SQLException;
+import javax.swing.UIManager;
 import modal.LogCenter;
 
 public class SignIn extends javax.swing.JFrame {
@@ -201,7 +203,7 @@ public class SignIn extends javax.swing.JFrame {
                     String userID = resultSet.getString("employee_id");
                     String fname =  resultSet.getString("fname");
 
-                    Dashboard dashboard = new Dashboard(new Admin(userName,userID, mobile, status, type,fname));
+                    Dashboard dashboard = new Dashboard(new Admin(userName, userID, mobile, status, type, fname));
                     dashboard.setVisible(true);
                     this.dispose();
 
