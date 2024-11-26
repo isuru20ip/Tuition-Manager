@@ -1152,7 +1152,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        getFolderPath();
+        printReport();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -2122,7 +2122,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         }
     }
 
-    private void printReport(boolean isSave, String path) {
+    private void printReport() {
         try {
             //get System Data 
             Home home = new HomeInfo().getHome();
@@ -2134,15 +2134,11 @@ public class PaymentManagement extends javax.swing.JPanel {
             params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
             params.put("title", "Payment Reports");
 
-            JasperPrint print = JasperFillManager.fillReport("src//report//payment.jasper", params, dataSource);
-            if (isSave) {
-                // save Report
-                JasperExportManager.exportReportToPdfFile(print, path + "/Payment_Reports" + System.currentTimeMillis() + ".pdf");
-                JOptionPane.showMessageDialog(paymentBTN, "Report Saved");
-
+            boolean save = new Reporting().saveReport("payment", params, dataSource, admin);
+            if (save) {
+                JOptionPane.showMessageDialog(this, "report Saved");
             } else {
-                // view report
-                JasperViewer.viewReport(print, false);
+                JOptionPane.showMessageDialog(this, "report not Saved");
             }
 
         } catch (JRException ex) {
@@ -2153,23 +2149,6 @@ public class PaymentManagement extends javax.swing.JPanel {
             LogCenter.logger.log(Level.WARNING, "Error", ex);
         } catch (IOException ex) {
             LogCenter.logger.log(Level.WARNING, "Error", ex);
-        }
-    }
-
-    private void getFolderPath() {
-        // Create the JFileChooser instance
-        JFileChooser folderChooser = new JFileChooser();
-        folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-        // Show the open dialog
-        int result = folderChooser.showOpenDialog(null);
-
-        // Check if a folder was selected
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFolder = folderChooser.getSelectedFile();
-            printReport(true, selectedFolder.getAbsolutePath());
-        } else {
-            JOptionPane.showMessageDialog(paymentBTN, "Report Not Saved");
         }
     }
 
@@ -2194,9 +2173,9 @@ public class PaymentManagement extends javax.swing.JPanel {
             params.put("phone", home.getMobile());
             params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
             params.put("title", "Payment Reports");
-            
+
             new Reporting().viewReport("payment", params, dataSource, admin);
-            
+
         } catch (IOException ex) {
             LogCenter.logger.log(Level.WARNING, "Error", ex);
         } catch (ClassNotFoundException ex) {
