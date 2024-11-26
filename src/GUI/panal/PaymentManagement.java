@@ -22,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modal.HomeInfo;
 import modal.LogCenter;
+import modal.Reporting;
 import modal.SetDate;
 import modal.Validator;
 import modal.beans.Admin;
@@ -1648,20 +1649,17 @@ public class PaymentManagement extends javax.swing.JPanel {
             params.put("Cash", data.get("CA"));
             params.put("Balance", data.get("BA"));
 
-            JasperPrint print;
+            boolean print = false;
+            
             if (isClass) {
-                print = JasperFillManager.fillReport("src//report//bill.jasper", params, dataSource);
+               print = new Reporting().printReport("bill", data, dataSource);
             } else {
-                print = JasperFillManager.fillReport("src//report//bill2.jasper", params, dataSource);
+               print = new Reporting().printReport("bill2", data, dataSource);
             }
-
-            boolean printSuccess = JasperPrintManager.printReport(print, true);
-
-            if (!printSuccess) {
+            
+            if (!print) {
                 JOptionPane.showMessageDialog(this, "Invoice Printing Faild");
             }
-
-            JasperViewer.viewReport(print, false);
 
         } catch (JRException ex) {
             LogCenter.logger.log(Level.WARNING, "Error", ex);
