@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -1155,7 +1156,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        printReport(false, "");
+        viweReport();
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jTextField16KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField16KeyReleased
@@ -1650,13 +1651,13 @@ public class PaymentManagement extends javax.swing.JPanel {
             params.put("Balance", data.get("BA"));
 
             boolean print = false;
-            
+
             if (isClass) {
-               print = new Reporting().printReport("bill", data, dataSource);
+                print = new Reporting().printReport("bill", data, dataSource);
             } else {
-               print = new Reporting().printReport("bill2", data, dataSource);
+                print = new Reporting().printReport("bill2", data, dataSource);
             }
-            
+
             if (!print) {
                 JOptionPane.showMessageDialog(this, "Invoice Printing Faild");
             }
@@ -2180,5 +2181,29 @@ public class PaymentManagement extends javax.swing.JPanel {
         jComboBox3.setSelectedIndex(0);
 
         cheackCondition();
+    }
+
+    private void viweReport() {
+        Home home;
+        try {
+            home = new HomeInfo().getHome();
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("phone", home.getMobile());
+            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
+            params.put("title", "Payment Reports");
+            
+            new Reporting().viewReport("payment", params, dataSource, admin);
+            
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (JRException ex) {
+            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }
