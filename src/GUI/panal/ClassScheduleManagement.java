@@ -33,43 +33,12 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
      */
     public ClassScheduleManagement(JFrame parent) {
         initComponents();
+
         loadClassId();
         loadHall();
         loadScheduleStatus();
         loadClassSchedulTable();
-
-        loadAutoClassScheduleTable("SELECT "
-                + "    `class_day`.*, "
-                + "    `week_day`.*, "
-                + "    `class`.*, "
-                + "    `subject`.*, "
-                + "    `room_type`.*, "
-                + "    `teacher`.*, "
-                + "    `grade`.*, "
-                + "    `class_schedule`.*, "
-                + "    `student_count`.`total_students` "
-                + "FROM "
-                + "    `class_day` "
-                + "INNER JOIN "
-                + "    `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` "
-                + "INNER JOIN "
-                + "    `class` ON `class`.`id` = `class_day`.`class_id` "
-                + "INNER JOIN "
-                + "    `subject` ON `subject`.`id` = `class`.`subject_id` "
-                + "INNER JOIN "
-                + "    `room_type` ON `room_type`.`id` = `class`.`room_type_id` "
-                + "INNER JOIN "
-                + "    `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` "
-                + "INNER JOIN "
-                + "    `grade` ON `grade`.`id` = `class`.`grade_id` "
-                + "INNER JOIN "
-                + "    `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` "
-                + "LEFT JOIN "
-                + "    (SELECT `class_id`, COUNT(`student_id`) AS total_students "
-                + "     FROM `class_enrollment` "
-                + "     GROUP BY `class_id`) AS `student_count` ON `class`.`id` = `student_count`.`class_id` "
-                + "WHERE "
-                + "    `week_day`.`day` = '" + dayOfWeek + "' ORDER BY `class`.`id` ASC");
+        loadTableAuto();
         loadHallType();
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
@@ -568,17 +537,17 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         table1.setBackground(new java.awt.Color(240, 240, 240));
         table1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Class Id", "Teacher ID", "Teacher Name", "Grade", "Subject", "Hall Type", "Class Date", "Class Day", "Class Time", "Student Count"
+                "Class Id", "Teacher ID", "Teacher Name", "Grade", "Subject", "Hall Type", "Class Day", "Class Time", "Student Count"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -616,12 +585,13 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         jLabel9.setFont(new java.awt.Font("Poppins", 3, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 153, 153));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Count Of Student For Class ->");
+        jLabel9.setText("Count Of Student For Class ");
 
         students.setFont(new java.awt.Font("Poppins", 3, 14)); // NOI18N
         students.setForeground(new java.awt.Color(0, 153, 153));
         students.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         students.setText("Null");
+        students.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153), 2));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -640,8 +610,8 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(students, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2)))
@@ -657,8 +627,8 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(students, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(students, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(2, 2, 2)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -947,12 +917,13 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         jLabel22.setFont(new java.awt.Font("Poppins", 3, 14)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(0, 153, 153));
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel22.setText("Count Of Student For Course ->");
+        jLabel22.setText("Count Of Student For Course ");
 
         students1.setFont(new java.awt.Font("Poppins", 3, 14)); // NOI18N
         students1.setForeground(new java.awt.Color(0, 153, 153));
         students1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         students1.setText("Null");
+        students1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153), 2));
 
         jButton1.setBackground(new java.awt.Color(255, 204, 204));
         jButton1.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
@@ -977,7 +948,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                         .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(students1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1))
@@ -992,13 +963,12 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addGroup(courseScheduleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(courseScheduleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(courseScheduleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(courseScheduleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(courseScheduleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
                         .addComponent(students1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)))
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(3, 3, 3)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -1042,6 +1012,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         uc.setVisible(true);
 
         loadClassSchedulTable();
+        reset();
 
     }//GEN-LAST:event_updateButtonActionPerformed
 
@@ -1062,7 +1033,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_endButtonActionPerformed
 
     private void searchClassSubjectFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchClassSubjectFieldKeyReleased
-        search1();// search for subject
+        searchBySubject();
     }//GEN-LAST:event_searchClassSubjectFieldKeyReleased
 
     private void table1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table1MouseClicked
@@ -1075,19 +1046,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
                     classIDCombobox.setSelectedItem(String.valueOf(table1.getValueAt(selectedRow, 0)));
                     hallTypeComboBox2.setSelectedItem(String.valueOf(table1.getValueAt(selectedRow, 5)));
-                    students.setText(String.valueOf(table1.getValueAt(selectedRow, 9)));
-                   
+                    students.setText(String.valueOf(table1.getValueAt(selectedRow, 8)));
 
-                    // Parse and set date for jDateChooser1
-                    String dateStr = String.valueOf(table1.getValueAt(selectedRow, 6));
-                    if (dateStr != null && !dateStr.isEmpty()) {
-                        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
-                        jDateChooser1.setDate(date);
-                    } else {
-                        jDateChooser1.setDate(null); // Clear if no valid date
-                    }
-
-                    String time = String.valueOf(table1.getValueAt(selectedRow, 8));
+                    String time = String.valueOf(table1.getValueAt(selectedRow, 7));
 
                     String time24hr = time;  // Example 24-hour time format (HH:mm:ss)
 
@@ -1109,24 +1070,24 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_table1MouseClicked
 
     private void hallTypeComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hallTypeComboBox2ItemStateChanged
-     loadroomdata(); //change hall data from double tap with table1
+        loadroomdata(); //change hall data from double tap with table1
     }//GEN-LAST:event_hallTypeComboBox2ItemStateChanged
 
     private void selectHallTypeComboBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_selectHallTypeComboBox3ItemStateChanged
-        search2();
+        searchByHallType();
         searchClassIDCombobox.setSelectedIndex(0);
     }//GEN-LAST:event_selectHallTypeComboBox3ItemStateChanged
 
     private void searchGradeFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchGradeFieldKeyReleased
-        search3();
+        searchByGrade();
     }//GEN-LAST:event_searchGradeFieldKeyReleased
 
     private void searchTeacherIdFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTeacherIdFieldKeyReleased
-        search4();
+        searchByTeacherId();
     }//GEN-LAST:event_searchTeacherIdFieldKeyReleased
 
     private void searchClassIDComboboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_searchClassIDComboboxItemStateChanged
-        search5();
+        searchByClassId();
         selectHallTypeComboBox3.setSelectedIndex(0);
     }//GEN-LAST:event_searchClassIDComboboxItemStateChanged
 
@@ -1140,6 +1101,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         resetAutoLoadTable();
+        students.setText("Null");
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void classScheduleTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_classScheduleTableMouseClicked
@@ -1147,7 +1109,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_classScheduleTableMouseClicked
 
     private void scheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleButtonActionPerformed
-// Retrieve values from the UI components
+      
         String id = String.valueOf(classIDCombobox.getSelectedItem());
         String hall = String.valueOf(hallLoadCombobox.getSelectedItem());
         String hType = String.valueOf(hallTypeComboBox2.getSelectedItem());
@@ -1163,7 +1125,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         // Initial Validation
         if (id.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "lass ID is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Class ID is required.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         } else if (hType.equals("Select")) {
             JOptionPane.showMessageDialog(this, "Hall Load Type is required.", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -1216,8 +1178,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Start Time must be before End Time.", "Warning", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-
-            // Check if the schedule already exists
+            
             ResultSet resultSet = DB.search("SELECT * FROM `class_schedule` "
                     + "WHERE `class_id` = '" + id + "'"
                     + "AND `class_room_id` = '" + hall + "'"
@@ -1229,7 +1190,6 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Already Scheduled.", "Warning", JOptionPane.WARNING_MESSAGE);
                 reset();
             } else {
-                // Insert the new schedule
 
                 DB.IUD("INSERT INTO `class_schedule` (`class_id`, `class_room_id`, `class_date`, `shedule_time`, `employee_id`, `schedule_status_id`, `start_time`, `end_time`)"
                         + "VALUES ('" + id + "', '" + hall + "', '" + sdf.format(classdate1) + "', '" + curruntDate + "', 'EMP000001', '"
@@ -1237,41 +1197,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
                 JOptionPane.showMessageDialog(this, "Schedule created successfully.", "Information", JOptionPane.INFORMATION_MESSAGE);
 
-                // Refresh the class schedule table
+               
                 loadClassSchedulTable();
-                loadAutoClassScheduleTable("SELECT "
-                + "    `class_day`.*, "
-                + "    `week_day`.*, "
-                + "    `class`.*, "
-                + "    `subject`.*, "
-                + "    `room_type`.*, "
-                + "    `teacher`.*, "
-                + "    `grade`.*, "
-                + "    `class_schedule`.*, "
-                + "    `student_count`.`total_students` "
-                + "FROM "
-                + "    `class_day` "
-                + "INNER JOIN "
-                + "    `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` "
-                + "INNER JOIN "
-                + "    `class` ON `class`.`id` = `class_day`.`class_id` "
-                + "INNER JOIN "
-                + "    `subject` ON `subject`.`id` = `class`.`subject_id` "
-                + "INNER JOIN "
-                + "    `room_type` ON `room_type`.`id` = `class`.`room_type_id` "
-                + "INNER JOIN "
-                + "    `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` "
-                + "INNER JOIN "
-                + "    `grade` ON `grade`.`id` = `class`.`grade_id` "
-                + "INNER JOIN "
-                + "    `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` "
-                + "LEFT JOIN "
-                + "    (SELECT `class_id`, COUNT(`student_id`) AS total_students "
-                + "     FROM `class_enrollment` "
-                + "     GROUP BY `class_id`) AS `student_count` ON `class`.`id` = `student_count`.`class_id` "
-                + "WHERE "
-                + "    `week_day`.`day` = '" + dayOfWeek + "' ORDER BY `class`.`id` ASC");
-
+                loadTableAuto();
                 reset();
             }
         } catch (Exception e) {
@@ -1368,8 +1296,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     private cambodia.raven.Time time2;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
-    
-    
+
     // Hash Maps
     private static HashMap<String, String> scheduleStautusMap = new HashMap<>(); //for get id from schedule status
 
@@ -1488,10 +1415,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 vector.add(resultSet.getString("grade.name"));
                 vector.add(resultSet.getString("subject.name"));
                 vector.add(resultSet.getString("room_type.type"));
-                vector.add(resultSet.getString("class_schedule.class_date"));
                 vector.add(resultSet.getString("week_day.day"));
                 vector.add(resultSet.getString("class_day.time"));
-                vector.add(resultSet.getString("student_count.total_students"));
+                vector.add(resultSet.getString("total_students"));
 
                 tableModel.addRow(vector);
             }
@@ -1582,58 +1508,6 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         }
     }
 
-    //search subject from autoload table
-    private void search1() {
-        String subject = searchClassSubjectField.getText();
-
-        loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
-                + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
-                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `subject`.`name` LIKE '%" + subject + "%' ORDER BY `class`.`id` ASC");
-
-        searchClassSubjectField.setText(subject);
-    }
-
-    //search hall type from autoload table
-    private void search2() {
-        String hall = String.valueOf(selectHallTypeComboBox3.getSelectedItem());
-
-        loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
-                + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
-                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `room_type`.`type` = '" + hall + "' ORDER BY `class`.`id` ASC");
-    }
-
-    //search grade from autoload table
-    private void search3() {
-        String grade1 = searchGradeField.getText();
-
-        loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
-                + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
-                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `grade`.`name` LIKE '%" + grade1 + "%' ORDER BY `class`.`id` ASC");
-
-        searchGradeField.setText(grade1);
-    }
-    //search teacher id from autoload table
-
-    private void search4() {
-        String teacher1 = searchTeacherIdField.getText();
-
-        loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
-                + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
-                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `teacher`.`nic` LIKE '%" + teacher1 + "%' ORDER BY `class`.`id` ASC");
-
-        searchTeacherIdField.setText(teacher1);
-    }
-    //search class ID from autoload table
-
-    private void search5() {
-        String classId1 = String.valueOf(searchClassIDCombobox.getSelectedItem());
-
-        loadAutoClassScheduleTable("SELECT * FROM `class_day` INNER JOIN `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` INNER JOIN `class` ON `class`.`id` = `class_day`.`class_id` INNER JOIN `subject` ON `subject`.`id`"
-                + "= `class`.`subject_id` INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id` INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` INNER JOIN `grade` ON `grade`.`id` = `class`.`grade_id`"
-                + "INNER JOIN `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' AND `class`.`id` LIKE '%" + classId1 + "%' ORDER BY `class`.`id` ASC");
-
-    }
-
     // change capacyty fron item change of hall load combo box
     private void changeCapacity() {
         String selectedHall = String.valueOf(hallLoadCombobox.getSelectedItem());
@@ -1665,10 +1539,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         capacityField.setText("");
         startTimeField.setText("");
         endTimeField.setText("");
-        students.setText("");
+        students.setText("Null");
         jDateChooser1.setDate(null);
         loadClassSchedulTable();
-
         classIDCombobox.setEnabled(true);
         jDateChooser1.setEnabled(true);
         startTimeField.setEditable(true);
@@ -1681,16 +1554,61 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }
 
     private void resetAutoLoadTable() {
-
         selectHallTypeComboBox3.setSelectedIndex(0);
-
         searchClassIDCombobox.setSelectedIndex(0);
-
         searchClassSubjectField.setText("");
         searchGradeField.setText("");
         searchTeacherIdField.setText("");
+        loadTableAuto();
+    }
 
+    private void loadTableAuto() {
         loadAutoClassScheduleTable("SELECT "
+                + "    `class_day`.*,"
+                + "    `week_day`.*,"
+                + "    `class`.*,"
+                + "    `subject`.*,"
+                + "    `room_type`.*,"
+                + "    `teacher`.*,"
+                + "    `grade`.*,"
+                + "    COALESCE(`student_count`.`total_students`, 0) AS `total_students`"
+                + "FROM "
+                + "    `class_day`"
+                + "INNER JOIN "
+                + "    `week_day` ON `week_day`.`id` = `class_day`.`week_day_id`"
+                + "INNER JOIN "
+                + "    `class` ON `class`.`id` = `class_day`.`class_id`"
+                + "INNER JOIN "
+                + "    `subject` ON `subject`.`id` = `class`.`subject_id`"
+                + "INNER JOIN "
+                + "    `room_type` ON `room_type`.`id` = `class`.`room_type_id`"
+                + "INNER JOIN "
+                + "    `teacher` ON `teacher`.`nic` = `class`.`teacher_nic`"
+                + "INNER JOIN "
+                + "    `grade` ON `grade`.`id` = `class`.`grade_id`"
+                + "LEFT JOIN "
+                + "    ("
+                + "        SELECT "
+                + "            `class_enrollment`.`class_id`, "
+                + "            COUNT(`class_enrollment`.`student_id`) AS `total_students`"
+                + "        FROM "
+                + "            `class_enrollment`"
+                + "        INNER JOIN "
+                + "            `class_day` ON `class_day`.`class_id` = `class_enrollment`.`class_id`"
+                + "        INNER JOIN "
+                + "            `week_day` ON `week_day`.`id` = `class_day`.`week_day_id`"
+                + "        WHERE "
+                + "            `week_day`.`day` = '" + dayOfWeek + "'"
+                + "        GROUP BY "
+                + "            `class_enrollment`.`class_id`"
+                + "    ) AS `student_count` "
+                + "ON "
+                + "    `student_count`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' ORDER BY `class_day`.`time` ASC");
+    }
+
+    // method to generate the SQL query based on search
+    private String generateClassScheduleQuery(String condition) {
+        return "SELECT "
                 + "    `class_day`.*, "
                 + "    `week_day`.*, "
                 + "    `class`.*, "
@@ -1698,8 +1616,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 + "    `room_type`.*, "
                 + "    `teacher`.*, "
                 + "    `grade`.*, "
-                + "    `class_schedule`.*, "
-                + "    `student_count`.`total_students` "
+                + "    COALESCE(`student_count`.`total_students`, 0) AS `total_students` "
                 + "FROM "
                 + "    `class_day` "
                 + "INNER JOIN "
@@ -1714,13 +1631,66 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 + "    `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` "
                 + "INNER JOIN "
                 + "    `grade` ON `grade`.`id` = `class`.`grade_id` "
-                + "INNER JOIN "
-                + "    `class_schedule` ON `class_schedule`.`class_id` = `class`.`id` "
                 + "LEFT JOIN "
-                + "    (SELECT `class_id`, COUNT(`student_id`) AS total_students "
-                + "     FROM `class_enrollment` "
-                + "     GROUP BY `class_id`) AS `student_count` ON `class`.`id` = `student_count`.`class_id` "
-                + "WHERE "
-                + "    `week_day`.`day` = '" + dayOfWeek + "' ORDER BY `class`.`id` ASC");
+                + "    ( "
+                + "        SELECT "
+                + "            `class_enrollment`.`class_id`, "
+                + "            COUNT(`class_enrollment`.`student_id`) AS `total_students` "
+                + "        FROM "
+                + "            `class_enrollment` "
+                + "        INNER JOIN "
+                + "            `class_day` ON `class_day`.`class_id` = `class_enrollment`.`class_id` "
+                + "        INNER JOIN "
+                + "            `week_day` ON `week_day`.`id` = `class_day`.`week_day_id` "
+                + "        WHERE "
+                + "            `week_day`.`day` = '" + dayOfWeek + "' "
+                + "        GROUP BY "
+                + "            `class_enrollment`.`class_id` "
+                + "    ) AS `student_count` "
+                + "ON "
+                + "    `student_count`.`class_id` = `class`.`id` "
+                + "WHERE `week_day`.`day` = '" + dayOfWeek + "' "
+                + condition
+                + "ORDER BY `class_day`.`time` ASC";
     }
+
+    // Simplified search methods
+    // Search by subject
+    private void searchBySubject() {
+        String subject = searchClassSubjectField.getText();
+        String query = generateClassScheduleQuery("AND `subject`.`name` LIKE '%" + subject + "%'");
+        loadAutoClassScheduleTable(query);
+        searchClassSubjectField.setText(subject);
+    }
+
+    // Search by hall type
+    private void searchByHallType() {
+        String hall = String.valueOf(selectHallTypeComboBox3.getSelectedItem());
+        String query = generateClassScheduleQuery("AND `room_type`.`type` LIKE '%" + hall + "%'");
+        loadAutoClassScheduleTable(query);
+    }
+
+    // Search by grade
+    private void searchByGrade() {
+        String grade1 = searchGradeField.getText();
+        String query = generateClassScheduleQuery("AND `grade`.`name` LIKE '%" + grade1 + "%'");
+        loadAutoClassScheduleTable(query);
+        searchGradeField.setText(grade1);
+    }
+
+    // Search by teacher ID
+    private void searchByTeacherId() {
+        String teacher1 = searchTeacherIdField.getText();
+        String query = generateClassScheduleQuery("AND `teacher`.`nic` LIKE '%" + teacher1 + "%'");
+        loadAutoClassScheduleTable(query);
+        searchTeacherIdField.setText(teacher1);
+    }
+
+    // Search by class ID
+    private void searchByClassId() {
+        String classId1 = String.valueOf(searchClassIDCombobox.getSelectedItem());
+        String query = generateClassScheduleQuery("AND `class`.`id` LIKE '%" + classId1 + "%'");
+        loadAutoClassScheduleTable(query);
+    }
+
 }

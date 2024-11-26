@@ -371,7 +371,7 @@ public class UpdateClasses extends javax.swing.JDialog {
                     resetTable();
                     reset();
 
-                    JOptionPane.showMessageDialog(this, "Update Successfully", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Update Successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();
 
                 }
@@ -409,7 +409,6 @@ public class UpdateClasses extends javax.swing.JDialog {
                     sStatusField.setText(String.valueOf(classScheduleUpdateTable.getValueAt(selectedRow, 4)));
                 }
                 scheduleStatusUpdateCombobox.setEnabled(true);
-
             }
 
         } catch (Exception e) {
@@ -567,8 +566,6 @@ public class UpdateClasses extends javax.swing.JDialog {
     }
 
     private void resetTable() {
-
-        // Reload table if necessary
         loadClassSchedulTable("SELECT * FROM `class_schedule`"
                 + "INNER JOIN `class` ON `class`.`id`=`class_schedule`.`class_id`"
                 + "INNER JOIN `class_room` ON `class_room`.`id`=`class_schedule`.`class_room_id`"
@@ -576,5 +573,4 @@ public class UpdateClasses extends javax.swing.JDialog {
                 + "INNER JOIN `schedule_status` ON `schedule_status`.`id`=`class_schedule`.`schedule_status_id`"
                 + "INNER JOIN `room_type` ON `room_type`.`id`=`class_room`.`room_type_id` ORDER BY `class_schedule`.`id` ASC");
     }
-
 }
