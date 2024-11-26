@@ -16,7 +16,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modal.beans.Admin;
 
@@ -214,6 +216,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         jLabel13.setText("Name :");
 
         Studen_ID_TextField.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        Studen_ID_TextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         Studen_ID_TextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 Studen_ID_TextFieldKeyReleased(evt);
@@ -395,6 +398,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         jLabel24.setText(" Studen Attendance Marking");
 
         CourseSTName.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        CourseSTName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel23.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel23.setText("Name :");
@@ -403,6 +407,12 @@ public class StudentAttendance extends javax.swing.JPanel {
         jLabel25.setText("Studen ID :");
 
         CourseSTID.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        CourseSTID.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        CourseSTID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                CourseSTIDKeyReleased(evt);
+            }
+        });
 
         CourseReportPrint.setBackground(new java.awt.Color(255, 204, 0));
         CourseReportPrint.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
@@ -416,6 +426,11 @@ public class StudentAttendance extends javax.swing.JPanel {
         CourseAttnMark.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         CourseAttnMark.setForeground(new java.awt.Color(255, 255, 255));
         CourseAttnMark.setText("Marck Attendance");
+        CourseAttnMark.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CourseAttnMarkActionPerformed(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jLabel16.setText("From :");
@@ -428,15 +443,20 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         CourseTabel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Marked Date and Time", "Course Schedule ID", "Student ID", "Employee ID"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(CourseTabel);
 
         CourseRecordCheckBox.setText("if You Want Search past attendance record ");
@@ -516,9 +536,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                                 .addGap(22, 22, 22)
                                 .addGroup(student_attn_course_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(CourseSTName)
-                                    .addGroup(student_attn_course_panelLayout.createSequentialGroup()
-                                        .addComponent(jLabel23)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel23)
                                     .addGroup(student_attn_course_panelLayout.createSequentialGroup()
                                         .addComponent(CourseReportPrint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(18, 18, 18)
@@ -918,8 +936,16 @@ public class StudentAttendance extends javax.swing.JPanel {
     }//GEN-LAST:event_CourseGradeItemStateChanged
 
     private void jTabbedPane2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane2MouseClicked
-       SelectTab();
+        SelectTab();
     }//GEN-LAST:event_jTabbedPane2MouseClicked
+
+    private void CourseSTIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CourseSTIDKeyReleased
+        searchCourseEnrolment();
+    }//GEN-LAST:event_CourseSTIDKeyReleased
+
+    private void CourseAttnMarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CourseAttnMarkActionPerformed
+        MarkCourseAttn();
+    }//GEN-LAST:event_CourseAttnMarkActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1028,12 +1054,12 @@ public class StudentAttendance extends javax.swing.JPanel {
         toDateChooser.setEnabled(false);
 
         Student_Name_TextField.setEditable(false);
-        
-       
+
         loadClassAttnTable();
 
         loadEmpAttnTabel();
         loadClassGrade();
+        loadClass();
 
     }
 
@@ -1056,11 +1082,11 @@ public class StudentAttendance extends javax.swing.JPanel {
             DefaultComboBoxModel defaultComboBoxModel = new DefaultComboBoxModel(vector);
 
             if (jTabbedPane2.getSelectedIndex() != 0) {
-                 CourseGrade.setModel(defaultComboBoxModel);
-            } else{             
-               jComboBox_gradeLoard.setModel(defaultComboBoxModel);
+                CourseGrade.setModel(defaultComboBoxModel);
+            } else {
+                jComboBox_gradeLoard.setModel(defaultComboBoxModel);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1069,28 +1095,66 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     private void loadClass() {
         try {
+            String grade, gradeId;
+            JComboBox<String> comboBox;
 
-            String grade = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
-            String gradeId = gradeMap.get(grade);
+            if (jTabbedPane2.getSelectedIndex() == 0) {
+                grade = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
+                comboBox = jComboBox_classLoad;
 
-            String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                gradeId = gradeMap.get(grade);
+                String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-            ResultSet resultSet = DB.search("SELECT * FROM `class_schedule` "
-                    + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
-                    + "INNER JOIN `subject` ON `class`.`subject_id` = `subject`.`id` "
-                    + "WHERE class_schedule.class_date = '" + dateFormat + "' AND `class`.grade_id = '" + gradeId + "' ");
+                ResultSet resultSet = DB.search(
+                        "SELECT * FROM `class_schedule` "
+                        + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
+                        + "INNER JOIN `subject` ON `class`.`subject_id` = `subject`.`id` "
+                        + "WHERE class_schedule.class_date = '" + dateFormat + "' "
+                        + "AND `class`.grade_id = '" + gradeId + "' "
+                );
 
-            Vector<String> vector = new Vector<>();
-            vector.add("Select");
+                Vector<String> vector = new Vector<>();
+                vector.add("Select");
 
-            while (resultSet.next()) {
-                vector.add(resultSet.getString("subject.name"));
+                while (resultSet.next()) {
+                    String subjectName = resultSet.getString("subject.name");
+                    String subjectId = resultSet.getString("subject.id");
 
-                classMap.put(resultSet.getString("subject.name"), resultSet.getString("subject.id"));
+                    vector.add(subjectName);
+                    classMap.put(subjectName, subjectId);
+                }
+
+                DefaultComboBoxModel<String> defaultComboBoxModel = new DefaultComboBoxModel<>(vector);
+                comboBox.setModel(defaultComboBoxModel);
+
+            } else {
+                grade = String.valueOf(CourseGrade.getSelectedItem());
+                comboBox = CourseSubject;
+
+                gradeId = gradeMap.get(grade);
+                String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+                ResultSet resultSet = DB.search("SELECT * FROM `course_schedule` "
+                        + "INNER JOIN `course` ON `course_schedule`.`course_id` = `course`.`id`"
+                        + "INNER JOIN `subject` ON `course`.subject_id = `subject`.`id` "
+                        + "WHERE `course_schedule`.`class_date` = '" + dateFormat + "' "
+                        + "AND `course`.`grade_id` = '" + gradeId + "' ");
+
+                Vector<String> vector = new Vector<>();
+                vector.add("Select");
+
+                while (resultSet.next()) {
+                    String subjectName = resultSet.getString("subject.name");
+                    String subjectId = resultSet.getString("subject.id");
+
+                    vector.add(subjectName);
+                    classMap.put(subjectName, subjectId);
+                }
+
+                DefaultComboBoxModel<String> defaultComboBoxModel = new DefaultComboBoxModel<>(vector);
+                comboBox.setModel(defaultComboBoxModel);
+
             }
-
-            DefaultComboBoxModel defaultComboBoxModel = new DefaultComboBoxModel(vector);
-            jComboBox_classLoad.setModel(defaultComboBoxModel);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1100,58 +1164,41 @@ public class StudentAttendance extends javax.swing.JPanel {
     private void searchClassEnrolment() {
 
         try {
-            String st_ID = Studen_ID_TextField.getText();
 
-            String grade = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
-            String gradeId = gradeMap.get(grade);
+            if (jTabbedPane2.getSelectedIndex() == 0) {
+                String st_ID = Studen_ID_TextField.getText();
+                String grade = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
+                String gradeId = gradeMap.get(grade);
 
-            String subject = String.valueOf(jComboBox_classLoad.getSelectedItem());
-            String SubjectID = classMap.get(subject);
+                String subject = String.valueOf(jComboBox_classLoad.getSelectedItem());
+                String SubjectID = classMap.get(subject);
 
-            if (gradeId == null) {
-                JOptionPane.showMessageDialog(this, "Grade is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (SubjectID == null) {
-                JOptionPane.showMessageDialog(this, "Class is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else {
-                if (st_ID.length() >= 8) {
-
-                    ResultSet resultSet = DB.search("SELECT * FROM `class_enrollment` "
-                            + "INNER JOIN `class` ON `class_enrollment`.`class_id` = `class`.`id`"
-                            + "INNER JOIN `student` ON  `class_enrollment`.`student_id` = `student`.`id`"
-                            + "WHERE `class`.`grade_id` = '" + gradeId + "' AND `class`.`subject_id` = '" + SubjectID + "' AND `student_id` = '" + st_ID + "'");
-
-                    if (resultSet.next()) {
-                        Student_Name_TextField.setText(resultSet.getString("fname") + " " + resultSet.getString("lname"));
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Invalid Student ID or Not Registerd Student", "Warning", JOptionPane.WARNING_MESSAGE);
-                    }
-
+                if (gradeId == null) {
+                    JOptionPane.showMessageDialog(this, "Grade is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (SubjectID == null) {
+                    JOptionPane.showMessageDialog(this, "Class is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    Student_Name_TextField.setText("");
+                    if (st_ID.length() >= 8) {
+
+                        ResultSet resultSet = DB.search("SELECT * FROM `class_enrollment` "
+                                + "INNER JOIN `class` ON `class_enrollment`.`class_id` = `class`.`id`"
+                                + "INNER JOIN `student` ON  `class_enrollment`.`student_id` = `student`.`id`"
+                                + "WHERE `class`.`grade_id`= '" + gradeId + "'"
+                                + "AND `class`.`subject_id` = '" + SubjectID + "'"
+                                + "AND `student_id` = '" + st_ID + "'");
+
+                        if (resultSet.next()) {
+                            Student_Name_TextField.setText(resultSet.getString("fname") + " " + resultSet.getString("lname"));
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Invalid Student ID or Not Registerd Student", "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+
+                    } else {
+                        Student_Name_TextField.setText("");
+                    }
                 }
+
             }
-
-//                
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void markClassAttn() {
-        try {
-            String SudentID = Studen_ID_TextField.getText();
-            String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-
-            String grade = String.valueOf(jComboBox_gradeLoard.getSelectedItem());
-            String gradeId = gradeMap.get(grade);
-
-            String subject = String.valueOf(jComboBox_classLoad.getSelectedItem());
-            String SubjectID = classMap.get(subject);
-
-            ResultSet rs = DB.search("SELECT * FROM `class_schedule` "
-                    + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
-                    + "INNER JOIN `subject` ON `class`.`subject_id` = `subject`.`id` "
-                    + "WHERE class_schedule.class_date = '" + dateFormat + "' AND `class`.grade_id = '" + gradeId + "' ");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1389,6 +1436,151 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     // <<..........................................Studen Class Attendance Marking.........................................>>
 // <<..........................................Studen Course Attendance Marking.........................................>>
+    private void searchCourseEnrolment() {
+
+        try {
+
+            if (jTabbedPane2.getSelectedIndex() == 1) {
+
+                String st_ID = CourseSTID.getText();
+                String grade = String.valueOf(CourseGrade.getSelectedItem());
+                String gradeId = gradeMap.get(grade);
+
+                String subject = String.valueOf(CourseSubject.getSelectedItem());
+                String SubjectID = classMap.get(subject);
+
+                if (gradeId == null) {
+                    JOptionPane.showMessageDialog(this, "Grade is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (SubjectID == null) {
+                    JOptionPane.showMessageDialog(this, "Class is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    if (st_ID.length() >= 8) {
+
+                        ResultSet resultSet = DB.search("SELECT * FROM `course_enrollment`"
+                                + "INNER JOIN `course` ON `course_enrollment`.`course_id` = `course`.id "
+                                + "INNER JOIN `student` ON  `course_enrollment`.`student_id` = `student`.`id`"
+                                + "WHERE `course`.`grade_id` = '" + gradeId + "' "
+                                + "AND `course`.`subject_id` = '" + SubjectID + "' "
+                                + "AND `student_id` = '" + st_ID + "'");
+
+                        if (resultSet.next()) {
+                            CourseSTName.setText(resultSet.getString("fname") + " " + resultSet.getString("lname"));
+
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Invalid Student ID or Not Registerd Student", "Warning", JOptionPane.WARNING_MESSAGE);
+                        }
+
+                    } else {
+                        CourseSTName.setText("");
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void MarkCourseAttn() {
+
+        try {
+            String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+            String grade = String.valueOf(CourseGrade.getSelectedItem());
+            String gradeId = gradeMap.get(grade);
+
+            String subject = String.valueOf(CourseSubject.getSelectedItem());
+            String SubjectID = classMap.get(subject);
+
+            ResultSet resultSet = DB.search("SELECT * FROM `course_schedule` "
+                    + "INNER JOIN `course` ON `course_schedule`.course_id = `course`.`id`"
+                    + " WHERE `course_schedule`.`class_date` = '" + dateFormat + "' "
+                    + "AND `course`.`grade_id` = '" + gradeId + "' "
+                    + "AND `course`.`subject_id` = '" + SubjectID + "'");
+
+            if (resultSet.next()) {
+
+                String scheduleID = resultSet.getString("id");
+                String StudenID = CourseSTID.getText();
+
+                ResultSet resultSet1 = DB.search("SELECT * FROM course_attendance "
+                        + "WHERE course_schedule_id = '" + scheduleID + "' "
+                        + "AND DATE(`marked_time`) = '" + dateFormat + "' "
+                        + "AND student_id = '" + StudenID + "'");
+
+                if (resultSet1.next()) {
+                    JOptionPane.showMessageDialog(this, "This Student Attendance Alredy Marked", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
+                    String employeeUserName = admin.getUserName();
+
+                    ResultSet resultSet2 = DB.search("SELECT * FROM emp_access WHERE user_name = '" + employeeUserName + "'");
+
+                    if (resultSet2.next()) {
+                        String empID = resultSet2.getString("employee_id");
+                        String StudenName = CourseSTName.getText();
+
+                        if (gradeId == null) {
+                            JOptionPane.showMessageDialog(this, "Grade is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
+                        } else if (SubjectID == null) {
+                            JOptionPane.showMessageDialog(this, "Class is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
+                        } else if (StudenName.isEmpty()) {
+                            JOptionPane.showMessageDialog(this, "Please Enter Student ID", "Warning", JOptionPane.WARNING_MESSAGE);
+                        } else {
+
+                            boolean cnaMark = false;
+
+                            ResultSet resultSet3 = DB.search("SELECT SUM(`is_free`) AS `total` FROM `course_pay`"
+                                    + "INNER JOIN `payment` ON `course_pay`.`payment_id` = `payment`.`id` "
+                                    + "WHERE `course_pay`.`course_id` = '" + resultSet.getString("course_id") + "' "
+                                    + "AND `payment`.`student_id` = '" + StudenID + "'");
+
+                            if (resultSet3.next()) {
+
+                                double fee = Double.parseDouble(resultSet.getString("fee"));
+                                double is_fee = Double.parseDouble(resultSet.getString("total"));
+
+                                double balance = fee - is_fee;
+
+                                String message = "Total Payment: " + fee + " "
+                                        + "paid: " + is_fee + " "
+                                        + "Balance Payment: " + balance + " "
+                                        + "Do you want to mark the attendance?";
+
+                                int option = JOptionPane.showConfirmDialog(this, message, "Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+                                if (option == JOptionPane.YES_OPTION) {
+                                    cnaMark = true;
+                                } else {
+                                    cnaMark = false;
+                                    
+                                }
+                            } else {
+                                cnaMark = false;
+                                System.out.println("no");
+                            }
+
+                            if (cnaMark) {
+                                DB.IUD("INSERT INTO course_attendance "
+                                        + "(`marked_time`,`course_schedule_id`,`student_id`,`employee_id`) "
+                                        + "VALUES('" + dateFormat + "','" + scheduleID + "','" + StudenID + "','" + empID + "')");
+                            }
+                            
+                           
+                        }
+
+                    }
+
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 // <<..........................................Studen Course Attendance Marking.........................................>>
 // <<..........................................Employee Attendance Marking.........................................>>
     // Search Employee Details
@@ -1641,16 +1833,17 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     }
 // <<..........................................Employee Attendance Marking.........................................>>
-    
-    
-    private void SelectTab(){
-        
+
+    private void SelectTab() {
+
         if (jTabbedPane1.getSelectedIndex() == 0) {
             if (jTabbedPane2.getSelectedIndex() != 0) {
                 pageStart();
+            } else {
+                pageStart();
             }
         }
-        
+
     }
 
 }
