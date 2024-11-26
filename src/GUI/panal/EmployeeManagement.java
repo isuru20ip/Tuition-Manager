@@ -3,18 +3,29 @@ package GUI.panal;
 import GUI.popup.Employee_Address;
 import GUI.popup.StudentAddress;
 import java.awt.Color;
+import java.awt.HeadlessException;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
+import modal.HomeInfo;
 import modal.Validator;
 import modal.IDGenarator;
+import modal.LogCenter;
 import modal.SetDate;
+import modal.beans.Home;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 
 public class EmployeeManagement extends javax.swing.JPanel {
 
@@ -481,7 +492,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        printReport();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField5MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField5MouseDragged
@@ -823,6 +834,39 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+    }
+
+    private void printReport() {
+
+        try {
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
+
+            // Get System Data
+            Home home = new HomeInfo().getHome();
+
+            // Parameters
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("title", "Employees Report");
+
+            // Fill Report
+            JasperPrint print = JasperFillManager.fillReport("src//report//EMP_Report.jasper", params, dataSource);
+
+            // Print Report
+            boolean printSuccess = JasperPrintManager.printReport(print, true);
+            if (!printSuccess) {
+                JOptionPane.showMessageDialog(this, "Employee Report Printing Failed");
+            }
+
+            // View Report
+            //JasperViewer.viewReport(print, false);
+        } catch (HeadlessException | IOException | ClassNotFoundException | JRException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error occurred while printing invoice", ex);
         }
 
     }
