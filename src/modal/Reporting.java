@@ -43,7 +43,7 @@ public class Reporting {
         JasperExportManager.exportReportToPdfFile(print, path + "/" + reportName + modal.SetDate.getDate("yyyy-MM-dd HH.mm").replace(" ", "_") + ".pdf");
 
         // send Email
-        Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + "is Saved by " + admin.getUserName() + "\n Path: " + path);
+        Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + " report is Saved by " + admin.getUserName() + "\n Path: " + path);
         return true;
     }
 
@@ -56,7 +56,7 @@ public class Reporting {
         JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm);
         JasperExportManager.exportReportToPdfFile(print, path + "/" + reportName + modal.SetDate.getDate("yyyy-MM-dd HH.mm").replace(" ", "_") + ".pdf");
         // send Email
-        Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + "is Saved by " + admin.getUserName() + "\n Path: " + path);
+        Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + " report is Saved by " + admin.getUserName() + "\n Path: " + path);
         return true;
     }
 
@@ -66,7 +66,7 @@ public class Reporting {
         JasperViewer.viewReport(print, false);
 
         // send Email
-        Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + "is viewed by " + admin.getUserName());
+        Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + " report is viewed by " + admin.getUserName());
     }
 
     // viwe reports
@@ -75,7 +75,7 @@ public class Reporting {
         JasperViewer.viewReport(print, false);
 
         // send Email
-        Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + "is viewed by " + admin.getUserName());
+        Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + " report is viewed by " + admin.getUserName());
     }
 
     // print reports
