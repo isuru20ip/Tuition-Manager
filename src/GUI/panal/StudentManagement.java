@@ -168,7 +168,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Status");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active" }));
 
         jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -968,14 +968,36 @@ public class StudentManagement extends javax.swing.JPanel {
             Vector<String> v = new Vector<>();
             v.add("Select");
 
+            // Initialize a flag to track if "active" is found
+            boolean activeStatusFound = false;
+
             while (resultSet.next()) {
-                v.add(resultSet.getString("status"));
-                studentStatus.put(resultSet.getString("status"), resultSet.getString("id"));
+                String status = resultSet.getString("status");
+                String id = resultSet.getString("id");
 
-                DefaultComboBoxModel sModel = new DefaultComboBoxModel(v);
-                jComboBox2.setModel(sModel);
-                jComboBox4.setModel(sModel);
+                // Add status to vector
+                v.add(status);
+                studentStatus.put(status, id);
 
+                // Check if "active" status is found and set the flag
+                if ("Active".equalsIgnoreCase(status)) {
+                    activeStatusFound = true;
+                }
+            }
+
+            // Set the model for both combo boxes
+            DefaultComboBoxModel sModel = new DefaultComboBoxModel(v);
+            jComboBox2.setModel(sModel);
+            jComboBox4.setModel(sModel);
+
+            // After setting the model, if "active" status is found, select it by default
+            if (activeStatusFound) {
+                jComboBox2.setSelectedItem("Active");
+                jComboBox4.setSelectedItem("Active");
+            } else {
+                // In case no "active" status exists, you can set it to some other default
+                jComboBox2.setSelectedIndex(0);  // This will select "Select" option
+                jComboBox4.setSelectedIndex(0);  // This will select "Select" option
             }
 
         } catch (ClassNotFoundException ex) {
@@ -1300,6 +1322,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jComboBox1.setEnabled(true); //Gender Not Updated
         jDateChooser1.setEnabled(true); // BirthDay Not Updated
         loadStudent("");
+        loadSStatus();
 
     }
 
