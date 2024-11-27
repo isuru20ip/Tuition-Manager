@@ -32,5 +32,6 @@ nbdist/
 nbactions.xml
 img/
 homeinfo.ser
+loginfo.ser
 /nbproject
 /DB.java
