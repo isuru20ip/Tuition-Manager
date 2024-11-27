@@ -36,6 +36,7 @@ import java.awt.HeadlessException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import modal.HomeInfo;
 import modal.Reporting;
 import modal.beans.Home;
@@ -553,7 +554,7 @@ public class StudentManagement extends javax.swing.JPanel {
         );
 
         jPanel9.setBackground(new java.awt.Color(234, 238, 244));
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Other Reports", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Select Reports", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -685,6 +686,8 @@ public class StudentManagement extends javax.swing.JPanel {
                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
+
+        jPanel9.getAccessibleContext().setAccessibleName("Select Reports");
 
         jTabbedPane2.addTab("Student Reporting", new javax.swing.ImageIcon(getClass().getResource("/source/student enroll.png")), jPanel3); // NOI18N
 
@@ -875,16 +878,34 @@ public class StudentManagement extends javax.swing.JPanel {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         try {
-            // Call the printReport() method when the button is clicked
-            printReport();
+            if (jRadioButton1.isSelected()) {
+                // Print Enrollment Report
+                printReportEnrollement();
+            } else if (jRadioButton2.isSelected()) {
+                // Print Payment Report
+                printReportPayment();
+            } else {
+                // Display a warning if no selection is made
+                JOptionPane.showMessageDialog(this, "Please select a report to print.", "Selection Required", JOptionPane.WARNING_MESSAGE);
+            }
         } catch (JRException ex) {
             // Log the JRException if it occurs during report generation
             LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
-        } //Print Report
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-       viweReport();
+        if (jRadioButton1.isSelected()) {
+            // Call Enrollment View Method
+            viweReportEnrollement();
+        } else if (jRadioButton2.isSelected()) {
+            // Call Payment View Method
+            viweReportPayment();
+        } else {
+            // Display a warning if no selection is made
+            JOptionPane.showMessageDialog(this, "Please select a report to view.", "Selection Required", JOptionPane.WARNING_MESSAGE);
+        }
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
 
@@ -1534,13 +1555,15 @@ public class StudentManagement extends javax.swing.JPanel {
         jTextField7.setText("");
         jTextField8.setText("");
         jComboBox4.setSelectedItem("Select");
+        buttonGroup1.clearSelection();
         StudentReportLoad("", "", "", "");
         StudentPaymentReportLoad("");
 
     }
 
-    //Print Reporting 
-    private void printReport() throws JRException {
+    //REPORTING
+    //Print Reporting Enrollement
+    private void printReportEnrollement() throws JRException {
 
         try {
             // Use JRTableModelDataSource from jTable1's model
@@ -1558,8 +1581,6 @@ public class StudentManagement extends javax.swing.JPanel {
             params.put("title", "Student Enrollement");
 
             // Create an Admin instance (assuming you have access to it in this context)
-            Admin admin = new Admin(); // Replace with actual admin object
-
             // Use saveReport method to save the report
             Reporting reporting = new Reporting();
             boolean isSaved = reporting.saveReport("ST_Enrollement_Report", params, dataSource, admin);
@@ -1580,8 +1601,8 @@ public class StudentManagement extends javax.swing.JPanel {
         }
     }
 
-    //Viwe Reporting
-     private void viweReport() {
+    //Viwe Reporting Enrollement
+    private void viweReportEnrollement() {
         Home home;
         try {
             home = new HomeInfo().getHome();
@@ -1594,6 +1615,70 @@ public class StudentManagement extends javax.swing.JPanel {
             params.put("title", "Student Enrollement");
 
             new Reporting().viewReport("ST_Enrollement_Report", params, dataSource, admin);
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (JRException ex) {
+            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    //Print Reporting Payment
+    private void printReportPayment() throws JRException {
+
+        try {
+            // Use JRTableModelDataSource from jTable1's model
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
+
+            // Get system data
+            Home home = new HomeInfo().getHome();
+
+            // Parameters for the report
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("title", "Student Payment");
+
+            // Create an Admin instance (assuming you have access to it in this context)
+            // Use saveReport method to save the report
+            Reporting reporting = new Reporting();
+            boolean isSaved = reporting.saveReport("ST_Payment_Report", params, dataSource, admin);
+
+            if (isSaved) {
+                JOptionPane.showMessageDialog(this, "Student Payment Report saved successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Student Payment Report saving was canceled");
+            }
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
+        } catch (JRException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
+        } catch (Exception ex) {
+            // Catch any other unexpected exceptions
+            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
+        }
+    }
+
+    //Viwe Reporting Payment
+    private void viweReportPayment() {
+        Home home;
+        try {
+            home = new HomeInfo().getHome();
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
+            params.put("title", "Student Payment");
+
+            new Reporting().viewReport("ST_Payment_Report", params, dataSource, admin);
 
         } catch (IOException ex) {
             LogCenter.logger.log(Level.WARNING, "Error", ex);
