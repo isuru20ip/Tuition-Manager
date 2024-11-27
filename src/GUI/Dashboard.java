@@ -21,6 +21,7 @@ import GUI.panal.EnrollmentManagement;
 import GUI.panal.HallManagement;
 import GUI.panal.SalaryCalculation;
 import GUI.panal.sub_dashboard;
+import GUI.panal.systemAccess;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -99,6 +100,11 @@ public class Dashboard extends javax.swing.JFrame {
     
         String userName = admin.getFname();
         jLabel3.setText(userName);
+    }
+    
+    private void changeColor(){
+    
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -650,6 +656,20 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void subDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subDashboardActionPerformed
         loadPanal(new sub_dashboard());
+        
+         subDashboard.addActionListener(new ActionListener() {
+            private boolean isClicked = false;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (isClicked) {
+                    subDashboard.setBackground(new Color(240,240,240)); // Original color
+                } else {
+                    subDashboard.setBackground(Color.black); // New color
+                }
+                isClicked = !isClicked; // Toggle state
+            }
+        });
     }//GEN-LAST:event_subDashboardActionPerformed
 
     private void jButton15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton15MouseClicked
@@ -658,7 +678,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton15MouseClicked
 
     private void systemAManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_systemAManagementActionPerformed
-        // TODO add your handling code here:
+        loadPanal(new systemAccess(admin));
     }//GEN-LAST:event_systemAManagementActionPerformed
 
     private void settingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsActionPerformed

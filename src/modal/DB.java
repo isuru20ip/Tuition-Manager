@@ -16,7 +16,7 @@ public class DB {
     }
 
     // Set DB state
-    private static final DBState STATE = DBState.Local;
+    private static final DBState STATE = DBState.Cloud;
 
     // DB Connection
     private static Connection connection;
@@ -30,8 +30,6 @@ public class DB {
             } else if (STATE == DBState.Local) {
 
                 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tution_db", "root", "vihanga20062006");
-
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tuition_db", "root", "Kaveesh3841k");
 
             }
         }
