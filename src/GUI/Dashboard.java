@@ -615,7 +615,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_salaryCalculationActionPerformed
 
     private void employeeManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeManagementActionPerformed
-        loadPanal(new EmployeeManagement());
+        loadPanal(new EmployeeManagement(admin));
     }//GEN-LAST:event_employeeManagementActionPerformed
 
     private void paymentManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentManagementActionPerformed
