@@ -46,6 +46,15 @@ java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check th
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
 
+Nov 27, 2024 12:12:18 AM GUI.panal.StudentManagement viewReport
+WARNING: Error occurred while generating the report
+net.sf.jasperreports.engine.JRException: java.io.FileNotFoundException: ST_Enrollement_Report.jasper
+	at net.sf.jasperreports.engine.util.JRLoader.loadObject(JRLoader.java:127)
+	at net.sf.jasperreports.engine.util.JRLoader.loadObject(JRLoader.java:116)
+	at net.sf.jasperreports.engine.util.JRLoader.loadObjectFromFile(JRLoader.java:107)
+	at GUI.panal.StudentManagement.viewReport(StudentManagement.java:1614)
+	at GUI.panal.StudentManagement.jButton8ActionPerformed(StudentManagement.java:889)
+	at GUI.panal.StudentManagement$15.actionPerformed(StudentManagement.java:571)
 Nov 27, 2024 2:29:48 AM GUI.panal.systemAccess addaccessActionPerformed
 WARNING: addAccess
 java.lang.Exception: Database connection is closed. Re-establishing connection...
@@ -127,4 +136,6 @@ java.lang.Exception: Database connection is closed. Re-establishing connection..
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Caused by: java.io.FileNotFoundException: ST_Enrollement_Report.jasper
+	... 41 more
 
