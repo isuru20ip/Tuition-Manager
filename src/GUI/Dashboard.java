@@ -4,7 +4,15 @@ import GUI.panal.ClassManagement;
 import GUI.panal.ClassScheduleManagement;
 import GUI.panal.CourseManagement;
 import GUI.panal.PaymentManagement;
+
+//import GUI.panal.Reporting;
+//import GUI.panal.Settings;
 import GUI.panal.Settings;
+
+//  import GUI.panal.Reporting;
+import GUI.panal.Settings;
+// import GUI.panal.Settings;
+
 import GUI.panal.StudentAttendance;
 import GUI.panal.StudentManagement;
 import GUI.panal.TeacherManagement;
@@ -36,16 +44,12 @@ import java.util.Vector;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import modal.HomeInfo;
-import modal.SetDate;
 import modal.beans.Admin;
 import modal.SVGImage;
 import modal.beans.Home;
 
-
 public class Dashboard extends javax.swing.JFrame {
 
-    // Store admin Bean
     private Admin admin;
 
     public Dashboard(Admin bean) {
@@ -58,19 +62,13 @@ public class Dashboard extends javax.swing.JFrame {
         date();
         setName();
 
-
-
         setIconImage();
 
         sVGImage2.setSvgImage("source/notification.svg", 30, 30);
         sVGImage3.setSvgImage("source/userprofile.svg", 28, 28);
         sVGImage1.setSvgImage("source/search.svg", 28, 28);
 
-
         loadHistory();
-
-        saveLog();
-
     }
 
     SignIn lg = new SignIn();
@@ -807,7 +805,6 @@ public class Dashboard extends javax.swing.JFrame {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("Mainlogo.png")));
     }
 
-
     private void loadHistory() {
 
         try {
@@ -833,40 +830,10 @@ public class Dashboard extends javax.swing.JFrame {
                 System.out.println(object);
             }
 
-    // contrall loging history
-    private void saveLog() {
-        try {
-
-            // ser access Obj
-            HomeInfo serObj = new HomeInfo();
-
-            // get log info sofar
-            Vector<String[]> v = serObj.getlog();
-
-            // make current loged data array
-            String[] currentLog = {
-                SetDate.getDate("yyyy/MM/dd hh:mm:ss a"),
-                admin.getFname() + " " + admin.getLname(),
-                admin.getUserName(),
-                admin.getType(),
-                admin.getStatus()
-            };
-
-            // add current loging date 
-            v.add(currentLog);
-            
-            //save updated log list
-            serObj.setlog(v);
-            
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
-
-    
 
     //rounded panel
     class RoundedPanel extends JPanel {
