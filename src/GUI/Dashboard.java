@@ -112,7 +112,7 @@ public class Dashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new RoundedPanel(20, new Color(250, 249, 246));
+        jPanel2 = new RoundedPanel(20, Color.white);
         jPanel9 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -153,7 +153,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(200, 200, 198));
 
-        jPanel9.setBackground(new java.awt.Color(250, 249, 246));
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Mainlogo.png"))); // NOI18N
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
