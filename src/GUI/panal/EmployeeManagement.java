@@ -9,17 +9,20 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
+import modal.Reporting;
 import modal.HomeInfo;
 import modal.Validator;
 import modal.IDGenarator;
 import modal.LogCenter;
 import modal.SetDate;
+import modal.beans.Admin;
 import modal.beans.Home;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -33,7 +36,10 @@ public class EmployeeManagement extends javax.swing.JPanel {
     HashMap<String, String> employeeTypeMap = new HashMap<>();
     HashMap<String, String> employeeStatusMap = new HashMap<>();
 
-    public EmployeeManagement() {
+    private Admin admin;
+
+    public EmployeeManagement(Admin bean) {
+        this.admin = bean;
         initComponents();
         loadGender();
         loadEmployeeType();
@@ -492,7 +498,11 @@ public class EmployeeManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        printReport();
+        try {
+            printReport();
+        } catch (JRException ex) {
+            Logger.getLogger(EmployeeManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField5MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField5MouseDragged
@@ -838,15 +848,16 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
     }
 
-    private void printReport() {
+    private void printReport() throws JRException {
 
         try {
+            // Use JRTableModelDataSource from jTable1's model
             JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
 
-            // Get System Data
+            // Get system data
             Home home = new HomeInfo().getHome();
 
-            // Parameters
+            // Parameters for the report
             HashMap<String, Object> params = new HashMap<>();
             params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
             params.put("landLine", home.getLandLine());
@@ -854,19 +865,18 @@ public class EmployeeManagement extends javax.swing.JPanel {
             params.put("mobile", home.getMobile());
             params.put("title", "Employees Report");
 
-            // Fill Report
-            JasperPrint print = JasperFillManager.fillReport("src//report//EMP_Report.jasper", params, dataSource);
+            // Use saveReport method to save the report
+            Reporting reporting = new Reporting();
+            boolean isSaved = reporting.saveReport("EMP_Report", params, dataSource, this.admin);
 
-            // Print Report
-            boolean printSuccess = JasperPrintManager.printReport(print, true);
-            if (!printSuccess) {
-                JOptionPane.showMessageDialog(this, "Employee Report Printing Failed");
+            if (isSaved) {
+                JOptionPane.showMessageDialog(this, "Employee Report saved successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Employee Report saving was canceled");
             }
 
-            // View Report
-            //JasperViewer.viewReport(print, false);
-        } catch (HeadlessException | IOException | ClassNotFoundException | JRException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error occurred while printing invoice", ex);
+        } catch (HeadlessException | IOException | ClassNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error occurred while printing the report", ex);
         }
 
     }

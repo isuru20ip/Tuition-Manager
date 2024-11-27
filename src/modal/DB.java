@@ -16,7 +16,7 @@ public class DB {
     }
 
     // Set DB state
-    private static final DBState STATE = DBState.Cloud;
+    private static final DBState STATE = DBState.Local;
 
     // DB Connection
     private static Connection connection;
@@ -29,10 +29,15 @@ public class DB {
                 connection = DriverManager.getConnection("jdbc:mysql://final-project-final-project.i.aivencloud.com:19332/tution_db", "avnadmin", "AVNS_1AEuyZC9iNXKbvo72Mv");
             } else if (STATE == DBState.Local) {
 
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tution_db", "root", "vihanga20062006");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tution_db", "root", "@ISURU9829ip");
 
             }
         }
+    }
+    
+    public static Connection getConnection() throws ClassNotFoundException, SQLException {
+        setConnection();
+        return connection;
     }
 
     public static Integer IUD(String q) throws ClassNotFoundException, SQLException {
