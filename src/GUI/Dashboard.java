@@ -33,8 +33,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import modal.HomeInfo;
+import modal.SetDate;
 import modal.beans.Admin;
-import modal.beans.LogData;
 
 public class Dashboard extends javax.swing.JFrame {
 
@@ -797,22 +797,32 @@ public class Dashboard extends javax.swing.JFrame {
     private void saveLog() {
         try {
 
+            // ser access Obj
             HomeInfo serObj = new HomeInfo();
 
-            LogData lg = serObj.getlog();
-            Vector v = lg.getV();
-            v.add(admin.getUserName());
-            lg.setV(v);
-            serObj.setlog(lg);
+            // get log info sofar
+            Vector<String[]> v = serObj.getlog();
 
-            for (Object object : v) {
-                System.out.println(object);
-            }
+            // make current loged data array
+            String[] currentLog = {
+                SetDate.getDate("yyyy/MM/dd hh:mm:ss a"),
+                admin.getFname() + " " + admin.getLname(),
+                admin.getUserName(),
+                admin.getType(),
+                admin.getStatus()
+            };
+
+            // add current loging date 
+            v.add(currentLog);
+            
+            //save updated log list
+            serObj.setlog(v);
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    
     //rounded panel
     class RoundedPanel extends JPanel {
 

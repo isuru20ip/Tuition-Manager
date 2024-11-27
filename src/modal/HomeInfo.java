@@ -6,8 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Vector;
 import modal.beans.Home;
-import modal.beans.LogData;
 
 /**
  *
@@ -29,15 +29,15 @@ public class HomeInfo {
         objectOutputStream.close();
     }
     
-        public LogData getlog() throws FileNotFoundException, IOException, ClassNotFoundException {
+        public Vector getlog() throws FileNotFoundException, IOException, ClassNotFoundException {
         FileInputStream inputStream = new FileInputStream("loginfo.ser");
         ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-        LogData home = (LogData) objectInputStream.readObject();
+        Vector home = (Vector) objectInputStream.readObject();
         objectInputStream.close();
         return home;
     }
 
-    public void setlog(LogData log) throws FileNotFoundException, IOException {
+    public void setlog(Vector log) throws FileNotFoundException, IOException {
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("loginfo.ser"));
         objectOutputStream.writeObject(log);
         objectOutputStream.close();
