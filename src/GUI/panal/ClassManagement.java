@@ -6,6 +6,7 @@ package GUI.panal;
 
 import GUI.popup.ClassDayTime;
 import GUI.popup.TeacherSelectionClass;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -22,10 +23,18 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
+import modal.HomeInfo;
 import modal.IDGenarator;
+import modal.LogCenter;
+import modal.Reporting;
 import modal.SetDate;
 import modal.beans.Admin;
 import modal.beans.ClassDay;
+import modal.beans.Home;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.sf.jasperreports.engine.JRException;
 
 /**
  *
@@ -855,11 +864,21 @@ public class ClassManagement extends javax.swing.JPanel {
         jButton8.setBackground(new java.awt.Color(153, 255, 153));
         jButton8.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jButton8.setText("View");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
         jPanel12.add(jButton8);
 
         jButton9.setBackground(new java.awt.Color(102, 255, 204));
         jButton9.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jButton9.setText("Export As pdf");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
         jPanel12.add(jButton9);
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
@@ -1086,6 +1105,18 @@ public class ClassManagement extends javax.swing.JPanel {
     private void jComboBox13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox13ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox13ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        try {
+            printReportEnrollement();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+viewReport();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1954,5 +1985,68 @@ public class ClassManagement extends javax.swing.JPanel {
         jComboBox17.setSelectedItem("Select");
         SearchReport();
     }
+    
+    private void printReportEnrollement() throws JRException {
+
+        try {
+            // Use JRTableModelDataSource from jTable1's model
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
+
+            // Get system data
+            Home home = new HomeInfo().getHome();
+
+            // Parameters for the report
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("Parameter1", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("Parameter2", home.getLandLine());
+            params.put("Parameter3", home.getEmail());
+            params.put("Parameter4", home.getMobile());
+            params.put("Parameter5", "CLASS REPORT");
+
+            // Create an Admin instance (assuming you have access to it in this context)
+            // Use saveReport method to save the report
+            Reporting reporting = new Reporting();
+            boolean isSaved = reporting.saveReport("ClassManagementReport", params, dataSource, admin);
+
+            if (isSaved) {
+                JOptionPane.showMessageDialog(this, "Student Enrollement saved successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Student Enrollement saving was canceled");
+            }
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
+        } catch (JRException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
+        } catch (Exception ex) {
+            // Catch any other unexpected exceptions
+            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
+        }
+    }
+    private void viewReport(){
+     Home home;
+        try {
+            home = new HomeInfo().getHome();
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
+            HashMap<String, Object> params = new HashMap<>();
+             params.put("Parameter1", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("Parameter2", home.getLandLine());
+            params.put("Parameter3", home.getEmail());
+            params.put("Parameter4", home.getMobile());
+            params.put("Parameter5", "CLASS REPORT");
+
+            new Reporting().viewReport("ClassManagementReport", params, dataSource, admin);
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (JRException ex) {
+            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+
 
 }

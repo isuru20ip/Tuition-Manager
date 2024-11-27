@@ -6,12 +6,15 @@ package GUI.panal;
 
 import GUI.popup.CourseDayTime;
 import GUI.popup.TeacherSelectionCourse;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -21,10 +24,16 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
+import modal.HomeInfo;
 import modal.IDGenarator;
+import modal.LogCenter;
+import modal.Reporting;
 import modal.SetDate;
 import modal.beans.Admin;
 import modal.beans.ClassDay;
+import modal.beans.Home;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 
 /**
  *
@@ -794,11 +803,21 @@ public class CourseManagement extends javax.swing.JPanel {
         jButton8.setBackground(new java.awt.Color(153, 255, 153));
         jButton8.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jButton8.setText("View");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
         jPanel12.add(jButton8);
 
         jButton9.setBackground(new java.awt.Color(102, 255, 204));
         jButton9.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jButton9.setText("Export As pdf");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
         jPanel12.add(jButton9);
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
@@ -806,11 +825,11 @@ public class CourseManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "NIC", "Teacher Name", "Course ID", "Grade", "Subject", "Language", "Method", "Status", "Hall Type", "Fee", "Day", "Time"
+                "NIC", "Teacher Name", "Course ID", "Grade", "Subject", "Language", "Method", "Status", "Hall Type", "Fee", "Starting Date", "End Date", "Day", "Time"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -870,7 +889,7 @@ public class CourseManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-    reportClear();        // TODO add your handling code here:
+        reportClear();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -983,12 +1002,25 @@ public class CourseManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox14ItemStateChanged
 
     private void jTextField11KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField11KeyReleased
-       SearchReport();
+        SearchReport();
     }//GEN-LAST:event_jTextField11KeyReleased
 
     private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
         SearchReport();        // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3KeyReleased
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        try {
+            printReport();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        viewReport();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1615,23 +1647,22 @@ public class CourseManagement extends javax.swing.JPanel {
             String statusValue, String hallValue, String dayValue) {
         try {
             StringBuilder query = new StringBuilder(
-        "SELECT course.*, teacher.nic AS teacher_nic, teacher.fname AS fname, teacher.lname AS lname, "
-        + "grade.name AS grade_name, subject.name AS subject_name, class_language.name AS language_name, "
-        + "class_method.method AS method_name, class_status.status AS status_name, "
-        + "room_type.type AS room_type_name, "
-        + "GROUP_CONCAT(week_day.day ORDER BY week_day.id SEPARATOR ', ') AS days, "
-        + "GROUP_CONCAT(course_day.time SEPARATOR ', ') AS time "
-        + "FROM `course` "
-        + "INNER JOIN `teacher` ON `course`.`teacher_nic` = `teacher`.`nic` "
-        + "INNER JOIN `grade` ON `grade`.`id` = `course`.`grade_id` "
-        + "INNER JOIN `subject` ON `subject`.`id` = `course`.`subject_id` "
-        + "INNER JOIN `class_language` ON `class_language`.`id` = `course`.`class_language_id` "
-        + "INNER JOIN `class_method` ON `class_method`.`id` = `course`.`class_method_id` "
-        + "INNER JOIN `class_status` ON `class_status`.`id` = `course`.`class_status_id` "
-        + "INNER JOIN `room_type` ON `room_type`.`id` = `course`.`room_type_id` "  // Make sure column is correct
-        + "LEFT JOIN `course_day` ON `course_day`.`course_id` = `course`.`id` "
-        + "LEFT JOIN `week_day` ON `week_day`.`id` = `course_day`.`week_day_id`");
-
+                    "SELECT course.*, teacher.nic AS teacher_nic, teacher.fname AS fname, teacher.lname AS lname, "
+                    + "grade.name AS grade_name, subject.name AS subject_name, class_language.name AS language_name, "
+                    + "class_method.method AS method_name, class_status.status AS status_name, "
+                    + "room_type.type AS room_type_name, "
+                    + "GROUP_CONCAT(week_day.day ORDER BY week_day.id SEPARATOR ', ') AS days, "
+                    + "GROUP_CONCAT(course_day.time SEPARATOR ', ') AS time "
+                    + "FROM `course` "
+                    + "INNER JOIN `teacher` ON `course`.`teacher_nic` = `teacher`.`nic` "
+                    + "INNER JOIN `grade` ON `grade`.`id` = `course`.`grade_id` "
+                    + "INNER JOIN `subject` ON `subject`.`id` = `course`.`subject_id` "
+                    + "INNER JOIN `class_language` ON `class_language`.`id` = `course`.`class_language_id` "
+                    + "INNER JOIN `class_method` ON `class_method`.`id` = `course`.`class_method_id` "
+                    + "INNER JOIN `class_status` ON `class_status`.`id` = `course`.`class_status_id` "
+                    + "INNER JOIN `room_type` ON `room_type`.`id` = `course`.`room_type_id` " // Make sure column is correct
+                    + "LEFT JOIN `course_day` ON `course_day`.`course_id` = `course`.`id` "
+                    + "LEFT JOIN `week_day` ON `week_day`.`id` = `course_day`.`week_day_id`");
 
             boolean hasCondition = false;
 
@@ -1716,6 +1747,8 @@ public class CourseManagement extends javax.swing.JPanel {
                 vector.add(resultSet.getString("status_name"));
                 vector.add(resultSet.getString("room_type_name"));
                 vector.add(resultSet.getString("fee"));
+                vector.add(resultSet.getString("start_date"));
+                vector.add(resultSet.getString("end_date"));
                 vector.add(resultSet.getString("days"));
                 vector.add(resultSet.getString("time"));
                 model.addRow(vector);
@@ -1780,4 +1813,65 @@ public class CourseManagement extends javax.swing.JPanel {
         SearchReport();
     }
 
+    private void printReport() throws JRException {
+
+        try {
+            // Use JRTableModelDataSource from jTable1's model
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
+
+            // Get system data
+            Home home = new HomeInfo().getHome();
+
+            // Parameters for the report
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("Parameter1", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("Parameter2", home.getLandLine());
+            params.put("Parameter3", home.getEmail());
+            params.put("Parameter4", home.getMobile());
+            params.put("Parameter5", "Course Management Report");
+
+            // Create an Admin instance (assuming you have access to it in this context)
+            // Use saveReport method to save the report
+            Reporting reporting = new Reporting();
+            boolean isSaved = reporting.saveReport("CourseManagementReport", params, dataSource, admin);
+
+            if (isSaved) {
+                JOptionPane.showMessageDialog(this, "Student Enrollement saved successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Student Enrollement saving was canceled");
+            }
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
+        } catch (JRException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
+        } catch (Exception ex) {
+            // Catch any other unexpected exceptions
+            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
+        }
+    }
+
+    private void viewReport() {
+        Home home;
+        try {
+            home = new HomeInfo().getHome();
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("Parameter1", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("Parameter2", home.getLandLine());
+            params.put("Parameter3", home.getEmail());
+            params.put("Parameter4", home.getMobile());
+            params.put("Parameter5", "Course Management Report");
+
+            new Reporting().viewReport("CourseManagementReport", params, dataSource, admin);
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (JRException ex) {
+            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 }
