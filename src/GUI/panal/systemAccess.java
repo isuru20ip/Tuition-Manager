@@ -603,61 +603,10 @@ public class systemAccess extends javax.swing.JPanel {
 
     private void table1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table1MouseClicked
 
-        int row = table1.getSelectedRow();
-        
-        String usern = username.getText();
-        String passw = String.valueOf(password.getText());
+        if (evt.getClickCount() == 2) {
+            buttonToggle();
 
-        if (usern.isEmpty() || passw.isEmpty()) {
-            addaccess.setEnabled(true);
-            updateclass.setEnabled(false);
-            deleteclass.setEnabled(false);
-        } else {
-            addaccess.setEnabled(false);
-            updateclass.setEnabled(true);
-            deleteclass.setEnabled(true);
         }
-
-        String emp = String.valueOf(table1.getValueAt(row, 0));
-        empid.setText(emp);
-        empid.setEditable(false);
-
-        String empc = String.valueOf(table1.getValueAt(row, 3));
-        contact.setText(empc);
-        contact.setEditable(false);
-
-        String empjoineddate = String.valueOf(table1.getValueAt(row, 4));
-        joineddate.setText(empjoineddate);
-        joineddate.setEditable(false);
-
-        String emps = String.valueOf(table1.getValueAt(row, 5));
-        empstatus.setText(emps);
-        empstatus.setEditable(false);
-
-        String empg = String.valueOf(table1.getValueAt(row, 6));
-        empgender.setText(empg);
-        empgender.setEditable(false);
-
-        String empt = String.valueOf(table1.getValueAt(row, 7));
-        emptype.setText(empt);
-        emptype.setEditable(false);
-
-        String un = String.valueOf(table1.getValueAt(row, 8));
-        if (un == "null") {
-            username.setText(null);
-            username.grabFocus();
-        } else {
-            username.setText(un);
-        }
-        username.setEditable(true);
-
-        String pw = String.valueOf(table1.getValueAt(row, 9));
-        if (pw == "null") {
-            password.setText(null);
-        } else {
-            password.setText(pw);
-        }
-        password.setEditable(true);
 
     }//GEN-LAST:event_table1MouseClicked
 
@@ -735,45 +684,46 @@ public class systemAccess extends javax.swing.JPanel {
 
     private void updateclassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateclassActionPerformed
 
-        int row = table1.getSelectedRow();
-
-        if (row == -1) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Please select a row to update Access");
-        }
-
-        try {
-            Connection conn = DB.getConnection();
-            // Check if the connection is valid before proceeding
-            if (conn == null || conn.isClosed()) {
-                throw new Exception("Database connection is closed. Re-establishing connection...");
-            }
-        } catch (Exception e) {
-        }
-
         String usern = username.getText();
         String passw = String.valueOf(password.getText());
         String empID = String.valueOf(empid.getText());
 
-        String selectedun = String.valueOf(table1.getValueAt(row, 8));
-        String selectedpw = String.valueOf(table1.getValueAt(row, 9));
-
-        if (usern == null || usern.trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Please enter Username");
-        } else if (passw == null || passw.trim().isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Please enter Password");
-        } else if (selectedun.equals(usern) && selectedpw.equals(passw)) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Please change username or passsword to update");
+        int row = table1.getSelectedRow();
+        if (row == -1) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Please select a row to update Access");
         } else {
 
+            String selectedun = String.valueOf(table1.getValueAt(row, 8));
+            String selectedpw = String.valueOf(table1.getValueAt(row, 9));
+
             try {
-
-                DB.IUD("UPDATE `emp_access` SET `user_name`='" + usern + "', `password` = '" + passw + "' WHERE `employee_id`='" + empID + "'");
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Access updated successfully");
-                loadEmployee();
-                reset();
-
+                Connection conn = DB.getConnection();
+                // Check if the connection is valid before proceeding
+                if (conn == null || conn.isClosed()) {
+                    throw new Exception("Database connection is closed. Re-establishing connection...");
+                }
             } catch (Exception e) {
-                LogCenter.logger.log(Level.WARNING, "updateMainAccess", e);
+            }
+
+            if (usern == null || usern.trim().isEmpty()) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Please enter Username");
+            } else if (passw == null || passw.trim().isEmpty()) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Please enter Password");
+            } else if (selectedun.equals(usern) && selectedpw.equals(passw)) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Please change username or passsword to update");
+            } else {
+
+                try {
+
+                    DB.IUD("UPDATE `emp_access` SET `user_name`='" + usern + "', `password` = '" + passw + "' WHERE `employee_id`='" + empID + "'");
+                    Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Access updated successfully");
+                    loadEmployee();
+                    reset();
+
+                } catch (Exception e) {
+                    LogCenter.logger.log(Level.WARNING, "updateMainAccess", e);
+                }
+
             }
 
         }
@@ -865,6 +815,71 @@ public class systemAccess extends javax.swing.JPanel {
         updateclass.setEnabled(true);
         deleteclass.setEnabled(true);
 
+    }
+
+    private void buttonToggle() {
+
+        int row = table1.getSelectedRow();
+
+        
+
+        String emp = String.valueOf(table1.getValueAt(row, 0));
+        empid.setText(emp);
+        empid.setEditable(false);
+
+        String name = String.valueOf(table1.getValueAt(row, 1) + " " + table1.getValueAt(row, 2));
+        empname.setText(name);
+        empname.setEditable(false);
+
+        String empc = String.valueOf(table1.getValueAt(row, 3));
+        contact.setText(empc);
+        contact.setEditable(false);
+
+        String empjoineddate = String.valueOf(table1.getValueAt(row, 4));
+        joineddate.setText(empjoineddate);
+        joineddate.setEditable(false);
+
+        String emps = String.valueOf(table1.getValueAt(row, 5));
+        empstatus.setText(emps);
+        empstatus.setEditable(false);
+
+        String empg = String.valueOf(table1.getValueAt(row, 6));
+        empgender.setText(empg);
+        empgender.setEditable(false);
+
+        String empt = String.valueOf(table1.getValueAt(row, 7));
+        emptype.setText(empt);
+        emptype.setEditable(false);
+
+        String un = String.valueOf(table1.getValueAt(row, 8));
+        if (un == "null") {
+            username.setText(null);
+            username.grabFocus();
+        } else {
+            username.setText(un);
+        }
+        username.setEditable(true);
+
+        String pw = String.valueOf(table1.getValueAt(row, 9));
+        if (pw == "null") {
+            password.setText(null);
+        } else {
+            password.setText(pw);
+        }
+        password.setEditable(true);
+        
+        String usern = username.getText();
+        String passw = String.valueOf(password.getText());
+
+        if (usern.isEmpty() || passw.isEmpty()) {
+            addaccess.setEnabled(true);
+            updateclass.setEnabled(false);
+            deleteclass.setEnabled(false);
+        } else {
+            addaccess.setEnabled(false);
+            updateclass.setEnabled(true);
+            deleteclass.setEnabled(true);
+        }
     }
 
 //rounded panel
