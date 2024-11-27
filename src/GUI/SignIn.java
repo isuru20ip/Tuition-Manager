@@ -11,11 +11,10 @@ import java.sql.SQLException;
 import modal.LogCenter;
 
 public class SignIn extends javax.swing.JFrame {
-    
-    
+
     public SignIn() {
         initComponents();
-        jTextField1.setText("isuru20");
+        jTextField1.setText("hasano");
         jPasswordField1.setText("123456");
         icon();
     }
@@ -144,7 +143,7 @@ public class SignIn extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         signIn();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -199,9 +198,10 @@ public class SignIn extends javax.swing.JFrame {
                     String status = resultSet.getString("status");
                     String type = resultSet.getString("name");
                     String userID = resultSet.getString("employee_id");
-                    String fname =  resultSet.getString("fname");
+                    String fname = resultSet.getString("fname");
+                    String lname = resultSet.getString("lname");
 
-                    Dashboard dashboard = new Dashboard(new Admin(userName,userID, mobile, status, type,fname));
+                    Dashboard dashboard = new Dashboard(new Admin(userName, userID, mobile, status, type, fname, lname));
                     dashboard.setVisible(true);
                     this.dispose();
 

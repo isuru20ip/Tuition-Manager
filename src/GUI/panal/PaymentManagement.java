@@ -1,6 +1,5 @@
 package GUI.panal;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import modal.DB;
@@ -15,24 +14,20 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modal.HomeInfo;
 import modal.LogCenter;
+import modal.Reporting;
 import modal.SetDate;
 import modal.Validator;
 import modal.beans.Admin;
 import modal.beans.Home;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * @author isuru priyamntha
@@ -1101,10 +1096,6 @@ public class PaymentManagement extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void studentIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_studentIDKeyReleased
-        findStudent();
-    }//GEN-LAST:event_studentIDKeyReleased
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         clear();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -1154,11 +1145,11 @@ public class PaymentManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        getFolderPath();
+        printReport();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        printReport(false, "");
+        viweReport();
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jTextField16KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField16KeyReleased
@@ -1184,6 +1175,10 @@ public class PaymentManagement extends javax.swing.JPanel {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         cleanReport();
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void studentIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_studentIDKeyReleased
+        findStudent();
+    }//GEN-LAST:event_studentIDKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1347,7 +1342,8 @@ public class PaymentManagement extends javax.swing.JPanel {
     // find class by student ID
     private void selectClass() {
         studentID.setEditable(false);
-        final String classID = String.valueOf(classIdCombo.getSelectedItem());
+        String classID = String.valueOf(classIdCombo.getSelectedItem());
+
         if (classID == null || !classID.equals("Select Class")) {
             try {
                 ResultSet rs = DB.search("SELECT "
@@ -1440,19 +1436,20 @@ public class PaymentManagement extends javax.swing.JPanel {
 
                 ResultSet rs = DB.search("SELECT `class_enrollment`.`register_date` "
                         + "FROM `class_enrollment` "
-                        + "WHERE `class_enrollment`.`class_id` = '" + classIdCombo.getSelectedItem() + "' "
+                        + "WHERE `class_enrollment`.`class_id` = '" + ID + "' "
                         + "AND `class_enrollment`.`student_id` = '" + studentID.getText() + "'");
                 rs.next();
                 //get enroled year and month
                 String date = rs.getString(1).substring(0, 7);
                 YearMonth lastDue = YearMonth.parse(date);
-
+                
                 // get curren year and month
                 String toDay = new SimpleDateFormat("yyyy-MM").format(new Date());
                 YearMonth thisMonth = YearMonth.parse(toDay);
-
+                
+                
                 // if not last and curent month are not equal
-                if (!lastDue.equals(thisMonth)) {
+//                if (lastDue != thisMonth) {
                     class_add.setEnabled(true);
 
                     Vector<YearMonth> monthsBetween = new Vector<>();
@@ -1469,7 +1466,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                     DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel(monthsBetween);
                     dueM_01.setModel(comboBoxModel);
                 }
-            }
+            //}
         }
     }
     // satge payment into jtable
@@ -1541,7 +1538,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         if (!paymet.isEmpty()) {
             if (Validator.AMOUNT.validate(paymet)) {
                 double pay = Double.parseDouble(paymet);
-                double total = Double.parseDouble(classTotal.getText());
+                double total = Double.parseDouble(classTotal.getText().replace(",", ""));
                 double balance = (pay) - (total);
                 if (balance >= 0) {
                     classBalance.setText(String.valueOf(balance));
@@ -1590,9 +1587,8 @@ public class PaymentManagement extends javax.swing.JPanel {
     // make payments
     private void makePayment() {
         try {
-            String EMP = "0127";
             String currentTime = SetDate.getDate("yyyy-MM-dd hh:MM:ss");
-            DB.IUD("INSERT INTO `payment` (`total`, `date`, `student_id`, `employee_id`) VALUES ('" + classTotal.getText() + "', '" + currentTime + "', '" + studentID.getText() + "', '" + EMP + "')");
+            DB.IUD("INSERT INTO `payment` (`total`, `date`, `student_id`, `employee_id`) VALUES ('" + classTotal.getText() + "', '" + currentTime + "', '" + studentID.getText() + "', '" + admin.getUserID() + "')");
 
             ResultSet rs = DB.search("SELECT LAST_INSERT_ID() AS id");
 
@@ -1649,20 +1645,17 @@ public class PaymentManagement extends javax.swing.JPanel {
             params.put("Cash", data.get("CA"));
             params.put("Balance", data.get("BA"));
 
-            JasperPrint print;
+            boolean print = false;
+
             if (isClass) {
-                print = JasperFillManager.fillReport("src//report//bill.jasper", params, dataSource);
+                print = new Reporting().printReport("bill", data, dataSource);
             } else {
-                print = JasperFillManager.fillReport("src//report//bill2.jasper", params, dataSource);
+                print = new Reporting().printReport("bill2", data, dataSource);
             }
 
-            boolean printSuccess = JasperPrintManager.printReport(print, true);
-
-            if (!printSuccess) {
+            if (!print) {
                 JOptionPane.showMessageDialog(this, "Invoice Printing Faild");
             }
-
-            JasperViewer.viewReport(print, false);
 
         } catch (JRException ex) {
             LogCenter.logger.log(Level.WARNING, "Error", ex);
@@ -1906,7 +1899,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         if (!paymet.isEmpty()) {
             if (Validator.AMOUNT.validate(paymet)) {
                 double pay = Double.parseDouble(paymet);
-                double total = Double.parseDouble(course_total.getText());
+                double total = Double.parseDouble(course_total.getText().replace(",", ""));
                 double balance = (pay) - (total);
                 if (balance >= 0) {
                     course_balacnce.setText(String.valueOf(balance));
@@ -1925,7 +1918,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     private void makeCoursePay() {
 
         try {
-            String EMP = "0127";
+            String EMP = admin.getUserID();
             String currentTime = SetDate.getDate("yyyy-MM-dd hh:MM:ss");
             DB.IUD("INSERT INTO `payment` (`total`, `date`, `student_id`, `employee_id`) VALUES ('" + course_total.getText().replaceAll(",", "") + "', '" + currentTime + "', '" + student_id.getText() + "', '" + EMP + "')");
 
@@ -1960,6 +1953,7 @@ public class PaymentManagement extends javax.swing.JPanel {
 
     }
 
+    // clear all 
     private void clearAll() {
         student_id.setText("");
         cleanCourse();
@@ -2123,7 +2117,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         }
     }
 
-    private void printReport(boolean isSave, String path) {
+    private void printReport() {
         try {
             //get System Data 
             Home home = new HomeInfo().getHome();
@@ -2135,15 +2129,11 @@ public class PaymentManagement extends javax.swing.JPanel {
             params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
             params.put("title", "Payment Reports");
 
-            JasperPrint print = JasperFillManager.fillReport("src//report//payment.jasper", params, dataSource);
-            if (isSave) {
-                // save Report
-                JasperExportManager.exportReportToPdfFile(print, path + "/Payment_Reports" + System.currentTimeMillis() + ".pdf");
-                JOptionPane.showMessageDialog(paymentBTN, "Report Saved");
-
+            boolean save = new Reporting().saveReport("payment", params, dataSource, admin);
+            if (save) {
+                JOptionPane.showMessageDialog(this, "report Saved");
             } else {
-                // view report
-                JasperViewer.viewReport(print, false);
+                JOptionPane.showMessageDialog(this, "report not Saved");
             }
 
         } catch (JRException ex) {
@@ -2157,23 +2147,6 @@ public class PaymentManagement extends javax.swing.JPanel {
         }
     }
 
-    private void getFolderPath() {
-        // Create the JFileChooser instance
-        JFileChooser folderChooser = new JFileChooser();
-        folderChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-        // Show the open dialog
-        int result = folderChooser.showOpenDialog(null);
-
-        // Check if a folder was selected
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFolder = folderChooser.getSelectedFile();
-            printReport(true, selectedFolder.getAbsolutePath());
-        } else {
-            JOptionPane.showMessageDialog(paymentBTN, "Report Not Saved");
-        }
-    }
-
     private void cleanReport() {
         jTextField16.setText("");
         jTextField17.setText("");
@@ -2182,5 +2155,29 @@ public class PaymentManagement extends javax.swing.JPanel {
         jComboBox3.setSelectedIndex(0);
 
         cheackCondition();
+    }
+
+    private void viweReport() {
+        Home home;
+        try {
+            home = new HomeInfo().getHome();
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("phone", home.getMobile());
+            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
+            params.put("title", "Payment Reports");
+
+            new Reporting().viewReport("payment", params, dataSource, admin);
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (JRException ex) {
+            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }
