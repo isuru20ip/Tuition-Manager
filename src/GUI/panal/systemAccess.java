@@ -605,6 +605,7 @@ public class systemAccess extends javax.swing.JPanel {
 
         if (evt.getClickCount() == 2) {
             buttonToggle();
+
         }
 
     }//GEN-LAST:event_table1MouseClicked
@@ -820,18 +821,7 @@ public class systemAccess extends javax.swing.JPanel {
 
         int row = table1.getSelectedRow();
 
-        String usern = username.getText();
-        String passw = String.valueOf(password.getText());
-
-        if (usern.isEmpty() || passw.isEmpty()) {
-            addaccess.setEnabled(true);
-            updateclass.setEnabled(false);
-            deleteclass.setEnabled(false);
-        } else {
-            addaccess.setEnabled(false);
-            updateclass.setEnabled(true);
-            deleteclass.setEnabled(true);
-        }
+        
 
         String emp = String.valueOf(table1.getValueAt(row, 0));
         empid.setText(emp);
@@ -877,6 +867,19 @@ public class systemAccess extends javax.swing.JPanel {
             password.setText(pw);
         }
         password.setEditable(true);
+        
+        String usern = username.getText();
+        String passw = String.valueOf(password.getText());
+
+        if (usern.isEmpty() || passw.isEmpty()) {
+            addaccess.setEnabled(true);
+            updateclass.setEnabled(false);
+            deleteclass.setEnabled(false);
+        } else {
+            addaccess.setEnabled(false);
+            updateclass.setEnabled(true);
+            deleteclass.setEnabled(true);
+        }
     }
 
 //rounded panel
