@@ -1,6 +1,5 @@
 package GUI.panal;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import modal.DB;
@@ -17,7 +16,6 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -29,12 +27,7 @@ import modal.Validator;
 import modal.beans.Admin;
 import modal.beans.Home;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
-import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * @author isuru priyamntha
@@ -1349,7 +1342,8 @@ public class PaymentManagement extends javax.swing.JPanel {
     // find class by student ID
     private void selectClass() {
         studentID.setEditable(false);
-        final String classID = String.valueOf(classIdCombo.getSelectedItem());
+        String classID = String.valueOf(classIdCombo.getSelectedItem());
+
         if (classID == null || !classID.equals("Select Class")) {
             try {
                 ResultSet rs = DB.search("SELECT "
@@ -1442,19 +1436,20 @@ public class PaymentManagement extends javax.swing.JPanel {
 
                 ResultSet rs = DB.search("SELECT `class_enrollment`.`register_date` "
                         + "FROM `class_enrollment` "
-                        + "WHERE `class_enrollment`.`class_id` = '" + classIdCombo.getSelectedItem() + "' "
+                        + "WHERE `class_enrollment`.`class_id` = '" + ID + "' "
                         + "AND `class_enrollment`.`student_id` = '" + studentID.getText() + "'");
                 rs.next();
                 //get enroled year and month
                 String date = rs.getString(1).substring(0, 7);
                 YearMonth lastDue = YearMonth.parse(date);
-
+                
                 // get curren year and month
                 String toDay = new SimpleDateFormat("yyyy-MM").format(new Date());
                 YearMonth thisMonth = YearMonth.parse(toDay);
-
+                
+                
                 // if not last and curent month are not equal
-                if (!lastDue.equals(thisMonth)) {
+//                if (lastDue != thisMonth) {
                     class_add.setEnabled(true);
 
                     Vector<YearMonth> monthsBetween = new Vector<>();
@@ -1471,7 +1466,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                     DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel(monthsBetween);
                     dueM_01.setModel(comboBoxModel);
                 }
-            }
+            //}
         }
     }
     // satge payment into jtable
@@ -1543,7 +1538,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         if (!paymet.isEmpty()) {
             if (Validator.AMOUNT.validate(paymet)) {
                 double pay = Double.parseDouble(paymet);
-                double total = Double.parseDouble(classTotal.getText());
+                double total = Double.parseDouble(classTotal.getText().replace(",", ""));
                 double balance = (pay) - (total);
                 if (balance >= 0) {
                     classBalance.setText(String.valueOf(balance));
@@ -1904,7 +1899,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         if (!paymet.isEmpty()) {
             if (Validator.AMOUNT.validate(paymet)) {
                 double pay = Double.parseDouble(paymet);
-                double total = Double.parseDouble(course_total.getText());
+                double total = Double.parseDouble(course_total.getText().replace(",", ""));
                 double balance = (pay) - (total);
                 if (balance >= 0) {
                     course_balacnce.setText(String.valueOf(balance));
@@ -1923,7 +1918,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     private void makeCoursePay() {
 
         try {
-            String EMP = "0127";
+            String EMP = admin.getUserID();
             String currentTime = SetDate.getDate("yyyy-MM-dd hh:MM:ss");
             DB.IUD("INSERT INTO `payment` (`total`, `date`, `student_id`, `employee_id`) VALUES ('" + course_total.getText().replaceAll(",", "") + "', '" + currentTime + "', '" + student_id.getText() + "', '" + EMP + "')");
 
