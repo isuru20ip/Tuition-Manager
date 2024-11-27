@@ -1056,6 +1056,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         Student_Name_TextField.setEditable(false);
 
         loadClassAttnTable();
+        loadCourseAttnTable();
 
         loadEmpAttnTabel();
         loadClassGrade();
@@ -1530,21 +1531,21 @@ public class StudentAttendance extends javax.swing.JPanel {
 
                             boolean cnaMark = false;
 
-                            ResultSet resultSet3 = DB.search("SELECT SUM(`is_free`) AS `total` FROM `course_pay`"
+                            ResultSet resultSet3 = DB.search("SELECT SUM(`fee`) AS `fee` FROM `course_pay`"
                                     + "INNER JOIN `payment` ON `course_pay`.`payment_id` = `payment`.`id` "
                                     + "WHERE `course_pay`.`course_id` = '" + resultSet.getString("course_id") + "' "
                                     + "AND `payment`.`student_id` = '" + StudenID + "'");
 
                             if (resultSet3.next()) {
 
-                                double fee = Double.parseDouble(resultSet.getString("fee"));
-                                double is_fee = Double.parseDouble(resultSet.getString("total"));
+                                double CourseFee = Double.parseDouble(resultSet.getString("fee"));
+                                double PaidAmmount = resultSet3.getDouble("fee");
 
-                                double balance = fee - is_fee;
+                                double balance = CourseFee - PaidAmmount;
 
-                                String message = "Total Payment: " + fee + " "
-                                        + "paid: " + is_fee + " "
-                                        + "Balance Payment: " + balance + " "
+                                String message = "Total Payment: " + CourseFee + "\n"
+                                        + "paid: " + PaidAmmount + "\n"
+                                        + "Balance Payment: " + balance + "\n"
                                         + "Do you want to mark the attendance?";
 
                                 int option = JOptionPane.showConfirmDialog(this, message, "Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -1553,11 +1554,9 @@ public class StudentAttendance extends javax.swing.JPanel {
                                     cnaMark = true;
                                 } else {
                                     cnaMark = false;
-                                    
                                 }
                             } else {
                                 cnaMark = false;
-                                System.out.println("no");
                             }
 
                             if (cnaMark) {
@@ -1565,14 +1564,41 @@ public class StudentAttendance extends javax.swing.JPanel {
                                         + "(`marked_time`,`course_schedule_id`,`student_id`,`employee_id`) "
                                         + "VALUES('" + dateFormat + "','" + scheduleID + "','" + StudenID + "','" + empID + "')");
                             }
-                            
-                           
+                            loadCourseAttnTable(); 
                         }
 
                     }
 
                 }
 
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    
+     private void loadCourseAttnTable() {
+
+        try {
+            String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+            ResultSet resultSet = DB.search("SELECT * FROM course_attendance "
+                    + "WHERE DATE(`marked_time`) = '" + dateFormat + "' "
+                    + "ORDER BY `marked_time` ASC");
+
+            DefaultTableModel tableModel = (DefaultTableModel) CourseTabel.getModel();
+            tableModel.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector<String> ClassVector = new Vector<>();
+                ClassVector.add(resultSet.getString("marked_time"));
+                ClassVector.add(resultSet.getString("course_schedule_id"));
+                ClassVector.add(resultSet.getString("student_id"));
+                ClassVector.add(resultSet.getString("employee_id"));
+
+                tableModel.addRow(ClassVector);
             }
 
         } catch (Exception e) {
