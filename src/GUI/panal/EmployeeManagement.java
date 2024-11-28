@@ -183,18 +183,8 @@ public class EmployeeManagement extends javax.swing.JPanel {
         jLabel1.setText("Mobile");
 
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
 
         jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -302,11 +292,6 @@ public class EmployeeManagement extends javax.swing.JPanel {
         jLabel9.setText("Saerch");
 
         jTextField5.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jTextField5.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                jTextField5MouseDragged(evt);
-            }
-        });
         jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField5KeyReleased(evt);
@@ -504,18 +489,6 @@ public class EmployeeManagement extends javax.swing.JPanel {
             Logger.getLogger(EmployeeManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jTextField5MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField5MouseDragged
-        jTextField5.setText("");
-    }//GEN-LAST:event_jTextField5MouseDragged
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
