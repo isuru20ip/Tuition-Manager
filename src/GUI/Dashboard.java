@@ -46,6 +46,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import modal.beans.Admin;
 import modal.SVGImage;
+import modal.SetDate;
 import modal.beans.Home;
 
 public class Dashboard extends javax.swing.JFrame {
@@ -801,6 +802,36 @@ public class Dashboard extends javax.swing.JFrame {
     //title and logo
     private void setIconImage() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("Mainlogo.png")));
+    }
+    
+    // contrall loging history
+    private void saveLog() {
+        try {
+
+            // ser access Obj
+            HomeInfo serObj = new HomeInfo();
+
+            // get log info sofar
+            Vector<String[]> v = serObj.getlog();
+
+            // make current loged data array
+            String[] currentLog = {
+                SetDate.getDate("yyyy/MM/dd hh:mm:ss a"),
+                admin.getFname() + " " + admin.getLname(),
+                admin.getUserName(),
+                admin.getType(),
+                admin.getStatus()
+            };
+
+            // add current loging date 
+            v.add(currentLog);
+            
+            //save updated log list
+            serObj.setlog(v);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     //rounded panel
