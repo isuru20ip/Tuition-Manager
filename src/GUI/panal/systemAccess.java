@@ -36,7 +36,7 @@ public class systemAccess extends javax.swing.JPanel {
         initComponents();
         this.admin = bean;
         loadEmployee();
-        SearchAccess();
+        searchAccess();
     }
 
     private void loadEmployee() {
@@ -79,26 +79,55 @@ public class systemAccess extends javax.swing.JPanel {
         }
 
     }
-    
-    private void SearchAccess() {
 
-        try {
+    private void searchAccess() {
 
-            String query = "SELECT * FROM `employee` "
-                    + "INNER JOIN `emp_type` ON `employee`.`emp_type_id` = `emp_type`.`id` "
-                    + "LEFT JOIN `emp_access` ON `employee`.`id` = `emp_access`.`employee_id`";
+        String employeeID = txtEmployeeID.getText().trim();
+        String firstName = txtFirstName.getText().trim();
+        String lastName = txtLastName.getText().trim();
+        String employeeType = cmbEmployeeType.getSelectedItem().toString();
 
-            ResultSet resultSet = DB.search(query);
+        String query = ("SELECT * FROM `employee` "
+                + "INNER JOIN `emp_type` ON `employee`.`emp_type_id` = `emp_type`.`id` "
+                + "LEFT JOIN `emp_access` ON `employee`.`id` = `emp_access`.`employee_id` "
+                + "WHERE `employee`.`id` = '" + employeeID + "'");
+
+        if (!employeeID.isEmpty()) {
+            query += " AND id = ?";
+        }
+        if (!firstName.isEmpty()) {
+            query += " AND fname LIKE ?";
+        }
+        if (!lastName.isEmpty()) {
+            query += " AND lname LIKE ?";
+        }
+        if (!employeeType.equals("All")) {
+            query += " AND emp_type.name = ?";
+        }
+
+        try (Connection conn = DB.getConnection(); 
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            int paramIndex = 1;
+            if (!employeeID.isEmpty()) {
+                stmt.setString(paramIndex++, employeeID);
+            }
+            if (!firstName.isEmpty()) {
+                stmt.setString(paramIndex++, "%" + firstName + "%");
+            }
+            if (!lastName.isEmpty()) {
+                stmt.setString(paramIndex++, "%" + lastName + "%");
+            }
+            if (!employeeType.equals("All")) {
+                stmt.setString(paramIndex++, employeeType);
+            }
+
+            ResultSet resultSet = stmt.executeQuery();
 
             DefaultTableModel model = (DefaultTableModel) table2.getModel();
             model.setRowCount(0);
 
-            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-            renderer.setHorizontalAlignment(SwingConstants.CENTER);
-            table2.setDefaultRenderer(Object.class, renderer);
-
             while (resultSet.next()) {
-
                 Vector<String> vector = new Vector<>();
                 vector.add(resultSet.getString("id"));
                 vector.add(resultSet.getString("fname"));
@@ -108,14 +137,20 @@ public class systemAccess extends javax.swing.JPanel {
                 vector.add(resultSet.getString("emp_access.password"));
 
                 model.addRow(vector);
-            }
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "searchEmployeeSystemAccess", e);
-        }
 
+            }
+
+        } catch (Exception e) {
+            LogCenter.logger.log(Level.WARNING, "searchEmployeeAccess", e);
+        }
     }
-    
-    
+
+    private void clearFields() {
+        txtEmployeeID.setText("");
+        txtFirstName.setText("");
+        txtLastName.setText("");
+        cmbEmployeeType.setSelectedIndex(0);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -154,13 +189,13 @@ public class systemAccess extends javax.swing.JPanel {
         jPanel9 = new RoundedPanel(20, Color.white);
         jPanel11 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
-        empname1 = new javax.swing.JTextField();
+        txtEmployeeID = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        empname2 = new javax.swing.JTextField();
-        empname3 = new javax.swing.JTextField();
+        txtFirstName = new javax.swing.JTextField();
+        txtLastName = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbEmployeeType = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jPanel10 = new RoundedPanel(20, Color.white);
@@ -546,33 +581,33 @@ public class systemAccess extends javax.swing.JPanel {
         jLabel16.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         jLabel16.setText("Employee ID");
 
-        empname1.setEditable(false);
-        empname1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        empname1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        empname1.addActionListener(new java.awt.event.ActionListener() {
+        txtEmployeeID.setEditable(false);
+        txtEmployeeID.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtEmployeeID.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtEmployeeID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                empname1ActionPerformed(evt);
+                txtEmployeeIDActionPerformed(evt);
             }
         });
 
         jLabel17.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         jLabel17.setText("Employee First Name");
 
-        empname2.setEditable(false);
-        empname2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        empname2.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        empname2.addActionListener(new java.awt.event.ActionListener() {
+        txtFirstName.setEditable(false);
+        txtFirstName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtFirstName.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtFirstName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                empname2ActionPerformed(evt);
+                txtFirstNameActionPerformed(evt);
             }
         });
 
-        empname3.setEditable(false);
-        empname3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        empname3.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        empname3.addActionListener(new java.awt.event.ActionListener() {
+        txtLastName.setEditable(false);
+        txtLastName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtLastName.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        txtLastName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                empname3ActionPerformed(evt);
+                txtLastNameActionPerformed(evt);
             }
         });
 
@@ -582,10 +617,10 @@ public class systemAccess extends javax.swing.JPanel {
         jLabel19.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         jLabel19.setText("Employee Type");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        cmbEmployeeType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbEmployeeType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                cmbEmployeeTypeActionPerformed(evt);
             }
         });
 
@@ -600,10 +635,10 @@ public class systemAccess extends javax.swing.JPanel {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(empname1)
-                    .addComponent(empname2)
-                    .addComponent(empname3)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtEmployeeID)
+                    .addComponent(txtFirstName)
+                    .addComponent(txtLastName)
+                    .addComponent(cmbEmployeeType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel11Layout.createSequentialGroup()
@@ -621,19 +656,19 @@ public class systemAccess extends javax.swing.JPanel {
                 .addGap(29, 29, 29)
                 .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(empname1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtEmployeeID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(empname2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(empname3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cmbEmployeeType, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(97, 97, 97)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -984,21 +1019,21 @@ public class systemAccess extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_deleteclassActionPerformed
 
-    private void empname1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empname1ActionPerformed
+    private void txtEmployeeIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmployeeIDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_empname1ActionPerformed
+    }//GEN-LAST:event_txtEmployeeIDActionPerformed
 
-    private void empname2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empname2ActionPerformed
+    private void txtFirstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFirstNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_empname2ActionPerformed
+    }//GEN-LAST:event_txtFirstNameActionPerformed
 
-    private void empname3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empname3ActionPerformed
+    private void txtLastNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLastNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_empname3ActionPerformed
+    }//GEN-LAST:event_txtLastNameActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void cmbEmployeeTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbEmployeeTypeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_cmbEmployeeTypeActionPerformed
 
     private void setNotification(JFrame parent) {
         Notifications.getInstance().setJFrame(parent);
@@ -1007,20 +1042,17 @@ public class systemAccess extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addaccess;
     private javax.swing.JButton clearall;
+    private javax.swing.JComboBox<String> cmbEmployeeType;
     private javax.swing.JTextField contact;
     private javax.swing.JButton deleteclass;
     private javax.swing.JTextField empgender;
     private javax.swing.JTextField empid;
     private javax.swing.JTextField empname;
-    private javax.swing.JTextField empname1;
-    private javax.swing.JTextField empname2;
-    private javax.swing.JTextField empname3;
     private javax.swing.JTextField empstatus;
     private javax.swing.JTextField emptype;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1053,6 +1085,9 @@ public class systemAccess extends javax.swing.JPanel {
     private javax.swing.JTextField password;
     private javaswingdev.swing.table.Table table1;
     private javaswingdev.swing.table.Table table2;
+    private javax.swing.JTextField txtEmployeeID;
+    private javax.swing.JTextField txtFirstName;
+    private javax.swing.JTextField txtLastName;
     private javax.swing.JButton updateclass;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
@@ -1078,8 +1113,6 @@ public class systemAccess extends javax.swing.JPanel {
     private void buttonToggle() {
 
         int row = table1.getSelectedRow();
-
-        
 
         String emp = String.valueOf(table1.getValueAt(row, 0));
         empid.setText(emp);
@@ -1125,7 +1158,7 @@ public class systemAccess extends javax.swing.JPanel {
             password.setText(pw);
         }
         password.setEditable(true);
-        
+
         String usern = username.getText();
         String passw = String.valueOf(password.getText());
 
