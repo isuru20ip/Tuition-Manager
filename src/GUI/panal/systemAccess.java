@@ -131,45 +131,61 @@ public class systemAccess extends javax.swing.JPanel {
 
     private void searchAccess() {
 
+        // Get input from fields
         String employeeID = txtEmployeeID.getText().trim();
         String firstName = txtFirstName.getText().trim();
         String lastName = txtLastName.getText().trim();
-        String employeeType = (String) cmbEmployeeType.getSelectedItem();
+        String employeeType = cmbEmployeeType.getSelectedItem().toString();
 
-        StringBuilder query = new StringBuilder();
-        query.append("SELECT e.id, e.fname, e.lname, et.name AS emp_type, ea.user_name, ea.password ")
-                .append("FROM employee e ")
-                .append("INNER JOIN emp_access ea ON e.id = ea.employee_id ")
-                .append("INNER JOIN emp_type et ON e.emp_type_id = et.id ")
-                .append("WHERE 1=1 ");
+        // Validation: Ensure at least one search field is filled
+        if (employeeID.isEmpty() && firstName.isEmpty() && lastName.isEmpty() && employeeType.equals("Select")) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please fill in at least one search field!");
+            return;
+        }
 
+        // Build SQL query dynamically based on user input
+        String query = "SELECT `employee`.id, `employee`.fname, `employee`.lname, `emp_type`.name AS emp_type, `emp_access`.user_name, `emp_access`.password "
+                + "FROM employee INNER JOIN emp_access ON `employee`.id = `emp_access`.employee_id "
+                + "INNER JOIN emp_type ON `employee`.emp_type_id = `emp_type`.id WHERE 1=1 "; // Base query
+                
         if (!employeeID.isEmpty()) {
-            query.append("AND e.id LIKE '%").append(employeeID).append("%' ");
+            query += " AND `employee`.id = '" + employeeID + "'";
         }
         if (!firstName.isEmpty()) {
-            query.append("AND e.fname LIKE '%").append(firstName).append("%' ");
+            query += " AND `employee`.fname LIKE '%" + firstName + "%'";
         }
         if (!lastName.isEmpty()) {
-            query.append("AND e.lname LIKE '%").append(lastName).append("%' ");
+            query += " AND `employee`.lname LIKE '%" + lastName + "%'";
         }
-        if (employeeType != null && !employeeType.equals("Item 1")) { // Skip placeholder
-            query.append("AND et.name = '").append(employeeType).append("' ");
+        if (!employeeType.equals("Select")) {
+            query += " AND `emp_type`.name = '" + employeeType + "'";
         }
 
+        // Execute query using your custom DB class
         try {
-            ResultSet rs = modal.DB.search(query.toString());
-            DefaultTableModel tableModel = (DefaultTableModel) table2.getModel();
-            tableModel.setRowCount(0); // Clear existing rows
+            ResultSet rs = DB.search(query);
+
+            // If no results are found
+            if (!rs.isBeforeFirst()) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "No search results found!");
+                employeeAccessSearch(); // Reload full table
+                return;
+            }
+
+            // Populate the JTable with the results
+            DefaultTableModel model = (DefaultTableModel) table2.getModel();
+            model.setRowCount(0); // Clear the existing table data
             while (rs.next()) {
-                tableModel.addRow(new Object[]{
+                model.addRow(new Object[]{
                     rs.getString("id"),
                     rs.getString("fname"),
                     rs.getString("lname"),
                     rs.getString("emp_type"),
-                    rs.getString("user_name"),
-                    rs.getString("password")
+                    rs.getString("User_name"),
+                    rs.getString("Password")
                 });
-
             }
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "searchAccess", e);
@@ -664,9 +680,8 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        clear.setBackground(new java.awt.Color(0, 0, 0));
+        clear.setBackground(new java.awt.Color(255, 255, 255));
         clear.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
-        clear.setForeground(new java.awt.Color(255, 255, 255));
         clear.setText("Clear All");
         clear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
