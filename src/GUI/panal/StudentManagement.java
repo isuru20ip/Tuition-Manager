@@ -614,11 +614,11 @@ public class StudentManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Email", "Class or Courses", "Status", "Payment Model", "Join Date"
+                "ID", "Email", "Class ID", "Course ID", "Status", "Payment Model", "Join Date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1414,12 +1414,10 @@ public class StudentManagement extends javax.swing.JPanel {
         try {
             // Base query (fixed the missing ON condition in the JOIN)
             String query = "SELECT DISTINCT "
-                    + "student.id AS id, "
+                    + "student.id AS student_id, "
                     + "student.email AS email, "
-                    + "CASE "
-                    + "    WHEN class.id IS NOT NULL THEN class.id "
-                    + "    ELSE course.id "
-                    + "END AS class_or_course_id, "
+                    + "class.id AS class_id, "
+                    + "course.id AS course_id, "
                     + "customer_status.status AS status, "
                     + "payment_modal.modal AS payment_modal, "
                     + "student.join_date AS join_date "
@@ -1447,16 +1445,16 @@ public class StudentManagement extends javax.swing.JPanel {
 
             // Add condition for comboBoxValue if it's not empty and valid
             if (comboBoxValue != null && !comboBoxValue.isEmpty() && !comboBoxValue.equals("Select")) {
-                // Check if we should filter by Active, Inactive, or Suspend status
-                if (comboBoxValue.equals("Active")) {
-                    // Filter for active users
-                    query += (hasConditions ? " AND " : " WHERE ") + "customer_status.status = 'Active'";
-                } else if (comboBoxValue.equals("Inactive")) {
-                    // Filter for inactive users
-                    query += (hasConditions ? " AND " : " WHERE ") + "customer_status.status = 'Inactive'";
-                } else if (comboBoxValue.equals("Suspended")) {
-                    // Filter for suspended users
-                    query += (hasConditions ? " AND " : " WHERE ") + "customer_status.status = 'Suspended'";
+                switch (comboBoxValue) {
+                    case "Active":
+                        query += (hasConditions ? " AND " : " WHERE ") + "customer_status.status = 'Active'";
+                        break;
+                    case "Inactive":
+                        query += (hasConditions ? " AND " : " WHERE ") + "customer_status.status = 'Inactive'";
+                        break;
+                    case "Suspended":
+                        query += (hasConditions ? " AND " : " WHERE ") + "customer_status.status = 'Suspended'";
+                        break;
                 }
             }
 
@@ -1477,12 +1475,13 @@ public class StudentManagement extends javax.swing.JPanel {
             // Process the result set and populate the table
             while (resultSet.next()) {
                 Vector<String> v = new Vector<>();
-                v.add(resultSet.getString("id"));  // Student ID
-                v.add(resultSet.getString("email"));  // Student email
-                v.add(resultSet.getString("class_or_course_id"));  // Class or Course ID
-                v.add(resultSet.getString("status"));  // Customer status
-                v.add(resultSet.getString("payment_modal"));  // Payment modal
-                v.add(resultSet.getString("join_date"));  // Student join date
+                v.add(resultSet.getString("student_id"));  // Student ID
+                v.add(resultSet.getString("email"));       // Student email
+                v.add(resultSet.getString("class_id"));    // Class ID
+                v.add(resultSet.getString("course_id"));   // Course ID
+                v.add(resultSet.getString("status"));      // Customer status
+                v.add(resultSet.getString("payment_modal"));// Payment modal
+                v.add(resultSet.getString("join_date"));   // Student join date
 
                 dtm.addRow(v);  // Add the vector as a row to the table model
             }
@@ -1492,7 +1491,6 @@ public class StudentManagement extends javax.swing.JPanel {
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         }
-
     }
 
 //Jtable 03
