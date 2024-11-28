@@ -1,7 +1,5 @@
 package GUI.panal;
 
-import GUI.SignIn;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,13 +30,13 @@ import modal.HomeInfo;
 public class Settings extends javax.swing.JPanel {
 
     // store hall fees <k:hallType,v:fee> 
-    private HashMap<String, String> hallMap = new HashMap<>();
+    private final HashMap<String, String> hallMap = new HashMap<>();
 
     // store emp salary <k:empType,v:salary> 
-    private HashMap<String, String> empMap = new HashMap<>();
+    private final HashMap<String, String> empMap = new HashMap<>();
 
     // store Institute Service Charges <k:sevice,v:fee>
-    private HashMap<String, String> serviceMap = new HashMap<>();
+    private final HashMap<String, String> serviceMap = new HashMap<>();
 
     // store user selected new logo's path
     private String logopath;
