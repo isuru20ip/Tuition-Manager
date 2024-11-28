@@ -298,6 +298,9 @@ public class HallManagement extends javax.swing.JPanel {
         } catch (JRException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error generating report: " + e.getMessage());
+        }catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error generating report: " + e.getMessage());
         }
         
     }//GEN-LAST:event_jButton4ActionPerformed

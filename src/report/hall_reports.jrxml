@@ -1,0 +1,126 @@
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="Blank_A4_3" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="16b17520-66bd-4ddc-98e0-b8f100265eb8">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="Parameter1" class="java.lang.String"/>
+	<parameter name="Parameter2" class="java.lang.String"/>
+	<parameter name="Parameter3" class="java.lang.String"/>
+	<query language="sql"><![CDATA[]]></query>
+	<field name="COLUMN_0" class="java.lang.String"/>
+	<field name="COLUMN_1" class="java.lang.String"/>
+	<field name="COLUMN_2" class="java.lang.String"/>
+	<field name="COLUMN_3" class="java.lang.String"/>
+	<field name="COLUMN_4" class="java.lang.String"/>
+	<field name="COLUMN_5" class="java.lang.String"/>
+	<background splitType="Stretch"/>
+	<title height="210" splitType="Stretch">
+		<element kind="image" uuid="828fd03a-eb55-40da-95f6-4ebdfb327c50" x="-20" y="-20" width="399" height="79" scaleImage="FillFrame" linkType="None" linkTarget="Self" hImageAlign="Left">
+			<expression><![CDATA["/sources for jasper/sources for jasper/Picture2.png"]]></expression>
+		</element>
+		<element kind="staticText" uuid="094d3d36-07c3-4b46-8e0d-0dd6063a26cb" x="180" y="80" width="200" height="30" fontName="Cambria Math" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[102/3 Kandy Road, Kurunegala.]]></text>
+		</element>
+		<element kind="staticText" uuid="4efd497c-77d8-470e-8122-a2d594eb789e" x="230" y="130" width="150" height="26" fontName="Cambria Math" fontSize="13.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[tutioncentre@edu.ku.lk]]></text>
+		</element>
+		<element kind="staticText" uuid="a1676458-aeda-4b6c-ae91-95d4d0b239fb" x="470" y="130" width="90" height="26" fontName="Cambria Math" fontSize="13.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[076-9628899]]></text>
+		</element>
+		<element kind="staticText" uuid="343fe492-fbe1-406b-abba-995a2bfe071a" x="30" y="131" width="130" height="26" fontName="Cambria Math" fontSize="13.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[011-5554466]]></text>
+		</element>
+		<element kind="textField" uuid="7fd65953-3e10-46f6-b7cd-8d092bb59450" x="440" y="-12" width="120" height="22" pattern="MMMMM dd, yyyy" hTextAlign="Right" vTextAlign="Bottom">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+		<element kind="textField" uuid="2138fdb3-ad27-486c-8f43-b6cbba9cef8e" x="450" y="10" width="110" height="19" pattern="h:mm:ss a" hTextAlign="Right" vTextAlign="Top">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+		<element kind="staticText" uuid="7e29eccd-9c25-48d5-b3ed-99272ab97d14" x="180" y="170" width="200" height="40" forecolor="#000203" markup="none" fontName="Javanese Text" fontSize="15.0" bold="true" hTextAlign="Center" vTextAlign="Bottom">
+			<text><![CDATA[Class Room]]></text>
+		</element>
+		<element kind="image" uuid="0437f720-eab9-4753-8aa7-29c90d98e88a" x="0" y="131" width="30" height="25">
+			<expression><![CDATA["/sources for jasper/sources for jasper/icons8-hotline-48.png"]]></expression>
+		</element>
+		<element kind="image" uuid="56d3a655-dc58-4b9d-8d41-cb94058775fd" x="205" y="130" width="25" height="26">
+			<expression><![CDATA["/sources for jasper/sources for jasper/icons8-email-24 (2).png"]]></expression>
+		</element>
+		<element kind="image" uuid="a5040b21-72db-45f9-a415-386066f94191" x="436" y="130" width="34" height="27">
+			<expression><![CDATA["/sources for jasper/sources for jasper/icons8-whatsapp-48.png"]]></expression>
+		</element>
+	</title>
+	<columnHeader height="32" splitType="Stretch">
+		<element kind="staticText" uuid="4d1d8b9a-9d6a-41c3-865c-0d532f0fe0f7" mode="Opaque" x="80" y="0" width="120" height="30" backcolor="#B5B0B0" fontName="Cambria Math" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Hall ID]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4b230d10-7e6d-41f9-aeba-27f09374d648"/>
+			<box>
+				<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="0cadca0a-611d-4ae4-81ef-c50c05ea1f27" mode="Opaque" x="200" y="0" width="179" height="30" backcolor="#B5B0B0" fontName="Cambria Math" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Hall Capacity]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ebc15680-90a1-4514-b351-c22bc615ed82"/>
+			<box>
+				<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="cf22d360-f5e7-4bac-a435-2c748b273c2d" mode="Opaque" x="379" y="0" width="171" height="30" backcolor="#B5B0B0" fontName="Cambria Math" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Hall Type]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f8484f3a-7052-4272-9a34-1d4f7b7e7733"/>
+			<box>
+				<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="d5ec6a3e-232f-4dec-ac51-ce690610bfc8" mode="Opaque" x="0" y="0" width="80" height="30" backcolor="#B5B0B0" fontName="Cambria Math" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[#]]></text>
+			<box>
+				<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="43" splitType="Stretch">
+			<element kind="textField" uuid="30f3dea6-0357-4126-9884-47def69ed99f" mode="Opaque" x="0" y="0" width="80" height="43" backcolor="#F2F0F0" fontName="Poppins Medium" fontSize="11.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$V{COLUMN_COUNT}]]></expression>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="a067dea2-a732-4624-9f46-7cae968bfce7" mode="Opaque" x="80" y="0" width="120" height="43" backcolor="#F2F0F0" fontName="Poppins Medium" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{COLUMN_0}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f8484f3a-7052-4272-9a34-1d4f7b7e7733"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="42256c3e-6a5b-406a-b9c5-6f6543e9d5a0" mode="Opaque" x="200" y="0" width="179" height="43" backcolor="#F2F0F0" fontName="Poppins Medium" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{COLUMN_1}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0b688c9a-1a5c-4886-8b39-3d181a3815d8"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="baf7a849-5910-40a7-a48c-f37161f50a06" mode="Opaque" x="379" y="0" width="171" height="43" backcolor="#F2F0F0" fontName="Poppins Medium" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{COLUMN_2}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ebc15680-90a1-4514-b351-c22bc615ed82"/>
+				<box>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+			</element>
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.spreadsheet.SpreadsheetLayout"/>
+		</band>
+	</detail>
+	<columnFooter height="70" splitType="Stretch">
+		<element kind="image" uuid="14eee154-2c3d-4e47-bdac-8dbe452f8533" x="80" y="0" width="495" height="70" scaleImage="FillFrame">
+			<expression><![CDATA["/sources for jasper/sources for jasper/Picture1.png"]]></expression>
+		</element>
+		<element kind="staticText" uuid="a6fe342e-b4f6-4fae-9f76-486d03b7d3c3" x="0" y="50" width="100" height="20" fontName="Cambria Math" bold="false" vTextAlign="Bottom">
+			<text><![CDATA[inline@business.it.lk]]></text>
+		</element>
+		<element kind="staticText" uuid="ff227dc8-3153-4fed-8f79-178a13381ddf" x="0" y="10" width="110" height="20" fontName="Cambria Math" vTextAlign="Bottom">
+			<text><![CDATA[Developed By :]]></text>
+		</element>
+		<element kind="staticText" uuid="a60fb988-d55a-4f34-bdce-9694512e53d2" x="0" y="30" width="160" height="20" fontName="Cambria Math" bold="true" hTextAlign="Left" vTextAlign="Bottom">
+			<text><![CDATA[INLINE Software Solutions]]></text>
+		</element>
+		<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+	</columnFooter>
+</jasperReport>
