@@ -5,7 +5,9 @@
 package GUI.panal;
 
 import GUI.popup.UpdateClasses;
+import GUI.popup.UpdateCourses;
 import cambodia.raven.Time;
+import java.awt.Panel;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
@@ -17,10 +19,12 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import modal.beans.Admin;
 
 /**
  *
@@ -31,23 +35,38 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     /**
      * Creates new form ClassScheduleManagement
      */
-    public ClassScheduleManagement(JFrame parent) {
+    public ClassScheduleManagement(Admin admin) {
         initComponents();
 
-        loadClassId();
-        loadHall();
+        this.admin = admin;
+
+        loadClassId();//class
+        loadCourseId();//course
+
+        loadHall();//class
+        loadCourseHall();//course
+
         loadScheduleStatus();
-        loadClassSchedulTable();
-        loadTableAuto();
+
+        loadClassSchedulTable();//class
+        loadCourseSchedulTable();//course
+
+        loadTableAuto();//class
+        loadTableAutoCourse();//course
+
         loadHallType();
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         classScheduleTable.setDefaultRenderer(Object.class, renderer);
         table1.setDefaultRenderer(Object.class, renderer);
+        courseTable.setDefaultRenderer(Object.class, renderer);
+        courseScheduleTable.setDefaultRenderer(Object.class, renderer);
 
         startTimeField.setText("");
         endTimeField.setText("");
+        courseStartTimeField.setText("");
+        courseEndTimeField.setText("");
     }
 
     /**
@@ -61,6 +80,8 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         time1 = new cambodia.raven.Time();
         time2 = new cambodia.raven.Time();
+        time3 = new cambodia.raven.Time();
+        time4 = new cambodia.raven.Time();
         jTabbedPaneClassSchedule = new javax.swing.JTabbedPane();
         ClassSchedule = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -111,19 +132,17 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        searchCourseSubjectField = new javax.swing.JTextField();
+        searchCourseGradeField = new javax.swing.JTextField();
+        searchCourseTeacherField = new javax.swing.JTextField();
+        searchCourseHallTypeCombobox = new javax.swing.JComboBox<>();
+        searchCourseIdCombobox = new javax.swing.JComboBox<>();
         jPanel7 = new javax.swing.JPanel();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
-        jComboBox6 = new javax.swing.JComboBox<>();
-        jTextField4 = new javax.swing.JTextField();
+        courseIdCombobox = new javax.swing.JComboBox<>();
+        courseHallCombobox = new javax.swing.JComboBox<>();
+        courseHallTypeCombobox = new javax.swing.JComboBox<>();
+        courseScheduleStatusCombobox = new javax.swing.JComboBox<>();
+        courseHallCapacityField = new javax.swing.JTextField();
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
@@ -131,25 +150,31 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        courseResetAllButton = new javax.swing.JButton();
+        courseUpdateButton = new javax.swing.JButton();
+        scheduleCourseButton = new javax.swing.JButton();
+        cEndButton = new javax.swing.JButton();
+        cStartButton = new javax.swing.JButton();
+        courseStartTimeField = new javax.swing.JTextField();
+        courseEndTimeField = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        students1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        courseStudents = new javax.swing.JLabel();
+        resetCourseSelection = new javax.swing.JButton();
         jLabel29 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        courseTable = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        courseScheduleTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
         time1.setTextRefernce(startTimeField);
 
         time2.setTextRefernce(endTimeField);
+
+        time3.setTextRefernce(courseStartTimeField);
+
+        time4.setTextRefernce(courseEndTimeField);
 
         setBackground(new java.awt.Color(234, 238, 244));
         setPreferredSize(new java.awt.Dimension(967, 652));
@@ -378,7 +403,6 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             }
         });
 
-        jDateChooser1.setBackground(new java.awt.Color(240, 240, 240));
         jDateChooser1.setDateFormatString("yyyy-MM-dd");
         jDateChooser1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
 
@@ -674,23 +698,45 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel20.setText("Couse ID");
 
-        jTextField1.setEditable(false);
-        jTextField1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        searchCourseSubjectField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        searchCourseSubjectField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        searchCourseSubjectField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchCourseSubjectFieldKeyReleased(evt);
+            }
+        });
 
-        jTextField2.setEditable(false);
-        jTextField2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        searchCourseGradeField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        searchCourseGradeField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        searchCourseGradeField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchCourseGradeFieldKeyReleased(evt);
+            }
+        });
 
-        jTextField3.setEditable(false);
-        jTextField3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        searchCourseTeacherField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        searchCourseTeacherField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        searchCourseTeacherField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchCourseTeacherFieldKeyReleased(evt);
+            }
+        });
 
-        jComboBox1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        searchCourseHallTypeCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        searchCourseHallTypeCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        searchCourseHallTypeCombobox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                searchCourseHallTypeComboboxItemStateChanged(evt);
+            }
+        });
 
-        jComboBox2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        searchCourseIdCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        searchCourseIdCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        searchCourseIdCombobox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                searchCourseIdComboboxItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -700,23 +746,23 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchCourseSubjectField, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchCourseHallTypeCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchCourseGradeField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchCourseTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchCourseIdCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
         );
         jPanel5Layout.setVerticalGroup(
@@ -728,42 +774,47 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                     .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(searchCourseSubjectField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchCourseGradeField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchCourseTeacherField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchCourseHallTypeCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchCourseIdCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane5.setViewportView(jTable4);
-
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Manual Schedule Select Area", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Poppins", 0, 18))); // NOI18N
 
-        jComboBox3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        courseIdCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        courseIdCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
 
-        jComboBox4.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        courseHallCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        courseHallCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        courseHallCombobox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                courseHallComboboxItemStateChanged(evt);
+            }
+        });
+        courseHallCombobox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                courseHallComboboxKeyReleased(evt);
+            }
+        });
 
-        jComboBox5.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        courseHallTypeCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        courseHallTypeCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        courseHallTypeCombobox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                courseHallTypeComboboxItemStateChanged(evt);
+            }
+        });
 
-        jComboBox6.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        courseScheduleStatusCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        courseScheduleStatusCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
 
-        jTextField4.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        courseHallCapacityField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        courseHallCapacityField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jDateChooser2.setDateFormatString("yyyy-MM-dd");
 
         jLabel23.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -789,27 +840,59 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel28.setText("Course Date");
 
-        jButton3.setBackground(new java.awt.Color(255, 204, 204));
-        jButton3.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton3.setText("Reset");
+        courseResetAllButton.setBackground(new java.awt.Color(255, 204, 204));
+        courseResetAllButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        courseResetAllButton.setText("Reset All");
+        courseResetAllButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                courseResetAllButtonActionPerformed(evt);
+            }
+        });
 
-        jButton4.setBackground(new java.awt.Color(204, 255, 204));
-        jButton4.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton4.setText("Update Status");
+        courseUpdateButton.setBackground(new java.awt.Color(204, 255, 204));
+        courseUpdateButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        courseUpdateButton.setText("Update Status");
+        courseUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                courseUpdateButtonActionPerformed(evt);
+            }
+        });
 
-        jButton5.setBackground(new java.awt.Color(204, 204, 255));
-        jButton5.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton5.setText("Schedule New Course");
+        scheduleCourseButton.setBackground(new java.awt.Color(204, 204, 255));
+        scheduleCourseButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        scheduleCourseButton.setText("Schedule New Course");
+        scheduleCourseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                scheduleCourseButtonActionPerformed(evt);
+            }
+        });
 
-        jButton6.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jButton6.setText("End");
+        cEndButton.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        cEndButton.setText("End");
+        cEndButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cEndButtonActionPerformed(evt);
+            }
+        });
 
-        jButton7.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jButton7.setText("Start");
+        cStartButton.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        cStartButton.setText("Start");
+        cStartButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cStartButtonActionPerformed(evt);
+            }
+        });
 
-        jTextField5.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        courseStartTimeField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        courseStartTimeField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        courseStartTimeField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                courseStartTimeFieldActionPerformed(evt);
+            }
+        });
 
-        jTextField6.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        courseEndTimeField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        courseEndTimeField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -819,46 +902,46 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(courseStartTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cStartButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(courseEndTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox3, 0, 110, Short.MAX_VALUE)
+                            .addComponent(courseIdCombobox, 0, 110, Short.MAX_VALUE)
                             .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(courseHallCombobox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(21, 21, 21)))
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cEndButton, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                        .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))
+                        .addComponent(scheduleCourseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox5, 0, 142, Short.MAX_VALUE)
+                            .addComponent(courseHallTypeCombobox, 0, 142, Short.MAX_VALUE)
                             .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, Short.MAX_VALUE)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField4)
+                            .addComponent(courseHallCapacityField)
                             .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
                         .addGap(12, 12, 12)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox6, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(courseUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(courseScheduleStatusCombobox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel27, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
                     .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(courseResetAllButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -870,10 +953,10 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(courseIdCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(courseHallTypeCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(courseScheduleStatusCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(courseHallCapacityField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel25, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -883,32 +966,19 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                             .addComponent(jLabel28, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(courseHallCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(courseResetAllButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(courseEndTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cEndButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(courseUpdateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(scheduleCourseButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cStartButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(courseStartTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane3.setViewportView(jTable1);
 
         jLabel21.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(0, 0, 255));
@@ -919,19 +989,84 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel22.setText("Count Of Student For Course ");
 
-        students1.setFont(new java.awt.Font("Poppins", 3, 14)); // NOI18N
-        students1.setForeground(new java.awt.Color(0, 153, 153));
-        students1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        students1.setText("Null");
-        students1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153), 2));
+        courseStudents.setFont(new java.awt.Font("Poppins", 3, 14)); // NOI18N
+        courseStudents.setForeground(new java.awt.Color(0, 153, 153));
+        courseStudents.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        courseStudents.setText("Null");
+        courseStudents.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 153), 2));
 
-        jButton1.setBackground(new java.awt.Color(255, 204, 204));
-        jButton1.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton1.setText("Reset");
+        resetCourseSelection.setBackground(new java.awt.Color(255, 204, 204));
+        resetCourseSelection.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        resetCourseSelection.setText("Reset");
+        resetCourseSelection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetCourseSelectionActionPerformed(evt);
+            }
+        });
 
         jLabel29.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel29.setForeground(new java.awt.Color(0, 0, 255));
         jLabel29.setText("Course Schedule Table");
+
+        courseTable.setBackground(new java.awt.Color(240, 240, 240));
+        courseTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Course Id", "Teacher ID", "Teacher Name", "Grade", "Subject", "Hall Type", "Course Day", "Course Time", "Start Date", "End Date", "Student Count"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        courseTable.getTableHeader().setReorderingAllowed(false);
+        courseTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                courseTableMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(courseTable);
+        if (courseTable.getColumnModel().getColumnCount() > 0) {
+            courseTable.getColumnModel().getColumn(0).setResizable(false);
+        }
+
+        courseScheduleTable.setBackground(new java.awt.Color(240, 240, 240));
+        courseScheduleTable.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        courseScheduleTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Schedule ID", "Course ID", " Start  Date", "Employee", "Schedule Status", "Hall No", "Hall Type", "Hall Capacity", "Start Time", "End Time", "Scheduled Time"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        courseScheduleTable.getTableHeader().setReorderingAllowed(false);
+        courseScheduleTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                courseScheduleTableMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(courseScheduleTable);
 
         javax.swing.GroupLayout courseScheduleLayout = new javax.swing.GroupLayout(courseSchedule);
         courseSchedule.setLayout(courseScheduleLayout);
@@ -942,19 +1077,19 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 .addGroup(courseScheduleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 955, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(courseScheduleLayout.createSequentialGroup()
                         .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(students1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(courseStudents, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(resetCourseSelection))
                     .addGroup(courseScheduleLayout.createSequentialGroup()
                         .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane6)
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
         );
         courseScheduleLayout.setVerticalGroup(
@@ -966,24 +1101,24 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 .addGroup(courseScheduleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(courseScheduleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                        .addComponent(students1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                        .addComponent(courseStudents, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                        .addComponent(resetCourseSelection, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                         .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(3, 3, 3)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addGap(1, 1, 1)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))
         );
 
         jTabbedPaneClassSchedule.addTab("Course Schedule", new javax.swing.ImageIcon(getClass().getResource("/source/add class.png")), courseSchedule); // NOI18N
 
         jLabel1.setBackground(new java.awt.Color(234, 238, 244));
         jLabel1.setFont(new java.awt.Font("Poppins", 0, 24)); // NOI18N
-        jLabel1.setText("Class Schedule Management");
+        jLabel1.setText("Schedule Management");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -1071,6 +1206,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
     private void hallTypeComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hallTypeComboBox2ItemStateChanged
         loadroomdata(); //change hall data from double tap with table1
+
     }//GEN-LAST:event_hallTypeComboBox2ItemStateChanged
 
     private void selectHallTypeComboBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_selectHallTypeComboBox3ItemStateChanged
@@ -1087,7 +1223,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_searchTeacherIdFieldKeyReleased
 
     private void searchClassIDComboboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_searchClassIDComboboxItemStateChanged
-        searchByClassId();
+        searchByClassCourseId();
         selectHallTypeComboBox3.setSelectedIndex(0);
     }//GEN-LAST:event_searchClassIDComboboxItemStateChanged
 
@@ -1109,7 +1245,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_classScheduleTableMouseClicked
 
     private void scheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleButtonActionPerformed
-      
+
         String id = String.valueOf(classIDCombobox.getSelectedItem());
         String hall = String.valueOf(hallLoadCombobox.getSelectedItem());
         String hType = String.valueOf(hallTypeComboBox2.getSelectedItem());
@@ -1178,7 +1314,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Start Time must be before End Time.", "Warning", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            
+
             ResultSet resultSet = DB.search("SELECT * FROM `class_schedule` "
                     + "WHERE `class_id` = '" + id + "'"
                     + "AND `class_room_id` = '" + hall + "'"
@@ -1192,12 +1328,11 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             } else {
 
                 DB.IUD("INSERT INTO `class_schedule` (`class_id`, `class_room_id`, `class_date`, `shedule_time`, `employee_id`, `schedule_status_id`, `start_time`, `end_time`)"
-                        + "VALUES ('" + id + "', '" + hall + "', '" + sdf.format(classdate1) + "', '" + curruntDate + "', 'EMP000001', '"
+                        + "VALUES ('" + id + "', '" + hall + "', '" + sdf.format(classdate1) + "', '" + curruntDate + "', '" + admin.getUserID() + "', '"
                         + scheduleStautusMap.get(scheduleStatus) + "', '" + time24hr1 + "', '" + time24hr2 + "')");
 
                 JOptionPane.showMessageDialog(this, "Schedule created successfully.", "Information", JOptionPane.INFORMATION_MESSAGE);
 
-               
                 loadClassSchedulTable();
                 loadTableAuto();
                 reset();
@@ -1207,29 +1342,227 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_scheduleButtonActionPerformed
 
+    private void courseTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_courseTableMouseClicked
+        try {
+            if (evt.getClickCount() == 2) {
+                int selectedRow = courseTable.getSelectedRow();
+
+                if (selectedRow != -1) {
+
+                    courseIdCombobox.setSelectedItem(String.valueOf(courseTable.getValueAt(selectedRow, 0)));
+                    courseHallTypeCombobox.setSelectedItem(String.valueOf(courseTable.getValueAt(selectedRow, 5)));
+                    courseStudents.setText(String.valueOf(courseTable.getValueAt(selectedRow, 10)));
+
+                    String time = String.valueOf(courseTable.getValueAt(selectedRow, 7));
+
+                    String time24hr = time;  // Example 24-hour time format (HH:mm:ss)
+
+                    // Parse the 24-hour time string
+                    Date day = format24hr.parse(time24hr);
+                    // Format it into 12-hour format
+                    String time12hr = format12hr.format(day);
+
+                    courseStartTimeField.setText(time12hr);
+
+                }
+//                resetAutoLoadTable();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_courseTableMouseClicked
+
+    private void courseScheduleTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_courseScheduleTableMouseClicked
+
+    }//GEN-LAST:event_courseScheduleTableMouseClicked
+
+    private void courseHallComboboxKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_courseHallComboboxKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_courseHallComboboxKeyReleased
+
+    private void courseHallComboboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_courseHallComboboxItemStateChanged
+        changecourseCapacity();
+    }//GEN-LAST:event_courseHallComboboxItemStateChanged
+
+    private void courseHallTypeComboboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_courseHallTypeComboboxItemStateChanged
+        loadcourseroomdata();
+    }//GEN-LAST:event_courseHallTypeComboboxItemStateChanged
+
+    private void searchCourseSubjectFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchCourseSubjectFieldKeyReleased
+        searchBySubject();
+    }//GEN-LAST:event_searchCourseSubjectFieldKeyReleased
+
+    private void searchCourseHallTypeComboboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_searchCourseHallTypeComboboxItemStateChanged
+        searchByHallType();
+        searchCourseIdCombobox.setSelectedIndex(0);
+    }//GEN-LAST:event_searchCourseHallTypeComboboxItemStateChanged
+
+    private void searchCourseGradeFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchCourseGradeFieldKeyReleased
+        searchByGrade();
+    }//GEN-LAST:event_searchCourseGradeFieldKeyReleased
+
+    private void searchCourseTeacherFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchCourseTeacherFieldKeyReleased
+        searchByTeacherId();
+    }//GEN-LAST:event_searchCourseTeacherFieldKeyReleased
+
+    private void searchCourseIdComboboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_searchCourseIdComboboxItemStateChanged
+        searchByClassCourseId();
+        searchCourseHallTypeCombobox.setSelectedIndex(0);
+    }//GEN-LAST:event_searchCourseIdComboboxItemStateChanged
+
+    private void courseResetAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseResetAllButtonActionPerformed
+        resetCourse();
+    }//GEN-LAST:event_courseResetAllButtonActionPerformed
+
+    private void resetCourseSelectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetCourseSelectionActionPerformed
+        resetCourseAutoLoadTable();
+    }//GEN-LAST:event_resetCourseSelectionActionPerformed
+
+    private void cStartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cStartButtonActionPerformed
+        time3.showPopup();
+    }//GEN-LAST:event_cStartButtonActionPerformed
+
+    private void cEndButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cEndButtonActionPerformed
+        time4.showPopup();
+    }//GEN-LAST:event_cEndButtonActionPerformed
+
+    private void courseStartTimeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseStartTimeFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_courseStartTimeFieldActionPerformed
+
+    private void scheduleCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleCourseButtonActionPerformed
+        String id = String.valueOf(courseIdCombobox.getSelectedItem());
+        String hall = String.valueOf(courseHallCombobox.getSelectedItem());
+        String hType = String.valueOf(courseHallTypeCombobox.getSelectedItem());
+        String scheduleStatus = String.valueOf(courseScheduleStatusCombobox.getSelectedItem());
+        String capacity = courseHallCapacityField.getText();
+
+        String curruntDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date courseDate = jDateChooser2.getDate();
+
+        courseIdCombobox.grabFocus();
+
+        // Initial Validation
+        if (id.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Course ID is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (hType.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Hall Load Type is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (hall.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Hall Load is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (scheduleStatus.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Schedule Status is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (capacity.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Capacity is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (!capacity.matches("\\d+")) {  // Ensure capacity is a positive integer
+            JOptionPane.showMessageDialog(this, "Capacity must be a positive integer.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (courseDate == null) {
+            JOptionPane.showMessageDialog(this, "Course Date is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (courseDate.before(currentDate)) {
+            JOptionPane.showMessageDialog(this, "The date is expired. Please Select a Valid Date", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            // Retrieve start and end times from fields
+            String stTime = courseStartTimeField.getText();
+            String enTime = courseEndTimeField.getText();
+
+            // Validate start and end times
+            if (stTime == null || stTime.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Start Time is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (enTime == null || enTime.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "End Time is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Parse the start and end times in 12-hour format
+            Date day1 = format12hr.parse(stTime);
+            Date day2 = format12hr.parse(enTime);
+
+            // Convert to 24-hour format for easier validation
+            String time24hr1 = format24hr.format(day1);
+            String time24hr2 = format24hr.format(day2);
+
+            // Validate that Start Time is before End Time
+            if (day1.after(day2)) {
+                JOptionPane.showMessageDialog(this, "Start Time must be before End Time.", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            ResultSet resultSet = DB.search("SELECT * FROM `course_schedule` "
+                    + "WHERE `course_id` = '" + id + "'"
+                    + "AND `class_room_id` = '" + hall + "'"
+                    + "AND `class_date` ='" + sdf.format(courseDate) + "'"
+                    + "AND `start_time` = '" + time24hr1 + "'"
+                    + "AND `end_time` = '" + time24hr2 + "'");
+
+            if (resultSet.next()) {
+                JOptionPane.showMessageDialog(this, "Already Scheduled.", "Warning", JOptionPane.WARNING_MESSAGE);
+                reset();
+            } else {
+
+                DB.IUD("INSERT INTO `course_schedule` (`class_date`, `shedule_time`, `employee_id`, `class_room_id`, `course_id`, `schedule_status_id`, `start_time`, `end_time`)"
+                        + "VALUES ('" + sdf.format(courseDate) + "', '" + curruntDate + "', '" + admin.getUserID() + "', '" + hall + "', '" + id + "', '"
+                        + scheduleStautusMap.get(scheduleStatus) + "', '" + time24hr1 + "', '" + time24hr2 + "')");
+
+                JOptionPane.showMessageDialog(this, "Schedule created successfully.", "Information", JOptionPane.INFORMATION_MESSAGE);
+
+                loadCourseSchedulTable();
+                loadTableAutoCourse();
+                resetCourseAutoLoadTable();
+                resetCourse();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_scheduleCourseButtonActionPerformed
+
+    private void courseUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseUpdateButtonActionPerformed
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this); // Get the JFrame ancestor of the JPanel
+
+        UpdateCourses uc = new UpdateCourses(parentFrame, true); // Create the dialog, setting parentFrame as its owner
+        uc.setVisible(true);
+
+        loadCourseSchedulTable();
+        resetCourse();
+    }//GEN-LAST:event_courseUpdateButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ClassSchedule;
+    private javax.swing.JButton cEndButton;
+    private javax.swing.JButton cStartButton;
     private javax.swing.JTextField capacityField;
     private javax.swing.JComboBox<String> classIDCombobox;
     private javax.swing.JTable classScheduleTable;
+    private javax.swing.JTextField courseEndTimeField;
+    private javax.swing.JTextField courseHallCapacityField;
+    private javax.swing.JComboBox<String> courseHallCombobox;
+    private javax.swing.JComboBox<String> courseHallTypeCombobox;
+    private javax.swing.JComboBox<String> courseIdCombobox;
+    private javax.swing.JButton courseResetAllButton;
     private javax.swing.JPanel courseSchedule;
+    private javax.swing.JComboBox<String> courseScheduleStatusCombobox;
+    private javax.swing.JTable courseScheduleTable;
+    private javax.swing.JTextField courseStartTimeField;
+    private javax.swing.JLabel courseStudents;
+    private javax.swing.JTable courseTable;
+    private javax.swing.JButton courseUpdateButton;
     private javax.swing.JButton endButton;
     private javax.swing.JTextField endTimeField;
     private javax.swing.JComboBox<String> hallLoadCombobox;
     private javax.swing.JComboBox<String> hallTypeComboBox2;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
@@ -1267,38 +1600,40 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPaneClassSchedule;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JButton resetAllButton;
+    private javax.swing.JButton resetCourseSelection;
     private javax.swing.JButton scheduleButton;
+    private javax.swing.JButton scheduleCourseButton;
     private javax.swing.JComboBox<String> scheduleStatusCombobox;
     private javax.swing.JComboBox<String> searchClassIDCombobox;
     private javax.swing.JTextField searchClassSubjectField;
+    private javax.swing.JTextField searchCourseGradeField;
+    private javax.swing.JComboBox<String> searchCourseHallTypeCombobox;
+    private javax.swing.JComboBox<String> searchCourseIdCombobox;
+    private javax.swing.JTextField searchCourseSubjectField;
+    private javax.swing.JTextField searchCourseTeacherField;
     private javax.swing.JTextField searchGradeField;
     private javax.swing.JTextField searchTeacherIdField;
     private javax.swing.JComboBox<String> selectHallTypeComboBox3;
     private javax.swing.JButton startButton;
     private javax.swing.JTextField startTimeField;
     private javax.swing.JLabel students;
-    private javax.swing.JLabel students1;
     private javax.swing.JTable table1;
     private cambodia.raven.Time time1;
     private cambodia.raven.Time time2;
+    private cambodia.raven.Time time3;
+    private cambodia.raven.Time time4;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 
     // Hash Maps
     private static HashMap<String, String> scheduleStautusMap = new HashMap<>(); //for get id from schedule status
+
+    private Admin admin;
 
     //get date of week
     LocalDate today = LocalDate.now();
@@ -1445,7 +1780,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             }
 
             DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(vector);
+            DefaultComboBoxModel<String> comboBoxModel1 = new DefaultComboBoxModel<>(vector);
             scheduleStatusCombobox.setModel(comboBoxModel);
+            courseScheduleStatusCombobox.setModel(comboBoxModel1);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1469,9 +1806,13 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
             DefaultComboBoxModel ComboBoxModel = new DefaultComboBoxModel(vector);
             DefaultComboBoxModel ComboBoxModel1 = new DefaultComboBoxModel(vector);
+            DefaultComboBoxModel ComboBoxModel2 = new DefaultComboBoxModel(vector);
+            DefaultComboBoxModel ComboBoxModel3 = new DefaultComboBoxModel(vector);
 
             hallTypeComboBox2.setModel(ComboBoxModel);
             selectHallTypeComboBox3.setModel(ComboBoxModel1);
+            courseHallTypeCombobox.setModel(ComboBoxModel2);
+            searchCourseHallTypeCombobox.setModel(ComboBoxModel3);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1481,12 +1822,12 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     //change hall data from double tap with table1
     private void loadroomdata() {
         String selectedType = String.valueOf(hallTypeComboBox2.getSelectedItem());
-
         try {
 
-            ResultSet resultSet = DB.search("SELECT * FROM `class_room` INNER JOIN `room_type` ON `room_type`.`id` = `class_room`.`room_type_id` WHERE `type` = '" + selectedType + "'");
-            Vector<String> vector = new Vector<>();
+            ResultSet resultSet = DB.search("SELECT * FROM class_room INNER JOIN room_type "
+                    + "ON room_type.id = class_room.room_type_id WHERE type = '" + selectedType + "'");
 
+            Vector<String> vector = new Vector<>();
             // Iterate through the result set
             boolean firstRow = true;
             while (resultSet.next()) {
@@ -1498,11 +1839,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 // Add each "id" to the vector
                 vector.add(resultSet.getString("id"));
             }
-
             // Set the vector as the model for hallLoadCombobox
             DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(vector);
             hallLoadCombobox.setModel(model);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1510,21 +1849,20 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
     // change capacyty fron item change of hall load combo box
     private void changeCapacity() {
-        String selectedHall = String.valueOf(hallLoadCombobox.getSelectedItem());
-
         try {
-            ResultSet resultSet = DB.search("SELECT `capacity` FROM `class_room` WHERE `id` = '" + selectedHall + "'");
+            String selectedHall = String.valueOf(hallLoadCombobox.getSelectedItem());
+            String selectedHall2 = String.valueOf(courseHallCombobox.getSelectedItem());
 
-            boolean firstRow = true;
-            while (resultSet.next()) {
-                if (firstRow) {
-                    // Set capacityField text from the first row only
-                    capacityField.setText(resultSet.getString("capacity"));
-                    firstRow = false;
-                }
+            ResultSet resultSet = DB.search(
+                    "SELECT `capacity` FROM `class_room` WHERE `id` IN ('" + selectedHall + "', '" + selectedHall2 + "')"
+            );
 
+            if (resultSet.next()) {
+                capacityField.setText(resultSet.getString("capacity"));
             }
-
+            if (resultSet.next()) {
+                courseHallCapacityField.setText(resultSet.getString("capacity"));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1541,16 +1879,10 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         endTimeField.setText("");
         students.setText("Null");
         jDateChooser1.setDate(null);
-        loadClassSchedulTable();
-        classIDCombobox.setEnabled(true);
-        jDateChooser1.setEnabled(true);
-        startTimeField.setEditable(true);
-        endTimeField.setEditable(true);
-        startButton.setEnabled(true);
-        endButton.setEnabled(true);
-        scheduleButton.setEnabled(true);
-        loadHall();
 
+        loadClassSchedulTable();
+        loadHall();
+        resetAutoLoadTable();
     }
 
     private void resetAutoLoadTable() {
@@ -1603,7 +1935,8 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 + "            `class_enrollment`.`class_id`"
                 + "    ) AS `student_count` "
                 + "ON "
-                + "    `student_count`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' ORDER BY `class_day`.`time` ASC");
+                + "    `student_count`.`class_id` = `class`.`id` WHERE `week_day`.`day` = '" + dayOfWeek + "' "
+                + "ORDER BY `class_day`.`time` ASC");
     }
 
     // method to generate the SQL query based on search
@@ -1654,43 +1987,381 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 + "ORDER BY `class_day`.`time` ASC";
     }
 
-    // Simplified search methods
     // Search by subject
     private void searchBySubject() {
+
         String subject = searchClassSubjectField.getText();
-        String query = generateClassScheduleQuery("AND `subject`.`name` LIKE '%" + subject + "%'");
-        loadAutoClassScheduleTable(query);
-        searchClassSubjectField.setText(subject);
+        String coursesubject = searchCourseSubjectField.getText();
+
+        if (subject.equals(subject)) {
+            String query = generateClassScheduleQuery("AND `subject`.`name` LIKE '%" + subject + "%'");
+            loadAutoClassScheduleTable(query);
+            searchClassSubjectField.setText(subject);
+        }
+        if (coursesubject.equals(coursesubject)) {
+            String query = generateCourseScheduleQuery("AND `subject`.`name` LIKE '%" + coursesubject + "%'");
+            loadAutoCourseTable(query);
+            searchCourseSubjectField.setText(coursesubject);
+        }
     }
 
     // Search by hall type
     private void searchByHallType() {
         String hall = String.valueOf(selectHallTypeComboBox3.getSelectedItem());
-        String query = generateClassScheduleQuery("AND `room_type`.`type` LIKE '%" + hall + "%'");
-        loadAutoClassScheduleTable(query);
+        String coursehall = String.valueOf(searchCourseHallTypeCombobox.getSelectedItem());
+
+        // Check if a valid hall type is selected
+        if (hall != null && !hall.isEmpty() && !hall.equals("Select")) {
+            String query = generateClassScheduleQuery("AND `room_type`.`type` LIKE '%" + hall + "%'");
+            loadAutoClassScheduleTable(query);
+        }
+
+        // Check if a valid course hall type is selected
+        if (coursehall != null && !coursehall.isEmpty() && !coursehall.equals("Select")) {
+            String query = generateCourseScheduleQuery("AND `room_type`.`type` LIKE '%" + coursehall + "%'");
+            loadAutoCourseTable(query);
+        }
     }
 
     // Search by grade
     private void searchByGrade() {
         String grade1 = searchGradeField.getText();
-        String query = generateClassScheduleQuery("AND `grade`.`name` LIKE '%" + grade1 + "%'");
-        loadAutoClassScheduleTable(query);
-        searchGradeField.setText(grade1);
+        String coursegrade = searchCourseGradeField.getText();
+
+        if (grade1.equals(grade1)) {
+            String query = generateClassScheduleQuery("AND `grade`.`name` LIKE '%" + grade1 + "%'");
+            loadAutoClassScheduleTable(query);
+            searchGradeField.setText(grade1);
+        }
+        if (coursegrade.equals(coursegrade)) {
+            String query = generateCourseScheduleQuery("AND `grade`.`name` LIKE '%" + coursegrade + "%'");
+            loadAutoCourseTable(query);
+            searchCourseGradeField.setText(grade1);
+        }
+
     }
 
     // Search by teacher ID
     private void searchByTeacherId() {
         String teacher1 = searchTeacherIdField.getText();
-        String query = generateClassScheduleQuery("AND `teacher`.`nic` LIKE '%" + teacher1 + "%'");
-        loadAutoClassScheduleTable(query);
-        searchTeacherIdField.setText(teacher1);
+        String courseteacher = searchCourseTeacherField.getText();
+
+        if (teacher1.equals(teacher1)) {
+            String query = generateClassScheduleQuery("AND `teacher`.`nic` LIKE '%" + teacher1 + "%'");
+            loadAutoClassScheduleTable(query);
+            searchTeacherIdField.setText(teacher1);
+        }
+        if (courseteacher.equals(courseteacher)) {
+            String query = generateCourseScheduleQuery("AND `teacher`.`nic` LIKE '%" + courseteacher + "%'");
+            loadAutoCourseTable(query);
+            searchCourseTeacherField.setText(courseteacher);
+        }
     }
 
-    // Search by class ID
-    private void searchByClassId() {
-        String classId1 = String.valueOf(searchClassIDCombobox.getSelectedItem());
-        String query = generateClassScheduleQuery("AND `class`.`id` LIKE '%" + classId1 + "%'");
-        loadAutoClassScheduleTable(query);
+    // Search by classcourse ID
+    private void searchByClassCourseId() {
+        String classId = String.valueOf(searchClassIDCombobox.getSelectedItem());
+        String courseId = String.valueOf(searchCourseIdCombobox.getSelectedItem());
+
+        // Check if a valid class ID is selected
+        if (classId != null && !classId.isEmpty() && !classId.equals("Select")) {
+            String query = generateClassScheduleQuery("AND `class`.`id` LIKE '%" + classId + "%'");
+            loadAutoClassScheduleTable(query);
+        }
+
+        // Check if a valid course ID is selected
+        if (courseId != null && !courseId.isEmpty() && !courseId.equals("Select")) {
+            String query = generateCourseScheduleQuery("AND `course`.`id` LIKE '%" + courseId + "%'");
+            loadAutoCourseTable(query);
+        }
+    }
+
+    // course schedule----------------------------------------------------------------------------------------------------------
+    private void loadCourseId() {
+        try {
+
+            ResultSet resultSet = DB.search("SELECT `id` FROM `course`");
+
+            Vector vector = new Vector();
+
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("id"));
+            }
+
+            DefaultComboBoxModel ComboBoxModel = new DefaultComboBoxModel(vector);
+            DefaultComboBoxModel ComboBoxModel1 = new DefaultComboBoxModel(vector);
+
+            courseIdCombobox.setModel(ComboBoxModel);
+            searchCourseIdCombobox.setModel(ComboBoxModel1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadCourseSchedulTable() {
+        try {
+
+            ResultSet resultSet = DB.search("SELECT * FROM `course_schedule`"
+                    + "INNER JOIN `course` ON `course`.`id`=`course_schedule`.`course_id`"
+                    + "INNER JOIN `class_room` ON `class_room`.`id`=`course_schedule`.`class_room_id`"
+                    + "INNER JOIN `employee` ON `employee`.`id`=`course_schedule`.`employee_id`"
+                    + "INNER JOIN `schedule_status` ON `schedule_status`.`id`=`course_schedule`.`schedule_status_id`"
+                    + "INNER JOIN `room_type` ON `room_type`.`id`=`class_room`.`room_type_id` ORDER BY `course_schedule`.`id` ASC");
+
+            DefaultTableModel tableModel = (DefaultTableModel) courseScheduleTable.getModel();
+            tableModel.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector vector = new Vector();
+                vector.add(resultSet.getString("course_schedule.id"));
+                vector.add(resultSet.getString("course.id"));
+                vector.add(resultSet.getString("class_date"));
+                vector.add(resultSet.getString("employee.fname") + " " + resultSet.getString("employee.lname"));
+                vector.add(resultSet.getString("schedule_status.statats"));
+                vector.add(resultSet.getString("class_room.id"));
+                vector.add(resultSet.getString("room_type.type"));
+                vector.add(resultSet.getString("class_room.capacity"));
+                vector.add(resultSet.getString("start_time"));
+                vector.add(resultSet.getString("end_time"));
+                vector.add(resultSet.getString("shedule_time"));
+
+                tableModel.addRow(vector);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadTableAutoCourse() {
+        loadAutoCourseTable("SELECT "
+                + "    `course_day`.*, "
+                + "    `week_day`.*, "
+                + "    `course`.*, "
+                + "    `subject`.*, "
+                + "    `room_type`.*, "
+                + "    `teacher`.*, "
+                + "    `grade`.*, "
+                + "    COALESCE(`student_count`.`total_students`, 0) AS `total_students` "
+                + "FROM "
+                + "    `course_day` "
+                + "INNER JOIN "
+                + "    `week_day` ON `week_day`.`id` = `course_day`.`week_day_id` "
+                + "INNER JOIN "
+                + "    `course` ON `course`.`id` = `course_day`.`course_id` "
+                + "INNER JOIN "
+                + "    `subject` ON `subject`.`id` = `course`.`subject_id` "
+                + "INNER JOIN "
+                + "    `room_type` ON `room_type`.`id` = `course`.`room_type_id` "
+                + "INNER JOIN "
+                + "    `teacher` ON `teacher`.`nic` = `course`.`teacher_nic` "
+                + "INNER JOIN "
+                + "    `grade` ON `grade`.`id` = `course`.`grade_id` "
+                + "LEFT JOIN "
+                + "    ("
+                + "       SELECT "
+                + "           `course_enrollment`.`course_id`, "
+                + "           COUNT(`course_enrollment`.`student_id`) AS `total_students` "
+                + "       FROM "
+                + "           `course_enrollment` "
+                + "       INNER JOIN "
+                + "           `course_day` ON `course_day`.`course_id` = `course_enrollment`.`course_id` "
+                + "       INNER JOIN "
+                + "           `week_day` ON `week_day`.`id` = `course_day`.`week_day_id` "
+                + "       WHERE "
+                + "           `week_day`.`day` = '" + dayOfWeek + "' "
+                + "       GROUP BY "
+                + "           `course_enrollment`.`course_id` "
+                + "    ) AS `student_count` "
+                + "ON "
+                + "    `student_count`.`course_id` = `course`.`id` "
+                + "WHERE "
+                + "    `week_day`.`day` = '" + dayOfWeek + "' "
+                + "ORDER BY "
+                + "    `course_day`.`time` ASC");
+    }
+
+    // method to generate the SQL query based on search
+    private String generateCourseScheduleQuery(String condition) {
+        return "SELECT "
+                + "    `course_day`.*, "
+                + "    `week_day`.*, "
+                + "    `course`.*, "
+                + "    `subject`.*, "
+                + "    `room_type`.*, "
+                + "    `teacher`.*, "
+                + "    `grade`.*, "
+                + "    COALESCE(`student_count`.`total_students`, 0) AS `total_students` "
+                + "FROM "
+                + "    `course_day` "
+                + "INNER JOIN "
+                + "    `week_day` ON `week_day`.`id` = `course_day`.`week_day_id` "
+                + "INNER JOIN "
+                + "    `course` ON `course`.`id` = `course_day`.`course_id` "
+                + "INNER JOIN "
+                + "    `subject` ON `subject`.`id` = `course`.`subject_id` "
+                + "INNER JOIN "
+                + "    `room_type` ON `room_type`.`id` = `course`.`room_type_id` "
+                + "INNER JOIN "
+                + "    `teacher` ON `teacher`.`nic` = `course`.`teacher_nic` "
+                + "INNER JOIN "
+                + "    `grade` ON `grade`.`id` = `course`.`grade_id` "
+                + "LEFT JOIN "
+                + "    ("
+                + "       SELECT "
+                + "           `course_enrollment`.`course_id`, "
+                + "           COUNT(`course_enrollment`.`student_id`) AS `total_students` "
+                + "       FROM "
+                + "           `course_enrollment` "
+                + "       INNER JOIN "
+                + "           `course_day` ON `course_day`.`course_id` = `course_enrollment`.`course_id` "
+                + "       INNER JOIN "
+                + "           `week_day` ON `week_day`.`id` = `course_day`.`week_day_id` "
+                + "       WHERE "
+                + "           `week_day`.`day` = '" + dayOfWeek + "' "
+                + "       GROUP BY "
+                + "           `course_enrollment`.`course_id` "
+                + "    ) AS `student_count` "
+                + "ON "
+                + "    `student_count`.`course_id` = `course`.`id` "
+                + "WHERE "
+                + "    `week_day`.`day` = '" + dayOfWeek + "' "
+                + condition
+                + "ORDER BY "
+                + "    `course_day`.`time` ASC";
+    }
+
+    private void loadAutoCourseTable(String query) {
+        try {
+
+            ResultSet resultSet = DB.search(query);
+
+            DefaultTableModel tableModel = (DefaultTableModel) courseTable.getModel();
+            tableModel.setRowCount(0);
+
+            while (resultSet.next()) {
+
+                Vector vector = new Vector();
+                vector.add(resultSet.getString("course.id"));
+                vector.add(resultSet.getString("teacher.nic"));
+                vector.add(resultSet.getString("teacher.fname") + " " + resultSet.getString("teacher.lname"));
+                vector.add(resultSet.getString("grade.name"));
+                vector.add(resultSet.getString("subject.name"));
+                vector.add(resultSet.getString("room_type.type"));
+                vector.add(resultSet.getString("week_day.day"));
+                vector.add(resultSet.getString("course_day.time"));
+                vector.add(resultSet.getString("course.start_date"));
+                vector.add(resultSet.getString("course.end_date"));
+                vector.add(resultSet.getString("total_students"));
+
+                tableModel.addRow(vector);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // change capacyty fron item change of hall load combo box
+    private void changecourseCapacity() {
+
+        String selectedHall2 = String.valueOf(courseHallCombobox.getSelectedItem());
+
+        try {
+            ResultSet resultSet2 = DB.search("SELECT capacity FROM class_room WHERE id = '" + selectedHall2 + "'");
+
+            boolean firstRow = true;
+            while (resultSet2.next()) {
+                if (firstRow) {
+                    // Set capacityField text from the first row only
+                    courseHallCapacityField.setText(resultSet2.getString("capacity"));
+                    firstRow = false;
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //change hall data from double tap with table1
+    private void loadcourseroomdata() {
+        String selectedType2 = String.valueOf(courseHallTypeCombobox.getSelectedItem());
+        try {
+
+            ResultSet resultSet2 = DB.search("SELECT * FROM class_room INNER JOIN room_type "
+                    + "ON room_type.id = class_room.room_type_id WHERE type = '" + selectedType2 + "'");
+
+            Vector<String> vector = new Vector<>();
+            // Iterate through the result set
+            boolean firstRow = true;
+            while (resultSet2.next()) {
+                if (firstRow) {
+                    // Set capacityField text from the first row only
+                    courseHallCapacityField.setText(resultSet2.getString("capacity"));
+                    firstRow = false;
+                }
+                // Add each "id" to the vector
+                vector.add(resultSet2.getString("id"));
+            }
+            // Set the vector as the model for hallLoadCombobox
+            DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(vector);
+            courseHallCombobox.setModel(model);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadCourseHall() {
+        try {
+
+            ResultSet resultSet = DB.search("SELECT `id` FROM `class_room`");
+
+            Vector vector = new Vector();
+
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("id"));
+            }
+
+            DefaultComboBoxModel ComboBoxModel2 = new DefaultComboBoxModel(vector);
+
+            courseHallCombobox.setModel(ComboBoxModel2);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void resetCourse() {
+
+        courseIdCombobox.setSelectedIndex(0);
+        courseHallCombobox.setSelectedIndex(0);
+        courseHallTypeCombobox.setSelectedIndex(0);
+        courseScheduleStatusCombobox.setSelectedIndex(0);
+        courseHallCapacityField.setText("");
+        courseStartTimeField.setText("");
+        courseEndTimeField.setText("");
+        courseStudents.setText("Null");
+        jDateChooser2.setDate(null);
+
+        loadCourseSchedulTable();
+        loadCourseHall();
+        resetCourseAutoLoadTable();
+    }
+
+    private void resetCourseAutoLoadTable() {
+        searchCourseHallTypeCombobox.setSelectedIndex(0);
+        searchCourseIdCombobox.setSelectedIndex(0);
+        searchCourseSubjectField.setText("");
+        searchCourseGradeField.setText("");
+        searchCourseTeacherField.setText("");
+        loadTableAutoCourse();
     }
 
 }
