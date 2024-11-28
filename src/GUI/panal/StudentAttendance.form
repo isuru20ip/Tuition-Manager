@@ -46,6 +46,9 @@
           <Dimension value="[967, 668]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTabbedPane1MouseClicked"/>
+      </Events>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
@@ -139,7 +142,7 @@
                                       </Group>
                                       <EmptySpace min="-2" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jButton2" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="classAttnMarkButton" alignment="1" max="32767" attributes="0"/>
                                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                           <Component id="Studen_ID_TextField" alignment="1" max="32767" attributes="0"/>
                                           <Component id="jButton4" max="32767" attributes="0"/>
@@ -191,7 +194,7 @@
                                                   <Component id="Student_Name_TextField" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                                               </Group>
                                               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                                              <Component id="jButton2" min="-2" pref="35" max="-2" attributes="0"/>
+                                              <Component id="classAttnMarkButton" min="-2" pref="35" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="jButton4" min="-2" pref="35" max="-2" attributes="0"/>
                                           </Group>
@@ -388,8 +391,11 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="Cleare"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+                      </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton2">
+                    <Component class="javax.swing.JButton" name="classAttnMarkButton">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="33" green="99" red="0" type="rgb"/>
@@ -403,7 +409,7 @@
                         <Property name="text" type="java.lang.String" value="Marck Attendance"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="classAttnMarkButtonActionPerformed"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="class_attn_print_button">
@@ -521,6 +527,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="Cleare All Fields"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -721,6 +730,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="Cleare"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CourseFieldClearActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="CourseAttnMark">
                       <Properties>
@@ -768,6 +780,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="Find Dates"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CourseRecordFindActionPerformed"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JSeparator" name="jSeparator9">
                     </Component>
@@ -823,6 +838,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="if You Want Search past attendance record "/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CourseRecordCheckBoxActionPerformed"/>
+                      </Events>
                     </Component>
                     <Container class="javax.swing.JPanel" name="jPanel7">
                       <Properties>
@@ -938,6 +956,9 @@
                         </Property>
                         <Property name="text" type="java.lang.String" value="Cleare All Fields"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CourseClearAllActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1373,6 +1394,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Clear"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton7ActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

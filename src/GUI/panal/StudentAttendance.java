@@ -67,7 +67,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         Studen_ID_TextField = new javax.swing.JTextField();
         Student_Name_TextField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        classAttnMarkButton = new javax.swing.JButton();
         class_attn_print_button = new javax.swing.JButton();
         jSeparator6 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -139,6 +139,11 @@ public class StudentAttendance extends javax.swing.JPanel {
         jTabbedPane1.setBackground(new java.awt.Color(200, 200, 198));
         jTabbedPane1.setFont(new java.awt.Font("Poppins SemiBold", 1, 18)); // NOI18N
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(967, 668));
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
 
         student_attn_main_panel.setBackground(new java.awt.Color(200, 200, 198));
         student_attn_main_panel.setPreferredSize(new java.awt.Dimension(967, 660));
@@ -229,14 +234,19 @@ public class StudentAttendance extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(0, 153, 51));
         jButton1.setText("Cleare");
-
-        jButton2.setBackground(new java.awt.Color(0, 153, 51));
-        jButton2.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Marck Attendance");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        classAttnMarkButton.setBackground(new java.awt.Color(0, 153, 51));
+        classAttnMarkButton.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
+        classAttnMarkButton.setForeground(new java.awt.Color(255, 255, 255));
+        classAttnMarkButton.setText("Marck Attendance");
+        classAttnMarkButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                classAttnMarkButtonActionPerformed(evt);
             }
         });
 
@@ -291,6 +301,11 @@ public class StudentAttendance extends javax.swing.JPanel {
         jButton4.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 0, 0));
         jButton4.setText("Cleare All Fields");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout student_attn_class_panelLayout = new javax.swing.GroupLayout(student_attn_class_panel);
         student_attn_class_panel.setLayout(student_attn_class_panelLayout);
@@ -320,7 +335,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(student_attn_class_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(classAttnMarkButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel5)
                             .addComponent(Studen_ID_TextField, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -362,7 +377,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                                     .addComponent(Studen_ID_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(Student_Name_TextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(4, 4, 4)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(classAttnMarkButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(student_attn_class_panelLayout.createSequentialGroup()
@@ -421,6 +436,11 @@ public class StudentAttendance extends javax.swing.JPanel {
         CourseFieldClear.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         CourseFieldClear.setForeground(new java.awt.Color(0, 153, 51));
         CourseFieldClear.setText("Cleare");
+        CourseFieldClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CourseFieldClearActionPerformed(evt);
+            }
+        });
 
         CourseAttnMark.setBackground(new java.awt.Color(0, 153, 51));
         CourseAttnMark.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
@@ -440,6 +460,11 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         CourseRecordFind.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         CourseRecordFind.setText("Find Dates");
+        CourseRecordFind.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CourseRecordFindActionPerformed(evt);
+            }
+        });
 
         CourseTabel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -460,6 +485,11 @@ public class StudentAttendance extends javax.swing.JPanel {
         jScrollPane3.setViewportView(CourseTabel);
 
         CourseRecordCheckBox.setText("if You Want Search past attendance record ");
+        CourseRecordCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CourseRecordCheckBoxActionPerformed(evt);
+            }
+        });
 
         jPanel7.setBackground(new java.awt.Color(200, 200, 198));
         jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -517,6 +547,11 @@ public class StudentAttendance extends javax.swing.JPanel {
         CourseClearAll.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
         CourseClearAll.setForeground(new java.awt.Color(255, 0, 0));
         CourseClearAll.setText("Cleare All Fields");
+        CourseClearAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CourseClearAllActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout student_attn_course_panelLayout = new javax.swing.GroupLayout(student_attn_course_panel);
         student_attn_course_panel.setLayout(student_attn_course_panelLayout);
@@ -780,6 +815,11 @@ public class StudentAttendance extends javax.swing.JPanel {
         jButton7.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
         jButton7.setForeground(new java.awt.Color(255, 0, 0));
         jButton7.setText("Clear");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout employee_attn_main_panelLayout = new javax.swing.GroupLayout(employee_attn_main_panel);
         employee_attn_main_panel.setLayout(employee_attn_main_panelLayout);
@@ -898,7 +938,7 @@ public class StudentAttendance extends javax.swing.JPanel {
     }//GEN-LAST:event_ifrecordCheckBoxActionPerformed
 
     private void searchRecorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchRecorButtonActionPerformed
-        searchRecord();
+        searchEmployeeRecord();
     }//GEN-LAST:event_searchRecorButtonActionPerformed
 
     // Search Employee Details
@@ -919,9 +959,9 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     }//GEN-LAST:event_class_attn_print_buttonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void classAttnMarkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classAttnMarkButtonActionPerformed
         MarkClassAttn();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_classAttnMarkButtonActionPerformed
 
     private void class_CheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_class_CheckBoxActionPerformed
         searchClassAttnChecBox();
@@ -936,7 +976,7 @@ public class StudentAttendance extends javax.swing.JPanel {
     }//GEN-LAST:event_CourseGradeItemStateChanged
 
     private void jTabbedPane2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane2MouseClicked
-        SelectTab();
+        SelectTab2();
     }//GEN-LAST:event_jTabbedPane2MouseClicked
 
     private void CourseSTIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CourseSTIDKeyReleased
@@ -946,6 +986,38 @@ public class StudentAttendance extends javax.swing.JPanel {
     private void CourseAttnMarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CourseAttnMarkActionPerformed
         MarkCourseAttn();
     }//GEN-LAST:event_CourseAttnMarkActionPerformed
+
+    private void CourseRecordCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CourseRecordCheckBoxActionPerformed
+        searchCourseAttnChecBox();
+    }//GEN-LAST:event_CourseRecordCheckBoxActionPerformed
+
+    private void CourseRecordFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CourseRecordFindActionPerformed
+        searchCourseAttn();
+    }//GEN-LAST:event_CourseRecordFindActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        resetEmployeePage();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        clearClassAllFieldMarkin();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        clearClassFieldMarkin();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void CourseFieldClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CourseFieldClearActionPerformed
+        clearCourseField();
+    }//GEN-LAST:event_CourseFieldClearActionPerformed
+
+    private void CourseClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CourseClearAllActionPerformed
+        clearCourseAllField();
+    }//GEN-LAST:event_CourseClearAllActionPerformed
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        SelectTab1();
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -965,6 +1037,7 @@ public class StudentAttendance extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser CourseToDate;
     private javax.swing.JTextField Studen_ID_TextField;
     private javax.swing.JTextField Student_Name_TextField;
+    private javax.swing.JButton classAttnMarkButton;
     private javax.swing.JCheckBox class_CheckBox;
     private com.toedter.calendar.JDateChooser class_From_DateChooser;
     private javax.swing.JButton class_attn_print_button;
@@ -979,7 +1052,6 @@ public class StudentAttendance extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser fromDateChooser;
     private javax.swing.JCheckBox ifrecordCheckBox;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
@@ -1056,7 +1128,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         Student_Name_TextField.setEditable(false);
 
         loadClassAttnTable();
-        loadCourseAttnTable();
+        searchClassAttnChecBox();
 
         loadEmpAttnTabel();
         loadClassGrade();
@@ -1190,12 +1262,16 @@ public class StudentAttendance extends javax.swing.JPanel {
 
                         if (resultSet.next()) {
                             Student_Name_TextField.setText(resultSet.getString("fname") + " " + resultSet.getString("lname"));
+                            classAttnMarkButton.grabFocus();
                         } else {
+                            Studen_ID_TextField.grabFocus();
                             JOptionPane.showMessageDialog(this, "Invalid Student ID or Not Registerd Student", "Warning", JOptionPane.WARNING_MESSAGE);
+
                         }
 
                     } else {
                         Student_Name_TextField.setText("");
+                        Studen_ID_TextField.grabFocus();
                     }
                 }
 
@@ -1234,6 +1310,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                         + "AND student_id = '" + StudenID + "'");
 
                 if (resultSet1.next()) {
+                    Studen_ID_TextField.grabFocus();
                     JOptionPane.showMessageDialog(this, "This Student Attendance Alredy Marked", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else {
                     dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
@@ -1258,7 +1335,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                             ResultSet resultSet3 = DB.search("SELECT * FROM class_pay "
                                     + "INNER JOIN payment ON class_pay.payment_id = payment.id "
                                     + "WHERE class_pay.class_id = '" + resultSet.getString("class_id") + "' "
-                                    + "AND MONTH(class_pay.due_month) = MONTH('d" + dateFormat + "') "
+                                    + "AND MONTH(class_pay.due_month) = MONTH('" + dateFormat + "') "
                                     + "AND student_id = '" + StudenID + "';");
 
                             if (resultSet3.next()) {
@@ -1271,7 +1348,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                                     cnaMark = true;
                                 } else {
                                     cnaMark = false;
-                                    clearMarkin();
+                                    clearClassFieldMarkin();
                                 }
                             }
 
@@ -1280,7 +1357,8 @@ public class StudentAttendance extends javax.swing.JPanel {
                                         + "(`marked_time`,`class_schedule_id`,`student_id`,`employee_id`) "
                                         + "VALUES('" + dateFormat + "','" + scheduleID + "','" + StudenID + "','" + empID + "')");
                             }
-                            clearMarkin();
+                            Studen_ID_TextField.grabFocus();
+                            clearClassFieldMarkin();
                             loadClassAttnTable();
                         }
 
@@ -1429,10 +1507,24 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     }
 
-    private void clearMarkin() {
-
+    private void clearClassFieldMarkin() {
         Studen_ID_TextField.setText("");
         Student_Name_TextField.setText("");
+    }
+
+    private void clearClassAllFieldMarkin() {
+        clearClassFieldMarkin();
+        jComboBox_gradeLoard.setSelectedIndex(0);
+        jComboBox_classLoad.setSelectedIndex(0);
+
+        class_From_DateChooser.setDate(null);
+        class_to_DateChooser.setDate(null);
+
+        class_CheckBox.setSelected(false);
+        class_From_DateChooser.setEnabled(false);
+        class_to_DateChooser.setEnabled(false);
+
+        loadClassAttnTable();
     }
 
     // <<..........................................Studen Class Attendance Marking.........................................>>
@@ -1466,7 +1558,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
                         if (resultSet.next()) {
                             CourseSTName.setText(resultSet.getString("fname") + " " + resultSet.getString("lname"));
-
+                            CourseAttnMark.grabFocus();
                         } else {
                             JOptionPane.showMessageDialog(this, "Invalid Student ID or Not Registerd Student", "Warning", JOptionPane.WARNING_MESSAGE);
                         }
@@ -1510,6 +1602,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                         + "AND student_id = '" + StudenID + "'");
 
                 if (resultSet1.next()) {
+                    CourseSTID.grabFocus();
                     JOptionPane.showMessageDialog(this, "This Student Attendance Alredy Marked", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else {
                     dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
@@ -1564,7 +1657,8 @@ public class StudentAttendance extends javax.swing.JPanel {
                                         + "(`marked_time`,`course_schedule_id`,`student_id`,`employee_id`) "
                                         + "VALUES('" + dateFormat + "','" + scheduleID + "','" + StudenID + "','" + empID + "')");
                             }
-                            loadCourseAttnTable(); 
+                            loadCourseAttnTable();
+                            CourseSTID.grabFocus();
                         }
 
                     }
@@ -1578,8 +1672,8 @@ public class StudentAttendance extends javax.swing.JPanel {
         }
 
     }
-    
-     private void loadCourseAttnTable() {
+
+    private void loadCourseAttnTable() {
 
         try {
             String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -1605,6 +1699,131 @@ public class StudentAttendance extends javax.swing.JPanel {
             e.printStackTrace();
         }
 
+    }
+
+    private void searchCourseAttnChecBox() {
+
+        if (CourseRecordCheckBox.isSelected()) {
+            CourseFromDate.setEnabled(true);
+            CourseToDate.setEnabled(true);
+            CourseRecordFind.setEnabled(true);
+        } else {
+            CourseFromDate.setEnabled(false);
+            CourseToDate.setEnabled(false);
+            CourseRecordFind.setEnabled(false);
+        }
+    }
+
+    private void searchCourseAttn() {
+        try {
+            String ST_name = CourseSTName.getText();
+            String ST_ID = CourseSTID.getText();
+
+            String grade = String.valueOf(CourseGrade.getSelectedItem());
+            String gradeId = gradeMap.get(grade);
+
+            String subject = String.valueOf(CourseSubject.getSelectedItem());
+            String SubjectID = classMap.get(subject);
+
+            if (gradeId == null) {
+                JOptionPane.showMessageDialog(this, "Please Select Grade", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (SubjectID == null) {
+                JOptionPane.showMessageDialog(this, "Please Select Class", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+
+                ResultSet resultSet = DB.search("SELECT * FROM `course_schedule` "
+                        + "INNER JOIN `course` ON `course_schedule`.`course_id` = `course`.`id` "
+                        + "WHERE `course`.`grade_id` = '" + gradeId + "' "
+                        + "AND `course`.`subject_id` = '" + SubjectID + "'");
+
+                if (resultSet.next()) {
+
+                    String scheduleID = resultSet.getString("id");
+
+                    Date fromDate;
+                    Date toDate;
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+                    String query = "SELECT * FROM `course_attendance` "
+                            + " WHERE DATE(`marked_time`) BETWEEN ";
+
+                    if (ST_name.isEmpty()) {
+                        if (CourseFromDate.getDate() != null) {
+                            fromDate = CourseFromDate.getDate();
+                            query += "'" + format.format(fromDate) + "' AND ";
+                        } else {
+                            query += "'2024-01-01' AND ";
+                        }
+
+                        if (CourseToDate.getDate() != null) {
+                            toDate = CourseToDate.getDate();
+                            query += "'" + format.format(toDate) + "' ";
+                        } else {
+                            query += "'" + format.format(new Date()) + "' ";
+                        }
+
+                    } else {
+                        if (CourseFromDate.getDate() != null) {
+                            fromDate = CourseFromDate.getDate();
+                            query += "'" + format.format(fromDate) + "' AND ";
+                        } else {
+                            query += "'2024-01-01' AND ";
+                        }
+
+                        if (CourseToDate.getDate() != null) {
+                            toDate = CourseToDate.getDate();
+                            query += "'" + format.format(toDate) + "' AND ";
+                        } else {
+                            query += "'" + format.format(new Date()) + "' AND ";
+                        }
+
+                        query += "`student_id` ='" + ST_ID + "'";
+                    }
+
+                    query += "AND `course_schedule_id` ='" + scheduleID + "' ORDER BY `marked_time` ASC";
+
+                    ResultSet resultSet1 = DB.search(query);
+
+                    DefaultTableModel tableModel = (DefaultTableModel) CourseTabel.getModel();
+                    tableModel.setRowCount(0);
+
+                    while (resultSet1.next()) {
+                        Vector<String> ClassVector = new Vector<>();
+                        ClassVector.add(resultSet1.getString("marked_time"));
+                        ClassVector.add(resultSet1.getString("course_schedule_id"));
+                        ClassVector.add(resultSet1.getString("student_id"));
+                        ClassVector.add(resultSet1.getString("employee_id"));
+
+                        tableModel.addRow(ClassVector);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "This is Not Scheduled Class", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void clearCourseField() {
+        CourseSTID.setText("");
+        CourseSTName.setText("");
+        CourseTabel.clearSelection();
+    }
+
+    private void clearCourseAllField() {
+        clearCourseField();
+        CourseGrade.setSelectedIndex(0);
+        CourseSubject.setSelectedIndex(0);
+
+        CourseFromDate.setDate(null);
+        CourseToDate.setDate(null);
+        CourseRecordCheckBox.setSelected(false);
+        CourseFromDate.setEnabled(false);
+        CourseToDate.setEnabled(false);
+
+        loadCourseAttnTable();
     }
 
 // <<..........................................Studen Course Attendance Marking.........................................>>
@@ -1770,7 +1989,7 @@ public class StudentAttendance extends javax.swing.JPanel {
     }
 
     // Search Attendance Record
-    private void searchRecord() {
+    private void searchEmployeeRecord() {
 
         try {
             String emp_name = employee_Name_Field.getText();
@@ -1857,17 +2076,38 @@ public class StudentAttendance extends javax.swing.JPanel {
         fromDateChooser.setDate(null);
         toDateChooser.setDate(null);
 
-    }
-// <<..........................................Employee Attendance Marking.........................................>>
+        fromDateChooser.setEnabled(true);
+        toDateChooser.setEnabled(true);
+        ifrecordCheckBox.setSelected(false);
 
-    private void SelectTab() {
+        employee_attn_table.clearSelection();
+
+        loadEmpAttnTabel();
+
+    }
+
+    // <<..........................................Employee Attendance Marking.........................................>>
+    private void SelectTab2() {
+           
+        if (jTabbedPane2.getSelectedIndex() == 0) {
+            clearCourseAllField();
+        } else {
+            loadClassGrade();
+            loadCourseAttnTable();
+            searchCourseAttnChecBox();
+            CourseSTName.setEditable(false);
+            clearClassAllFieldMarkin();
+        }
+
+    }
+
+    private void SelectTab1() {
 
         if (jTabbedPane1.getSelectedIndex() == 0) {
-            if (jTabbedPane2.getSelectedIndex() != 0) {
-                pageStart();
-            } else {
-                pageStart();
-            }
+            resetEmployeePage();
+        } else {
+            clearClassAllFieldMarkin();
+            clearCourseAllField();
         }
 
     }
