@@ -89,6 +89,20 @@ public class Admin {
     public void setFname(String fname) {
         this.fname = fname;
     }
+    
+    /**
+     * @return the lname
+     */
+    public String getLname() {
+        return lname;
+    }
+
+    /**
+     * @param lname the lname to set
+     */
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
 
     public Admin() {
     }
@@ -100,6 +114,7 @@ public class Admin {
         this.status = status;
         this.type = type;
         this.fname = fname;
+        this.lname = lname;
     }
     
    private String userName;
@@ -107,6 +122,7 @@ public class Admin {
    private String mobile;
    private String status;
    private String type;
-   private String fname;   
+   private String fname; 
+   private String lname; 
    
 }

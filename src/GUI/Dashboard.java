@@ -48,6 +48,7 @@ import modal.beans.Admin;
 import modal.SVGImage;
 import modal.SetDate;
 import modal.beans.Home;
+import modal.HomeInfo;
 
 public class Dashboard extends javax.swing.JFrame {
 
@@ -68,6 +69,8 @@ public class Dashboard extends javax.swing.JFrame {
         sVGImage2.setSvgImage("source/notification.svg", 30, 30);
         sVGImage3.setSvgImage("source/userprofile.svg", 28, 28);
         sVGImage1.setSvgImage("source/search.svg", 28, 28);
+        
+        saveLog();
     }
 
     SignIn lg = new SignIn();
