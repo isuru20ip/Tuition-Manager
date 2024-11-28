@@ -67,8 +67,6 @@ public class Dashboard extends javax.swing.JFrame {
         sVGImage2.setSvgImage("source/notification.svg", 30, 30);
         sVGImage3.setSvgImage("source/userprofile.svg", 28, 28);
         sVGImage1.setSvgImage("source/search.svg", 28, 28);
-
-        loadHistory();
     }
 
     SignIn lg = new SignIn();
@@ -804,37 +802,7 @@ public class Dashboard extends javax.swing.JFrame {
     private void setIconImage() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("Mainlogo.png")));
     }
-
-    private void loadHistory() {
-
-        try {
-
-            //ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("loginfo.ser"));
-
-            FileInputStream inputStream = new FileInputStream("loginfo.ser");
-            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-            Vector v = (Vector) objectInputStream.readObject();
-            objectInputStream.close();
-            
-            v.add(admin.getFname());
-
-//            objectOutputStream.writeObject(v);
-//            objectOutputStream.close();
-
-            FileInputStream inputSt = new FileInputStream("loginfo.ser");
-            ObjectInputStream objectIs = new ObjectInputStream(inputStream);
-            Vector vi = (Vector) objectInputStream.readObject();
-            objectInputStream.close();
-            
-            for (Object object : vi) {
-                System.out.println(object);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+    
     //rounded panel
     class RoundedPanel extends JPanel {
 
