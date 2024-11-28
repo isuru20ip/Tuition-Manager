@@ -35,10 +35,6 @@ public class DB {
         }
     }
     
-    public static Connection getConnection() throws ClassNotFoundException, SQLException {
-        setConnection();
-        return connection;
-    }
 
     public static Integer IUD(String q) throws ClassNotFoundException, SQLException {
         setConnection();

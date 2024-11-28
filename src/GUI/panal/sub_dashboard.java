@@ -8,25 +8,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.LayoutManager;
 import java.awt.RenderingHints;
 import modal.DB;
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.DriverManager;
-import java.text.SimpleDateFormat;
 import java.util.Vector;
 import java.util.logging.Level;
-import javaswingdev.swing.table.TableHeader;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import modal.LogCenter;
-import modal.SVGImage;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 import modal.SetDate;
 
 /**
@@ -66,9 +58,6 @@ public class sub_dashboard extends javax.swing.JPanel {
             DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
             renderer.setHorizontalAlignment(SwingConstants.CENTER);
             table1.setDefaultRenderer(Object.class, renderer);
-
-            JTableHeader header = table1.getTableHeader();
-            //DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
             renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
             while (resultSet.next()) {

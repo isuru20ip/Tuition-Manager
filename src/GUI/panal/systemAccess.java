@@ -19,9 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import modal.LogCenter;
 import modal.beans.Admin;
 import modal.DB;
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.PreparedStatement;
 import raven.toast.Notifications;
 
 /**
@@ -36,48 +34,99 @@ public class systemAccess extends javax.swing.JPanel {
         initComponents();
         this.admin = bean;
         loadEmployee();
-        searchAccess();
+        employeeAccessSearch();
+
+        txtEmployeeID.setEditable(true);
+        txtFirstName.setEditable(true);
+        txtLastName.setEditable(true);
     }
 
     private void loadEmployee() {
 
         try {
-
+            // Queries
             String query = "SELECT * FROM `employee` "
                     + "INNER JOIN `emp_status` ON `employee`.`emp_status_id` = `emp_status`.`id` "
                     + "INNER JOIN `gender` ON `employee`.`gender_id` = `gender`.`id` "
                     + "INNER JOIN `emp_type` ON `employee`.`emp_type_id` = `emp_type`.`id` "
                     + "LEFT JOIN `emp_access` ON `employee`.`id` = `emp_access`.`employee_id`";
 
-            ResultSet resultSet = DB.search(query);
+            // Fetch data for table1
+            try (ResultSet resultSet = DB.search(query)) {
+                DefaultTableModel model = (DefaultTableModel) table1.getModel();
+                model.setRowCount(0); // Clear existing data
 
-            DefaultTableModel model = (DefaultTableModel) table1.getModel();
-            model.setRowCount(0);
+                while (resultSet.next()) {
+                    Vector<String> vector = new Vector<>();
+                    vector.add(resultSet.getString("id"));
+                    vector.add(resultSet.getString("fname"));
+                    vector.add(resultSet.getString("lname"));
+                    vector.add(resultSet.getString("mobile"));
+                    vector.add(resultSet.getString("join_date"));
+                    vector.add(resultSet.getString("emp_status.status"));
+                    vector.add(resultSet.getString("gender.name"));
+                    vector.add(resultSet.getString("emp_type.name"));
+                    vector.add(resultSet.getString("emp_access.user_name"));
+                    vector.add(resultSet.getString("emp_access.password"));
 
+                    model.addRow(vector);
+                }
+            }
+
+            // Center alignment for table cells
             DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
             renderer.setHorizontalAlignment(SwingConstants.CENTER);
             table1.setDefaultRenderer(Object.class, renderer);
 
-            while (resultSet.next()) {
-
-                Vector<String> vector = new Vector<>();
-                vector.add(resultSet.getString("id"));
-                vector.add(resultSet.getString("fname"));
-                vector.add(resultSet.getString("lname"));
-                vector.add(resultSet.getString("mobile"));
-                vector.add(resultSet.getString("join_date"));
-                vector.add(resultSet.getString("emp_status.status"));
-                vector.add(resultSet.getString("gender.name"));
-                vector.add(resultSet.getString("emp_type.name"));
-                vector.add(resultSet.getString("emp_access.user_name"));
-                vector.add(resultSet.getString("emp_access.password"));
-
-                model.addRow(vector);
-            }
         } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "loadEmployeeSystemAccess", e);
+            LogCenter.logger.log(Level.WARNING, "Error loading employee data", e);
         }
 
+    }
+
+    private void employeeAccessSearch() {
+
+        try {
+            String query = "SELECT "
+                    + "    `employee`.id AS Employee_ID, "
+                    + "    `employee`.fname AS First_Name, "
+                    + "    `employee`.lname AS Last_Name, "
+                    + "    `emp_type`.name AS Type, "
+                    + "    `emp_access`.user_name AS Username, "
+                    + "    `emp_access`.password AS Password "
+                    + "FROM "
+                    + "    `employee` "
+                    + "JOIN "
+                    + "    `emp_access` ON `employee`.id = `emp_access`.employee_id "
+                    + "JOIN "
+                    + "    `emp_type` ON `employee`.emp_type_id = `emp_type`.id";
+
+            // Fetch data for table2
+            try (ResultSet resultSet = DB.search(query)) {
+                DefaultTableModel dmodel = (DefaultTableModel) table2.getModel();
+                dmodel.setRowCount(0); // Clear existing data
+
+                while (resultSet.next()) {
+                    Vector<String> vector = new Vector<>();
+                    vector.add(resultSet.getString("Employee_ID")); // Matches the alias
+                    vector.add(resultSet.getString("First_Name"));  // Matches the alias
+                    vector.add(resultSet.getString("Last_Name"));   // Matches the alias
+                    vector.add(resultSet.getString("Type"));        // Matches the alias
+                    vector.add(resultSet.getString("Username"));    // Matches the alias
+                    vector.add(resultSet.getString("Password"));    // Matches the alias
+
+                    dmodel.addRow(vector);
+                }
+            }
+
+            // Center alignment for table cells
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+            renderer.setHorizontalAlignment(SwingConstants.CENTER);
+            table2.setDefaultRenderer(Object.class, renderer);
+
+        } catch (Exception e) {
+            LogCenter.logger.log(Level.WARNING, "employeeAccessSearch", e);
+        }
     }
 
     private void searchAccess() {
@@ -85,63 +134,45 @@ public class systemAccess extends javax.swing.JPanel {
         String employeeID = txtEmployeeID.getText().trim();
         String firstName = txtFirstName.getText().trim();
         String lastName = txtLastName.getText().trim();
-        String employeeType = cmbEmployeeType.getSelectedItem().toString();
+        String employeeType = (String) cmbEmployeeType.getSelectedItem();
 
-        String query = ("SELECT * FROM `employee` "
-                + "INNER JOIN `emp_type` ON `employee`.`emp_type_id` = `emp_type`.`id` "
-                + "LEFT JOIN `emp_access` ON `employee`.`id` = `emp_access`.`employee_id` "
-                + "WHERE `employee`.`id` = '" + employeeID + "'");
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT e.id, e.fname, e.lname, et.name AS emp_type, ea.user_name, ea.password ")
+                .append("FROM employee e ")
+                .append("INNER JOIN emp_access ea ON e.id = ea.employee_id ")
+                .append("INNER JOIN emp_type et ON e.emp_type_id = et.id ")
+                .append("WHERE 1=1 ");
 
         if (!employeeID.isEmpty()) {
-            query += " AND id = ?";
+            query.append("AND e.id LIKE '%").append(employeeID).append("%' ");
         }
         if (!firstName.isEmpty()) {
-            query += " AND fname LIKE ?";
+            query.append("AND e.fname LIKE '%").append(firstName).append("%' ");
         }
         if (!lastName.isEmpty()) {
-            query += " AND lname LIKE ?";
+            query.append("AND e.lname LIKE '%").append(lastName).append("%' ");
         }
-        if (!employeeType.equals("All")) {
-            query += " AND emp_type.name = ?";
+        if (employeeType != null && !employeeType.equals("Item 1")) { // Skip placeholder
+            query.append("AND et.name = '").append(employeeType).append("' ");
         }
 
-        try (Connection conn = DB.getConnection(); 
-                PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            int paramIndex = 1;
-            if (!employeeID.isEmpty()) {
-                stmt.setString(paramIndex++, employeeID);
-            }
-            if (!firstName.isEmpty()) {
-                stmt.setString(paramIndex++, "%" + firstName + "%");
-            }
-            if (!lastName.isEmpty()) {
-                stmt.setString(paramIndex++, "%" + lastName + "%");
-            }
-            if (!employeeType.equals("All")) {
-                stmt.setString(paramIndex++, employeeType);
-            }
-
-            ResultSet resultSet = stmt.executeQuery();
-
-            DefaultTableModel model = (DefaultTableModel) table2.getModel();
-            model.setRowCount(0);
-
-            while (resultSet.next()) {
-                Vector<String> vector = new Vector<>();
-                vector.add(resultSet.getString("id"));
-                vector.add(resultSet.getString("fname"));
-                vector.add(resultSet.getString("lname"));
-                vector.add(resultSet.getString("emp_type.name"));
-                vector.add(resultSet.getString("emp_access.user_name"));
-                vector.add(resultSet.getString("emp_access.password"));
-
-                model.addRow(vector);
+        try {
+            ResultSet rs = modal.DB.search(query.toString());
+            DefaultTableModel tableModel = (DefaultTableModel) table2.getModel();
+            tableModel.setRowCount(0); // Clear existing rows
+            while (rs.next()) {
+                tableModel.addRow(new Object[]{
+                    rs.getString("id"),
+                    rs.getString("fname"),
+                    rs.getString("lname"),
+                    rs.getString("emp_type"),
+                    rs.getString("user_name"),
+                    rs.getString("password")
+                });
 
             }
-
         } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "searchEmployeeAccess", e);
+            LogCenter.logger.log(Level.WARNING, "searchAccess", e);
         }
     }
 
@@ -157,7 +188,7 @@ public class systemAccess extends javax.swing.JPanel {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel2 = new RoundedPanel(20, new Color(250, 249, 246));
+        jPanel2 = new RoundedPanel(20, new Color(234,238,244));
         jScrollPane1 = new javax.swing.JScrollPane();
         table1 = new javaswingdev.swing.table.Table();
         jPanel6 = new javax.swing.JPanel();
@@ -185,7 +216,7 @@ public class systemAccess extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         username = new javax.swing.JTextField();
         clearall = new javax.swing.JButton();
-        jPanel3 = new RoundedPanel(20, new Color(250, 249, 246));
+        jPanel3 = new RoundedPanel(20, new Color(234,238,244));
         jPanel9 = new RoundedPanel(20, Color.white);
         jPanel11 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
@@ -196,15 +227,14 @@ public class systemAccess extends javax.swing.JPanel {
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         cmbEmployeeType = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        search = new javax.swing.JButton();
+        clear = new javax.swing.JButton();
         jPanel10 = new RoundedPanel(20, Color.white);
         jScrollPane2 = new javax.swing.JScrollPane();
         table2 = new javaswingdev.swing.table.Table();
         jButton1 = new javax.swing.JButton();
-        jPanel1 = new RoundedPanel(20, new Color(250, 249, 246));
-        jPanel5 = new javax.swing.JPanel();
-        jPanel4 = new RoundedPanel(20, new Color(250, 249, 246));
+        jPanel1 = new RoundedPanel(20, new Color(234,238,244));
+        jPanel4 = new RoundedPanel(20, new Color(234,238,244));
         jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(200, 200, 198));
@@ -578,7 +608,7 @@ public class systemAccess extends javax.swing.JPanel {
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 14))); // NOI18N
 
-        jLabel16.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel16.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel16.setText("Employee ID");
 
         txtEmployeeID.setEditable(false);
@@ -590,7 +620,7 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        jLabel17.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel17.setText("Employee First Name");
 
         txtFirstName.setEditable(false);
@@ -611,22 +641,38 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        jLabel18.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel18.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel18.setText("Employee Last Name");
 
-        jLabel19.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel19.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel19.setText("Employee Type");
 
-        cmbEmployeeType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbEmployeeType.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        cmbEmployeeType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Master Admin", "Admin", "Cashier", "Attendance Marker" }));
         cmbEmployeeType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbEmployeeTypeActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Search");
+        search.setBackground(new java.awt.Color(51, 255, 51));
+        search.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
+        search.setText("Search");
+        search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Clear All");
+        clear.setBackground(new java.awt.Color(0, 0, 0));
+        clear.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
+        clear.setForeground(new java.awt.Color(255, 255, 255));
+        clear.setText("Clear All");
+        clear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -636,43 +682,43 @@ public class systemAccess extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtEmployeeID)
+                    .addComponent(search, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(clear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtFirstName)
                     .addComponent(txtLastName)
-                    .addComponent(cmbEmployeeType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmbEmployeeType, 0, 267, Short.MAX_VALUE)
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel17)
-                            .addComponent(jLabel18))
-                        .addGap(0, 139, Short.MAX_VALUE)))
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel19))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(21, 21, 21)
                 .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEmployeeID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmbEmployeeType, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(97, 97, 97)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(87, 87, 87)
+                .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(clear, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
 
@@ -714,6 +760,9 @@ public class systemAccess extends javax.swing.JPanel {
         table2.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(table2);
 
+        jButton1.setBackground(new java.awt.Color(255, 51, 51));
+        jButton1.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Print");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -776,19 +825,6 @@ public class systemAccess extends javax.swing.JPanel {
         );
 
         jTabbedPane1.addTab("Login History", jPanel1);
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1003, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 591, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Reports", jPanel5);
 
         jPanel4.setBackground(new java.awt.Color(200, 200, 198));
 
@@ -874,67 +910,56 @@ public class systemAccess extends javax.swing.JPanel {
     private void addaccessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addaccessActionPerformed
 
         try {
+            // Retrieve user inputs
+            String usern = username.getText().trim();
+            String passw = password.getText().trim();
+            String empID = empid.getText().trim();
 
-            Connection conn = DB.getConnection();
-            // Check if the connection is valid before proceeding
-            if (conn == null || conn.isClosed()) {
-                throw new Exception("Database connection is closed. Re-establishing connection...");
-            }
-            String usern = username.getText();
-            String passw = String.valueOf(password.getText());
-            String empID = String.valueOf(empid.getText());
-
+            // Check if a row is selected in the table
             int row = table1.getSelectedRow();
-
             if (row == -1) {
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Please select a row to add Access");
-            } else if (usern == null || usern.trim().isEmpty()) {
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Please enter Username");
-            } else if (passw == null || passw.trim().isEmpty()) {
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Please enter Password");
-            } else {
-
-                // Validate if username and password already exist
-                try (PreparedStatement pst = conn.prepareStatement(
-                        "SELECT COUNT(*) FROM emp_access WHERE user_name = ? OR password = ?")) {
-
-                    pst.setString(1, usern);
-                    pst.setString(2, passw);
-
-                    try (ResultSet rs = pst.executeQuery()) {
-                        if (rs.next() && rs.getInt(1) > 0) {
-                            // Username and password already exist
-                            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Username and password already exist. Please try different credentials.");
-                        } else {
-
-                            // If validation passes, insert the new access
-                            DB.IUD("INSERT INTO `emp_access`(`user_name`, `password`, `employee_id`) VALUES ('" + usern + "','" + passw + "','" + empID + "')");
-                            Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Access added successfully");
-                            loadEmployee();
-                            reset();
-                        }
-                    }
-
-                    // Validate after adding credentials
-                    try (PreparedStatement validateStmt = conn.prepareStatement(
-                            "SELECT COUNT(*) AS count FROM emp_access WHERE user_name = ? AND password = ?")) {
-
-                        validateStmt.setString(1, usern);
-                        validateStmt.setString(2, passw);
-
-                        try (ResultSet rs = validateStmt.executeQuery()) {
-                            if (rs.next() && rs.getInt("count") > 1) { // `> 1` because we just added these credentials
-                                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                                        "Duplicate entry detected after addition. Please review your data integrity.");
-                            }
-                        }
-                    }
-
-                }
-
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please select a row to add Access");
+                return;
             }
+
+            // Validate input fields
+            if (usern.isEmpty()) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please enter Username");
+                return;
+            }
+            if (passw.isEmpty()) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please enter Password");
+                return;
+            }
+
+            // Check for duplicate username or password
+            String queryCheck = "SELECT COUNT(*) FROM emp_access WHERE user_name = '" + usern + "' OR password = '" + passw + "'";
+            try (ResultSet rs = DB.search(queryCheck)) {
+                if (rs.next() && rs.getInt(1) > 0) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                            "Username or password already exists. Please try different credentials.");
+                    return;
+                }
+            }
+
+            // Insert the new access if validation passes
+            String queryInsert = "INSERT INTO emp_access (user_name, password, employee_id) VALUES ('" + usern + "', '" + passw + "', '" + empID + "')";
+            DB.IUD(queryInsert);
+
+            Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
+                    "Access added successfully");
+
+            // Reload employee table and reset input fields
+            loadEmployee();
+            reset();
         } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "addAccess", e);
+            // Log and notify error
+            LogCenter.logger.log(Level.WARNING, "Error adding access", e);
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
+                    "Failed to add access. Please try again.");
         }
 
     }//GEN-LAST:event_addaccessActionPerformed
@@ -945,48 +970,60 @@ public class systemAccess extends javax.swing.JPanel {
 
     private void updateclassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateclassActionPerformed
 
-        String usern = username.getText();
-        String passw = String.valueOf(password.getText());
-        String empID = String.valueOf(empid.getText());
+        String usern = username.getText().trim();
+        String passw = password.getText().trim();
+        String empID = empid.getText().trim();
 
+        // Get the selected row
         int row = table1.getSelectedRow();
         if (row == -1) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Please select a row to update Access");
-        } else {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please select a row to update Access");
+            return;
+        }
 
-            String selectedun = String.valueOf(table1.getValueAt(row, 8));
-            String selectedpw = String.valueOf(table1.getValueAt(row, 9));
+        // Get current username and password from the selected row
+        String selectedun = String.valueOf(table1.getValueAt(row, 8));
+        String selectedpw = String.valueOf(table1.getValueAt(row, 9));
 
-            try {
-                Connection conn = DB.getConnection();
-                // Check if the connection is valid before proceeding
-                if (conn == null || conn.isClosed()) {
-                    throw new Exception("Database connection is closed. Re-establishing connection...");
-                }
-            } catch (Exception e) {
-            }
+        // Check for empty username
+        if (usern.isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please enter Username");
+            return;
+        }
 
-            if (usern == null || usern.trim().isEmpty()) {
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Please enter Username");
-            } else if (passw == null || passw.trim().isEmpty()) {
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Please enter Password");
-            } else if (selectedun.equals(usern) && selectedpw.equals(passw)) {
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER, "Please change username or passsword to update");
-            } else {
+        // Check for empty password
+        if (passw.isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please enter Password");
+            return;
+        }
 
-                try {
+        // Check if new username and password are the same as the current ones
+        if (selectedun.equals(usern) && selectedpw.equals(passw)) {
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please change username or password to update");
+            return;
+        }
 
-                    DB.IUD("UPDATE `emp_access` SET `user_name`='" + usern + "', `password` = '" + passw + "' WHERE `employee_id`='" + empID + "'");
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "Access updated successfully");
-                    loadEmployee();
-                    reset();
+        try {
+            // Execute the update query using your DB class
+            String query = "UPDATE emp_access SET user_name = '" + usern + "', password = '" + passw + "' WHERE employee_id = '" + empID + "'";
+            DB.IUD(query);
 
-                } catch (Exception e) {
-                    LogCenter.logger.log(Level.WARNING, "updateMainAccess", e);
-                }
+            // Notify success
+            Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
+                    "Access updated successfully");
 
-            }
-
+            // Reload employee table and reset inputs
+            loadEmployee();
+            reset();
+        } catch (Exception e) {
+            // Log and notify error
+            LogCenter.logger.log(Level.WARNING, "Error updating access", e);
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
+                    "Failed to update access. Please try again.");
         }
 
 
@@ -1035,12 +1072,23 @@ public class systemAccess extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbEmployeeTypeActionPerformed
 
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        searchAccess();
+    }//GEN-LAST:event_searchActionPerformed
+
+    private void clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearActionPerformed
+        clearFields();
+        table2.clearSelection();
+        employeeAccessSearch();
+    }//GEN-LAST:event_clearActionPerformed
+
     private void setNotification(JFrame parent) {
         Notifications.getInstance().setJFrame(parent);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addaccess;
+    private javax.swing.JButton clear;
     private javax.swing.JButton clearall;
     private javax.swing.JComboBox<String> cmbEmployeeType;
     private javax.swing.JTextField contact;
@@ -1051,8 +1099,6 @@ public class systemAccess extends javax.swing.JPanel {
     private javax.swing.JTextField empstatus;
     private javax.swing.JTextField emptype;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1073,7 +1119,6 @@ public class systemAccess extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
@@ -1083,6 +1128,7 @@ public class systemAccess extends javax.swing.JPanel {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField joineddate;
     private javax.swing.JTextField password;
+    private javax.swing.JButton search;
     private javaswingdev.swing.table.Table table1;
     private javaswingdev.swing.table.Table table2;
     private javax.swing.JTextField txtEmployeeID;
@@ -1170,6 +1216,7 @@ public class systemAccess extends javax.swing.JPanel {
             addaccess.setEnabled(false);
             updateclass.setEnabled(true);
             deleteclass.setEnabled(true);
+
         }
     }
 
