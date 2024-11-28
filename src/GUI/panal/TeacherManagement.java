@@ -20,7 +20,9 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
 import modal.HomeInfo;
@@ -51,6 +53,12 @@ public class TeacherManagement extends javax.swing.JPanel {
         loadTStatus();
         TeacherReportLoad("", "", "", "");
         TeacherPaymentLoad("");
+        
+           DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+        jTable1.setDefaultRenderer(Object.class, renderer);
+        jTable2.setDefaultRenderer(Object.class, renderer);
+        jTable3.setDefaultRenderer(Object.class, renderer);
     }
 
     /**
@@ -248,6 +256,7 @@ public class TeacherManagement extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        jTable1.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -519,6 +528,7 @@ public class TeacherManagement extends javax.swing.JPanel {
 
         jPanel10.setBackground(new java.awt.Color(234, 238, 244));
 
+        jTable2.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -538,6 +548,7 @@ public class TeacherManagement extends javax.swing.JPanel {
         jTable2.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(jTable2);
 
+        jTable3.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
