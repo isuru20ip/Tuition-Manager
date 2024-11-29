@@ -59,6 +59,7 @@ public class CourseManagement extends javax.swing.JPanel {
         loadCourseTable("");
         SearchReport();
         jButton4.setEnabled(false);
+        jComboBox5.setEnabled(false);
     }
 
     /**
@@ -922,6 +923,7 @@ public class CourseManagement extends javax.swing.JPanel {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         jButton4.setEnabled(true);
         jButton5.setEnabled(false);
+        jComboBox5.setEnabled(true);
         int row = jTable1.getSelectedRow();
         try {
 
@@ -1253,7 +1255,7 @@ public class CourseManagement extends javax.swing.JPanel {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `class_status`");
             Vector<String> vector = new Vector<>();
-            vector.add("Select");
+            
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("status"));
@@ -1380,7 +1382,7 @@ public class CourseManagement extends javax.swing.JPanel {
                         String time24hr = format24hr.format(day);
                         DB.IUD("INSERT INTO `course_day` (`time`,`week_day_id`,`course_id`) VALUES ('" + time24hr + "','" + vnm.getId() + "','" + jTextField1.getText() + "')");
                     }
-                    System.out.println("success");
+                    JOptionPane.showMessageDialog(this, "Register Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                     reset();
 
                 }
@@ -1472,7 +1474,7 @@ public class CourseManagement extends javax.swing.JPanel {
                                 + "`class_language_id` = '" + classLanguageMap.get(language) + "', `class_status_id` = '" + classStatusMap.get(status) + "', "
                                 + "`room_type_id` = '" + hallMap.get(hall) + "', `employee_id` ='" + employeeID + "' "
                                 + "WHERE `id`='" + courseID + "'");
-
+                        JOptionPane.showMessageDialog(this, "Update Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                     }
 
                     if (dayVector != null) {
@@ -1484,7 +1486,7 @@ public class CourseManagement extends javax.swing.JPanel {
                             Date day = format12hr.parse(time12hr);
                             String time24hr = format24hr.format(day);
                             DB.IUD("INSERT INTO `course_day` (`time`,`week_day_id`,`course_id`) VALUES ('" + time24hr + "','" + vnm.getId() + "','" + jTextField1.getText() + "')");
-
+                            //JOptionPane.showMessageDialog(this, "Update Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     }
@@ -1622,6 +1624,7 @@ public class CourseManagement extends javax.swing.JPanel {
         generateCourseID();
         jButton5.setEnabled(true);
         jButton4.setEnabled(false);
+        jComboBox5.setEnabled(false);
 
     }
 
@@ -1836,9 +1839,9 @@ public class CourseManagement extends javax.swing.JPanel {
             boolean isSaved = reporting.saveReport("CourseManagementReport", params, dataSource, admin);
 
             if (isSaved) {
-                JOptionPane.showMessageDialog(this, "Student Enrollement saved successfully");
+                JOptionPane.showMessageDialog(this, "Course Management Report saved successfully");
             } else {
-                JOptionPane.showMessageDialog(this, "Student Enrollement saving was canceled");
+                JOptionPane.showMessageDialog(this, "Course Management Report saving was canceled");
             }
 
         } catch (IOException ex) {
