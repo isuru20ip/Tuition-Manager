@@ -330,7 +330,7 @@ public class ClassDayTime extends javax.swing.JDialog {
 
     private void refresh() {
         jComboBox1.setSelectedIndex(0);
-        jTextField2.setText("");
+        
 
     }
 

@@ -90,34 +90,17 @@ public class Admin {
         this.fname = fname;
     }
 
-    /**
-     * @return the lname
-     */
-    public String getLname() {
-        return lname;
-    }
-
-    /**
-     * @param lname the lname to set
-     */
-    public void setLname(String lname) {
-        this.lname = lname;
-    }
-
     public Admin() {
     }
 
-    public Admin(String userName, String userID, String mobile, String status, String type, String fname, String lname) {
+    public Admin(String userName, String userID, String mobile, String status, String type, String fname) {
         this.userName = userName;
         this.userID = userID;
         this.mobile = mobile;
         this.status = status;
         this.type = type;
         this.fname = fname;
-        this.lname = lname;
     }
-    
-    
     
    private String userName;
    private String userID;
@@ -125,6 +108,5 @@ public class Admin {
    private String status;
    private String type;
    private String fname;   
-   private String lname; 
    
 }

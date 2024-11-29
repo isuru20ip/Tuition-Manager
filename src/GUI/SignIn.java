@@ -13,11 +13,12 @@ import javax.swing.UIManager;
 import modal.LogCenter;
 
 public class SignIn extends javax.swing.JFrame {
-
+    
+    
     public SignIn() {
         initComponents();
-        jTextField1.setText("hasano");
-        jPasswordField1.setText("123456");
+        jTextField1.setText("HashanoSA");
+        jPasswordField1.setText("Hashan99");
         icon();
     }
 
@@ -145,7 +146,7 @@ public class SignIn extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         signIn();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -200,10 +201,9 @@ public class SignIn extends javax.swing.JFrame {
                     String status = resultSet.getString("status");
                     String type = resultSet.getString("name");
                     String userID = resultSet.getString("employee_id");
-                    String fname = resultSet.getString("fname");
-                    String lname = resultSet.getString("lname");
+                    String fname =  resultSet.getString("fname");
 
-                    Dashboard dashboard = new Dashboard(new Admin(userName, userID, mobile, status, type, fname, lname));
+                    Dashboard dashboard = new Dashboard(new Admin(userName,userID, mobile, status, type,fname));
                     dashboard.setVisible(true);
                     this.dispose();
 
