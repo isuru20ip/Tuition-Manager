@@ -64,6 +64,7 @@ public class ClassManagement extends javax.swing.JPanel {
         SearchReport();
         documentListner();
         jButton4.setEnabled(false);
+        jComboBox6.setEnabled(false);
 
     }
 
@@ -996,6 +997,7 @@ public class ClassManagement extends javax.swing.JPanel {
 
         jButton4.setEnabled(true);
         jButton5.setEnabled(false);
+        jComboBox6.setEnabled(true);
         int row = jTable4.getSelectedRow();
         try {
 
@@ -1374,7 +1376,7 @@ viewReport();        // TODO add your handling code here:
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `class_status`");
             Vector<String> vector = new Vector<>();
-            vector.add("Select");
+          
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("status"));
@@ -1522,7 +1524,7 @@ viewReport();        // TODO add your handling code here:
                         String time24hr = format24hr.format(day);
                         DB.IUD("INSERT INTO `class_day` (`time`,`week_day_id`,`class_id`) VALUES ('" + time24hr + "','" + vnm.getId() + "','" + jTextField1.getText() + "')");
                     }
-
+                    JOptionPane.showMessageDialog(this, "Register Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                     reset();
 
                 }
@@ -1615,6 +1617,8 @@ viewReport();        // TODO add your handling code here:
                                 + "`class_language_id` = '" + classLanguageMap.get(language) + "', `class_status_id` = '" + classStatusMap.get(status) + "', "
                                 + "`room_type_id` = '" + hallMap.get(hall) + "', `employee_id` ='" + admin.getUserID() + "' ,`class_modal_id`='" + classModalMap.get(model) + "'"
                                 + "WHERE `id`='" + classID + "'");
+                        
+                        JOptionPane.showMessageDialog(this, "Update Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                     }
 
@@ -1627,7 +1631,7 @@ viewReport();        // TODO add your handling code here:
                             Date day = format12hr.parse(time12hr);
                             String time24hr = format24hr.format(day);
                             DB.IUD("INSERT INTO `class_day` (`time`,`week_day_id`,`class_id`) VALUES ('" + time24hr + "','" + vnm.getId() + "','" + jTextField1.getText() + "')");
-
+                            //JOptionPane.showMessageDialog(this, "Update Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     }
@@ -1769,7 +1773,7 @@ viewReport();        // TODO add your handling code here:
         jComboBox6.setSelectedItem("Select");
         jComboBox33.setSelectedItem("Select");
         jComboBox34.setSelectedItem("Select");
-
+        jComboBox6.setEnabled(false);
         loadClassesTable("");
         generateClassID();
         jButton5.setEnabled(true);
@@ -1997,7 +2001,7 @@ viewReport();        // TODO add your handling code here:
 
             // Parameters for the report
             HashMap<String, Object> params = new HashMap<>();
-            params.put("Parameter1", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("Parameter1", home.getLine01() + "," + home.getLine02() + "," +   home.getCity());
             params.put("Parameter2", home.getLandLine());
             params.put("Parameter3", home.getEmail());
             params.put("Parameter4", home.getMobile());
@@ -2009,9 +2013,9 @@ viewReport();        // TODO add your handling code here:
             boolean isSaved = reporting.saveReport("ClassManagementReport", params, dataSource, admin);
 
             if (isSaved) {
-                JOptionPane.showMessageDialog(this, "Student Enrollement saved successfully");
+                JOptionPane.showMessageDialog(this, "Class Management Report saved successfully");
             } else {
-                JOptionPane.showMessageDialog(this, "Student Enrollement saving was canceled");
+                JOptionPane.showMessageDialog(this, "Class Management Report saving was canceled");
             }
 
         } catch (IOException ex) {
