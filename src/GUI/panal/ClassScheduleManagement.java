@@ -7,12 +7,15 @@ package GUI.panal;
 import GUI.popup.UpdateClasses;
 import GUI.popup.UpdateCourses;
 import cambodia.raven.Time;
+import java.awt.HeadlessException;
 import java.awt.Panel;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import modal.DB;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -34,6 +37,8 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
     /**
      * Creates new form ClassScheduleManagement
+     *
+     * @param admin
      */
     public ClassScheduleManagement(Admin admin) {
         initComponents();
@@ -166,6 +171,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         courseTable = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         courseScheduleTable = new javax.swing.JTable();
+        scheduleReports = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
         time1.setTextRefernce(startTimeField);
@@ -1116,6 +1122,19 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         jTabbedPaneClassSchedule.addTab("Course Schedule", new javax.swing.ImageIcon(getClass().getResource("/source/add class.png")), courseSchedule); // NOI18N
 
+        javax.swing.GroupLayout scheduleReportsLayout = new javax.swing.GroupLayout(scheduleReports);
+        scheduleReports.setLayout(scheduleReportsLayout);
+        scheduleReportsLayout.setHorizontalGroup(
+            scheduleReportsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 967, Short.MAX_VALUE)
+        );
+        scheduleReportsLayout.setVerticalGroup(
+            scheduleReportsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 574, Short.MAX_VALUE)
+        );
+
+        jTabbedPaneClassSchedule.addTab("View & Reports", new javax.swing.ImageIcon(getClass().getResource("/source/reports.png")), scheduleReports); // NOI18N
+
         jLabel1.setBackground(new java.awt.Color(234, 238, 244));
         jLabel1.setFont(new java.awt.Font("Poppins", 0, 24)); // NOI18N
         jLabel1.setText("Schedule Management");
@@ -1197,7 +1216,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 }
                 resetAutoLoadTable();
             }
-        } catch (Exception e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
 
@@ -1245,101 +1264,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_classScheduleTableMouseClicked
 
     private void scheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleButtonActionPerformed
-
-        String id = String.valueOf(classIDCombobox.getSelectedItem());
-        String hall = String.valueOf(hallLoadCombobox.getSelectedItem());
-        String hType = String.valueOf(hallTypeComboBox2.getSelectedItem());
-        String scheduleStatus = String.valueOf(scheduleStatusCombobox.getSelectedItem());
-        String capacity = capacityField.getText();
-
-        String curruntDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date classdate1 = jDateChooser1.getDate();
-
-        classIDCombobox.grabFocus();
-
-        // Initial Validation
-        if (id.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Class ID is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (hType.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Hall Load Type is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (hall.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Hall Load is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (scheduleStatus.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Schedule Status is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (capacity.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Capacity is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (!capacity.matches("\\d+")) {  // Ensure capacity is a positive integer
-            JOptionPane.showMessageDialog(this, "Capacity must be a positive integer.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (classdate1 == null) {
-            JOptionPane.showMessageDialog(this, "Class Date is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (classdate1.before(currentDate)) {
-            JOptionPane.showMessageDialog(this, "The date is expired. Please Select a Valid Date", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        try {
-            // Retrieve start and end times from fields
-            String stTime = startTimeField.getText();
-            String enTime = endTimeField.getText();
-
-            // Validate start and end times
-            if (stTime == null || stTime.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Start Time is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            if (enTime == null || enTime.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "End Time is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            // Parse the start and end times in 12-hour format
-            Date day1 = format12hr.parse(stTime);
-            Date day2 = format12hr.parse(enTime);
-
-            // Convert to 24-hour format for easier validation
-            String time24hr1 = format24hr.format(day1);
-            String time24hr2 = format24hr.format(day2);
-
-            // Validate that Start Time is before End Time
-            if (day1.after(day2)) {
-                JOptionPane.showMessageDialog(this, "Start Time must be before End Time.", "Warning", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            ResultSet resultSet = DB.search("SELECT * FROM `class_schedule` "
-                    + "WHERE `class_id` = '" + id + "'"
-                    + "AND `class_room_id` = '" + hall + "'"
-                    + "AND `class_date` ='" + sdf.format(classdate1) + "'"
-                    + "AND `start_time` = '" + time24hr1 + "'"
-                    + "AND `end_time` = '" + time24hr2 + "'");
-
-            if (resultSet.next()) {
-                JOptionPane.showMessageDialog(this, "Already Scheduled.", "Warning", JOptionPane.WARNING_MESSAGE);
-                reset();
-            } else {
-
-                DB.IUD("INSERT INTO `class_schedule` (`class_id`, `class_room_id`, `class_date`, `shedule_time`, `employee_id`, `schedule_status_id`, `start_time`, `end_time`)"
-                        + "VALUES ('" + id + "', '" + hall + "', '" + sdf.format(classdate1) + "', '" + curruntDate + "', '" + admin.getUserID() + "', '"
-                        + scheduleStautusMap.get(scheduleStatus) + "', '" + time24hr1 + "', '" + time24hr2 + "')");
-
-                JOptionPane.showMessageDialog(this, "Schedule created successfully.", "Information", JOptionPane.INFORMATION_MESSAGE);
-
-                loadClassSchedulTable();
-                loadTableAuto();
-                reset();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        scheduleClasses();
     }//GEN-LAST:event_scheduleButtonActionPerformed
 
     private void courseTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_courseTableMouseClicked
@@ -1365,9 +1290,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                     courseStartTimeField.setText(time12hr);
 
                 }
-//                resetAutoLoadTable();
+                resetCourseAutoLoadTable();
             }
-        } catch (Exception e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_courseTableMouseClicked
@@ -1431,101 +1356,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_courseStartTimeFieldActionPerformed
 
     private void scheduleCourseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleCourseButtonActionPerformed
-        String id = String.valueOf(courseIdCombobox.getSelectedItem());
-        String hall = String.valueOf(courseHallCombobox.getSelectedItem());
-        String hType = String.valueOf(courseHallTypeCombobox.getSelectedItem());
-        String scheduleStatus = String.valueOf(courseScheduleStatusCombobox.getSelectedItem());
-        String capacity = courseHallCapacityField.getText();
-
-        String curruntDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date courseDate = jDateChooser2.getDate();
-
-        courseIdCombobox.grabFocus();
-
-        // Initial Validation
-        if (id.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Course ID is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (hType.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Hall Load Type is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (hall.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Hall Load is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (scheduleStatus.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Schedule Status is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (capacity.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Capacity is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (!capacity.matches("\\d+")) {  // Ensure capacity is a positive integer
-            JOptionPane.showMessageDialog(this, "Capacity must be a positive integer.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (courseDate == null) {
-            JOptionPane.showMessageDialog(this, "Course Date is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (courseDate.before(currentDate)) {
-            JOptionPane.showMessageDialog(this, "The date is expired. Please Select a Valid Date", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        try {
-            // Retrieve start and end times from fields
-            String stTime = courseStartTimeField.getText();
-            String enTime = courseEndTimeField.getText();
-
-            // Validate start and end times
-            if (stTime == null || stTime.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Start Time is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            if (enTime == null || enTime.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "End Time is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            // Parse the start and end times in 12-hour format
-            Date day1 = format12hr.parse(stTime);
-            Date day2 = format12hr.parse(enTime);
-
-            // Convert to 24-hour format for easier validation
-            String time24hr1 = format24hr.format(day1);
-            String time24hr2 = format24hr.format(day2);
-
-            // Validate that Start Time is before End Time
-            if (day1.after(day2)) {
-                JOptionPane.showMessageDialog(this, "Start Time must be before End Time.", "Warning", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            ResultSet resultSet = DB.search("SELECT * FROM `course_schedule` "
-                    + "WHERE `course_id` = '" + id + "'"
-                    + "AND `class_room_id` = '" + hall + "'"
-                    + "AND `class_date` ='" + sdf.format(courseDate) + "'"
-                    + "AND `start_time` = '" + time24hr1 + "'"
-                    + "AND `end_time` = '" + time24hr2 + "'");
-
-            if (resultSet.next()) {
-                JOptionPane.showMessageDialog(this, "Already Scheduled.", "Warning", JOptionPane.WARNING_MESSAGE);
-                reset();
-            } else {
-
-                DB.IUD("INSERT INTO `course_schedule` (`class_date`, `shedule_time`, `employee_id`, `class_room_id`, `course_id`, `schedule_status_id`, `start_time`, `end_time`)"
-                        + "VALUES ('" + sdf.format(courseDate) + "', '" + curruntDate + "', '" + admin.getUserID() + "', '" + hall + "', '" + id + "', '"
-                        + scheduleStautusMap.get(scheduleStatus) + "', '" + time24hr1 + "', '" + time24hr2 + "')");
-
-                JOptionPane.showMessageDialog(this, "Schedule created successfully.", "Information", JOptionPane.INFORMATION_MESSAGE);
-
-                loadCourseSchedulTable();
-                loadTableAutoCourse();
-                resetCourseAutoLoadTable();
-                resetCourse();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        scheduleCourses();
     }//GEN-LAST:event_scheduleCourseButtonActionPerformed
 
     private void courseUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseUpdateButtonActionPerformed
@@ -1608,6 +1439,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     private javax.swing.JButton resetCourseSelection;
     private javax.swing.JButton scheduleButton;
     private javax.swing.JButton scheduleCourseButton;
+    private javax.swing.JPanel scheduleReports;
     private javax.swing.JComboBox<String> scheduleStatusCombobox;
     private javax.swing.JComboBox<String> searchClassIDCombobox;
     private javax.swing.JTextField searchClassSubjectField;
@@ -1646,6 +1478,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     SimpleDateFormat format24hr = new SimpleDateFormat("HH:mm:ss");
     SimpleDateFormat format12hr = new SimpleDateFormat("hh:mm a");
 
+    //class schedule--------------------------------------------------------------------------------------------------------------------
     //loadclassID for Combobox
     private void loadClassId() {
         try {
@@ -1660,19 +1493,19 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 vector.add(resultSet.getString("id"));
             }
 
-            DefaultComboBoxModel ComboBoxModel = new DefaultComboBoxModel(vector);
-            DefaultComboBoxModel ComboBoxModel1 = new DefaultComboBoxModel(vector);
+            DefaultComboBoxModel ComboBoxModel = new DefaultComboBoxModel(vector);//class
+            DefaultComboBoxModel ComboBoxModel1 = new DefaultComboBoxModel(vector);//course
 
-            classIDCombobox.setModel(ComboBoxModel);
-            searchClassIDCombobox.setModel(ComboBoxModel1);
+            classIDCombobox.setModel(ComboBoxModel);//class
+            searchClassIDCombobox.setModel(ComboBoxModel1);//course
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
 
     }
 
-    //loadHall for Combobox
+    //loadHall for Combobox(class)
     private void loadHall() {
         try {
 
@@ -1690,7 +1523,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
             hallLoadCombobox.setModel(ComboBoxModel);
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -1726,7 +1559,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 tableModel.addRow(vector);
             }
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -1756,13 +1589,13 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
                 tableModel.addRow(vector);
             }
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
 
     }
 
-    // load class schedule status for combo box
+    // load class & course schedule status for combo box
     private void loadScheduleStatus() {
 
         try {
@@ -1779,18 +1612,18 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
             }
 
-            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(vector);
-            DefaultComboBoxModel<String> comboBoxModel1 = new DefaultComboBoxModel<>(vector);
-            scheduleStatusCombobox.setModel(comboBoxModel);
-            courseScheduleStatusCombobox.setModel(comboBoxModel1);
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(vector);//class
+            DefaultComboBoxModel<String> comboBoxModel1 = new DefaultComboBoxModel<>(vector);//course
+            scheduleStatusCombobox.setModel(comboBoxModel);//class
+            courseScheduleStatusCombobox.setModel(comboBoxModel1);//course
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
 
     }
 
-    // load class Hall type status for combo box
+    // load class & class Hall type status for combo box
     private void loadHallType() {
         try {
 
@@ -1804,22 +1637,24 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 vector.add(resultSet.getString("type"));
             }
 
-            DefaultComboBoxModel ComboBoxModel = new DefaultComboBoxModel(vector);
-            DefaultComboBoxModel ComboBoxModel1 = new DefaultComboBoxModel(vector);
-            DefaultComboBoxModel ComboBoxModel2 = new DefaultComboBoxModel(vector);
-            DefaultComboBoxModel ComboBoxModel3 = new DefaultComboBoxModel(vector);
+            DefaultComboBoxModel ComboBoxModel = new DefaultComboBoxModel(vector);//class
+            DefaultComboBoxModel ComboBoxModel1 = new DefaultComboBoxModel(vector);//class
 
-            hallTypeComboBox2.setModel(ComboBoxModel);
-            selectHallTypeComboBox3.setModel(ComboBoxModel1);
-            courseHallTypeCombobox.setModel(ComboBoxModel2);
-            searchCourseHallTypeCombobox.setModel(ComboBoxModel3);
+            DefaultComboBoxModel ComboBoxModel2 = new DefaultComboBoxModel(vector);//course
+            DefaultComboBoxModel ComboBoxModel3 = new DefaultComboBoxModel(vector);//course
 
-        } catch (Exception e) {
+            hallTypeComboBox2.setModel(ComboBoxModel);//class
+            selectHallTypeComboBox3.setModel(ComboBoxModel1);//class
+
+            courseHallTypeCombobox.setModel(ComboBoxModel2);//course
+            searchCourseHallTypeCombobox.setModel(ComboBoxModel3);//course
+
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
 
-    //change hall data from double tap with table1
+    //change hall data from double tap with table1(class)
     private void loadroomdata() {
         String selectedType = String.valueOf(hallTypeComboBox2.getSelectedItem());
         try {
@@ -1842,32 +1677,34 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             // Set the vector as the model for hallLoadCombobox
             DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(vector);
             hallLoadCombobox.setModel(model);
-        } catch (Exception e) {
+
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // change capacyty fron item change of hall load combo box
+    // change capacyty fron item change of hall load combo box(claas & course)
     private void changeCapacity() {
         try {
-            String selectedHall = String.valueOf(hallLoadCombobox.getSelectedItem());
-            String selectedHall2 = String.valueOf(courseHallCombobox.getSelectedItem());
+            String selectedHall = String.valueOf(hallLoadCombobox.getSelectedItem());//class
+            String selectedHall2 = String.valueOf(courseHallCombobox.getSelectedItem());//course
 
             ResultSet resultSet = DB.search(
                     "SELECT `capacity` FROM `class_room` WHERE `id` IN ('" + selectedHall + "', '" + selectedHall2 + "')"
             );
 
             if (resultSet.next()) {
-                capacityField.setText(resultSet.getString("capacity"));
+                capacityField.setText(resultSet.getString("capacity"));//class
             }
             if (resultSet.next()) {
-                courseHallCapacityField.setText(resultSet.getString("capacity"));
+                courseHallCapacityField.setText(resultSet.getString("capacity"));//course
             }
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
 
+    //class schedule area
     private void reset() {
 
         classIDCombobox.setSelectedIndex(0);
@@ -1885,6 +1722,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         resetAutoLoadTable();
     }
 
+    //class
     private void resetAutoLoadTable() {
         selectHallTypeComboBox3.setSelectedIndex(0);
         searchClassIDCombobox.setSelectedIndex(0);
@@ -1894,6 +1732,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         loadTableAuto();
     }
 
+    //loadeclasstableAuto
     private void loadTableAuto() {
         loadAutoClassScheduleTable("SELECT "
                 + "    `class_day`.*,"
@@ -1939,7 +1778,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 + "ORDER BY `class_day`.`time` ASC");
     }
 
-    // method to generate the SQL query based on search
+    // method to generate the SQL query based on search(class)
     private String generateClassScheduleQuery(String condition) {
         return "SELECT "
                 + "    `class_day`.*, "
@@ -1986,18 +1825,21 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 + condition
                 + "ORDER BY `class_day`.`time` ASC";
     }
-
+    //class & course Search parts---------------------------------------------------------------------------------------------------------
     // Search by subject
+
     private void searchBySubject() {
 
-        String subject = searchClassSubjectField.getText();
-        String coursesubject = searchCourseSubjectField.getText();
+        String subject = searchClassSubjectField.getText();//class
+        String coursesubject = searchCourseSubjectField.getText();//course
 
+        //class
         if (subject.equals(subject)) {
             String query = generateClassScheduleQuery("AND `subject`.`name` LIKE '%" + subject + "%'");
             loadAutoClassScheduleTable(query);
             searchClassSubjectField.setText(subject);
         }
+        //course
         if (coursesubject.equals(coursesubject)) {
             String query = generateCourseScheduleQuery("AND `subject`.`name` LIKE '%" + coursesubject + "%'");
             loadAutoCourseTable(query);
@@ -2010,7 +1852,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         String hall = String.valueOf(selectHallTypeComboBox3.getSelectedItem());
         String coursehall = String.valueOf(searchCourseHallTypeCombobox.getSelectedItem());
 
-        // Check if a valid hall type is selected
+        // Check if a valid class hall type is selected
         if (hall != null && !hall.isEmpty() && !hall.equals("Select")) {
             String query = generateClassScheduleQuery("AND `room_type`.`type` LIKE '%" + hall + "%'");
             loadAutoClassScheduleTable(query);
@@ -2025,14 +1867,16 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
     // Search by grade
     private void searchByGrade() {
-        String grade1 = searchGradeField.getText();
-        String coursegrade = searchCourseGradeField.getText();
+        String grade1 = searchGradeField.getText();//class
+        String coursegrade = searchCourseGradeField.getText();//course
 
+        //class
         if (grade1.equals(grade1)) {
             String query = generateClassScheduleQuery("AND `grade`.`name` LIKE '%" + grade1 + "%'");
             loadAutoClassScheduleTable(query);
             searchGradeField.setText(grade1);
         }
+        //course
         if (coursegrade.equals(coursegrade)) {
             String query = generateCourseScheduleQuery("AND `grade`.`name` LIKE '%" + coursegrade + "%'");
             loadAutoCourseTable(query);
@@ -2043,14 +1887,16 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
     // Search by teacher ID
     private void searchByTeacherId() {
-        String teacher1 = searchTeacherIdField.getText();
-        String courseteacher = searchCourseTeacherField.getText();
+        String teacher1 = searchTeacherIdField.getText();//class
+        String courseteacher = searchCourseTeacherField.getText();//course
 
+        //class
         if (teacher1.equals(teacher1)) {
             String query = generateClassScheduleQuery("AND `teacher`.`nic` LIKE '%" + teacher1 + "%'");
             loadAutoClassScheduleTable(query);
             searchTeacherIdField.setText(teacher1);
         }
+        //course
         if (courseteacher.equals(courseteacher)) {
             String query = generateCourseScheduleQuery("AND `teacher`.`nic` LIKE '%" + courseteacher + "%'");
             loadAutoCourseTable(query);
@@ -2060,8 +1906,8 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
     // Search by classcourse ID
     private void searchByClassCourseId() {
-        String classId = String.valueOf(searchClassIDCombobox.getSelectedItem());
-        String courseId = String.valueOf(searchCourseIdCombobox.getSelectedItem());
+        String classId = String.valueOf(searchClassIDCombobox.getSelectedItem());//class
+        String courseId = String.valueOf(searchCourseIdCombobox.getSelectedItem());//course
 
         // Check if a valid class ID is selected
         if (classId != null && !classId.isEmpty() && !classId.equals("Select")) {
@@ -2075,7 +1921,10 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             loadAutoCourseTable(query);
         }
     }
+    //class & course Searching Parts--------------------------------------------------------------------------------------------
 
+    //class schedule------------------------------------------------------------------------------------------------------------
+    
     // course schedule----------------------------------------------------------------------------------------------------------
     private void loadCourseId() {
         try {
@@ -2096,7 +1945,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             courseIdCombobox.setModel(ComboBoxModel);
             searchCourseIdCombobox.setModel(ComboBoxModel1);
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -2131,11 +1980,12 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 tableModel.addRow(vector);
             }
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
 
+    // load auto course schedule table by day of the week
     private void loadTableAutoCourse() {
         loadAutoCourseTable("SELECT "
                 + "    `course_day`.*, "
@@ -2184,7 +2034,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 + "    `course_day`.`time` ASC");
     }
 
-    // method to generate the SQL query based on search
+    // method to generate the SQL query based on search(course)
     private String generateCourseScheduleQuery(String condition) {
         return "SELECT "
                 + "    `course_day`.*, "
@@ -2234,6 +2084,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 + "    `course_day`.`time` ASC";
     }
 
+    //load course Table Auto
     private void loadAutoCourseTable(String query) {
         try {
 
@@ -2259,12 +2110,12 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
                 tableModel.addRow(vector);
             }
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // change capacyty fron item change of hall load combo box
+    // change capacyty from item change of course hall load combo box
     private void changecourseCapacity() {
 
         String selectedHall2 = String.valueOf(courseHallCombobox.getSelectedItem());
@@ -2282,13 +2133,13 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
             }
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
 
     }
 
-    //change hall data from double tap with table1
+    //change course hall data from double tap with table1
     private void loadcourseroomdata() {
         String selectedType2 = String.valueOf(courseHallTypeCombobox.getSelectedItem());
         try {
@@ -2311,7 +2162,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             // Set the vector as the model for hallLoadCombobox
             DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(vector);
             courseHallCombobox.setModel(model);
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -2333,7 +2184,200 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
             courseHallCombobox.setModel(ComboBoxModel2);
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void scheduleClasses() {
+        String id = String.valueOf(classIDCombobox.getSelectedItem());
+        String hall = String.valueOf(hallLoadCombobox.getSelectedItem());
+        String hType = String.valueOf(hallTypeComboBox2.getSelectedItem());
+        String scheduleStatus = String.valueOf(scheduleStatusCombobox.getSelectedItem());
+        String capacity = capacityField.getText();
+
+        String curruntDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date classdate1 = jDateChooser1.getDate();
+
+        classIDCombobox.grabFocus();
+        
+        if (id.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Class ID is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (hType.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Hall Load Type is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (hall.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Hall Load is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (scheduleStatus.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Schedule Status is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (capacity.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Capacity is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (!capacity.matches("\\d+")) {  // Ensure capacity is a positive integer
+            JOptionPane.showMessageDialog(this, "Capacity must be a positive integer.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (classdate1 == null) {
+            JOptionPane.showMessageDialog(this, "Class Date is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (classdate1.before(currentDate)) {
+            JOptionPane.showMessageDialog(this, "The date is expired. Please Select a Valid Date", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            // Retrieve start and end times from fields
+            String stTime = startTimeField.getText();
+            String enTime = endTimeField.getText();
+
+            // Validate start and end times
+            if (stTime == null || stTime.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Start Time is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (enTime == null || enTime.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "End Time is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Parse the start and end times in 12-hour format
+            Date day1 = format12hr.parse(stTime);
+            Date day2 = format12hr.parse(enTime);
+
+            // Convert to 24-hour format for easier validation
+            String time24hr1 = format24hr.format(day1);
+            String time24hr2 = format24hr.format(day2);
+
+            // Validate that Start Time is before End Time
+            if (day1.after(day2)) {
+                JOptionPane.showMessageDialog(this, "Start Time must be before End Time.", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            ResultSet resultSet = DB.search("SELECT * FROM `class_schedule` "
+                    + "WHERE `class_id` = '" + id + "'"
+                    + "AND `class_room_id` = '" + hall + "'"
+                    + "AND `class_date` ='" + sdf.format(classdate1) + "'"
+                    + "AND `start_time` = '" + time24hr1 + "'"
+                    + "AND `end_time` = '" + time24hr2 + "'");
+
+            if (resultSet.next()) {
+                JOptionPane.showMessageDialog(this, "Already Scheduled.", "Warning", JOptionPane.WARNING_MESSAGE);
+                reset();
+            } else {
+
+                DB.IUD("INSERT INTO `class_schedule` (`class_id`, `class_room_id`, `class_date`, `shedule_time`, `employee_id`, `schedule_status_id`, `start_time`, `end_time`)"
+                        + "VALUES ('" + id + "', '" + hall + "', '" + sdf.format(classdate1) + "', '" + curruntDate + "', '" + admin.getUserID() + "', '"
+                        + scheduleStautusMap.get(scheduleStatus) + "', '" + time24hr1 + "', '" + time24hr2 + "')");
+
+                JOptionPane.showMessageDialog(this, "Schedule created successfully.", "Information", JOptionPane.INFORMATION_MESSAGE);
+
+                loadClassSchedulTable();
+                loadTableAuto();
+                reset();
+            }
+        } catch (HeadlessException | ClassNotFoundException | SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void scheduleCourses() {
+        String id = String.valueOf(courseIdCombobox.getSelectedItem());
+        String hall = String.valueOf(courseHallCombobox.getSelectedItem());
+        String hType = String.valueOf(courseHallTypeCombobox.getSelectedItem());
+        String scheduleStatus = String.valueOf(courseScheduleStatusCombobox.getSelectedItem());
+        String capacity = courseHallCapacityField.getText();
+
+        String curruntDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date courseDate = jDateChooser2.getDate();
+
+        courseIdCombobox.grabFocus();
+        
+        if (id.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Course ID is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (hType.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Hall Load Type is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (hall.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Hall Load is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (scheduleStatus.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Schedule Status is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (capacity.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Capacity is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (!capacity.matches("\\d+")) {  // Ensure capacity is a positive integer
+            JOptionPane.showMessageDialog(this, "Capacity must be a positive integer.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (courseDate == null) {
+            JOptionPane.showMessageDialog(this, "Course Date is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (courseDate.before(currentDate)) {
+            JOptionPane.showMessageDialog(this, "The date is expired. Please Select a Valid Date", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            // Retrieve start and end times from fields
+            String stTime = courseStartTimeField.getText();
+            String enTime = courseEndTimeField.getText();
+
+            // Validate start and end times
+            if (stTime == null || stTime.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Start Time is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (enTime == null || enTime.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "End Time is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Parse the start and end times in 12-hour format
+            Date day1 = format12hr.parse(stTime);
+            Date day2 = format12hr.parse(enTime);
+
+            // Convert to 24-hour format for easier validation
+            String time24hr1 = format24hr.format(day1);
+            String time24hr2 = format24hr.format(day2);
+
+            // Validate that Start Time is before End Time
+            if (day1.after(day2)) {
+                JOptionPane.showMessageDialog(this, "Start Time must be before End Time.", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            ResultSet resultSet = DB.search("SELECT * FROM `course_schedule` "
+                    + "WHERE `course_id` = '" + id + "'"
+                    + "AND `class_room_id` = '" + hall + "'"
+                    + "AND `class_date` ='" + sdf.format(courseDate) + "'"
+                    + "AND `start_time` = '" + time24hr1 + "'"
+                    + "AND `end_time` = '" + time24hr2 + "'");
+
+            if (resultSet.next()) {
+                JOptionPane.showMessageDialog(this, "Already Scheduled.", "Warning", JOptionPane.WARNING_MESSAGE);
+                reset();
+            } else {
+
+                DB.IUD("INSERT INTO `course_schedule` (`class_date`, `shedule_time`, `employee_id`, `class_room_id`, `course_id`, `schedule_status_id`, `start_time`, `end_time`)"
+                        + "VALUES ('" + sdf.format(courseDate) + "', '" + curruntDate + "', '" + admin.getUserID() + "', '" + hall + "', '" + id + "', '"
+                        + scheduleStautusMap.get(scheduleStatus) + "', '" + time24hr1 + "', '" + time24hr2 + "')");
+
+                JOptionPane.showMessageDialog(this, "Schedule created successfully.", "Information", JOptionPane.INFORMATION_MESSAGE);
+
+                loadCourseSchedulTable();
+                loadTableAutoCourse();
+                resetCourseAutoLoadTable();
+                resetCourse();
+            }
+        } catch (HeadlessException | ClassNotFoundException | SQLException | ParseException e) {
             e.printStackTrace();
         }
     }
@@ -2363,5 +2407,6 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         searchCourseTeacherField.setText("");
         loadTableAutoCourse();
     }
+    //course schedule area-------------------------------------------------------------------------------------------------------
 
 }
