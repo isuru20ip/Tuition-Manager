@@ -273,15 +273,15 @@ public class HallManagement extends javax.swing.JPanel {
             JasperReport jasperReport = JasperCompileManager.compileReport("src/report/hall_reports.jrxml");
 
             // Retrieve data from the table
-            HashMap<String, Object> dataList = new HashMap<>();
-
-            for (int i = 0; i < jTable1.getRowCount(); i++) {
-                Map<String, Object> data = new HashMap<>();
-                data.put("COLUMN_0", jTable1.getValueAt(i, 0));
-                data.put("COLUMN_1", jTable1.getValueAt(i, 1));
-                data.put("COLUMN_2", jTable1.getValueAt(i, 2));
-                dataList.get(data);
-            }
+//            HashMap<String, Object> dataList = new HashMap<>();
+//
+//            for (int i = 0; i < jTable1.getRowCount(); i++) {
+//                Map<String, Object> data = new HashMap<>();
+//                data.put("COLUMN_0", jTable1.getValueAt(i, 0));
+//                data.put("COLUMN_1", jTable1.getValueAt(i, 1));
+//                data.put("COLUMN_2", jTable1.getValueAt(i, 2));
+//                dataList.get(data);
+//            }
 
             JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
 
