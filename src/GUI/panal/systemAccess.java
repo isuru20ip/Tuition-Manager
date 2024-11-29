@@ -846,13 +846,10 @@ public class systemAccess extends javax.swing.JPanel {
 
         logingDataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "#", "time", "name", "username", "type", "status"
+                "#", "Employee ID", "Name", "Username", "Date & Time", "Type"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -865,11 +862,19 @@ public class systemAccess extends javax.swing.JPanel {
         });
         logingDataTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(logingDataTable);
+        if (logingDataTable.getColumnModel().getColumnCount() > 0) {
+            logingDataTable.getColumnModel().getColumn(1).setPreferredWidth(40);
+        }
 
         jButton2.setBackground(new java.awt.Color(255, 51, 51));
         jButton2.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Print");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -887,11 +892,11 @@ public class systemAccess extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(83, 83, 83)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addContainerGap(83, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(32, 32, 32))
         );
 
         jTabbedPane1.addTab("Login History", jPanel1);
@@ -1160,6 +1165,14 @@ public class systemAccess extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            printReportLogin();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     private void setNotification(JFrame parent) {
         Notifications.getInstance().setJFrame(parent);
     }
@@ -1322,9 +1335,9 @@ public class systemAccess extends javax.swing.JPanel {
 
                 Vector<String> v = new Vector<>();
                 v.add(String.valueOf(row)); // #
-                v.add(log[0]); // time
-                v.add(log[1]); // name
-                v.add(log[2]); // userName
+                v.add(log[0]); // name
+                v.add(log[1]); // userName
+                v.add(log[2]); // timedate
                 v.add(log[3]); // type
                 v.add(log[4]); // status
                 defaultTableModel.addRow(v);
@@ -1332,6 +1345,7 @@ public class systemAccess extends javax.swing.JPanel {
             }
             logingDataTable.setModel(defaultTableModel);
         } catch (Exception e) {
+            LogCenter.logger.log(Level.WARNING, "loadLoging", e);
         }
     }
 
@@ -1393,9 +1407,47 @@ public class systemAccess extends javax.swing.JPanel {
             boolean isSaved = reporting.saveReport("System_Access_Report", params, dataSource, admin);
 
             if (isSaved) {
-                JOptionPane.showMessageDialog(this, "System Access saved successfully");
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "System Access saved successfully");
             } else {
-                JOptionPane.showMessageDialog(this, "System Access saving was cancelled");
+                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "System Access saving was cancelled");
+            }
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
+        } catch (JRException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
+        } catch (Exception ex) {
+            // Catch any other unexpected exceptions
+            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
+        }
+    }
+    
+    private void printReportLogin() throws JRException {
+
+        try {
+            // Use JRTableModelDataSource from jTable1's model
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(logingDataTable.getModel());
+
+            // Get system data
+            Home home = new HomeInfo().getHome();
+
+            // Parameters for the report
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("title", "System Login Report");
+
+            // Create an Admin instance (assuming you have access to it in this context)
+            // Use saveReport method to save the report
+            modal.Reporting reporting = new modal.Reporting();
+            boolean isSaved = reporting.saveReport("System_Login_Report", params, dataSource, admin);
+
+            if (isSaved) {
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "System Login Report saved successfully");
+            } else {
+                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "System Login Report saving was cancelled");
             }
 
         } catch (IOException ex) {

@@ -819,11 +819,11 @@ public class Dashboard extends javax.swing.JFrame {
 
             // make current loged data array
             String[] currentLog = {
-                SetDate.getDate("yyyy/MM/dd hh:mm:ss a"),
+                admin.getUserID(),
                 admin.getFname() + " " + admin.getLname(),
                 admin.getUserName(),
+                SetDate.getDate("yyyy/MM/dd hh:mm:ss a"),
                 admin.getType(),
-                admin.getStatus()
             };
 
             // add current loging date 
