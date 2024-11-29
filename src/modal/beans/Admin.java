@@ -89,7 +89,7 @@ public class Admin {
     public void setFname(String fname) {
         this.fname = fname;
     }
-    
+
     /**
      * @return the lname
      */
@@ -107,7 +107,7 @@ public class Admin {
     public Admin() {
     }
 
-    public Admin(String userName, String userID, String mobile, String status, String type, String fname) {
+    public Admin(String userName, String userID, String mobile, String status, String type, String fname, String lname) {
         this.userName = userName;
         this.userID = userID;
         this.mobile = mobile;
@@ -117,12 +117,14 @@ public class Admin {
         this.lname = lname;
     }
     
+    
+    
    private String userName;
    private String userID;
    private String mobile;
    private String status;
    private String type;
-   private String fname; 
+   private String fname;   
    private String lname; 
    
 }
