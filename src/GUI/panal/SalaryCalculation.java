@@ -159,16 +159,6 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
         jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField3.setToolTipText("Employee ID");
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
-        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField3KeyReleased(evt);
-            }
-        });
 
         jLabel12.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -195,32 +185,17 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jRadioButton2.setSelected(true);
         jRadioButton2.setText("Unpaid");
         jRadioButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
-            }
-        });
 
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jRadioButton1.setText("Paid");
         jRadioButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
-            }
-        });
 
         jFormattedTextField6.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         jFormattedTextField6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jFormattedTextField6.setText("0");
         jFormattedTextField6.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jFormattedTextField6.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jFormattedTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextField6ActionPerformed(evt);
-            }
-        });
         jFormattedTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jFormattedTextField6KeyReleased(evt);
@@ -237,17 +212,9 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/icons8-clear-30.png"))); // NOI18N
         jLabel16.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel16.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                jLabel16MouseMoved(evt);
-            }
-        });
         jLabel16.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel16MouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel16MouseExited(evt);
             }
         });
 
@@ -300,11 +267,6 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jFormattedTextField5.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jFormattedTextField5.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
         jFormattedTextField5.setOpaque(true);
-        jFormattedTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextField5ActionPerformed(evt);
-            }
-        });
 
         jLabel15.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -410,11 +372,6 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jLabel17.setText("Saerch");
 
         jTextField5.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jTextField5.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                jTextField5MouseDragged(evt);
-            }
-        });
         jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField5KeyReleased(evt);
@@ -549,11 +506,6 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jTextField1.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
 
         jTextField2.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
 
         jLabel4.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel4.setText("Last Payement Date :");
@@ -771,10 +723,6 @@ public class SalaryCalculation extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-
-    }//GEN-LAST:event_jTextField3ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
         try {
@@ -784,16 +732,25 @@ public class SalaryCalculation extends javax.swing.JPanel {
             java.sql.Date today;
 
             String employeId = jTextField3.getText();
-            String salary = jLabel19.getText();
-            String bonusString = jFormattedTextField6.getText();
-            String totalString = jFormattedTextField7.getText();
             String eName;
 
-            sallaryPerDay = Double.parseDouble(salary);
+            if (sallaryPerDay == null) {
+                String salary = jLabel19.getText();
+                sallaryPerDay = Double.parseDouble(salary);
+            }
+
+            if (bonus == null) {
+                String bonusString = jFormattedTextField6.getText();
+                bonus = Double.parseDouble(bonusString);
+            }
+
+            if (total == null) {
+                String totalString = jFormattedTextField7.getText();
+                total = Double.parseDouble(totalString);
+            }
+
             today = java.sql.Date.valueOf(jLabel18.getText());
             String workedDays = this.attendedDates;
-            bonus = Double.parseDouble(bonusString);
-            total = Double.parseDouble(totalString);
 
             if (employeId == null || employeId.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Employee ID is required.", "Warning", JOptionPane.ERROR_MESSAGE);
@@ -801,10 +758,10 @@ public class SalaryCalculation extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Total must be a non-negative number.", "Warning", JOptionPane.ERROR_MESSAGE);
             } else {
 
-                ResultSet rs = DB.search("SELECT CONCAT(`fname`, ' ', `lname`) AS name FROM `employee` WHERE `id` = '" + employeId + "'");
+                ResultSet rs = DB.search("SELECT (`fname`) FROM `employee` WHERE `id` = '" + employeId + "'");
 
                 if (rs.next()) {
-                    eName = rs.getString("name"); // Concatenate first and last name
+                    eName = rs.getString("fname"); // Concatenate first and last name
 
                     DB.IUD("INSERT INTO `emp_sallary` (`payment_day`,`sallay_per_day`,`working_day`,`bonus`,`sub_total`,`employee_id`)"
                             + "VALUES ('" + today + "','" + sallaryPerDay + "','" + workedDays + "','" + bonus + "','" + total + "','" + employeId + "')");
@@ -813,14 +770,19 @@ public class SalaryCalculation extends javax.swing.JPanel {
                     loadSallary("", "");
 
                     // Parameters for the report
-//                    HashMap<String, Object> EMP = new HashMap<>();
-//                    EMP.put("ename", "eName");
-//                    EMP.put("today", today);
-//                    EMP.put("workedDays", workedDays);
-//                    EMP.put("bonus", bonus);
-//                    EMP.put("total", total);
-//
-//                    printEmpPayment(EMP);
+                    HashMap<String, Object> data = new HashMap<>();
+
+                    data.put("t0", "Employee Name :");
+                    data.put("t1", "Worked Days :");
+                    data.put("t2", "Bonus :");
+                    data.put("t3", "Total :");
+
+                    data.put("p0", eName);
+                    data.put("p1", workedDays);
+                    data.put("p2", bonus);
+                    data.put("p3", total);
+
+                    printPayment(data);
                     reset();
                 }
             }
@@ -830,22 +792,6 @@ public class SalaryCalculation extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
-
-    private void jLabel16MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MouseMoved
-        jLabel16.setForeground(Color.RED);
-    }//GEN-LAST:event_jLabel16MouseMoved
-
-    private void jLabel16MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MouseExited
-        jLabel16.setForeground(Color.BLACK);
-    }//GEN-LAST:event_jLabel16MouseExited
-
-    private void jTextField5MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField5MouseDragged
-        jTextField5.setText("");
-    }//GEN-LAST:event_jTextField5MouseDragged
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
@@ -861,10 +807,6 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jTable2.clearSelection();
         loadSallary("", "");
     }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
-
-    }//GEN-LAST:event_jTextField3KeyReleased
 
     private void jFormattedTextField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField6KeyReleased
 
@@ -891,10 +833,6 @@ public class SalaryCalculation extends javax.swing.JPanel {
     private void jLabel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MouseClicked
         reset();
     }//GEN-LAST:event_jLabel16MouseClicked
-
-    private void jFormattedTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
 
@@ -938,14 +876,6 @@ public class SalaryCalculation extends javax.swing.JPanel {
         total();
     }//GEN-LAST:event_jButton7ActionPerformed
 
-    private void jFormattedTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField6ActionPerformed
-
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
-
     private void jTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyReleased
         searchSallary();
     }//GEN-LAST:event_jTextField5KeyReleased
@@ -962,10 +892,6 @@ public class SalaryCalculation extends javax.swing.JPanel {
         // }
 
     }//GEN-LAST:event_jDateChooser4PropertyChange
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
 
@@ -1003,30 +929,56 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-        String commissionS = jFormattedTextField2.getText();
-        String earnS = jFormattedTextField3.getText();
+        String Earningfee = jFormattedTextField1.getText();
 
         try {
 
-            Double commission = null;
+            Double comission = null;
             Double earn = null;
             String employeeUserName = admin.getUserName();
+            String tNic = jTextField1.getText();
+            String tName = null;
 
+            ResultSet rs = DB.search("SELECT `fname` AS tname FROM teacher WHERE nic = '" + tNic + "'");
+            if (rs.next()) {
+                tName = rs.getString("tname");
+            }
             ResultSet resultSet = DB.search("SELECT * FROM emp_access WHERE user_name = '" + employeeUserName + "'");
 
             if (resultSet.next()) {
 
                 String empID = resultSet.getString("employee_id");
-                String tNic = jTextField1.getText();
                 String today = this.teacherSalaryDate;
-                commission = Double.parseDouble(commissionS);
-                earn = Double.parseDouble(earnS);
+
+                if (comission == null) {
+                    String commissionS = jFormattedTextField2.getText();
+                    comission = Double.parseDouble(commissionS);
+                }
+
+                if (earn == null) {
+                    String earnS = jFormattedTextField3.getText();
+                    earn = Double.parseDouble(earnS);
+                }
 
                 DB.IUD("INSERT INTO `teacher_paymet` (`teacher_nic`,`employee_id`,`date`,`commission`,`earn`)"
-                        + "VALUES ('" + tNic + "','" + empID + "','" + today + "','" + commission + "','" + earn + "')");
+                        + "VALUES ('" + tNic + "','" + empID + "','" + today + "','" + comission + "','" + earn + "')");
 
-                JOptionPane.showMessageDialog(this, "Peyment Succeed", "Payment", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Payment Succeed", "Payment", JOptionPane.INFORMATION_MESSAGE);
 
+                // Parameters for the report
+                HashMap<String, Object> data = new HashMap<>();
+
+                data.put("t0", "Teacher Name :");
+                data.put("t1", "Monthly Earn :");
+                data.put("t2", "Comission :");
+                data.put("t3", "Total :");
+
+                data.put("p0", tName);
+                data.put("p1", Earningfee);
+                data.put("p2", comission);
+                data.put("p3", earn);
+
+                printPayment(data);
                 refresh();
             }
 
@@ -1229,33 +1181,6 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
     }
 
-//    private void calculate() {
-//        try {
-//            // Retrieve and parse total
-//            String totalText = jFormattedTextField5.getText();
-//            if (totalText == null || totalText.trim().isEmpty()) {
-//                total = 0;
-//            } else {
-//                total = Double.parseDouble(totalText);
-//            }
-//
-//            // Retrieve and parse bonus
-//            String bonusText = jFormattedTextField6.getText();
-//            if (bonusText == null || bonusText.trim().isEmpty()) {
-//                bonus = 0;
-//            } else {
-//                bonus = Double.parseDouble(bonusText);
-//            }
-//
-//            // Calculate total and update the field
-//            total += bonus;
-//            jFormattedTextField7.setText(String.valueOf(total));
-//        } catch (NumberFormatException e) {
-//            // Handle invalid input gracefully
-//            jFormattedTextField7.setText("Invalid input");
-//            System.err.println("Error parsing input: " + e.getMessage());
-//        }
-//    }
     private void total() {
 
         try {
@@ -1545,51 +1470,55 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
     }
 
-    private void printEmpPayment(HashMap EMP) throws JRException {
+    private void printPayment(HashMap data) throws JRException {
 
         try {
-
             // Retrieve system data
             Home home = new HomeInfo().getHome();
 
-//            String ename = (String) EMP.get("ename");
-//            java.util.Date today = (java.util.Date) EMP.get("today");
-//            String workedDays = (String) EMP.get("workedDays");
-//            Double bonus = (Double) EMP.get("bonus");
-//            Double total = (Double) EMP.get("total");
-//            System.out.println(ename);
-//            System.out.println(today);
-//            System.out.println(workedDays);
-//            System.out.println(bonus);
-//            System.out.println(total);
+            String topic0 = (String) data.get("t0");
+            String topic1 = (String) data.get("t1");
+            String topic2 = (String) data.get("t2");
+            String topic3 = (String) data.get("t3");
+
+            String p0 = (String) data.get("p0");
+            String p1 = (String) data.get("p1");
+            Double p2 = (Double) data.get("p2");
+            Double p3 = (Double) data.get("p3");
+
             // Parameters for the report
             HashMap<String, Object> parm = new HashMap<>();
+
             parm.put("institute", home.getHomeName());
-            parm.put("title", "Employee Payment Report");
+            parm.put("title", "Payment Invoice");
             parm.put("address", home.getLine01() + ", " + home.getLine02() + ", " + home.getCity());
             parm.put("mobile", home.getMobile());
             parm.put("land", home.getLandLine());
             parm.put("email", home.getEmail());
-            parm.put("date", "today");
-            parm.put("emp_name", "ename");
-            parm.put("worked_days", "workedDays");
-            parm.put("bonus", "bonus");
-            parm.put("Total", "total");
 
-            boolean print = false;
+            parm.put("topic0", topic0); // Pass the actual EMP name or Teacher name
+            parm.put("topic1", topic1); // Pass the actual worked Days or earn
+            parm.put("topic2", topic2); // Pass the actual bonus or commission
+            parm.put("topic3", topic3); // Pass the actual total
 
-            print = new modal.Reporting().printReport("Employee_Payment_Report", parm);
+            parm.put("p0", p0); // Pass the actual EMP name or Teacher name data
+            parm.put("p1", p1); // Pass the actual worked Days or earn data
+            parm.put("p2", p2); // Pass the actual bonus or commission data
+            parm.put("p3", p3); // Pass the actual total data
 
-            if (!print) {
-                JOptionPane.showMessageDialog(this, "Invoice Printing Faild");
+            // Save the report (assuming saveReport is part of your modal.Reporting logic)
+            boolean print = new modal.Reporting().printReport("Payment_Report", parm);
+
+            // Display the report
+            if (print) {
+                JOptionPane.showMessageDialog(this, "Invoice Printing Success");
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Invoice Printing Failed");
             }
 
-        } catch (FileNotFoundException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (ClassNotFoundException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (IOException | ClassNotFoundException | JRException e) {
+            Logger.getLogger(SalaryCalculation.class.getName()).log(Level.SEVERE, null, e);
         }
 
     }
