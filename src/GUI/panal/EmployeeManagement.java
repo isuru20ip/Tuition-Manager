@@ -187,10 +187,13 @@ public class EmployeeManagement extends javax.swing.JPanel {
         jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active" }));
+        jComboBox3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jButton3.setBackground(new java.awt.Color(0, 204, 102));
         jButton3.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
@@ -403,83 +406,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        try {
-            String employee_id = this.EmployeeId;
-            String fname = jTextField1.getText();
-            String lname = jTextField2.getText();
-            String mobile = jTextField3.getText();
-            String gender = String.valueOf(jComboBox1.getSelectedItem());
-            String employee_type = String.valueOf(jComboBox2.getSelectedItem());
-            String employee_status = String.valueOf(jComboBox3.getSelectedItem());
-
-            if (employee_id == null) {
-                JOptionPane.showMessageDialog(this, "Please Select An Employee First", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jTable1.grabFocus();
-
-            } else if (fname.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter the Employee's First Name", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jTextField1.grabFocus();
-
-            } else if (!Validator.NAME.validate(fname)) {
-                JOptionPane.showMessageDialog(this, "First Name Must Contaion Only Letters", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jTextField1.grabFocus();
-
-            } else if (lname.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter the Employee's Last Name", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jTextField2.grabFocus();
-
-            } else if (!Validator.NAME.validate(lname)) {
-                JOptionPane.showMessageDialog(this, "Last Name Must Contaion Only Letters", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jTextField2.grabFocus();
-
-            } else if (mobile.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter A Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jTextField3.grabFocus();
-
-            } else if (!Validator.MOBILE_NUMBER.validate(mobile)) {
-                JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jTextField3.grabFocus();
-
-            } else {
-
-                ResultSet resultSet = DB.search("SELECT * FROM `employee` INNER JOIN `emp_status` ON `employee`.`emp_status_id` = `emp_status`.`id`"
-                        + " WHERE `employee`.`id` ='" + this.EmployeeId + "' ");
-
-                boolean Update = false;
-
-                if (resultSet.next()) {
-
-                    String exfname = resultSet.getString("fname");
-                    String exlname = resultSet.getString("lname");
-                    String exmobile = resultSet.getString("mobile");
-                    String exemployee_status = resultSet.getString("emp_status.status");
-
-                    if (!exfname.equals(fname) || !exlname.equals(lname) || !exmobile.equals(mobile) || !exemployee_status.equals(employee_status)) {
-                        Update = true;
-
-                    } else {
-                        JOptionPane.showMessageDialog(this, "No changes detected. Please Update at least one Detail.", "Same Details", JOptionPane.WARNING_MESSAGE);
-
-                    }
-
-                }
-
-                if (Update) {
-                    DB.IUD("UPDATE  `employee` SET `fname` = '" + fname + "' ,`lname` = '" + lname + "',`mobile`='" + mobile + "',"
-                            + "`emp_status_id` = '" + employeeStatusMap.get(employee_status) + "',`gender_id` = '" + genderMap.get(gender) + "',"
-                            + "`emp_type_id` ='" + employeeTypeMap.get(employee_type) + "' WHERE `id` = '" + employee_id + "' ");
-
-                    JOptionPane.showMessageDialog(this, "Employee Details Updated Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    refresh();
-                }
-
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        update();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -491,103 +418,11 @@ public class EmployeeManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
-        try {
-            String fname = jTextField1.getText();
-            String lname = jTextField2.getText();
-            String mobile = jTextField3.getText();
-            String gender = String.valueOf(jComboBox1.getSelectedItem());
-            String employee_type = String.valueOf(jComboBox2.getSelectedItem());
-            String employee_status = String.valueOf(jComboBox3.getSelectedItem());
-
-            String newID = IDGenarator.generateID("EMP", "employee");
-            String Date = SetDate.getDate("yyyy-MM-dd HH:mm:ss");
-
-            if (fname.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter the Employee's First Name", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jTextField1.grabFocus();
-
-            } else if (!Validator.NAME.validate(fname)) {
-                JOptionPane.showMessageDialog(this, "First Name Must Contaion Only Letters", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jTextField1.grabFocus();
-
-            } else if (lname.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter the Employee's Last Name", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jTextField2.grabFocus();
-
-            } else if (!Validator.NAME.validate(lname)) {
-                JOptionPane.showMessageDialog(this, "Last Name Must Contaion Only Letters", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jTextField2.grabFocus();
-
-            } else if (mobile.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter A Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jTextField3.grabFocus();
-
-            } else if (!Validator.MOBILE_NUMBER.validate(mobile)) {
-                JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jTextField3.grabFocus();
-
-            } else if (gender.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please Select A Gender", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jComboBox1.grabFocus();
-
-            } else if (employee_type.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please Select An Employee Type", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jComboBox2.grabFocus();
-
-            } else if (this.AddressId == null) {
-                JOptionPane.showMessageDialog(this, "Please Enter An Address", "Alert!", JOptionPane.WARNING_MESSAGE);
-                jButton4.grabFocus();
-
-            } else {
-
-                ResultSet resultSet = DB.search("SELECT * FROM `employee` WHERE `mobile` ='" + mobile + "' ");
-
-                if (resultSet.next()) {
-                    JOptionPane.showMessageDialog(this, "This Provided Mobile Number Already Have Been Used", "Warning!", JOptionPane.WARNING_MESSAGE);
-                    jTextField3.grabFocus();
-
-                } else {
-                    ResultSet resultSet2 = DB.search("SELECT `id` FROM `emp_status` WHERE `status` ='" + employee_status + "' ");
-                    if (resultSet2.next()) {
-
-                        String emp_status = resultSet2.getString("id");
-
-                        DB.IUD("INSERT INTO `employee` (`id`,`fname`,`lname`,`mobile`,`join_date`,`address_id`,`emp_status_id`,`gender_id`,`emp_type_id`) VALUES"
-                                + "('" + newID + "','" + fname + "','" + lname + "','" + mobile + "','" + Date + "','" + AddressId + "','" + emp_status + "','" + genderMap.get(gender) + "','" + employeeTypeMap.get(employee_type) + "')");
-
-                        JOptionPane.showMessageDialog(this, "New Employee Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        refresh();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "There is No Employee Status Like That In the database", "Warning", JOptionPane.INFORMATION_MESSAGE);
-                        refresh();
-                    }
-                }
-
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        add();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-
-        // Check if the Address ID already exists
-        if (AddressId != null) {
-            JOptionPane.showMessageDialog(this, "Address ID already exists", "Warning", JOptionPane.WARNING_MESSAGE);
-            return; // Exit if the ID exists
-        }
-
-        // If the dialog is already created, just bring it to the front
-        if (employeeAddressDialog != null && employeeAddressDialog.isVisible()) {
-            employeeAddressDialog.toFront(); // Bring the dialog to the front if it's already visible
-        } else {
-            // Otherwise, create and show a new dialog
-            employeeAddressDialog = new Employee_Address(this, true, null);
-            employeeAddressDialog.setVisible(true);
-        }
+        address();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -876,5 +711,181 @@ public class EmployeeManagement extends javax.swing.JPanel {
     private void searchEmployee() {
         String value = jTextField5.getText(); // Get the input from the JTextField
         loadEmployee(value);
+    }
+
+    private void update() {
+        try {
+            String employee_id = this.EmployeeId;
+            String fname = jTextField1.getText();
+            String lname = jTextField2.getText();
+            String mobile = jTextField3.getText();
+            String gender = String.valueOf(jComboBox1.getSelectedItem());
+            String employee_type = String.valueOf(jComboBox2.getSelectedItem());
+            String employee_status = String.valueOf(jComboBox3.getSelectedItem());
+
+            if (employee_id == null) {
+                JOptionPane.showMessageDialog(this, "Please Select An Employee First", "Alert!", JOptionPane.WARNING_MESSAGE);
+                jTable1.grabFocus();
+
+            } else if (fname.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter the Employee's First Name", "Alert!", JOptionPane.WARNING_MESSAGE);
+                jTextField1.grabFocus();
+
+            } else if (!Validator.NAME.validate(fname)) {
+                JOptionPane.showMessageDialog(this, "First Name Must Contaion Only Letters", "Alert!", JOptionPane.WARNING_MESSAGE);
+                jTextField1.grabFocus();
+
+            } else if (lname.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter the Employee's Last Name", "Alert!", JOptionPane.WARNING_MESSAGE);
+                jTextField2.grabFocus();
+
+            } else if (!Validator.NAME.validate(lname)) {
+                JOptionPane.showMessageDialog(this, "Last Name Must Contaion Only Letters", "Alert!", JOptionPane.WARNING_MESSAGE);
+                jTextField2.grabFocus();
+
+            } else if (mobile.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter A Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
+                jTextField3.grabFocus();
+
+            } else if (!Validator.MOBILE_NUMBER.validate(mobile)) {
+                JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
+                jTextField3.grabFocus();
+
+            } else {
+
+                ResultSet resultSet = DB.search("SELECT * FROM `employee` INNER JOIN `emp_status` ON `employee`.`emp_status_id` = `emp_status`.`id`"
+                        + " WHERE `employee`.`id` ='" + this.EmployeeId + "' ");
+
+                boolean Update = false;
+
+                if (resultSet.next()) {
+
+                    String exfname = resultSet.getString("fname");
+                    String exlname = resultSet.getString("lname");
+                    String exmobile = resultSet.getString("mobile");
+                    String exemployee_status = resultSet.getString("emp_status.status");
+
+                    if (!exfname.equals(fname) || !exlname.equals(lname) || !exmobile.equals(mobile) || !exemployee_status.equals(employee_status)) {
+                        Update = true;
+
+                    } else {
+                        JOptionPane.showMessageDialog(this, "No changes detected. Please Update at least one Detail.", "Same Details", JOptionPane.WARNING_MESSAGE);
+
+                    }
+
+                }
+
+                if (Update) {
+                    DB.IUD("UPDATE  `employee` SET `fname` = '" + fname + "' ,`lname` = '" + lname + "',`mobile`='" + mobile + "',"
+                            + "`emp_status_id` = '" + employeeStatusMap.get(employee_status) + "',`gender_id` = '" + genderMap.get(gender) + "',"
+                            + "`emp_type_id` ='" + employeeTypeMap.get(employee_type) + "' WHERE `id` = '" + employee_id + "' ");
+
+                    JOptionPane.showMessageDialog(this, "Employee Details Updated Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    refresh();
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void add() {
+        try {
+            String fname = jTextField1.getText();
+            String lname = jTextField2.getText();
+            String mobile = jTextField3.getText();
+            String gender = String.valueOf(jComboBox1.getSelectedItem());
+            String employee_type = String.valueOf(jComboBox2.getSelectedItem());
+            String employee_status = String.valueOf(jComboBox3.getSelectedItem());
+
+            String newID = IDGenarator.generateID("EMP", "employee");
+            String Date = SetDate.getDate("yyyy-MM-dd HH:mm:ss");
+
+            if (fname.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter the Employee's First Name", "Alert!", JOptionPane.WARNING_MESSAGE);
+                jTextField1.grabFocus();
+
+            } else if (!Validator.NAME.validate(fname)) {
+                JOptionPane.showMessageDialog(this, "First Name Must Contaion Only Letters", "Alert!", JOptionPane.WARNING_MESSAGE);
+                jTextField1.grabFocus();
+
+            } else if (lname.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter the Employee's Last Name", "Alert!", JOptionPane.WARNING_MESSAGE);
+                jTextField2.grabFocus();
+
+            } else if (!Validator.NAME.validate(lname)) {
+                JOptionPane.showMessageDialog(this, "Last Name Must Contaion Only Letters", "Alert!", JOptionPane.WARNING_MESSAGE);
+                jTextField2.grabFocus();
+
+            } else if (mobile.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter A Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
+                jTextField3.grabFocus();
+
+            } else if (!Validator.MOBILE_NUMBER.validate(mobile)) {
+                JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
+                jTextField3.grabFocus();
+
+            } else if (gender.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select A Gender", "Alert!", JOptionPane.WARNING_MESSAGE);
+                jComboBox1.grabFocus();
+
+            } else if (employee_type.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Select An Employee Type", "Alert!", JOptionPane.WARNING_MESSAGE);
+                jComboBox2.grabFocus();
+
+            } else if (this.AddressId == null) {
+                JOptionPane.showMessageDialog(this, "Please Enter An Address", "Alert!", JOptionPane.WARNING_MESSAGE);
+                jButton4.grabFocus();
+
+            } else {
+
+                ResultSet resultSet = DB.search("SELECT * FROM `employee` WHERE `mobile` ='" + mobile + "' ");
+
+                if (resultSet.next()) {
+                    JOptionPane.showMessageDialog(this, "This Provided Mobile Number Already Have Been Used", "Warning!", JOptionPane.WARNING_MESSAGE);
+                    jTextField3.grabFocus();
+
+                } else {
+                    ResultSet resultSet2 = DB.search("SELECT `id` FROM `emp_status` WHERE `status` ='" + employee_status + "' ");
+                    if (resultSet2.next()) {
+
+                        String emp_status = resultSet2.getString("id");
+
+                        DB.IUD("INSERT INTO `employee` (`id`,`fname`,`lname`,`mobile`,`join_date`,`address_id`,`emp_status_id`,`gender_id`,`emp_type_id`) VALUES"
+                                + "('" + newID + "','" + fname + "','" + lname + "','" + mobile + "','" + Date + "','" + AddressId + "','" + emp_status + "','" + genderMap.get(gender) + "','" + employeeTypeMap.get(employee_type) + "')");
+
+                        JOptionPane.showMessageDialog(this, "New Employee Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        refresh();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "There is No Employee Status Like That In the database", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                        refresh();
+                    }
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void address() {
+
+        // Check if the Address ID already exists
+        if (AddressId != null) {
+            JOptionPane.showMessageDialog(this, "Address ID already exists", "Warning", JOptionPane.WARNING_MESSAGE);
+            return; // Exit if the ID exists
+        }
+
+        // If the dialog is already created, just bring it to the front
+        if (employeeAddressDialog != null && employeeAddressDialog.isVisible()) {
+            employeeAddressDialog.toFront(); // Bring the dialog to the front if it's already visible
+        } else {
+            // Otherwise, create and show a new dialog
+            employeeAddressDialog = new Employee_Address(this, true, null);
+            employeeAddressDialog.setVisible(true);
+        }
     }
 }
