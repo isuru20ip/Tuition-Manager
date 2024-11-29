@@ -7,6 +7,7 @@ package GUI.panal;
 import GUI.popup.GuardianDetails;
 import GUI.popup.StudentAddress;
 import GUI.popup.TeacherAddress;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -14,16 +15,23 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
+import modal.HomeInfo;
 import modal.IDGenarator;
 import modal.LogCenter;
+import modal.Reporting;
 import modal.Validator;
 import modal.beans.Admin;
+import modal.beans.Home;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 
 /**
  *
@@ -141,7 +149,7 @@ public class TeacherManagement extends javax.swing.JPanel {
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Status");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active" }));
 
         jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -373,6 +381,11 @@ public class TeacherManagement extends javax.swing.JPanel {
         jButton6.setBackground(new java.awt.Color(51, 204, 0));
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton6.setText("Print");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -461,7 +474,7 @@ public class TeacherManagement extends javax.swing.JPanel {
         );
 
         jPanel9.setBackground(new java.awt.Color(234, 238, 244));
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Other Reports", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Select Reports", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -474,6 +487,11 @@ public class TeacherManagement extends javax.swing.JPanel {
         jButton8.setBackground(new java.awt.Color(0, 102, 204));
         jButton8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton8.setText("View");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -733,6 +751,37 @@ public class TeacherManagement extends javax.swing.JPanel {
         ClearReport(); //Clear Report Section
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+         try {
+            if (jRadioButton1.isSelected()) {
+                // Print Enrollment Report
+                printReportEnrollement();
+            } else if (jRadioButton2.isSelected()) {
+                // Print Payment Report
+                printReportPayment();
+            } else {
+                // Display a warning if no selection is made
+                JOptionPane.showMessageDialog(this, "Please select a report to print.", "Selection Required", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (JRException ex) {
+            // Log the JRException if it occurs during report generation
+            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+          if (jRadioButton1.isSelected()) {
+            // Call Enrollment View Method
+            viweReportEnrollement();
+        } else if (jRadioButton2.isSelected()) {
+            // Call Payment View Method
+            viweReportPayment();
+        } else {
+            // Display a warning if no selection is made
+            JOptionPane.showMessageDialog(this, "Please select a report to view.", "Selection Required", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -806,24 +855,51 @@ public class TeacherManagement extends javax.swing.JPanel {
     private void loadTStatus() {
 
         try {
-
+            // Execute the query to fetch customer status data
             ResultSet resultSet = DB.search("SELECT * FROM `customer_status`");
+
+            // Initialize a vector to hold the status options for the combo box
             Vector<String> v = new Vector<>();
             v.add("Select");
 
+            // Initialize a flag to track if "active" status is found
+            boolean activeStatusFound = false;
+
+            // Loop through the result set and populate the vector and map
             while (resultSet.next()) {
-                v.add(resultSet.getString("status"));
-                teacherStatus.put(resultSet.getString("status"), resultSet.getString("id"));
+                String status = resultSet.getString("status");
+                String id = resultSet.getString("id");
 
-                DefaultComboBoxModel sModel = new DefaultComboBoxModel(v);
-                jComboBox2.setModel(sModel);
+                // Add status to the vector for combo box population
+                v.add(status);
 
+                // Add status and id to the map
+                teacherStatus.put(status, id);
+
+                // Check if "Active" status exists in the result set
+                if ("Active".equalsIgnoreCase(status)) {
+                    activeStatusFound = true;
+                }
+            }
+
+            // Set the combo box model with the populated vector
+            DefaultComboBoxModel<String> sModel = new DefaultComboBoxModel<>(v);
+            jComboBox2.setModel(sModel);
+
+            // After setting the model, if "Active" status is found, set it as the default selection
+            if (activeStatusFound) {
+                jComboBox2.setSelectedItem("Active");
+            } else {
+                // If "Active" status is not found, set it to the "Select" option by default
+                jComboBox2.setSelectedIndex(0);
             }
 
         } catch (ClassNotFoundException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            JOptionPane.showMessageDialog(null, "Error connecting to the database: " + ex.getMessage());
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+            JOptionPane.showMessageDialog(null, "SQL error occurred: " + ex.getMessage());
         }
 
     }
@@ -1077,6 +1153,7 @@ public class TeacherManagement extends javax.swing.JPanel {
 
         jButton3.setEnabled(true); // Add Button Enable
         loadTeacher("");
+        loadTStatus();
 
     }
 
@@ -1100,18 +1177,18 @@ public class TeacherManagement extends javax.swing.JPanel {
     private void TeacherReportLoad(String NicValue, String emailValue, String comboBoxValue, String sortOrder) {
         try {
             // SQL query to get teacher data with the updated query
-           String query = "SELECT DISTINCT teacher.nic AS teacher_nic, "
-                         + "CONCAT(teacher.fname, ' ', teacher.lname) AS teacher_name, "
-                         + "teacher.email AS teacher_email, "
-                         + "subject.name AS subject_name, "
-                         + "class_type.type AS class_type, "
-                         + "course.id AS course_id, "
-                         + "teacher.join_date AS teacher_join_date "
-                         + "FROM teacher "
-                         + "LEFT JOIN class ON class.teacher_nic = teacher.nic "
-                         + "LEFT JOIN subject ON subject.id = class.subject_id "
-                         + "LEFT JOIN class_type ON class_type.id = class.class_type_id "
-                         + "LEFT JOIN course ON course.subject_id = class.subject_id";
+            String query = "SELECT DISTINCT teacher.nic AS teacher_nic, "
+                    + "CONCAT(teacher.fname, ' ', teacher.lname) AS teacher_name, "
+                    + "teacher.email AS teacher_email, "
+                    + "subject.name AS subject_name, "
+                    + "class_type.type AS class_type, "
+                    + "course.id AS course_id, "
+                    + "teacher.join_date AS teacher_join_date "
+                    + "FROM teacher "
+                    + "LEFT JOIN class ON class.teacher_nic = teacher.nic "
+                    + "LEFT JOIN subject ON subject.id = class.subject_id "
+                    + "LEFT JOIN class_type ON class_type.id = class.class_type_id "
+                    + "LEFT JOIN course ON course.subject_id = class.subject_id";
 
             boolean hasConditions = false;
 
@@ -1238,11 +1315,144 @@ public class TeacherManagement extends javax.swing.JPanel {
 
         jTextField7.setText("");
         jTextField8.setText("");
+        buttonGroup1.clearSelection();
         jComboBox4.setSelectedItem("All Type");
         jComboBox3.setSelectedIndex(0);
         TeacherPaymentLoad("");
         TeacherReportLoad("", "", "", "");
 
     }
+    
+    
+    //Reporting 
+    
+    //Print Reporting Enrollement
+    private void printReportEnrollement() throws JRException {
+
+        try {
+            // Use JRTableModelDataSource from jTable1's model
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable2.getModel());
+
+            // Get system data
+            Home home = new HomeInfo().getHome();
+
+            // Parameters for the report
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("title", "Teacher Enrollement");
+
+            // Create an Admin instance (assuming you have access to it in this context)
+            // Use saveReport method to save the report
+            Reporting reporting = new Reporting();
+            boolean isSaved = reporting.saveReport("TE_Enrollement_Report", params, dataSource, admin);
+
+            if (isSaved) {
+                JOptionPane.showMessageDialog(this, "Teacher Enrollement saved successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Teacher Enrollement saving was canceled");
+            }
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
+        } catch (JRException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
+        } catch (Exception ex) {
+            // Catch any other unexpected exceptions
+            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
+        }
+    }
+    
+    //Viwe Reporting Enrollement
+    private void viweReportEnrollement() {
+        Home home;
+        try {
+            home = new HomeInfo().getHome();
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable2.getModel());
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
+            params.put("title", "Teacher Enrollement");
+
+            new Reporting().viewReport("TE_Enrollement_Report", params, dataSource, admin);
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (JRException ex) {
+            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    //Print Reporting Payment
+    private void printReportPayment() throws JRException {
+
+        try {
+            // Use JRTableModelDataSource from jTable1's model
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
+
+            // Get system data
+            Home home = new HomeInfo().getHome();
+
+            // Parameters for the report
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("title", "Teacher Payment");
+
+            // Create an Admin instance (assuming you have access to it in this context)
+            // Use saveReport method to save the report
+            Reporting reporting = new Reporting();
+            boolean isSaved = reporting.saveReport("TE_Payment_Report", params, dataSource, admin);
+
+            if (isSaved) {
+                JOptionPane.showMessageDialog(this, "Teacher Payment Report saved successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Teacher Payment Report saving was canceled");
+            }
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
+        } catch (JRException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
+        } catch (Exception ex) {
+            // Catch any other unexpected exceptions
+            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
+        }
+    }
+
+    //Viwe Reporting Payment
+    private void viweReportPayment() {
+        Home home;
+        try {
+            home = new HomeInfo().getHome();
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
+            params.put("title", "Teacher Payment");
+
+            new Reporting().viewReport("TE_Payment_Report", params, dataSource, admin);
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (JRException ex) {
+            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
 
 }

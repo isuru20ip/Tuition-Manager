@@ -16,7 +16,7 @@ public class DB {
     }
 
     // Set DB state
-    private static final DBState STATE = DBState.Local;
+    private static final DBState STATE = DBState.Cloud;
 
     // DB Connection
     private static Connection connection;
@@ -31,11 +31,10 @@ public class DB {
 
                 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tution_db", "root", "thanuja123");
 
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tuition_db", "root", "Kaveesh3841k");
-
             }
         }
     }
+    
 
     public static Integer IUD(String q) throws ClassNotFoundException, SQLException {
         setConnection();

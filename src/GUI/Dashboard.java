@@ -21,6 +21,7 @@ import GUI.panal.EnrollmentManagement;
 import GUI.panal.HallManagement;
 import GUI.panal.SalaryCalculation;
 import GUI.panal.sub_dashboard;
+import GUI.panal.systemAccess;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -31,21 +32,25 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Vector;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import modal.beans.Admin;
 import modal.SVGImage;
+import modal.beans.Home;
 
 public class Dashboard extends javax.swing.JFrame {
 
     private Admin admin;
-    
-    
 
     public Dashboard(Admin bean) {
         initComponents();
@@ -56,9 +61,9 @@ public class Dashboard extends javax.swing.JFrame {
         time();
         date();
         setName();
-        
+
         setIconImage();
-        
+
         sVGImage2.setSvgImage("source/notification.svg", 30, 30);
         sVGImage3.setSvgImage("source/userprofile.svg", 28, 28);
         sVGImage1.setSvgImage("source/search.svg", 28, 28);
@@ -94,11 +99,15 @@ public class Dashboard extends javax.swing.JFrame {
         LocalDateTime now = LocalDateTime.now();
         date.setText(dates.format(now));
     }
-    
-    private void setName(){
-    
+
+    private void setName() {
+
         String userName = admin.getFname();
         jLabel3.setText(userName);
+    }
+
+    private void changeColor() {
+
     }
 
     @SuppressWarnings("unchecked")
@@ -106,7 +115,7 @@ public class Dashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new RoundedPanel(20, new Color(250, 249, 246));
+        jPanel2 = new RoundedPanel(20, Color.white);
         jPanel9 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -147,7 +156,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(200, 200, 198));
 
-        jPanel9.setBackground(new java.awt.Color(250, 249, 246));
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Mainlogo.png"))); // NOI18N
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -609,7 +618,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_salaryCalculationActionPerformed
 
     private void employeeManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeManagementActionPerformed
-        loadPanal(new EmployeeManagement());
+        loadPanal(new EmployeeManagement(admin));
     }//GEN-LAST:event_employeeManagementActionPerformed
 
     private void paymentManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentManagementActionPerformed
@@ -650,6 +659,20 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void subDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subDashboardActionPerformed
         loadPanal(new sub_dashboard());
+
+        subDashboard.addActionListener(new ActionListener() {
+            private boolean isClicked = false;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (isClicked) {
+                    subDashboard.setBackground(new Color(240, 240, 240)); // Original color
+                } else {
+                    subDashboard.setBackground(Color.black); // New color
+                }
+                isClicked = !isClicked; // Toggle state
+            }
+        });
     }//GEN-LAST:event_subDashboardActionPerformed
 
     private void jButton15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton15MouseClicked
@@ -658,18 +681,17 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton15MouseClicked
 
     private void systemAManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_systemAManagementActionPerformed
-        // TODO add your handling code here:
+        loadPanal(new systemAccess(admin));
     }//GEN-LAST:event_systemAManagementActionPerformed
 
     private void settingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsActionPerformed
         loadPanal(new Settings());
     }//GEN-LAST:event_settingsActionPerformed
 
-    
     private void pageStart() {
-    
-    String userType = admin.getType();
-        
+
+        String userType = admin.getType();
+
         if (userType.equals("Master Admin")) {
             studentManagement.setEnabled(true);
             teacherManagement.setEnabled(true);
@@ -684,7 +706,7 @@ public class Dashboard extends javax.swing.JFrame {
             salaryCalculation.setEnabled(true);
             systemAManagement.setEnabled(true);
             settings.setEnabled(true);
-            
+
         } else if (userType.equals("Admin")) {
             studentManagement.setEnabled(true);
             teacherManagement.setEnabled(true);
@@ -699,7 +721,7 @@ public class Dashboard extends javax.swing.JFrame {
             salaryCalculation.setEnabled(false);
             systemAManagement.setEnabled(false);
             settings.setEnabled(false);
-            
+
         } else if (userType.equals("Cashier")) {
             studentManagement.setEnabled(true);
             teacherManagement.setEnabled(false);
@@ -714,7 +736,7 @@ public class Dashboard extends javax.swing.JFrame {
             salaryCalculation.setEnabled(false);
             systemAManagement.setEnabled(false);
             settings.setEnabled(false);
-            
+
         } else if (userType.equals("Attendance Marker")) {
             studentManagement.setEnabled(false);
             teacherManagement.setEnabled(false);
@@ -730,7 +752,7 @@ public class Dashboard extends javax.swing.JFrame {
             systemAManagement.setEnabled(false);
             settings.setEnabled(false);
         }
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -775,12 +797,12 @@ public class Dashboard extends javax.swing.JFrame {
         main.add(panal, BorderLayout.CENTER);
         SwingUtilities.updateComponentTreeUI(main);
     }
-    
+
     //title and logo
     private void setIconImage() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("Mainlogo.png")));
     }
-
+    
     //rounded panel
     class RoundedPanel extends JPanel {
 
