@@ -4,6 +4,10 @@
  */
 package GUI.panal;
 
+import java.awt.HeadlessException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.System.Logger.Level;
 import modal.DB;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -20,7 +24,11 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import modal.LogCenter;
 import modal.beans.Admin;
+import modal.beans.Home;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 
 /**
  *
@@ -920,7 +928,12 @@ public class StudentAttendance extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+
+        try {
+            EmpolyeeReport();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     // Update employee Attendance
@@ -976,7 +989,7 @@ public class StudentAttendance extends javax.swing.JPanel {
     }//GEN-LAST:event_CourseGradeItemStateChanged
 
     private void jTabbedPane2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane2MouseClicked
-        SelectTab2();
+//        SelectTab2();
     }//GEN-LAST:event_jTabbedPane2MouseClicked
 
     private void CourseSTIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CourseSTIDKeyReleased
@@ -2086,21 +2099,71 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     }
 
-    // <<..........................................Employee Attendance Marking.........................................>>
-    private void SelectTab2() {
-           
-        if (jTabbedPane2.getSelectedIndex() == 0) {
-            clearCourseAllField();
-        } else {
-            loadClassGrade();
-            loadCourseAttnTable();
-            searchCourseAttnChecBox();
-            CourseSTName.setEditable(false);
-            clearClassAllFieldMarkin();
-        }
+    private void EmpolyeeReport() throws IOException, FileNotFoundException, ClassNotFoundException {
+        try {
+            // Use JRTableModelDataSource from jTable1's model
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(employee_attn_table.getModel());
 
+            // Get system data
+            Home home = new Home();
+
+            // Parameters for the report
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("title", "Employees Attendance Report");
+
+            // Use saveReport method to save the report
+            modal.Reporting reporting = new modal.Reporting();
+            boolean isSaved = reporting.saveReport("Employee_Attn", params, dataSource, this.admin);
+
+            if (isSaved) {
+                JOptionPane.showMessageDialog(this, "Employee Salary Report saved successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Employee Salary Report saving was canceled");
+            }
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(this, "An error occurred while generating the report: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }
 
+//    private void EmpolyeeReport() throws JRException, IOException, FileNotFoundException, ClassNotFoundException {
+//
+//        try {
+//            // Use JRTableModelDataSource from jTable1's model
+//            JRTableModelDataSource dataSource = new JRTableModelDataSource(employee_attn_table.getModel());
+//
+//            // Get system data
+//            Home home = new Home();
+//
+//            // Parameters for the report
+//            HashMap<String, Object> params = new HashMap<>();
+//            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+//            params.put("landLine", home.getLandLine());
+//            params.put("email", home.getEmail());
+//            params.put("mobile", home.getMobile());
+//            params.put("title", "Employees Salary Report");
+//
+//            // Use saveReport method to save the report
+//            modal.Reporting reporting = new modal.Reporting();
+//            boolean isSaved = reporting.saveReport("EMP_Salary_Report", params, dataSource, this.admin);
+//
+//            if (isSaved) {
+//                JOptionPane.showMessageDialog(this, "Employee Salary Report saved successfully");
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Employee Salary Report saving was canceled");
+//            }
+//        } catch (JRException e) {
+//            JOptionPane.showMessageDialog(this, "An error occurred while generating the report: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//            e.printStackTrace();
+//        }
+//    
+//
+//        }
+//    
     private void SelectTab1() {
 
         if (jTabbedPane1.getSelectedIndex() == 0) {
