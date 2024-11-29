@@ -7,6 +7,7 @@ import java.util.HashMap;
 import javax.swing.JFileChooser;
 import modal.beans.Admin;
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -53,7 +54,7 @@ public class Reporting {
         if (path == null) {
             return false;
         }
-        JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm);
+        JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm, new JREmptyDataSource());
         JasperExportManager.exportReportToPdfFile(print, path + "/" + reportName + modal.SetDate.getDate("yyyy-MM-dd HH.mm").replace(" ", "_") + ".pdf");
         // send Email
         Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + " report is Saved by " + admin.getUserName() + "\n Path: " + path);
@@ -71,7 +72,7 @@ public class Reporting {
 
     // viwe reports
     public void viewReport(String reportName, HashMap parm, Admin admin) throws JRException, IOException, FileNotFoundException, ClassNotFoundException {
-        JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm);
+        JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm, new JREmptyDataSource());
         JasperViewer.viewReport(print, false);
 
         // send Email
@@ -87,7 +88,7 @@ public class Reporting {
 
     // print reports
     public boolean printReport(String reportName, HashMap parm) throws JRException {
-        JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm);
+        JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm, new JREmptyDataSource());
         return JasperPrintManager.printReport(print, true);
 
     }

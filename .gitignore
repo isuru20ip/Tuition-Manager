@@ -30,8 +30,14 @@ nbbuild/
 dist/
 nbdist/
 nbactions.xml
+src/modal/DB.java
 img/
 homeinfo.ser
-loginfo.ser
 /nbproject
+
+src/modal/DB.java
+
 /DB.java
+loginfo.ser
+loginfo.ser
+
