@@ -36,6 +36,7 @@ public class systemAccess extends javax.swing.JPanel {
         this.admin = bean;
         loadEmployee();
         employeeAccessSearch();
+        loadLoging();
 
         txtEmployeeID.setEditable(true);
         txtFirstName.setEditable(true);
@@ -141,7 +142,7 @@ public class systemAccess extends javax.swing.JPanel {
         // Validation: Ensure at least one search field is filled
         if (employeeID.isEmpty() && firstName.isEmpty() && lastName.isEmpty() && employeeType.equals("Select")) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please fill in at least one search field!");
+                    "Please fill in at least one search field!");
             return;
         }
 
@@ -149,7 +150,7 @@ public class systemAccess extends javax.swing.JPanel {
         String query = "SELECT `employee`.id, `employee`.fname, `employee`.lname, `emp_type`.name AS emp_type, `emp_access`.user_name, `emp_access`.password "
                 + "FROM employee INNER JOIN emp_access ON `employee`.id = `emp_access`.employee_id "
                 + "INNER JOIN emp_type ON `employee`.emp_type_id = `emp_type`.id WHERE 1=1 "; // Base query
-                
+
         if (!employeeID.isEmpty()) {
             query += " AND `employee`.id = '" + employeeID + "'";
         }
@@ -1267,21 +1268,26 @@ public class systemAccess extends javax.swing.JPanel {
 
         }
     }
-    
+
     private void loadLoging() {
         try {
             DefaultTableModel defaultTableModel = (DefaultTableModel) logingDataTable.getModel();
             defaultTableModel.setRowCount(0);
-            
+
+            // Center alignment for table cells
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+            renderer.setHorizontalAlignment(SwingConstants.CENTER);
+            logingDataTable.setDefaultRenderer(Object.class, renderer);
+
             Vector<String[]> vector = new HomeInfo().getlog();
             int row = 1;
             int vLength = vector.size();
             for (String[] log : vector) {
-                
+
                 if (row == vLength) {
                     break;
                 }
-                
+
                 Vector<String> v = new Vector<>();
                 v.add(String.valueOf(row)); // #
                 v.add(log[0]); // time

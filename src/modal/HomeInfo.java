@@ -1,5 +1,6 @@
 package modal;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -28,13 +29,19 @@ public class HomeInfo {
         objectOutputStream.writeObject(home);
         objectOutputStream.close();
     }
-    
-        public Vector getlog() throws FileNotFoundException, IOException, ClassNotFoundException {
-        FileInputStream inputStream = new FileInputStream("loginfo.ser");
+
+    public Vector getlog() throws IOException, ClassNotFoundException {
+        File file = new File("loginfo.ser");
+        if (!file.exists()) {
+            // If the file doesn't exist, return an empty vector
+            return new Vector();
+        }
+
+        FileInputStream inputStream = new FileInputStream(file);
         ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-        Vector home = (Vector) objectInputStream.readObject();
+        Vector logData = (Vector) objectInputStream.readObject();
         objectInputStream.close();
-        return home;
+        return logData;
     }
 
     public void setlog(Vector log) throws FileNotFoundException, IOException {
