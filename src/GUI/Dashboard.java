@@ -638,7 +638,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_studentEnrollmentActionPerformed
 
     private void hallManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hallManagementActionPerformed
-        loadPanal(new HallManagement());
+        loadPanal(new HallManagement(admin));
     }//GEN-LAST:event_hallManagementActionPerformed
 
     private void courseManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseManagementActionPerformed

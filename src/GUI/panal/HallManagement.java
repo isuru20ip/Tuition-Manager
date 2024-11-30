@@ -2,6 +2,8 @@ package GUI.panal;
 
 import GUI.SignIn;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Vector;
@@ -9,12 +11,20 @@ import javax.swing.DefaultComboBoxModel;
 import modal.DB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import modal.HomeInfo;
 import modal.IDGenarator;
 import modal.LogCenter;
+import modal.Reporting;
+import modal.beans.Admin;
+import modal.beans.Home;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -22,16 +32,18 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.view.JasperViewer;
 
 public class HallManagement extends javax.swing.JPanel {
 
     private static HashMap<String, String> hallTypeMap = new HashMap<>();
-
-    public HallManagement() {
+    Admin admin;
+    public HallManagement(Admin admin) {
         initComponents();
         hallType();
         loadHall();
+        this.admin = admin;
     }
 
     @SuppressWarnings("unchecked")
@@ -53,12 +65,13 @@ public class HallManagement extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(234, 238, 244));
 
         jPanel1.setBackground(new java.awt.Color(234, 238, 244));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Poppins Medium", 1, 24)); // NOI18N
         jLabel1.setText("Hall Management");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -80,14 +93,14 @@ public class HallManagement extends javax.swing.JPanel {
 
         jPanel2.setBackground(new java.awt.Color(234, 238, 244));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel2.setText("Hall Type");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel3.setText("Hall Capacity :");
 
         jButton1.setBackground(new java.awt.Color(51, 204, 0));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Poppins Medium", 0, 18)); // NOI18N
         jButton1.setText("Add New Hall");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,7 +109,7 @@ public class HallManagement extends javax.swing.JPanel {
         });
 
         jButton2.setBackground(new java.awt.Color(0, 102, 204));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Poppins Medium", 0, 18)); // NOI18N
         jButton2.setText("Update Hall");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,7 +118,7 @@ public class HallManagement extends javax.swing.JPanel {
         });
 
         jButton3.setBackground(new java.awt.Color(255, 51, 51));
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton3.setFont(new java.awt.Font("Poppins Medium", 0, 18)); // NOI18N
         jButton3.setText("Clear All");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,8 +126,12 @@ public class HallManagement extends javax.swing.JPanel {
             }
         });
 
+        jComboBox1.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jTextField1.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
+
+        jTable1.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -138,9 +155,10 @@ public class HallManagement extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel4.setText("Search :");
 
+        jTextField2.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
@@ -152,12 +170,22 @@ public class HallManagement extends javax.swing.JPanel {
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(255, 255, 153));
+        jButton4.setBackground(new java.awt.Color(234, 238, 244));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/icons8-print-48.png"))); // NOI18N
         jButton4.setText("Print");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setBackground(new java.awt.Color(255, 255, 153));
+        jButton5.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jButton5.setText("Save");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
             }
         });
 
@@ -182,7 +210,7 @@ public class HallManagement extends javax.swing.JPanel {
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(41, 41, 41)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -191,7 +219,9 @@ public class HallManagement extends javax.swing.JPanel {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jButton4)
                 .addGap(16, 16, 16))
         );
         jPanel2Layout.setVerticalGroup(
@@ -220,9 +250,11 @@ public class HallManagement extends javax.swing.JPanel {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())))
         );
 
@@ -267,49 +299,21 @@ public class HallManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-
-        try {
-            // Compile the Jasper report from .jrxml to .jasper
-            JasperReport jasperReport = JasperCompileManager.compileReport("src/report/hall_reports.jrxml");
-
-            // Retrieve data from the table
-//            HashMap<String, Object> dataList = new HashMap<>();
-//
-//            for (int i = 0; i < jTable1.getRowCount(); i++) {
-//                Map<String, Object> data = new HashMap<>();
-//                data.put("COLUMN_0", jTable1.getValueAt(i, 0));
-//                data.put("COLUMN_1", jTable1.getValueAt(i, 1));
-//                data.put("COLUMN_2", jTable1.getValueAt(i, 2));
-//                dataList.get(data);
-//            }
-
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
-
-            // Parameters (empty in this case)
-            Map<String, Object> parameters = new HashMap<>();
-
-            // Fill the report
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-
-            // Export the report to a PDF file
-            JasperExportManager.exportReportToPdfFile(jasperPrint, "src/report/hallreport.pdf");
-
-            JOptionPane.showMessageDialog(this, "Report generated successfully!");
-        } catch (JRException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error generating report: " + e.getMessage());
-        }catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error generating report: " + e.getMessage());
-        }
+   
+        print();
         
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        save();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -509,8 +513,64 @@ public class HallManagement extends javax.swing.JPanel {
         jComboBox1.setSelectedIndex(0);
         jTextField1.setText("");
         jTextField2.setText("");
+        jTable1.clearSelection();
 
         jButton1.setEnabled(true); //add new hall button enable
+    }
+
+    
+    //save class room report as a pdf
+    private void save() {
+
+        try {
+
+            // Parameters (empty in this case)
+            HashMap<String, Object> params = new HashMap<>();
+
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
+
+            Reporting reporting = new Reporting();
+            boolean isSaved = reporting.saveReport("Hall_Repo", params, dataSource, admin);
+
+            if (isSaved) {
+                JOptionPane.showMessageDialog(this, "Hall Report saved successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Hall Report saving was canceled");
+            }
+
+            
+        }  catch (JRException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error generating report: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error generating report: " + e.getMessage());
+        }
+
+    }
+    
+    
+
+    //print class room reports
+    private void print() {
+        
+        try {
+
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
+            
+            // Parameters (empty in this case)
+            HashMap<String, Object> params = new HashMap<>();
+
+            new Reporting().viewReport("Hall_Repo", params, dataSource, admin);
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (JRException ex) {
+            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }
