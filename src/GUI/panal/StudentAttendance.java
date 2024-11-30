@@ -4,27 +4,20 @@
  */
 package GUI.panal;
 
-import java.awt.HeadlessException;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.System.Logger.Level;
 import modal.DB;
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import modal.HomeInfo;
 import modal.LogCenter;
+import modal.Reporting;
 import modal.beans.Admin;
 import modal.beans.Home;
 import net.sf.jasperreports.engine.JRException;
@@ -170,7 +163,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("SchulbuchNord", 1, 24)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText(" Studen Attendance Marking");
+        jLabel2.setText(" Student Attendance Marking");
 
         jPanel6.setBackground(new java.awt.Color(200, 200, 198));
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -225,7 +218,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         );
 
         jLabel5.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jLabel5.setText("Studen ID :");
+        jLabel5.setText("Student ID :");
 
         jLabel13.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel13.setText("Name :");
@@ -243,7 +236,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         jButton1.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(0, 153, 51));
-        jButton1.setText("Cleare");
+        jButton1.setText("Clear");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -253,7 +246,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         classAttnMarkButton.setBackground(new java.awt.Color(0, 153, 51));
         classAttnMarkButton.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         classAttnMarkButton.setForeground(new java.awt.Color(255, 255, 255));
-        classAttnMarkButton.setText("Marck Attendance");
+        classAttnMarkButton.setText("Mark Attendance");
         classAttnMarkButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 classAttnMarkButtonActionPerformed(evt);
@@ -310,7 +303,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         jButton4.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 0, 0));
-        jButton4.setText("Cleare All Fields");
+        jButton4.setText("Clear All Fields");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -420,7 +413,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         jLabel24.setFont(new java.awt.Font("SchulbuchNord", 1, 24)); // NOI18N
         jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel24.setText(" Studen Attendance Marking");
+        jLabel24.setText(" Student Attendance Marking");
 
         CourseSTName.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
         CourseSTName.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -429,7 +422,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         jLabel23.setText("Name :");
 
         jLabel25.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jLabel25.setText("Studen ID :");
+        jLabel25.setText("Student ID :");
 
         CourseSTID.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
         CourseSTID.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -450,7 +443,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         CourseFieldClear.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         CourseFieldClear.setForeground(new java.awt.Color(0, 153, 51));
-        CourseFieldClear.setText("Cleare");
+        CourseFieldClear.setText("Clear");
         CourseFieldClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CourseFieldClearActionPerformed(evt);
@@ -460,7 +453,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         CourseAttnMark.setBackground(new java.awt.Color(0, 153, 51));
         CourseAttnMark.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         CourseAttnMark.setForeground(new java.awt.Color(255, 255, 255));
-        CourseAttnMark.setText("Marck Attendance");
+        CourseAttnMark.setText("Mark Attendance");
         CourseAttnMark.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CourseAttnMarkActionPerformed(evt);
@@ -561,7 +554,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         CourseClearAll.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
         CourseClearAll.setForeground(new java.awt.Color(255, 0, 0));
-        CourseClearAll.setText("Cleare All Fields");
+        CourseClearAll.setText("Clear All Fields");
         CourseClearAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CourseClearAllActionPerformed(evt);
@@ -784,7 +777,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         markAttn.setBackground(new java.awt.Color(0, 153, 102));
         markAttn.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         markAttn.setForeground(new java.awt.Color(255, 255, 255));
-        markAttn.setText("Marck Attendance");
+        markAttn.setText("Mark Attendance");
         markAttn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 markAttnActionPerformed(evt);
@@ -937,9 +930,9 @@ public class StudentAttendance extends javax.swing.JPanel {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
 
         try {
-            EmpolyeeReport();
+            EmployeeReport();
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "EmployeeReportButton", e);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -976,7 +969,11 @@ public class StudentAttendance extends javax.swing.JPanel {
     }//GEN-LAST:event_Studen_ID_TextFieldKeyReleased
 
     private void class_attn_print_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_class_attn_print_buttonActionPerformed
-
+        try {
+            ClassReport();
+        } catch (Exception e) {
+            LogCenter.logger.log(Level.WARNING, "ClassReportButton", e);
+        }
     }//GEN-LAST:event_class_attn_print_buttonActionPerformed
 
     private void classAttnMarkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classAttnMarkButtonActionPerformed
@@ -1040,7 +1037,11 @@ public class StudentAttendance extends javax.swing.JPanel {
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void CourseReportPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CourseReportPrintActionPerformed
-        loadCourse();
+        try {
+            CourseReport();
+        } catch (Exception e) {
+            LogCenter.logger.log(Level.WARNING, "CourseReport Button", e);
+        }
     }//GEN-LAST:event_CourseReportPrintActionPerformed
 
 
@@ -1134,14 +1135,14 @@ public class StudentAttendance extends javax.swing.JPanel {
         String userType = admin.getType();
 
         if (userType.equals("Attendance Marker")) {
-            
+
             jTabbedPane1.setEnabledAt(1, false);
             class_attn_print_button.setEnabled(false);
             class_CheckBox.setEnabled(false);
             class_From_DateChooser.setEnabled(false);
             class_to_DateChooser.setEnabled(false);
             class_attn_record_find_button.setEnabled(false);
-            
+
             CourseReportPrint.setEnabled(false);
             CourseRecordCheckBox.setEnabled(false);
             CourseFromDate.setEnabled(false);
@@ -1191,7 +1192,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             jComboBox_gradeLoard.setModel(defaultComboBoxModel);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadClassGrade", e);
         }
 
     }
@@ -1205,13 +1206,20 @@ public class StudentAttendance extends javax.swing.JPanel {
             String gradeId = gradeMap.get(grade);
             String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-            ResultSet resultSet = DB.search(
-                    "SELECT * FROM `class_schedule` "
+            String query = "SELECT * FROM `class_schedule` "
                     + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
-                    + "INNER JOIN `subject` ON `class`.`subject_id` = `subject`.`id` "
-                    + "WHERE class_schedule.class_date = '" + dateFormat + "' "
-                    + "AND `class`.grade_id = '" + gradeId + "' "
-            );
+                    + "INNER JOIN `subject` ON `class`.`subject_id` = `subject`.`id` ";
+
+            if (class_CheckBox.isSelected()) {
+                query += "WHERE `class`.grade_id = '" + gradeId + "' ";
+                classAttnMarkButton.setEnabled(false);
+            } else {
+                query += " WHERE class_schedule.class_date = '" + dateFormat + "' "
+                        + "AND `class`.grade_id = '" + gradeId + "' ";
+
+            }
+
+            ResultSet resultSet = DB.search(query);
 
             Vector<String> vector = new Vector<>();
             vector.add("Select");
@@ -1228,7 +1236,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             jComboBox_classLoad.setModel(defaultComboBoxModel);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadClass", e);
         }
 
     }
@@ -1277,7 +1285,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "searchClassEnrolment", e);
         }
     }
 
@@ -1368,7 +1376,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "MarkClassAttn", e);
         }
 
     }
@@ -1461,7 +1469,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "searchClassAttn", e);
         }
     }
 
@@ -1471,10 +1479,14 @@ public class StudentAttendance extends javax.swing.JPanel {
             class_From_DateChooser.setEnabled(true);
             class_to_DateChooser.setEnabled(true);
             class_attn_record_find_button.setEnabled(true);
+            loadClassGrade();
         } else {
+
+            classAttnMarkButton.setEnabled(true);
             class_From_DateChooser.setEnabled(false);
             class_to_DateChooser.setEnabled(false);
             class_attn_record_find_button.setEnabled(false);
+            loadClassGrade();
         }
     }
 
@@ -1501,7 +1513,27 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadClassAttnTable", e);
+        }
+
+    }
+
+    private void ClassReport() {
+        Home home;
+        try {
+            home = new HomeInfo().getHome();
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(Class_Attn_Table.getModel());
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
+            params.put("title", "Class Attendance Report");
+
+            new Reporting().viewReport("ClassAttn", params, dataSource, admin);
+
+        } catch (IOException | ClassNotFoundException | JRException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Error", ex);
         }
 
     }
@@ -1548,7 +1580,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             CourseGrade.setModel(defaultComboBoxModel);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadCourseGrade", e);
         }
 
     }
@@ -1559,16 +1591,22 @@ public class StudentAttendance extends javax.swing.JPanel {
             String grade = String.valueOf(CourseGrade.getSelectedItem());
             String gradeId = CoursegradeMap.get(grade);
 
-            System.out.println(gradeId);
             String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-            System.out.println(dateFormat);
-
-            ResultSet resultSet = DB.search("SELECT * FROM `course_schedule` "
+            String query = "SELECT * FROM `course_schedule` "
                     + "INNER JOIN `course` ON `course_schedule`.`course_id` = `course`.`id`"
-                    + "INNER JOIN `subject` ON `course`.subject_id = `subject`.`id` "
-                    + "WHERE `course_schedule`.`class_date` = '" + dateFormat + "' "
-                    + "AND `course`.`grade_id` = '" + gradeId + "' ");
+                    + "INNER JOIN `subject` ON `course`.subject_id = `subject`.`id` ";
+
+            if (CourseRecordCheckBox.isSelected()) {
+                query += "WHERE `course`.`grade_id` = '" + gradeId + "' ";
+                CourseAttnMark.setEnabled(false);
+            } else {
+                query += " WHERE `course_schedule`.`class_date` = '" + dateFormat + "' "
+                        + "AND `course`.`grade_id` = '" + gradeId + "' ";
+
+            }
+
+            ResultSet resultSet = DB.search(query);
 
             Vector<String> vector = new Vector<>();
             vector.add("Select");
@@ -1586,7 +1624,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             CourseSubject.setModel(defaultComboBoxModel);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadCourse", e);
         }
 
     }
@@ -1632,7 +1670,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "searchCourseEnrolment", e);
         }
     }
 
@@ -1731,7 +1769,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "MarkCourseAttn", e);
         }
 
     }
@@ -1759,7 +1797,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadCourseAttnTable", e);
         }
 
     }
@@ -1770,10 +1808,15 @@ public class StudentAttendance extends javax.swing.JPanel {
             CourseFromDate.setEnabled(true);
             CourseToDate.setEnabled(true);
             CourseRecordFind.setEnabled(true);
+            loadCourseGrade();
         } else {
+
+            CourseAttnMark.setEnabled(true);
+
             CourseFromDate.setEnabled(false);
             CourseToDate.setEnabled(false);
             CourseRecordFind.setEnabled(false);
+            loadCourseGrade();
         }
     }
 
@@ -1865,8 +1908,28 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "searchCourseAttn", e);
         }
+    }
+
+    private void CourseReport() throws JRException {
+        Home home;
+        try {
+            home = new HomeInfo().getHome();
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(CourseTabel.getModel());
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
+            params.put("title", "Course Attendance Report");
+
+            new Reporting().viewReport("CourseAttn", params, dataSource, admin);
+
+        } catch (IOException | ClassNotFoundException | JRException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Error", ex);
+        }
+
     }
 
     private void clearCourseField() {
@@ -1947,7 +2010,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "searchEmployee", e);
         }
 
     }
@@ -1976,7 +2039,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "markAttendance", e);
         }
 
     }
@@ -2002,7 +2065,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "updateAttendance", e);
         }
     }
 
@@ -2031,7 +2094,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadEmpAttnTabel", e);
         }
 
     }
@@ -2120,7 +2183,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             resetEmployeePage();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "searchEmployeeRecord", e);
         }
 
     }
@@ -2149,71 +2212,26 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     }
 
-    private void EmpolyeeReport() throws IOException, FileNotFoundException, ClassNotFoundException {
+    private void EmployeeReport() throws JRException {
+        Home home;
         try {
-            // Use JRTableModelDataSource from jTable1's model
+            home = new HomeInfo().getHome();
             JRTableModelDataSource dataSource = new JRTableModelDataSource(employee_attn_table.getModel());
-
-            // Get system data
-            Home home = new Home();
-
-            // Parameters for the report
             HashMap<String, Object> params = new HashMap<>();
-            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
             params.put("landLine", home.getLandLine());
             params.put("email", home.getEmail());
             params.put("mobile", home.getMobile());
-            params.put("title", "Employees Attendance Report");
+            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
+            params.put("title", "Employee Attendance Report");
 
-            // Use saveReport method to save the report
-            modal.Reporting reporting = new modal.Reporting();
-            boolean isSaved = reporting.saveReport("Employee_Attn", params, dataSource, this.admin);
+            new Reporting().viewReport("Employee_Attn", params, dataSource, admin);
 
-            if (isSaved) {
-                JOptionPane.showMessageDialog(this, "Employee Salary Report saved successfully");
-            } else {
-                JOptionPane.showMessageDialog(this, "Employee Salary Report saving was canceled");
-            }
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(this, "An error occurred while generating the report: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+        } catch (IOException | ClassNotFoundException | JRException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Error", ex);
         }
+
     }
 
-//    private void EmpolyeeReport() throws JRException, IOException, FileNotFoundException, ClassNotFoundException {
-//
-//        try {
-//            // Use JRTableModelDataSource from jTable1's model
-//            JRTableModelDataSource dataSource = new JRTableModelDataSource(employee_attn_table.getModel());
-//
-//            // Get system data
-//            Home home = new Home();
-//
-//            // Parameters for the report
-//            HashMap<String, Object> params = new HashMap<>();
-//            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
-//            params.put("landLine", home.getLandLine());
-//            params.put("email", home.getEmail());
-//            params.put("mobile", home.getMobile());
-//            params.put("title", "Employees Salary Report");
-//
-//            // Use saveReport method to save the report
-//            modal.Reporting reporting = new modal.Reporting();
-//            boolean isSaved = reporting.saveReport("EMP_Salary_Report", params, dataSource, this.admin);
-//
-//            if (isSaved) {
-//                JOptionPane.showMessageDialog(this, "Employee Salary Report saved successfully");
-//            } else {
-//                JOptionPane.showMessageDialog(this, "Employee Salary Report saving was canceled");
-//            }
-//        } catch (JRException e) {
-//            JOptionPane.showMessageDialog(this, "An error occurred while generating the report: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-//            e.printStackTrace();
-//        }
-//    
-//
-//        }
-//    
     private void SelectTab1() {
 
         if (jTabbedPane1.getSelectedIndex() == 0) {
