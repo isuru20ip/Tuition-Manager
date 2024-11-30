@@ -1206,7 +1206,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             String gradeId = gradeMap.get(grade);
             String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-            String query = "SELECT * FROM `class_schedule` "
+            String query = "SELECT DISTINCT `subject`.`id`,`name` FROM `class_schedule` "
                     + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
                     + "INNER JOIN `subject` ON `class`.`subject_id` = `subject`.`id` ";
 
@@ -1225,7 +1225,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             vector.add("Select");
 
             while (resultSet.next()) {
-                String subjectName = resultSet.getString("subject.name");
+                String subjectName = resultSet.getString("name");
                 String subjectId = resultSet.getString("subject.id");
 
                 vector.add(subjectName);
@@ -1593,7 +1593,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
             String dateFormat = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
-            String query = "SELECT * FROM `course_schedule` "
+            String query = "SELECT DISTINCT `subject`.`id`,`name` FROM `course_schedule` "
                     + "INNER JOIN `course` ON `course_schedule`.`course_id` = `course`.`id`"
                     + "INNER JOIN `subject` ON `course`.subject_id = `subject`.`id` ";
 
@@ -1613,7 +1613,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
             while (resultSet.next()) {
 
-                String subjectName = resultSet.getString("subject.name");
+                String subjectName = resultSet.getString("name");
                 String subjectId = resultSet.getString("subject.id");
 
                 vector.add(subjectName);
