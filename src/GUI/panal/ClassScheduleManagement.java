@@ -9,6 +9,7 @@ import GUI.popup.UpdateCourses;
 import cambodia.raven.Time;
 import java.awt.HeadlessException;
 import java.awt.Panel;
+import java.io.IOException;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
@@ -21,13 +22,21 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import modal.HomeInfo;
+import modal.LogCenter;
+import modal.Reporting;
 import modal.beans.Admin;
+import modal.beans.Home;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 
 /**
  *
@@ -1350,10 +1359,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(courseReportHallTypeCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(courseReportHallTypeCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel37)
                             .addComponent(courseReportIDField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
@@ -1365,7 +1373,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         printClassReportButton.setBackground(new java.awt.Color(255, 255, 204));
         printClassReportButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        printClassReportButton.setText("Print");
+        printClassReportButton.setText("Export PDF");
         printClassReportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 printClassReportButtonActionPerformed(evt);
@@ -1375,6 +1383,11 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         viewClassReportButton.setBackground(new java.awt.Color(102, 255, 255));
         viewClassReportButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
         viewClassReportButton.setText("View");
+        viewClassReportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewClassReportButtonActionPerformed(evt);
+            }
+        });
 
         resetClassReportButton.setBackground(new java.awt.Color(255, 204, 204));
         resetClassReportButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
@@ -1387,11 +1400,21 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
         printCourseReportButton.setBackground(new java.awt.Color(255, 255, 204));
         printCourseReportButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        printCourseReportButton.setText("Print");
+        printCourseReportButton.setText("Export PDF");
+        printCourseReportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printCourseReportButtonActionPerformed(evt);
+            }
+        });
 
         viewCourseReportButton.setBackground(new java.awt.Color(102, 255, 255));
         viewCourseReportButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
         viewCourseReportButton.setText("View");
+        viewCourseReportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewCourseReportButtonActionPerformed(evt);
+            }
+        });
 
         resetCourseReportButton.setBackground(new java.awt.Color(255, 204, 204));
         resetCourseReportButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
@@ -1676,7 +1699,11 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_courseUpdateButtonActionPerformed
 
     private void printClassReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printClassReportButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            printReportclassSchedule();
+        } catch (JRException ex) {
+            Logger.getLogger(ClassScheduleManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_printClassReportButtonActionPerformed
 
     private void findClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findClassButtonActionPerformed
@@ -1694,6 +1721,22 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     private void resetCourseReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetCourseReportButtonActionPerformed
         courseReportingReset();
     }//GEN-LAST:event_resetCourseReportButtonActionPerformed
+
+    private void viewClassReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewClassReportButtonActionPerformed
+        viweReportclassSchedule();
+    }//GEN-LAST:event_viewClassReportButtonActionPerformed
+
+    private void printCourseReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printCourseReportButtonActionPerformed
+        try {
+            printReportCourseSchedule();
+        } catch (JRException ex) {
+            Logger.getLogger(ClassScheduleManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_printCourseReportButtonActionPerformed
+
+    private void viewCourseReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewCourseReportButtonActionPerformed
+       viweReportCourseSchedule();
+    }//GEN-LAST:event_viewCourseReportButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ClassSchedule;
@@ -2906,4 +2949,139 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }
 
     // course reporting------------------------------------------------------------------------------------------------------------
+    //class schedule reporting print-----------------------------------------------------------------------------------------------
+    private void printReportclassSchedule() throws JRException {
+
+        try {
+            // Use JRTableModelDataSource from jTable1's model
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(classScheduleReportTable.getModel());
+
+            // Get system data
+            Home home = new HomeInfo().getHome();
+
+            // Parameters for the report
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("title", "Class Schedule Report");
+
+            // Create an Admin instance (assuming you have access to it in this context)
+            // Use saveReport method to save the report
+            Reporting reporting = new Reporting();
+            boolean isSaved = reporting.saveReport("Class_Schedule_Report", params, dataSource, admin);
+
+            if (isSaved) {
+                JOptionPane.showMessageDialog(this, "Class Schedule Report saved successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Class Schedule Report saving was canceled");
+            }
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
+        } catch (JRException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
+        } catch (Exception ex) {
+            // Catch any other unexpected exceptions
+            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
+        }
+    }
+    //class schedule reporting print-------------------------------------------------------------------------------------------
+
+    // class schedule reporting view------------------------------------------------------------------------------------------------
+    private void viweReportclassSchedule() {
+        Home home;
+        try {
+            home = new HomeInfo().getHome();
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(classScheduleReportTable.getModel());
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
+            params.put("title", "Class Schedule Report");
+
+            new Reporting().viewReport("Class_Schedule_Report", params, dataSource, admin);
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (JRException ex) {
+            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    // class schedule reporting view------------------------------------------------------------------------------------------------
+
+    
+    // course schedule repoting print------------------------------------------------------------------------------------------------
+    private void printReportCourseSchedule() throws JRException {
+
+        try {
+            // Use JRTableModelDataSource from jTable1's model
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(courseScheduleReportTable.getModel());
+
+            // Get system data
+            Home home = new HomeInfo().getHome();
+
+            // Parameters for the report
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("title", "Course Schedule Report");
+
+            // Create an Admin instance (assuming you have access to it in this context)
+            // Use saveReport method to save the report
+            Reporting reporting = new Reporting();
+            boolean isSaved = reporting.saveReport("Course_Schedule_Report", params, dataSource, admin);
+
+            if (isSaved) {
+                JOptionPane.showMessageDialog(this, "Course Schedule Report saved successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Course Schedule Report saving was canceled");
+            }
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
+        } catch (JRException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
+        } catch (Exception ex) {
+            // Catch any other unexpected exceptions
+            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
+        }
+    }
+    
+  // course schedule repoting print------------------------------------------------------------------------------------------------
+    
+    
+    // course schedule reporting view----------------------------------------------------------------------------------------------
+    private void viweReportCourseSchedule() {
+        Home home;
+        try {
+            home = new HomeInfo().getHome();
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(courseScheduleReportTable.getModel());
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
+            params.put("title", "Course Schedule Report");
+
+            new Reporting().viewReport("Course_Schedule_Report", params, dataSource, admin);
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (JRException ex) {
+            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+        // course schedule reporting view----------------------------------------------------------------------------------------------
+
+
 }

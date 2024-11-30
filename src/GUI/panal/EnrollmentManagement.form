@@ -1092,7 +1092,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Poppins" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Print"/>
+                <Property name="text" type="java.lang.String" value="Export PDF"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="eCoursePrintButtonActionPerformed"/>
@@ -1513,6 +1513,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="View"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="eCourseViewButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="eCourseReportClearButton">
               <Properties>
@@ -1536,8 +1539,11 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Poppins" size="14" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Print"/>
+                <Property name="text" type="java.lang.String" value="Export PDF"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="eClassPrintButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="eClassViewButton">
               <Properties>
@@ -1549,6 +1555,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="View"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="eClassViewButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="eReportClassClearButton">
               <Properties>
