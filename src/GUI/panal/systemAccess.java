@@ -9,6 +9,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -21,7 +23,12 @@ import modal.LogCenter;
 import modal.beans.Admin;
 import modal.DB;
 import java.sql.ResultSet;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import modal.HomeInfo;
 import modal.beans.Home;
@@ -261,7 +268,7 @@ public class systemAccess extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         logingDataTable = new javaswingdev.swing.table.Table();
         jButton2 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        filterComboBox = new javax.swing.JComboBox<>();
         jDateChooser4 = new com.toedter.calendar.JDateChooser();
         jButton3 = new javax.swing.JButton();
         jDateChooser5 = new com.toedter.calendar.JDateChooser();
@@ -884,12 +891,7 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
+        filterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Today", "Yesterday", "This Week", "This Month" }));
 
         jButton3.setText("Search");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -921,7 +923,7 @@ public class systemAccess extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(filterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(73, 73, 73)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -950,7 +952,7 @@ public class systemAccess extends javax.swing.JPanel {
                     .addComponent(jDateChooser5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(filterComboBox, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1240,10 +1242,6 @@ public class systemAccess extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
     private void setNotification(JFrame parent) {
         Notifications.getInstance().setJFrame(parent);
     }
@@ -1260,11 +1258,11 @@ public class systemAccess extends javax.swing.JPanel {
     private javax.swing.JTextField empname;
     private javax.swing.JTextField empstatus;
     private javax.swing.JTextField emptype;
+    private javax.swing.JComboBox<String> filterComboBox;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
     private com.toedter.calendar.JDateChooser jDateChooser4;
     private com.toedter.calendar.JDateChooser jDateChooser5;
     private com.toedter.calendar.JDateChooser jDateChooser6;
@@ -1414,11 +1412,11 @@ public class systemAccess extends javax.swing.JPanel {
 
                 Vector<String> v = new Vector<>();
                 v.add(String.valueOf(row)); // #
-                v.add(log[0]); // name
-                v.add(log[1]); // userName
-                v.add(log[2]); // timedate
-                v.add(log[3]); // type
-                v.add(log[4]); // status
+                v.add(log[0]); // ID
+                v.add(log[1]); // name
+                v.add(log[2]); // username
+                v.add(log[3]); // datetime
+                v.add(log[4]); // type
                 defaultTableModel.addRow(v);
                 row++;
             }
@@ -1427,6 +1425,7 @@ public class systemAccess extends javax.swing.JPanel {
             LogCenter.logger.log(Level.WARNING, "loadLoging", e);
         }
     }
+
 
 //rounded panel
     class RoundedPanel extends JPanel {
@@ -1500,7 +1499,7 @@ public class systemAccess extends javax.swing.JPanel {
             LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
         }
     }
-    
+
     private void printReportLogin() throws JRException {
 
         try {
