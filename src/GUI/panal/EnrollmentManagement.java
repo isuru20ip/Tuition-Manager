@@ -549,20 +549,10 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         eClassIdField.setBackground(new java.awt.Color(240, 240, 240));
         eClassIdField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         eClassIdField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        eClassIdField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                eClassIdFieldKeyReleased(evt);
-            }
-        });
 
         eClassStudentIdField.setBackground(new java.awt.Color(240, 240, 240));
         eClassStudentIdField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         eClassStudentIdField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        eClassStudentIdField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                eClassStudentIdFieldKeyReleased(evt);
-            }
-        });
 
         jLabel13.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -575,11 +565,6 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         eClassStudentNicField.setBackground(new java.awt.Color(240, 240, 240));
         eClassStudentNicField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         eClassStudentNicField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        eClassStudentNicField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                eClassStudentNicFieldKeyReleased(evt);
-            }
-        });
 
         jLabel16.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -595,6 +580,11 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         findClassEnrollmentButton.setBackground(new java.awt.Color(204, 255, 204));
         findClassEnrollmentButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
         findClassEnrollmentButton.setText("Find");
+        findClassEnrollmentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findClassEnrollmentButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -660,20 +650,10 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         eCourseIdField.setBackground(new java.awt.Color(240, 240, 240));
         eCourseIdField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         eCourseIdField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        eCourseIdField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                eCourseIdFieldKeyReleased(evt);
-            }
-        });
 
         eCourseStudentIdField.setBackground(new java.awt.Color(240, 240, 240));
         eCourseStudentIdField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         eCourseStudentIdField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        eCourseStudentIdField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                eCourseStudentIdFieldKeyReleased(evt);
-            }
-        });
 
         jLabel15.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -690,11 +670,6 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         eCourseStudentNicField.setBackground(new java.awt.Color(240, 240, 240));
         eCourseStudentNicField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         eCourseStudentNicField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        eCourseStudentNicField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                eCourseStudentNicFieldKeyReleased(evt);
-            }
-        });
 
         courseEnrolStatusCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         courseEnrolStatusCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
@@ -706,6 +681,11 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         FindCourseEnrollmentButton.setBackground(new java.awt.Color(204, 255, 204));
         FindCourseEnrollmentButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
         FindCourseEnrollmentButton.setText("Find");
+        FindCourseEnrollmentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FindCourseEnrollmentButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -951,42 +931,6 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
     }//GEN-LAST:event_updateEnrollmentActionPerformed
 
-    private void eClassIdFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eClassIdFieldKeyReleased
-        searchClassCourseId();
-        eClassStudentIdField.setText("");
-        eClassStudentNicField.setText("");
-    }//GEN-LAST:event_eClassIdFieldKeyReleased
-
-    private void eClassStudentNicFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eClassStudentNicFieldKeyReleased
-        searchStudentNic();
-        eClassIdField.setText("");
-        eClassStudentIdField.setText("");
-    }//GEN-LAST:event_eClassStudentNicFieldKeyReleased
-
-    private void eClassStudentIdFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eClassStudentIdFieldKeyReleased
-        searchStudentId();
-        eClassIdField.setText("");
-        eClassStudentNicField.setText("");
-    }//GEN-LAST:event_eClassStudentIdFieldKeyReleased
-
-    private void eCourseIdFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eCourseIdFieldKeyReleased
-        searchClassCourseId();
-        eCourseStudentIdField.setText("");
-        eCourseStudentNicField.setText("");
-    }//GEN-LAST:event_eCourseIdFieldKeyReleased
-
-    private void eCourseStudentNicFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eCourseStudentNicFieldKeyReleased
-        searchStudentNic();
-        eCourseIdField.setText("");
-        eCourseStudentIdField.setText("");
-    }//GEN-LAST:event_eCourseStudentNicFieldKeyReleased
-
-    private void eCourseStudentIdFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eCourseStudentIdFieldKeyReleased
-        searchStudentId();
-        eCourseIdField.setText("");
-        eCourseStudentNicField.setText("");
-    }//GEN-LAST:event_eCourseStudentIdFieldKeyReleased
-
     private void eReportClassClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eReportClassClearButtonActionPerformed
         resetclassrepot();
     }//GEN-LAST:event_eReportClassClearButtonActionPerformed
@@ -994,6 +938,14 @@ public class EnrollmentManagement extends javax.swing.JPanel {
     private void eCourseReportClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eCourseReportClearButtonActionPerformed
         resetcoursereport();
     }//GEN-LAST:event_eCourseReportClearButtonActionPerformed
+
+    private void findClassEnrollmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findClassEnrollmentButtonActionPerformed
+        searchclassEnrollmentReport();
+    }//GEN-LAST:event_findClassEnrollmentButtonActionPerformed
+
+    private void FindCourseEnrollmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindCourseEnrollmentButtonActionPerformed
+        searchCourseEnrollmentReport();
+    }//GEN-LAST:event_FindCourseEnrollmentButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1191,7 +1143,14 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             }
 
             DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(vector);
+
+            DefaultComboBoxModel<String> comboBoxModelclassReport = new DefaultComboBoxModel<>(vector);// class report
+            DefaultComboBoxModel<String> comboBoxModelcourseReport = new DefaultComboBoxModel<>(vector);//course report
+
             enrollmentStatusCombobox.setModel(comboBoxModel);
+
+            classEnrolStatusComboBox.setModel(comboBoxModelclassReport);// class report
+            courseEnrolStatusCombobox.setModel(comboBoxModelcourseReport);//course report
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -1320,7 +1279,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
                 + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `class_enrollment`.`payment_modal_id`"
                 + "WHERE "
                 + condition
-                + "ORDER BY `class_enrollment`.`id` ASC";
+                + " ORDER BY `class_enrollment`.`id` ASC";
     }
 
     private void loadViewClassData(String query) {
@@ -1370,10 +1329,43 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
     }
 
+    private void searchclassEnrollmentReport() {
+        // Capture search inputs from the UI (ensure these fields are initialized in your form)
+        String classID = eClassIdField.getText().trim();
+        String studentNIC = eClassStudentNicField.getText().trim();
+        String studentID = eClassStudentIdField.getText().trim();
+        String status = classEnrolStatusComboBox.getSelectedItem().toString().trim();
+
+        // Build condition dynamically
+        StringBuilder condition = new StringBuilder("1=1"); // Default condition to allow all results
+
+        // Add conditions based on input fields, ensuring no extra AND if condition is empty
+        if (!classID.isEmpty()) {
+            condition.append(" AND `class`.`id` LIKE '%").append(classID).append("%'");
+        }
+        if (!studentNIC.isEmpty()) {
+            condition.append(" AND `student`.`nic` LIKE '%").append(studentNIC).append("%'");
+        }
+        if (!studentID.isEmpty()) {
+            condition.append(" AND `student`.`id` LIKE '%").append(studentID).append("%'");
+        }
+        if (!status.equals("Select")) {
+            condition.append(" AND `enrollment_status`.`name` = '").append(status).append("'");
+        }
+
+        // Generate query with dynamic conditions
+        String query = generateClassScheduleQuery(condition.toString());
+
+        // Load data into the table using the generated query
+        loadViewClassData(query);
+
+    }
+
     private void resetclassrepot() {
         eClassIdField.setText("");
         eClassStudentIdField.setText("");
         eClassStudentNicField.setText("");
+        classEnrolStatusComboBox.setSelectedIndex(0);
         classQueryMethod();
     }
     // class enrollment reporting-----------------------------------------------------------------------------------------------------------
@@ -1388,9 +1380,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
                 + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `course_enrollment`.`enrollment_status_id`"
                 + "INNER JOIN `employee` ON `employee`.`id` = `course_enrollment`.`employee_id`"
                 + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `course_enrollment`.`payment_modal_id` "
-                + "WHERE"
+                + "WHERE "
                 + condition
-                + "ORDER BY `course_enrollment`.`id` ASC";
+                + " ORDER BY `course_enrollment`.`id` ASC";
     }
 
     private void loadViewCoursData(String query) {
@@ -1439,68 +1431,45 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
     }
 
+    private void searchCourseEnrollmentReport() {
+        // Capture search inputs
+        String courseID = eCourseIdField.getText().trim();
+        String studentNIC = eCourseStudentNicField.getText().trim();
+        String studentID = eCourseStudentIdField.getText().trim();
+        String status = courseEnrolStatusCombobox.getSelectedItem().toString().trim();
+
+        // Build condition dynamically
+        StringBuilder condition = new StringBuilder("1=1"); // Default condition to allow all results
+
+        // Add conditions based on input fields, ensuring no extra AND if condition is empty
+        if (!courseID.isEmpty()) {
+            condition.append(" AND `course`.`id` LIKE '%").append(courseID).append("%'");
+        }
+        if (!studentNIC.isEmpty()) {
+            condition.append(" AND `student`.`nic` LIKE '%").append(studentNIC).append("%'");
+        }
+        if (!studentID.isEmpty()) {
+            condition.append(" AND `student`.`id` LIKE '%").append(studentID).append("%'");
+        }
+        if (!status.equals("Select")) {
+            condition.append(" AND `enrollment_status`.`name` = '").append(status).append("'");
+        }
+
+        // Generate query with dynamic conditions
+        String query = generateCourseScheduleQuery(condition.toString());
+
+        // Load data into the table using the generated query
+        loadViewCoursData(query);
+
+    }
+
     private void resetcoursereport() {
         eCourseIdField.setText("");
         eCourseStudentIdField.setText("");
         eCourseStudentNicField.setText("");
+        courseEnrolStatusCombobox.setSelectedIndex(0);
         courseQueryMethod();
     }
     // course Enrollment Reporting----------------------------------------------------------------------------------------------------------
 
-    //both use methods for search details-----------------------------------------------------------------------------------------------------------------
-    private void searchStudentId() {
-        String eCSId = eClassStudentIdField.getText();//class
-        String eCoSId = eCourseStudentIdField.getText();//course
-
-        //class
-        if (eCSId.equals(eCSId)) {
-            String query = generateClassScheduleQuery("`student`.`id` LIKE '%" + eCSId + "%'");
-            loadViewClassData(query);
-            eClassStudentIdField.setText(eCSId);
-        }
-        //course
-        if (eCoSId.equals(eCoSId)) {
-            String query = generateCourseScheduleQuery("`student`.`id` LIKE '%" + eCoSId + "%'");
-            loadViewCoursData(query);
-            eCourseStudentIdField.setText(eCoSId);
-        }
-    }
-
-    private void searchStudentNic() {
-        String eCSNID = eClassStudentNicField.getText();//class
-        String eCoNID = eCourseStudentNicField.getText();//course
-
-        //class
-        if (eCSNID.equals(eCSNID)) {
-            String query = generateClassScheduleQuery("`student`.`nic` LIKE '%" + eCSNID + "%'");
-            loadViewClassData(query);
-            eClassStudentNicField.setText(eCSNID);
-        }
-        //course
-        if (eCoNID.equals(eCoNID)) {
-            String query = generateCourseScheduleQuery("`student`.`nic` LIKE '%" + eCoNID + "%'");
-            loadViewCoursData(query);
-            eCourseStudentNicField.setText(eCoNID);
-        }
-    }
-
-    private void searchClassCourseId() {
-        String eCID = eClassIdField.getText();//class
-        String eCoID = eCourseIdField.getText();//course
-
-        //class
-        if (eCID.equals(eCID)) {
-            String query = generateClassScheduleQuery("`class`.`id` LIKE '%" + eCID + "%'");
-            loadViewClassData(query);
-            eClassIdField.setText(eCID);
-        }
-        //course
-        if (eCoID.equals(eCoID)) {
-            String query = generateCourseScheduleQuery("`course`.`id` LIKE '%" + eCoID + "%'");
-            loadViewCoursData(query);
-            eCourseIdField.setText(eCoID);
-        }
-    }
-
-    //both use methods for search details-----------------------------------------------------------------------------------------------------------------
 }

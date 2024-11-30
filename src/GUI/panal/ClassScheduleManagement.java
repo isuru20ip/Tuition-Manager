@@ -378,11 +378,6 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 classIDComboboxItemStateChanged(evt);
             }
         });
-        classIDCombobox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                classIDComboboxActionPerformed(evt);
-            }
-        });
 
         hallLoadCombobox.setBackground(new java.awt.Color(240, 240, 240));
         hallLoadCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
@@ -1494,10 +1489,6 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
 
     }//GEN-LAST:event_updateButtonActionPerformed
 
-    private void classIDComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classIDComboboxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_classIDComboboxActionPerformed
-
     private void hallLoadComboboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hallLoadComboboxItemStateChanged
         changeCapacity(); // change capacity from hall number
     }//GEN-LAST:event_hallLoadComboboxItemStateChanged
@@ -1543,8 +1534,6 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
     }//GEN-LAST:event_table1MouseClicked
 
     private void hallTypeComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_hallTypeComboBox2ItemStateChanged

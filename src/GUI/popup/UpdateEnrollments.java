@@ -6,6 +6,7 @@ package GUI.popup;
 
 import java.awt.HeadlessException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
@@ -70,7 +71,7 @@ public class UpdateEnrollments extends javax.swing.JDialog {
         updateTable1 = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         updateTable2 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        saveChangesButton = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -207,12 +208,12 @@ public class UpdateEnrollments extends javax.swing.JDialog {
         });
         jScrollPane3.setViewportView(updateTable2);
 
-        jButton1.setBackground(new java.awt.Color(204, 255, 204));
-        jButton1.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton1.setText("Save Changes");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        saveChangesButton.setBackground(new java.awt.Color(204, 255, 204));
+        saveChangesButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        saveChangesButton.setText("Save Changes");
+        saveChangesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                saveChangesButtonActionPerformed(evt);
             }
         });
 
@@ -296,7 +297,7 @@ public class UpdateEnrollments extends javax.swing.JDialog {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(saveChangesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(111, 111, 111))))
@@ -358,7 +359,7 @@ public class UpdateEnrollments extends javax.swing.JDialog {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(saveChangesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -415,61 +416,10 @@ public class UpdateEnrollments extends javax.swing.JDialog {
         reset();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void saveChangesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangesButtonActionPerformed
 
-        try {
-            String student = studentTextField.getText();
-            String ClassCourse = classCourseIdTextField.getText();
-            String pmoodel = String.valueOf(paymentModalCombobox.getSelectedItem());
-            String status = String.valueOf(statusCombobox.getSelectedItem());
-
-            if (student.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Select A row From Tables.", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (ClassCourse.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Select A row From Tables.", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (pmoodel.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Select Payment Modal.", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (status.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Select Enrolment Status.", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else {
-                // update class enrollment
-                if (ClassCourse.matches("CL\\d{6}")) {
-
-                    ResultSet resultSet = DB.search("SELECT * FROM `class_enrollment` WHERE `class_id` = '" + ClassCourse + "' AND `student_id` = '" + student + "' AND `enrollment_status_id` = '" + enrollmentStatusMap.get(status) + "' AND `payment_modal_id` = '" + paymentModelMap.get(pmoodel) + "'");
-
-                    if (resultSet.next()) {
-                        JOptionPane.showMessageDialog(this, "No Updates Available.", "Warning", JOptionPane.WARNING_MESSAGE);
-                    } else {
-                        DB.IUD("UPDATE `class_enrollment`"
-                                + "SET `payment_modal_id` = '" + paymentModelMap.get(pmoodel) + "', `enrollment_status_id` = '" + enrollmentStatusMap.get(status) + "'"
-                                + "WHERE `student_id` = '" + student + "' AND `class_id` = '" + ClassCourse + "'");
-                        JOptionPane.showMessageDialog(this, "Class Enrollment Update Successfull", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        reset();
-                    }
-
-                    //update course enrollment
-                } else if (ClassCourse.matches("CO\\d{6}")) {
-                    ResultSet resultSet = DB.search("SELECT * FROM `course_enrollment` WHERE `course_id` = '" + ClassCourse + "' AND `student_id` = '" + student + "' AND `enrollment_status_id` = '" + enrollmentStatusMap.get(status) + "' AND `payment_modal_id` = '" + paymentModelMap.get(pmoodel) + "'");
-
-                    if (resultSet.next()) {
-                        JOptionPane.showMessageDialog(this, "No Updates Available.", "Warning", JOptionPane.WARNING_MESSAGE);
-                    } else {
-                        DB.IUD("UPDATE `course_enrollment`"
-                                + "SET `payment_modal_id` = '" + paymentModelMap.get(pmoodel) + "', `enrollment_status_id` = '" + enrollmentStatusMap.get(status) + "'"
-                                + "WHERE `student_id` = '" + student + "' AND `course_id` = '" + ClassCourse + "'");
-
-                        JOptionPane.showMessageDialog(this, "Course Enrollment Update Successfull", "Information", JOptionPane.INFORMATION_MESSAGE);
-                        reset();
-                    }
-                }
-
-                this.dispose();
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
+        updateEnrollment();
+    }//GEN-LAST:event_saveChangesButtonActionPerformed
 
     private void classFindButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classFindButtonActionPerformed
         searchClassUpdateEnroll();
@@ -525,7 +475,6 @@ public class UpdateEnrollments extends javax.swing.JDialog {
     private javax.swing.JTextField classCourseIdTextField;
     private javax.swing.JButton classFindButton;
     private javax.swing.JButton courseUpdateFindButton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -541,6 +490,7 @@ public class UpdateEnrollments extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JComboBox<String> paymentModalCombobox;
+    private javax.swing.JButton saveChangesButton;
     private javax.swing.JTextField searchCourseIDField;
     private javax.swing.JTextField searchStudendIDField2;
     private javax.swing.JTextField searchStudentIDField1;
@@ -575,7 +525,7 @@ public class UpdateEnrollments extends javax.swing.JDialog {
                 tableModel.addRow(vector);
             }
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
 
@@ -602,7 +552,7 @@ public class UpdateEnrollments extends javax.swing.JDialog {
                 tableModel.addRow(vector);
             }
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -625,7 +575,7 @@ public class UpdateEnrollments extends javax.swing.JDialog {
             DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(vector);
             paymentModalCombobox.setModel(comboBoxModel);
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -648,7 +598,7 @@ public class UpdateEnrollments extends javax.swing.JDialog {
             DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(vector);
             statusCombobox.setModel(comboBoxModel);
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -699,46 +649,102 @@ public class UpdateEnrollments extends javax.swing.JDialog {
     
     
     //course Update Enrollment Search part-------------------------------------------------------------------------------
-    private void searchUpdateCourseEnroll(){
-     // Retrieve user input from the search fields
-    String studentID = searchStudendIDField2.getText().trim(); // Search by Student ID
-    String courseID = searchCourseIDField.getText().trim();   // Search by Course ID
+    private void searchUpdateCourseEnroll() {
+        // Retrieve user input from the search fields
+        String studentID = searchStudendIDField2.getText().trim(); // Search by Student ID
+        String courseID = searchCourseIDField.getText().trim();   // Search by Course ID
 
-    try {
-        // Ensure at least one input is provided
-        if (!studentID.isEmpty() || !courseID.isEmpty()) {
-            // Build the base query
-            StringBuilder query = new StringBuilder(
-                    "SELECT * FROM `course_enrollment`"
-                    + " INNER JOIN `course` ON `course`.`id` = `course_enrollment`.`course_id`"
-                    + " INNER JOIN `student` ON `student`.`id` = `course_enrollment`.`student_id`"
-                    + " INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `course_enrollment`.`enrollment_status_id`"
-                    + " INNER JOIN `employee` ON `employee`.`id` = `course_enrollment`.`employee_id`"
-                    + " INNER JOIN `payment_modal` ON `payment_modal`.`id` = `course_enrollment`.`payment_modal_id`"
-                    + " WHERE 1=1 "); // Base condition to append filters dynamically
+        try {
+            // Ensure at least one input is provided
+            if (!studentID.isEmpty() || !courseID.isEmpty()) {
+                // Build the base query
+                StringBuilder query = new StringBuilder(
+                        "SELECT * FROM `course_enrollment`"
+                        + " INNER JOIN `course` ON `course`.`id` = `course_enrollment`.`course_id`"
+                        + " INNER JOIN `student` ON `student`.`id` = `course_enrollment`.`student_id`"
+                        + " INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `course_enrollment`.`enrollment_status_id`"
+                        + " INNER JOIN `employee` ON `employee`.`id` = `course_enrollment`.`employee_id`"
+                        + " INNER JOIN `payment_modal` ON `payment_modal`.`id` = `course_enrollment`.`payment_modal_id`"
+                        + " WHERE 1=1 "); // Base condition to append filters dynamically
 
-            // Add conditions based on user input
-            if (!studentID.isEmpty()) {
-                query.append(" AND `student`.`id` LIKE '%").append(studentID).append("%'");
+                // Add conditions based on user input
+                if (!studentID.isEmpty()) {
+                    query.append(" AND `student`.`id` LIKE '%").append(studentID).append("%'");
+                }
+                if (!courseID.isEmpty()) {
+                    query.append(" AND `course`.`id` LIKE '%").append(courseID).append("%'");
+                }
+
+                // Append ordering clause
+                query.append(" ORDER BY `course_enrollment`.`id` ASC");
+
+                // Execute the query
+                loadCoursesEnrollment(query.toString());
+            } else {
+                // Show an error message if both fields are empty
+                JOptionPane.showMessageDialog(this, "Please enter a Student ID or Course ID to search.", "Warning", JOptionPane.WARNING_MESSAGE);
             }
-            if (!courseID.isEmpty()) {
-                query.append(" AND `course`.`id` LIKE '%").append(courseID).append("%'");
-            }
-
-            // Append ordering clause
-            query.append(" ORDER BY `course_enrollment`.`id` ASC");
-
-            // Execute the query
-            loadCoursesEnrollment(query.toString());
-        } else {
-            // Show an error message if both fields are empty
-            JOptionPane.showMessageDialog(this, "Please enter a Student ID or Course ID to search.", "Warning", JOptionPane.WARNING_MESSAGE);
+        } catch (HeadlessException ex) {
+            ex.printStackTrace();
         }
-    } catch (HeadlessException ex) {
-        ex.printStackTrace();
     }
-    }
+
     //course Update Enrollment Search part-------------------------------------------------------------------------------
+    private void updateEnrollment() {
+        try {
+            String student = studentTextField.getText();
+            String ClassCourse = classCourseIdTextField.getText();
+            String pmoodel = String.valueOf(paymentModalCombobox.getSelectedItem());
+            String status = String.valueOf(statusCombobox.getSelectedItem());
+
+            if (student.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Select A row From Tables.", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (ClassCourse.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Select A row From Tables.", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (pmoodel.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Select Payment Modal.", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (status.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Select Enrolment Status.", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                // update class enrollment
+                if (ClassCourse.matches("CL\\d{6}")) {
+
+                    ResultSet resultSet = DB.search("SELECT * FROM `class_enrollment` WHERE `class_id` = '" + ClassCourse + "' AND `student_id` = '" + student + "' AND `enrollment_status_id` = '" + enrollmentStatusMap.get(status) + "' AND `payment_modal_id` = '" + paymentModelMap.get(pmoodel) + "'");
+
+                    if (resultSet.next()) {
+                        JOptionPane.showMessageDialog(this, "No Updates Available.", "Warning", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        DB.IUD("UPDATE `class_enrollment`"
+                                + "SET `payment_modal_id` = '" + paymentModelMap.get(pmoodel) + "', `enrollment_status_id` = '" + enrollmentStatusMap.get(status) + "'"
+                                + "WHERE `student_id` = '" + student + "' AND `class_id` = '" + ClassCourse + "'");
+                        JOptionPane.showMessageDialog(this, "Class Enrollment Update Successfull", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        reset();
+                    }
+
+                    //update course enrollment
+                } else if (ClassCourse.matches("CO\\d{6}")) {
+                    ResultSet resultSet = DB.search("SELECT * FROM `course_enrollment` WHERE `course_id` = '" + ClassCourse + "' AND `student_id` = '" + student + "' AND `enrollment_status_id` = '" + enrollmentStatusMap.get(status) + "' AND `payment_modal_id` = '" + paymentModelMap.get(pmoodel) + "'");
+
+                    if (resultSet.next()) {
+                        JOptionPane.showMessageDialog(this, "No Updates Available.", "Warning", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        DB.IUD("UPDATE `course_enrollment`"
+                                + "SET `payment_modal_id` = '" + paymentModelMap.get(pmoodel) + "', `enrollment_status_id` = '" + enrollmentStatusMap.get(status) + "'"
+                                + "WHERE `student_id` = '" + student + "' AND `course_id` = '" + ClassCourse + "'");
+
+                        JOptionPane.showMessageDialog(this, "Course Enrollment Update Successfull", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        reset();
+                    }
+                }
+
+                this.dispose();
+
+            }
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void reset() {
         searchCourseIDField.setText("");
         searchStudendIDField2.setText("");
@@ -761,4 +767,5 @@ public class UpdateEnrollments extends javax.swing.JDialog {
                 + "INNER JOIN `employee` ON `employee`.`id` = `course_enrollment`.`employee_id`"
                 + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `course_enrollment`.`payment_modal_id` ORDER BY `course_enrollment`.`id` ASC");
     }
+
 }
