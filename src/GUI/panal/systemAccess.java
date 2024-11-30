@@ -20,6 +20,7 @@ import modal.LogCenter;
 import modal.beans.Admin;
 import modal.DB;
 import java.sql.ResultSet;
+import modal.HomeInfo;
 import raven.toast.Notifications;
 
 /**
@@ -35,6 +36,7 @@ public class systemAccess extends javax.swing.JPanel {
         this.admin = bean;
         loadEmployee();
         employeeAccessSearch();
+        loadLoging();
 
         txtEmployeeID.setEditable(true);
         txtFirstName.setEditable(true);
@@ -140,7 +142,7 @@ public class systemAccess extends javax.swing.JPanel {
         // Validation: Ensure at least one search field is filled
         if (employeeID.isEmpty() && firstName.isEmpty() && lastName.isEmpty() && employeeType.equals("Select")) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please fill in at least one search field!");
+                    "Please fill in at least one search field!");
             return;
         }
 
@@ -148,7 +150,7 @@ public class systemAccess extends javax.swing.JPanel {
         String query = "SELECT `employee`.id, `employee`.fname, `employee`.lname, `emp_type`.name AS emp_type, `emp_access`.user_name, `emp_access`.password "
                 + "FROM employee INNER JOIN emp_access ON `employee`.id = `emp_access`.employee_id "
                 + "INNER JOIN emp_type ON `employee`.emp_type_id = `emp_type`.id WHERE 1=1 "; // Base query
-                
+
         if (!employeeID.isEmpty()) {
             query += " AND `employee`.id = '" + employeeID + "'";
         }
@@ -250,6 +252,8 @@ public class systemAccess extends javax.swing.JPanel {
         table2 = new javaswingdev.swing.table.Table();
         jButton1 = new javax.swing.JButton();
         jPanel1 = new RoundedPanel(20, new Color(234,238,244));
+        jScrollPane3 = new javax.swing.JScrollPane();
+        logingDataTable = new javaswingdev.swing.table.Table();
         jPanel4 = new RoundedPanel(20, new Color(234,238,244));
         jLabel1 = new javax.swing.JLabel();
 
@@ -828,15 +832,43 @@ public class systemAccess extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(200, 200, 198));
 
+        logingDataTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "#", "time", "name", "username", "type", "status"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        logingDataTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(logingDataTable);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1003, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(128, 128, 128)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 771, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(104, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 591, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(68, 68, 68)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Login History", jPanel1);
@@ -1140,8 +1172,10 @@ public class systemAccess extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField joineddate;
+    private javaswingdev.swing.table.Table logingDataTable;
     private javax.swing.JTextField password;
     private javax.swing.JButton search;
     private javaswingdev.swing.table.Table table1;
@@ -1232,6 +1266,40 @@ public class systemAccess extends javax.swing.JPanel {
             updateclass.setEnabled(true);
             deleteclass.setEnabled(true);
 
+        }
+    }
+
+    private void loadLoging() {
+        try {
+            DefaultTableModel defaultTableModel = (DefaultTableModel) logingDataTable.getModel();
+            defaultTableModel.setRowCount(0);
+
+            // Center alignment for table cells
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+            renderer.setHorizontalAlignment(SwingConstants.CENTER);
+            logingDataTable.setDefaultRenderer(Object.class, renderer);
+
+            Vector<String[]> vector = new HomeInfo().getlog();
+            int row = 1;
+            int vLength = vector.size();
+            for (String[] log : vector) {
+
+                if (row == vLength) {
+                    break;
+                }
+
+                Vector<String> v = new Vector<>();
+                v.add(String.valueOf(row)); // #
+                v.add(log[0]); // time
+                v.add(log[1]); // name
+                v.add(log[2]); // userName
+                v.add(log[3]); // type
+                v.add(log[4]); // status
+                defaultTableModel.addRow(v);
+                row++;
+            }
+            logingDataTable.setModel(defaultTableModel);
+        } catch (Exception e) {
         }
     }
 
