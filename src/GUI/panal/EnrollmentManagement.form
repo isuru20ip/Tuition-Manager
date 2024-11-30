@@ -881,7 +881,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel8" min="-2" max="-2" attributes="0"/>
+                      <Component id="jPanel8" min="-2" pref="111" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane6" min="-2" pref="121" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -928,37 +928,57 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="eClassIdField" min="-2" pref="223" max="-2" attributes="0"/>
-                              <Component id="jLabel16" min="-2" pref="223" max="-2" attributes="0"/>
+                              <Component id="eClassIdField" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="jLabel16" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="47" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="eClassStudentNicField" min="-2" pref="223" max="-2" attributes="0"/>
-                              <Component id="jLabel13" min="-2" pref="223" max="-2" attributes="0"/>
+                              <Component id="eClassStudentNicField" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="jLabel13" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="49" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="eClassStudentIdField" min="-2" pref="223" max="-2" attributes="0"/>
-                              <Component id="jLabel14" min="-2" pref="223" max="-2" attributes="0"/>
+                              <Component id="eClassStudentIdField" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="jLabel14" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" pref="48" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jLabel18" max="32767" attributes="0"/>
+                              <Component id="classEnrolStatusComboBox" pref="150" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="47" max="32767" attributes="0"/>
+                          <Component id="findClassEnrollmentButton" min="-2" pref="109" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="eClassStudentIdField" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                              <Component id="eClassIdField" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                              <Component id="eClassStudentNicField" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="eClassStudentIdField" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                                          <Component id="eClassIdField" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="classEnrolStatusComboBox" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="findClassEnrollmentButton" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel14" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                                      <Component id="jLabel16" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                                      <Component id="jLabel18" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Component id="eClassStudentNicField" min="-2" pref="35" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jLabel13" min="-2" pref="35" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel14" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                              <Component id="jLabel13" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                              <Component id="jLabel16" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                          </Group>
+                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1033,6 +1053,41 @@
                     <Property name="text" type="java.lang.String" value="Search Class ID"/>
                   </Properties>
                 </Component>
+                <Component class="javax.swing.JComboBox" name="classEnrolStatusComboBox">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Poppins" size="12" style="0"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="1">
+                        <StringItem index="0" value="Select"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel18">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Poppins" size="14" style="0"/>
+                    </Property>
+                    <Property name="horizontalAlignment" type="int" value="0"/>
+                    <Property name="text" type="java.lang.String" value="Search Status"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="findClassEnrollmentButton">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="cc" green="ff" red="cc" type="rgb"/>
+                    </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Poppins" size="14" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Find"/>
+                  </Properties>
+                </Component>
               </SubComponents>
             </Container>
             <Component class="javax.swing.JButton" name="eCoursePrintButton">
@@ -1072,42 +1127,64 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="eCourseIdField" alignment="0" min="-2" pref="223" max="-2" attributes="0"/>
-                              <Component id="jLabel15" alignment="0" min="-2" pref="223" max="-2" attributes="0"/>
+                              <Component id="eCourseIdField" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="jLabel15" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel17" alignment="0" min="-2" pref="223" max="-2" attributes="0"/>
-                              <Component id="eCourseStudentNicField" alignment="0" min="-2" pref="223" max="-2" attributes="0"/>
+                              <Component id="jLabel17" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="eCourseStudentNicField" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="eCourseStudentIdField" alignment="0" min="-2" pref="223" max="-2" attributes="0"/>
-                              <Component id="jLabel19" alignment="0" min="-2" pref="223" max="-2" attributes="0"/>
+                              <Component id="eCourseStudentIdField" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                              <Component id="jLabel19" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jLabel22" min="-2" pref="150" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="courseEnrolStatusCombobox" min="-2" pref="150" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="FindCourseEnrollmentButton" min="-2" pref="109" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="eCourseStudentNicField" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jLabel17" min="-2" pref="35" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="eCourseStudentNicField" min="-2" pref="35" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jLabel17" min="-2" pref="35" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="eCourseStudentIdField" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                                          <Component id="eCourseIdField" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="3" attributes="0">
+                                          <Component id="jLabel19" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                                          <Component id="jLabel15" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
                               </Group>
-                              <Group type="102" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="eCourseStudentIdField" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                      <Component id="eCourseIdField" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                                      <Component id="courseEnrolStatusCombobox" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                                      <Component id="FindCourseEnrollmentButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jLabel19" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                      <Component id="jLabel15" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="jLabel22" min="-2" pref="35" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -1184,6 +1261,41 @@
                   <Events>
                     <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="eCourseStudentNicFieldKeyReleased"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="courseEnrolStatusCombobox">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Poppins" size="12" style="0"/>
+                    </Property>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="1">
+                        <StringItem index="0" value="Select"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel22">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Poppins" size="14" style="0"/>
+                    </Property>
+                    <Property name="horizontalAlignment" type="int" value="0"/>
+                    <Property name="text" type="java.lang.String" value="Search Status"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="FindCourseEnrollmentButton">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="cc" green="ff" red="cc" type="rgb"/>
+                    </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Poppins" size="14" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Find"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
