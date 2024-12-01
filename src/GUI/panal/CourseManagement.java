@@ -1013,7 +1013,7 @@ public class CourseManagement extends javax.swing.JPanel {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         try {
-            printReport();
+            printReportCourse();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1021,7 +1021,7 @@ public class CourseManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        viewReport();        // TODO add your handling code here:
+        viewReportCourse();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
 
@@ -1816,7 +1816,7 @@ public class CourseManagement extends javax.swing.JPanel {
         SearchReport();
     }
 
-    private void printReport() throws JRException {
+    private void printReportCourse() throws JRException {
 
         try {
             // Use JRTableModelDataSource from jTable1's model
@@ -1854,7 +1854,7 @@ public class CourseManagement extends javax.swing.JPanel {
         }
     }
 
-    private void viewReport() {
+    private void viewReportCourse() {
         Home home;
         try {
             home = new HomeInfo().getHome();

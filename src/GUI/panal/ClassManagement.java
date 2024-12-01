@@ -60,7 +60,7 @@ public class ClassManagement extends javax.swing.JPanel {
         generateClassID();
         reset();
         loadClassesTable("");
-        
+
         SearchReport();
         documentListner();
         jButton4.setEnabled(false);
@@ -887,11 +887,11 @@ public class ClassManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "NIC", "Teacher Name", "Class ID", "Grade", "Subject", "Language", "Method", "Type", "Status", "Hall Type", "Fee", "Day", "Time"
+                "NIC", "Teacher Name", "Class ID", "Grade", "Subject", "Language", "Method", "Modal", "Status", "Hall Type", "Type", "Fee", "Day", "Time"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1110,14 +1110,14 @@ public class ClassManagement extends javax.swing.JPanel {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         try {
-            printReportEnrollement();
+            printReportClass();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-viewReport();        // TODO add your handling code here:
+        viewReportClass();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
 
@@ -1376,7 +1376,6 @@ viewReport();        // TODO add your handling code here:
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `class_status`");
             Vector<String> vector = new Vector<>();
-          
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("status"));
@@ -1617,7 +1616,7 @@ viewReport();        // TODO add your handling code here:
                                 + "`class_language_id` = '" + classLanguageMap.get(language) + "', `class_status_id` = '" + classStatusMap.get(status) + "', "
                                 + "`room_type_id` = '" + hallMap.get(hall) + "', `employee_id` ='" + admin.getUserID() + "' ,`class_modal_id`='" + classModalMap.get(model) + "'"
                                 + "WHERE `id`='" + classID + "'");
-                        
+
                         JOptionPane.showMessageDialog(this, "Update Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                     }
@@ -1974,8 +1973,8 @@ viewReport();        // TODO add your handling code here:
             e.printStackTrace();
         }
     }
-    
-    private void reportClear(){
+
+    private void reportClear() {
         jTextField11.setText("");
         jTextField3.setText("");
         jComboBox9.setSelectedItem("Select");
@@ -1989,8 +1988,8 @@ viewReport();        // TODO add your handling code here:
         jComboBox17.setSelectedItem("Select");
         SearchReport();
     }
-    
-    private void printReportEnrollement() throws JRException {
+
+    private void printReportClass() throws JRException {
 
         try {
             // Use JRTableModelDataSource from jTable1's model
@@ -2001,7 +2000,7 @@ viewReport();        // TODO add your handling code here:
 
             // Parameters for the report
             HashMap<String, Object> params = new HashMap<>();
-            params.put("Parameter1", home.getLine01() + "," + home.getLine02() + "," +   home.getCity());
+            params.put("Parameter1", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
             params.put("Parameter2", home.getLandLine());
             params.put("Parameter3", home.getEmail());
             params.put("Parameter4", home.getMobile());
@@ -2027,13 +2026,14 @@ viewReport();        // TODO add your handling code here:
             LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
         }
     }
-    private void viewReport(){
-     Home home;
+
+    private void viewReportClass() {
+        Home home;
         try {
             home = new HomeInfo().getHome();
             JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
             HashMap<String, Object> params = new HashMap<>();
-             params.put("Parameter1", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("Parameter1", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
             params.put("Parameter2", home.getLandLine());
             params.put("Parameter3", home.getEmail());
             params.put("Parameter4", home.getMobile());
@@ -2050,7 +2050,5 @@ viewReport();        // TODO add your handling code here:
         }
 
     }
-    
-
 
 }
