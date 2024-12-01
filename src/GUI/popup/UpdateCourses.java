@@ -4,7 +4,9 @@
  */
 package GUI.popup;
 
+import java.awt.HeadlessException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
@@ -305,47 +307,8 @@ public class UpdateCourses extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveChangeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangeButtonActionPerformed
-        String statushange = String.valueOf(scheduleStatusUpdateCombobox.getSelectedItem());
-        String coidCombobox = String.valueOf(courseIDComboboxUpdate.getSelectedItem());
-        String cid = idField.getText();
-        String cDate = dateField.getText();
-        String cSt = sTimeField.getText();
-        String cEt = eTimeField.getText();
-        String sid = scheduleIDField.getText();
-        String sStatus = sStatusField.getText();
-
-        if (statushange.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Schedule Status is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (statushange.equals(sStatus)) {
-
-            JOptionPane.showMessageDialog(this, "No any Updates.", "Warning", JOptionPane.WARNING_MESSAGE);
-            reset();
-            resetTable();
-            scheduleStatusUpdateCombobox.setEnabled(false);
-        } else {
-            try {
-                ResultSet resultSet = DB.search("SELECT * FROM `course_schedule`"
-                        + "WHERE `course_id` = '" + cid + "'"
-                        + "AND `class_date`='" + cDate + "'"
-                        + "AND `start_time` = '" + cSt + "'"
-                        + "AND `end_time` = '" + cEt + "'");
-                if (!resultSet.next()) {
-                    JOptionPane.showMessageDialog(this, "Can not Update", "Warning", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    DB.IUD("UPDATE `course_schedule` SET `schedule_status_id` = '" + scheduleStautusMap.get(statushange) + "'"
-                            + "WHERE `id` = '" + sid + "'");
-
-                    resetTable();
-                    reset();
-
-                    JOptionPane.showMessageDialog(this, "Update Successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
-                    this.dispose();
-
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        
+        updateCourse();
     }//GEN-LAST:event_saveChangeButtonActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -437,7 +400,7 @@ public class UpdateCourses extends javax.swing.JDialog {
                 tableModel.addRow(vector);
             }
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -459,7 +422,7 @@ public class UpdateCourses extends javax.swing.JDialog {
 
             courseIDComboboxUpdate.setModel(ComboBoxModel);
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -482,7 +445,7 @@ public class UpdateCourses extends javax.swing.JDialog {
             DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(vector);
             scheduleStatusUpdateCombobox.setModel(comboBoxModel);
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -527,5 +490,50 @@ public class UpdateCourses extends javax.swing.JDialog {
                 + "INNER JOIN `employee` ON `employee`.`id`=`course_schedule`.`employee_id`"
                 + "INNER JOIN `schedule_status` ON `schedule_status`.`id`=`course_schedule`.`schedule_status_id`"
                 + "INNER JOIN `room_type` ON `room_type`.`id`=`class_room`.`room_type_id` ORDER BY `course_schedule`.`id` ASC");
+    }
+
+    private void updateCourse() {
+             
+        String statushange = String.valueOf(scheduleStatusUpdateCombobox.getSelectedItem());
+        String coidCombobox = String.valueOf(courseIDComboboxUpdate.getSelectedItem());
+        String cid = idField.getText();
+        String cDate = dateField.getText();
+        String cSt = sTimeField.getText();
+        String cEt = eTimeField.getText();
+        String sid = scheduleIDField.getText();
+        String sStatus = sStatusField.getText();
+
+        if (statushange.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Schedule Status is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (statushange.equals(sStatus)) {
+
+            JOptionPane.showMessageDialog(this, "No any Updates.", "Warning", JOptionPane.WARNING_MESSAGE);
+            reset();
+            resetTable();
+            scheduleStatusUpdateCombobox.setEnabled(false);
+        } else {
+            try {
+                ResultSet resultSet = DB.search("SELECT * FROM `course_schedule`"
+                        + "WHERE `course_id` = '" + cid + "'"
+                        + "AND `class_date`='" + cDate + "'"
+                        + "AND `start_time` = '" + cSt + "'"
+                        + "AND `end_time` = '" + cEt + "'");
+                if (!resultSet.next()) {
+                    JOptionPane.showMessageDialog(this, "Can not Update", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    DB.IUD("UPDATE `course_schedule` SET `schedule_status_id` = '" + scheduleStautusMap.get(statushange) + "'"
+                            + "WHERE `id` = '" + sid + "'");
+
+                    resetTable();
+                    reset();
+
+                    JOptionPane.showMessageDialog(this, "Update Successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+
+                }
+            } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -4,7 +4,9 @@
  */
 package GUI.popup;
 
+import java.awt.HeadlessException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
@@ -220,11 +222,6 @@ public class UpdateClasses extends javax.swing.JDialog {
                 classIDComboboxUpdateItemStateChanged(evt);
             }
         });
-        classIDComboboxUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                classIDComboboxUpdateActionPerformed(evt);
-            }
-        });
 
         jLabel4.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -243,11 +240,6 @@ public class UpdateClasses extends javax.swing.JDialog {
         scheduleIDField.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
         scheduleIDField.setForeground(new java.awt.Color(255, 0, 51));
         scheduleIDField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        scheduleIDField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                scheduleIDFieldActionPerformed(evt);
-            }
-        });
 
         jLabel5.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -338,61 +330,14 @@ public class UpdateClasses extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveChangeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangeButtonActionPerformed
-        String statushange = String.valueOf(scheduleStatusUpdateCombobox.getSelectedItem());
-        String cidCombobox = String.valueOf(classIDComboboxUpdate.getSelectedItem());
-        String cid = idField.getText();
-        String cDate = dateField.getText();
-        String cSt = sTimeField.getText();
-        String cEt = eTimeField.getText();
-        String sid = scheduleIDField.getText();
-        String sStatus = sStatusField.getText();
 
-        if (statushange.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Schedule Status is required.", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (statushange.equals(sStatus)) {
-
-            JOptionPane.showMessageDialog(this, "No any Updates.", "Warning", JOptionPane.WARNING_MESSAGE);
-            reset();
-            resetTable();
-            scheduleStatusUpdateCombobox.setEnabled(false);
-        } else {
-            try {
-                ResultSet resultSet = DB.search("SELECT * FROM `class_schedule`"
-                        + "WHERE `class_id` = '" + cid + "'"
-                        + "AND `class_date`='" + cDate + "'"
-                        + "AND `start_time` = '" + cSt + "'"
-                        + "AND `end_time` = '" + cEt + "'");
-                if (!resultSet.next()) {
-                    JOptionPane.showMessageDialog(this, "Can not Update", "Warning", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    DB.IUD("UPDATE `class_schedule` SET `schedule_status_id` = '" + scheduleStautusMap.get(statushange) + "'"
-                            + "WHERE `id` = '" + sid + "'");
-
-                    resetTable();
-                    reset();
-
-                    JOptionPane.showMessageDialog(this, "Update Successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
-                    this.dispose();
-
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        updateClasse();
     }//GEN-LAST:event_saveChangeButtonActionPerformed
 
     private void classIDComboboxUpdateItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_classIDComboboxUpdateItemStateChanged
         search();
         reset1();
     }//GEN-LAST:event_classIDComboboxUpdateItemStateChanged
-
-    private void classIDComboboxUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classIDComboboxUpdateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_classIDComboboxUpdateActionPerformed
-
-    private void scheduleIDFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleIDFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_scheduleIDFieldActionPerformed
 
     private void classScheduleUpdateTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_classScheduleUpdateTableMouseClicked
         try {
@@ -478,7 +423,7 @@ public class UpdateClasses extends javax.swing.JDialog {
                 tableModel.addRow(vector);
             }
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -500,7 +445,7 @@ public class UpdateClasses extends javax.swing.JDialog {
 
             classIDComboboxUpdate.setModel(ComboBoxModel);
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
 
@@ -526,7 +471,7 @@ public class UpdateClasses extends javax.swing.JDialog {
             DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(vector);
             scheduleStatusUpdateCombobox.setModel(comboBoxModel);
 
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
 
@@ -572,5 +517,49 @@ public class UpdateClasses extends javax.swing.JDialog {
                 + "INNER JOIN `employee` ON `employee`.`id`=`class_schedule`.`employee_id`"
                 + "INNER JOIN `schedule_status` ON `schedule_status`.`id`=`class_schedule`.`schedule_status_id`"
                 + "INNER JOIN `room_type` ON `room_type`.`id`=`class_room`.`room_type_id` ORDER BY `class_schedule`.`id` ASC");
+    }
+
+    private void updateClasse() {
+        String statushange = String.valueOf(scheduleStatusUpdateCombobox.getSelectedItem());
+        String cidCombobox = String.valueOf(classIDComboboxUpdate.getSelectedItem());
+        String cid = idField.getText();
+        String cDate = dateField.getText();
+        String cSt = sTimeField.getText();
+        String cEt = eTimeField.getText();
+        String sid = scheduleIDField.getText();
+        String sStatus = sStatusField.getText();
+
+        if (statushange.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Schedule Status is required.", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (statushange.equals(sStatus)) {
+
+            JOptionPane.showMessageDialog(this, "No any Updates.", "Warning", JOptionPane.WARNING_MESSAGE);
+            reset();
+            resetTable();
+            scheduleStatusUpdateCombobox.setEnabled(false);
+        } else {
+            try {
+                ResultSet resultSet = DB.search("SELECT * FROM `class_schedule`"
+                        + "WHERE `class_id` = '" + cid + "'"
+                        + "AND `class_date`='" + cDate + "'"
+                        + "AND `start_time` = '" + cSt + "'"
+                        + "AND `end_time` = '" + cEt + "'");
+                if (!resultSet.next()) {
+                    JOptionPane.showMessageDialog(this, "Can not Update", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    DB.IUD("UPDATE `class_schedule` SET `schedule_status_id` = '" + scheduleStautusMap.get(statushange) + "'"
+                            + "WHERE `id` = '" + sid + "'");
+
+                    resetTable();
+                    reset();
+
+                    JOptionPane.showMessageDialog(this, "Update Successfully", "Information", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+
+                }
+            } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
