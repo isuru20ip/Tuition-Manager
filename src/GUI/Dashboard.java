@@ -472,7 +472,7 @@ public class Dashboard extends javax.swing.JFrame {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sVGImage3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(sVGImage3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel12.setBackground(new java.awt.Color(200, 200, 198));
@@ -483,8 +483,8 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
-                .addGap(7, 7, 7)
-                .addComponent(sVGImage1, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addComponent(sVGImage1, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -530,7 +530,7 @@ public class Dashboard extends javax.swing.JFrame {
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 50, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -819,11 +819,11 @@ public class Dashboard extends javax.swing.JFrame {
 
             // make current loged data array
             String[] currentLog = {
-                SetDate.getDate("yyyy/MM/dd hh:mm:ss a"),
+                admin.getUserID(),
                 admin.getFname() + " " + admin.getLname(),
                 admin.getUserName(),
+                SetDate.getDate("yyyy/MM/dd hh:mm:ss a"),
                 admin.getType(),
-                admin.getStatus()
             };
 
             // add current loging date 

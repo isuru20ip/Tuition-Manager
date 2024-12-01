@@ -33,7 +33,6 @@ public class HomeInfo {
     public Vector getlog() throws IOException, ClassNotFoundException {
         File file = new File("loginfo.ser");
         if (!file.exists()) {
-            // If the file doesn't exist, return an empty vector
             return new Vector();
         }
 
