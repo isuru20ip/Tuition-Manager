@@ -894,8 +894,12 @@ public class CourseManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        TeacherSelectionCourse tsc = new TeacherSelectionCourse(this, true);
-        tsc.setVisible(true);
+        if (tsc == null || !tsc.isVisible()) {
+            tsc = new TeacherSelectionCourse(this, true); // Create instance if null or not visible
+            tsc.setVisible(true); // Show the dialog
+        } else {
+            tsc.toFront(); // Bring the dialog to the front if already open
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
@@ -907,9 +911,14 @@ public class CourseManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox6ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-        dayVector = null;
-        CourseDayTime cdt = new CourseDayTime(this, true);
-        cdt.setVisible(true);
+ 
+        if (cdt == null || !cdt.isVisible()) {
+            dayVector = null; // Reset dayVector if needed
+            cdt = new CourseDayTime(this, true); // Create a new instance if it doesn't exist or is not visible
+            cdt.setVisible(true); // Show the dialog
+        } else {
+            cdt.toFront(); // Bring the dialog to the front if already open
+        }
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -1119,6 +1128,8 @@ public class CourseManagement extends javax.swing.JPanel {
     private HashMap<String, String> classStatusMap = new HashMap<>();
 
     private Admin admin;
+    private TeacherSelectionCourse tsc;
+    private CourseDayTime cdt;
 
     //jdialog side to pass nic
     public JTextField getjTextField7() {
@@ -1255,7 +1266,6 @@ public class CourseManagement extends javax.swing.JPanel {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `class_status`");
             Vector<String> vector = new Vector<>();
-            
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("status"));

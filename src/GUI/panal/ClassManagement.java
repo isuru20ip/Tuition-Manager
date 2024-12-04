@@ -962,8 +962,12 @@ public class ClassManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        TeacherSelectionClass tsc = new TeacherSelectionClass(this, true);
-        tsc.setVisible(true);
+        if (tsc == null || !tsc.isVisible()) {
+            tsc = new TeacherSelectionClass(this, true); // Create dialog instance if not already created
+            tsc.setVisible(true); // Show the dialog
+        } else {
+            tsc.toFront(); // Bring the dialog to the front if it’s already open
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -976,9 +980,15 @@ public class ClassManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox33ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-        dayVector = null;
-        ClassDayTime cdt = new ClassDayTime(this, true);
-        cdt.setVisible(true);
+        if (cdt == null || !cdt.isVisible()) {
+            dayVector = null; // Reset dayVector
+            cdt = new ClassDayTime(this, true); // Use the class-level cdt variable
+            cdt.setVisible(true); // Show the dialog
+        } else {
+            cdt.toFront(); // Bring the dialog to the front if it’s already open
+        }
+
+
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -1215,6 +1225,8 @@ public class ClassManagement extends javax.swing.JPanel {
     private HashMap<String, String> classStatusMap = new HashMap<>();
 
     private Admin admin;
+    private TeacherSelectionClass tsc;
+    private ClassDayTime cdt;
 
     //generate ClassId;
     private void generateClassID() {
