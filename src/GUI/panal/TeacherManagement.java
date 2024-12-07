@@ -53,8 +53,8 @@ public class TeacherManagement extends javax.swing.JPanel {
         loadTStatus();
         TeacherReportLoad("", "", "", "");
         TeacherPaymentLoad("");
-        
-           DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         jTable1.setDefaultRenderer(Object.class, renderer);
         jTable2.setDefaultRenderer(Object.class, renderer);
@@ -729,7 +729,7 @@ public class TeacherManagement extends javax.swing.JPanel {
         }
         jButton1.setEnabled(false);
         jButton3.setEnabled(false);
-        
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -765,7 +765,7 @@ public class TeacherManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-         try {
+        try {
             if (jRadioButton1.isSelected()) {
                 // Print Enrollment Report
                 printReportEnrollement();
@@ -783,7 +783,7 @@ public class TeacherManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-          if (jRadioButton1.isSelected()) {
+        if (jRadioButton1.isSelected()) {
             // Call Enrollment View Method
             viweReportEnrollement();
         } else if (jRadioButton2.isSelected()) {
@@ -913,6 +913,8 @@ public class TeacherManagement extends javax.swing.JPanel {
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
             JOptionPane.showMessageDialog(null, "SQL error occurred: " + ex.getMessage());
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -958,6 +960,8 @@ public class TeacherManagement extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1161,9 +1165,9 @@ public class TeacherManagement extends javax.swing.JPanel {
         jTextField5.setEditable(true);
         jComboBox2.setSelectedItem("Select");
         TeacherAddressId = null;
-        
+
         jButton1.setEnabled(true); //Address Button Enable
-         jTextField3.setEditable(true); // NIC Not Update
+        jTextField3.setEditable(true); // NIC Not Update
         jButton3.setEnabled(true); // Add Button Enable
         loadTeacher("");
         loadTStatus();
@@ -1265,6 +1269,8 @@ public class TeacherManagement extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connection Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1321,6 +1327,8 @@ public class TeacherManagement extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connection Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1335,10 +1343,8 @@ public class TeacherManagement extends javax.swing.JPanel {
         TeacherReportLoad("", "", "", "");
 
     }
-    
-    
+
     //Reporting 
-    
     //Print Reporting Enrollement
     private void printReportEnrollement() throws JRException {
 
@@ -1377,7 +1383,7 @@ public class TeacherManagement extends javax.swing.JPanel {
             LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
         }
     }
-    
+
     //Viwe Reporting Enrollement
     private void viweReportEnrollement() {
         Home home;
@@ -1466,6 +1472,5 @@ public class TeacherManagement extends javax.swing.JPanel {
         }
 
     }
-    
 
 }
