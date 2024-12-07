@@ -765,6 +765,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jButton3.setEnabled(false); //Guardian Button Disable
         jComboBox1.setEnabled(false); //Gender Not Updated
         jDateChooser1.setEnabled(false); // BirthDay Not Updated
+        jTextField3.setEditable(false);//   NIC NOT UPDATED
 
         String fname = String.valueOf(jTable1.getValueAt(row, 1));
         jTextField1.setText(fname);
@@ -1024,6 +1025,8 @@ public class StudentManagement extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1073,6 +1076,8 @@ public class StudentManagement extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1124,6 +1129,8 @@ public class StudentManagement extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1390,6 +1397,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jButton3.setEnabled(true); // Add Button Enable
         jComboBox1.setEnabled(true); //Gender Not Updated
         jDateChooser1.setEnabled(true); // BirthDay Not Updated
+         jTextField3.setEditable(true); // NIC Visible
         loadStudent("");
         loadSStatus();
 
@@ -1490,6 +1498,8 @@ public class StudentManagement extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connection Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1558,6 +1568,8 @@ public class StudentManagement extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connection Problem: ", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem: ", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1567,6 +1579,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jTextField8.setText("");
         jComboBox4.setSelectedItem("Select");
         buttonGroup1.clearSelection();
+        
         StudentReportLoad("", "", "", "");
         StudentPaymentReportLoad("");
 

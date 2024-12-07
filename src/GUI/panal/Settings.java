@@ -955,6 +955,8 @@ public class Settings extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -987,6 +989,8 @@ public class Settings extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1022,12 +1026,14 @@ public class Settings extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
         loardServiceFee();
     }
 
     // view [sCharge] Service charges that are get from teachers (n%)
-    private void loardServiceFee() { 
+    private void loardServiceFee() {
         String redio = buttonGroup1.getSelection().getActionCommand();
         sCharge.setText(serviceMap.get(redio));
     }
@@ -1048,6 +1054,8 @@ public class Settings extends javax.swing.JPanel {
                     LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
                 } catch (SQLException ex) {
                     LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+                } catch (IOException ex) {
+                    LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
                 }
             } else {
                 loardHallFee();
@@ -1074,6 +1082,8 @@ public class Settings extends javax.swing.JPanel {
                     LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
                 } catch (SQLException ex) {
                     LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+                } catch (IOException ex) {
+                    LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
                 }
             } else {
                 loardSalary();
@@ -1099,6 +1109,8 @@ public class Settings extends javax.swing.JPanel {
                     LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
                 } catch (SQLException ex) {
                     LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+                } catch (IOException ex) {
+                    LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
                 }
             } else {
                 loardServiceFee();
@@ -1133,6 +1145,8 @@ public class Settings extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1151,6 +1165,8 @@ public class Settings extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1177,6 +1193,8 @@ public class Settings extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1250,6 +1268,8 @@ public class Settings extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1265,6 +1285,8 @@ public class Settings extends javax.swing.JPanel {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
             } catch (SQLException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+            } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
             }
         } else {
             if (subjectName.getText().isEmpty()) {
@@ -1289,6 +1311,8 @@ public class Settings extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 

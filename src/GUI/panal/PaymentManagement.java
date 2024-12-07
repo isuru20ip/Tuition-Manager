@@ -1300,7 +1300,9 @@ public class PaymentManagement extends javax.swing.JPanel {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
             } catch (SQLException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
-            }
+            } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        }
         } else {
             cleanClass();
         }
@@ -1377,7 +1379,9 @@ public class PaymentManagement extends javax.swing.JPanel {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
             } catch (ParseException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Date Problem", ex);
-            }
+            } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        }
         } else {
             studentID.setEnabled(true);
             classFee01.setText("");
@@ -1391,7 +1395,7 @@ public class PaymentManagement extends javax.swing.JPanel {
     }
 
     // find class last due date by student ID
-    private void loardDue(String ID) throws ClassNotFoundException, SQLException, ParseException {
+    private void loardDue(String ID) throws ClassNotFoundException, SQLException, ParseException, IOException {
 
         dueM_01.setEnabled(true);
         //select last due date
@@ -1621,6 +1625,8 @@ public class PaymentManagement extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1696,7 +1702,9 @@ public class PaymentManagement extends javax.swing.JPanel {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
             } catch (SQLException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
-            }
+            } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        }
         } else {
             cleanCourse();
         }
@@ -1775,7 +1783,9 @@ public class PaymentManagement extends javax.swing.JPanel {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
             } catch (SQLException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
-            }
+            } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        }
         } else {
             subject_id.setText("");
             teacher_name.setText("");
@@ -1788,7 +1798,7 @@ public class PaymentManagement extends javax.swing.JPanel {
         }
     }
 
-    private void loardCourseDue(String courseId, String stId) throws SQLException, ClassNotFoundException {
+    private void loardCourseDue(String courseId, String stId) throws SQLException, ClassNotFoundException, IOException {
 
         //select last due date
         ResultSet paidFee = DB.search("SELECT SUM(`fee`) AS `paidFee` FROM `course_pay` "
@@ -1949,6 +1959,8 @@ public class PaymentManagement extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -2114,6 +2126,8 @@ public class PaymentManagement extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 

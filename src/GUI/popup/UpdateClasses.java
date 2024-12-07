@@ -5,6 +5,7 @@
 package GUI.popup;
 
 import java.awt.HeadlessException;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
+import modal.LogCenter;
 
 /**
  *
@@ -425,6 +427,8 @@ public class UpdateClasses extends javax.swing.JDialog {
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -447,6 +451,8 @@ public class UpdateClasses extends javax.swing.JDialog {
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -473,6 +479,8 @@ public class UpdateClasses extends javax.swing.JDialog {
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -559,7 +567,9 @@ public class UpdateClasses extends javax.swing.JDialog {
                 }
             } catch (HeadlessException | ClassNotFoundException | SQLException e) {
                 e.printStackTrace();
-            }
+            } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        }
         }
     }
 }
