@@ -674,6 +674,7 @@ public class TeacherManagement extends javax.swing.JPanel {
 
         String nic = String.valueOf(jTable1.getValueAt(row, 0));
         jTextField3.setText(nic);
+        jTextField3.setEditable(false); // NIC Not Update
 
         String fname = String.valueOf(jTable1.getValueAt(row, 1));
         jTextField1.setText(fname);
@@ -728,6 +729,7 @@ public class TeacherManagement extends javax.swing.JPanel {
         }
         jButton1.setEnabled(false);
         jButton3.setEnabled(false);
+        
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -1159,9 +1161,9 @@ public class TeacherManagement extends javax.swing.JPanel {
         jTextField5.setEditable(true);
         jComboBox2.setSelectedItem("Select");
         TeacherAddressId = null;
-
+        
         jButton1.setEnabled(true); //Address Button Enable
-
+         jTextField3.setEditable(true); // NIC Not Update
         jButton3.setEnabled(true); // Add Button Enable
         loadTeacher("");
         loadTStatus();
