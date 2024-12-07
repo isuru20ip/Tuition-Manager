@@ -4,7 +4,37 @@
  */
 package GUI.panal;
 
+import GUI.popup.EnrollmentClassSelection;
+import GUI.popup.EnrollmentCourseSelection;
+import GUI.popup.EnrollmentSelectStudent;
+import GUI.popup.UpdateEnrollments;
+import java.awt.HeadlessException;
+import java.io.IOException;
 import javax.swing.JFrame;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import modal.DB;
+import modal.HomeInfo;
+import modal.LogCenter;
+import modal.Reporting;
+import modal.beans.Admin;
+import modal.beans.Home;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 
 /**
  *
@@ -14,9 +44,26 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
     /**
      * Creates new form EnrollmentManagement
+     *
+     * @param admin
      */
-    public EnrollmentManagement(JFrame parent) {
+    public EnrollmentManagement(Admin admin) {
         initComponents();
+        loadClassesEnrollment();
+        loadCoursesEnrollment();
+        loadPaymentModel();
+        loadStatus();
+
+        classQueryMethod();//class reporting Table load
+        courseQueryMethod();// course reporting Table load
+
+        this.admin = admin;
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+        enTable.setDefaultRenderer(Object.class, renderer);
+        enTable1.setDefaultRenderer(Object.class, renderer);
+        enrollmentCourseReportTable.setDefaultRenderer(Object.class, renderer);
+        enrollmentClassReportTable.setDefaultRenderer(Object.class, renderer);
     }
 
     /**
@@ -29,7 +76,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
     private void initComponents() {
 
         jTabbedPaneEnrollment = new javax.swing.JTabbedPane();
-        Enrollment = new javax.swing.JPanel();
+        classEnroll = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
@@ -43,49 +90,62 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jTextField6 = new javax.swing.JTextField();
         jTextField7 = new javax.swing.JTextField();
-        jComboBox6 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
+        jTextField8 = new javax.swing.JTextField();
+        jTextField9 = new javax.swing.JTextField();
+        jTextField10 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        makeEnrollment = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        enTable = new javax.swing.JTable();
+        updateEnrollment = new javax.swing.JButton();
+        resetEnrollment = new javax.swing.JButton();
+        paymentModelCombobox = new javax.swing.JComboBox<>();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        enrollmentStatusCombobox = new javax.swing.JComboBox<>();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jButton5 = new javax.swing.JButton();
+        enTable1 = new javax.swing.JTable();
         EnrollmentView = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField12 = new javax.swing.JTextField();
-        jTextField13 = new javax.swing.JTextField();
-        jButton7 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
+        eClassIdField = new javax.swing.JTextField();
+        eClassStudentIdField = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jLabel19 = new javax.swing.JLabel();
+        eClassStudentNicField = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
+        classEnrolStatusComboBox = new javax.swing.JComboBox<>();
         jLabel18 = new javax.swing.JLabel();
-        jButton8 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jButton6 = new javax.swing.JButton();
+        findClassEnrollmentButton = new javax.swing.JButton();
+        eCoursePrintButton = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
+        eCourseIdField = new javax.swing.JTextField();
+        eCourseStudentIdField = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        eCourseStudentNicField = new javax.swing.JTextField();
+        courseEnrolStatusCombobox = new javax.swing.JComboBox<>();
+        jLabel22 = new javax.swing.JLabel();
+        FindCourseEnrollmentButton = new javax.swing.JButton();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        enrollmentCourseReportTable = new javax.swing.JTable();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        enrollmentClassReportTable = new javax.swing.JTable();
+        eCourseViewButton = new javax.swing.JButton();
+        eCourseReportClearButton = new javax.swing.JButton();
+        eClassPrintButton = new javax.swing.JButton();
+        eClassViewButton = new javax.swing.JButton();
+        eReportClassClearButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(234, 238, 244));
@@ -94,8 +154,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
         jTabbedPaneEnrollment.setBackground(new java.awt.Color(234, 238, 244));
         jTabbedPaneEnrollment.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jTabbedPaneEnrollment.setPreferredSize(new java.awt.Dimension(967, 698));
 
-        Enrollment.setBackground(new java.awt.Color(234, 238, 244));
+        classEnroll.setBackground(new java.awt.Color(234, 238, 244));
 
         jPanel5.setBackground(new java.awt.Color(234, 238, 244));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Student Selection", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Poppins", 0, 18))); // NOI18N
@@ -103,92 +164,116 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(234, 238, 244));
         jPanel1.setMinimumSize(new java.awt.Dimension(814, 63));
-        jPanel1.setLayout(new java.awt.GridLayout(2, 6, 20, 5));
 
+        jTextField1.setEditable(false);
         jTextField1.setBackground(new java.awt.Color(240, 240, 240));
         jTextField1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel1.add(jTextField1);
 
+        jTextField2.setEditable(false);
         jTextField2.setBackground(new java.awt.Color(240, 240, 240));
         jTextField2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel1.add(jTextField2);
 
+        jTextField3.setEditable(false);
         jTextField3.setBackground(new java.awt.Color(240, 240, 240));
         jTextField3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel1.add(jTextField3);
 
+        jTextField4.setEditable(false);
         jTextField4.setBackground(new java.awt.Color(240, 240, 240));
         jTextField4.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jTextField4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel1.add(jTextField4);
 
+        jTextField5.setEditable(false);
         jTextField5.setBackground(new java.awt.Color(240, 240, 240));
         jTextField5.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jTextField5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel1.add(jTextField5);
 
-        jButton1.setBackground(new java.awt.Color(204, 204, 255));
+        jButton1.setBackground(new java.awt.Color(255, 255, 204));
         jButton1.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton1.setText("Find");
-        jPanel1.add(jButton1);
+        jButton1.setText("Select Student");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Student ID");
-        jPanel1.add(jLabel2);
 
         jLabel3.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("First Name");
-        jPanel1.add(jLabel3);
 
         jLabel4.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Last Name");
-        jPanel1.add(jLabel4);
 
         jLabel5.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("NIC");
-        jPanel1.add(jLabel5);
 
         jLabel6.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Enrollment Count");
-        jPanel1.add(jLabel6);
+        jLabel6.setText("Mobile");
 
-        jButton2.setBackground(new java.awt.Color(255, 204, 204));
-        jButton2.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton2.setText("Reset");
-        jPanel1.add(jButton2);
-
-        jTable1.setBackground(new java.awt.Color(240, 240, 240));
-        jTable1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(2, 2, 2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -196,263 +281,555 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel6.setBackground(new java.awt.Color(234, 238, 244));
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Class / Course Selection", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Poppins", 0, 18))); // NOI18N
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Class & Course Selection", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Poppins", 0, 18))); // NOI18N
         jPanel6.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
 
         jPanel3.setBackground(new java.awt.Color(234, 238, 244));
-        jPanel3.setLayout(new java.awt.GridLayout(2, 6, 20, 5));
 
+        jTextField6.setEditable(false);
         jTextField6.setBackground(new java.awt.Color(240, 240, 240));
         jTextField6.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jTextField6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel3.add(jTextField6);
 
+        jTextField7.setEditable(false);
         jTextField7.setBackground(new java.awt.Color(240, 240, 240));
         jTextField7.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jTextField7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel3.add(jTextField7);
 
-        jComboBox6.setBackground(new java.awt.Color(240, 240, 240));
-        jComboBox6.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel3.add(jComboBox6);
-
-        jComboBox4.setBackground(new java.awt.Color(240, 240, 240));
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel3.add(jComboBox4);
-
-        jComboBox5.setBackground(new java.awt.Color(240, 240, 240));
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel3.add(jComboBox5);
-
-        jButton3.setBackground(new java.awt.Color(204, 204, 255));
+        jButton3.setBackground(new java.awt.Color(255, 255, 204));
         jButton3.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton3.setText("Find");
-        jPanel3.add(jButton3);
+        jButton3.setText("Class");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Class / Course ID");
-        jPanel3.add(jLabel9);
+        jLabel9.setText("Class/Course ID");
 
         jLabel8.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Teacher Name");
-        jPanel3.add(jLabel8);
 
         jLabel10.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Type");
-        jPanel3.add(jLabel10);
 
         jLabel11.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("Subject");
-        jPanel3.add(jLabel11);
 
         jLabel12.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("Grade");
-        jPanel3.add(jLabel12);
 
-        jButton4.setBackground(new java.awt.Color(255, 204, 204));
-        jButton4.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton4.setText("Reset");
-        jPanel3.add(jButton4);
+        jTextField8.setEditable(false);
 
-        jPanel4.setBackground(new java.awt.Color(234, 238, 244));
+        jTextField9.setEditable(false);
 
-        jTable3.setBackground(new java.awt.Color(240, 240, 240));
-        jTable3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+        jTextField10.setEditable(false);
+
+        jButton2.setBackground(new java.awt.Color(255, 255, 204));
+        jButton2.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        jButton2.setText("Course");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
-        ));
-        jScrollPane3.setViewportView(jTable3);
+        });
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3)
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(2, 2, 2)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 24, Short.MAX_VALUE)
+                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 24, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 24, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addComponent(jTextField9))
+                .addGap(18, 24, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addComponent(jTextField10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jTextField10)
+                    .addComponent(jTextField8)
+                    .addComponent(jTextField9))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 945, Short.MAX_VALUE)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        jButton5.setBackground(new java.awt.Color(204, 255, 204));
-        jButton5.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton5.setText("Make Enrollment");
+        makeEnrollment.setBackground(new java.awt.Color(204, 204, 255));
+        makeEnrollment.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        makeEnrollment.setText("Make Enrollment");
+        makeEnrollment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                makeEnrollmentActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout EnrollmentLayout = new javax.swing.GroupLayout(Enrollment);
-        Enrollment.setLayout(EnrollmentLayout);
-        EnrollmentLayout.setHorizontalGroup(
-            EnrollmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(EnrollmentLayout.createSequentialGroup()
+        enTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Class Enrollment ID", "Class ID", "Student ID ", "Enrollment Status", "Register Date", "Employee", "Payment Model"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        enTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(enTable);
+
+        updateEnrollment.setBackground(new java.awt.Color(204, 255, 204));
+        updateEnrollment.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        updateEnrollment.setText("Update Enrollment");
+        updateEnrollment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateEnrollmentActionPerformed(evt);
+            }
+        });
+
+        resetEnrollment.setBackground(new java.awt.Color(255, 204, 204));
+        resetEnrollment.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        resetEnrollment.setText("Reset");
+        resetEnrollment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetEnrollmentActionPerformed(evt);
+            }
+        });
+
+        paymentModelCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        paymentModelCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+
+        jLabel20.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("Payment Model");
+
+        jLabel21.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel21.setText("Status");
+
+        enrollmentStatusCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        enrollmentStatusCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+
+        enTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Course Enrollment ID", "Course ID", "Student ID ", "Enrollment Status", "Register Date", "Employee", "Payment Model"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        enTable1.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(enTable1);
+
+        javax.swing.GroupLayout classEnrollLayout = new javax.swing.GroupLayout(classEnroll);
+        classEnroll.setLayout(classEnrollLayout);
+        classEnrollLayout.setHorizontalGroup(
+            classEnrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(classEnrollLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(EnrollmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(classEnrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EnrollmentLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, classEnrollLayout.createSequentialGroup()
+                        .addComponent(makeEnrollment, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(updateEnrollment, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(resetEnrollment, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(classEnrollLayout.createSequentialGroup()
+                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(paymentModelCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 24, Short.MAX_VALUE)
+                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(enrollmentStatusCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 496, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        EnrollmentLayout.setVerticalGroup(
-            EnrollmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(EnrollmentLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+        classEnrollLayout.setVerticalGroup(
+            classEnrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(classEnrollLayout.createSequentialGroup()
+                .addContainerGap(8, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addGroup(classEnrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(paymentModelCombobox, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(enrollmentStatusCombobox))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8))
+                .addGroup(classEnrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(makeEnrollment, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(updateEnrollment, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(resetEnrollment, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
-        jTabbedPaneEnrollment.addTab("Make Enrollment", Enrollment);
+        jTabbedPaneEnrollment.addTab("Enrollment", new javax.swing.ImageIcon(getClass().getResource("/source/student enroll.png")), classEnroll); // NOI18N
 
         EnrollmentView.setBackground(new java.awt.Color(234, 238, 244));
 
         jPanel8.setBackground(new java.awt.Color(234, 238, 244));
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Class Enrollment View", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Poppins", 0, 18))); // NOI18N
         jPanel8.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jPanel8.setLayout(new java.awt.GridLayout(4, 4, 20, 5));
 
-        jTextField11.setBackground(new java.awt.Color(240, 240, 240));
-        jTextField11.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jTextField11.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel8.add(jTextField11);
+        eClassIdField.setBackground(new java.awt.Color(240, 240, 240));
+        eClassIdField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        eClassIdField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        jTextField12.setBackground(new java.awt.Color(240, 240, 240));
-        jTextField12.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jTextField12.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel8.add(jTextField12);
-
-        jTextField13.setBackground(new java.awt.Color(240, 240, 240));
-        jTextField13.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jTextField13.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPanel8.add(jTextField13);
-
-        jButton7.setBackground(new java.awt.Color(204, 204, 255));
-        jButton7.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton7.setText("Find");
-        jPanel8.add(jButton7);
-
-        jLabel7.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Teacher ID");
-        jPanel8.add(jLabel7);
+        eClassStudentIdField.setBackground(new java.awt.Color(240, 240, 240));
+        eClassStudentIdField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        eClassStudentIdField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel13.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("Class ID");
-        jPanel8.add(jLabel13);
+        jLabel13.setText("Search Student NIC");
 
         jLabel14.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("Student ID");
-        jPanel8.add(jLabel14);
-        jPanel8.add(jLabel15);
+        jLabel14.setText("Search Student ID");
 
-        jComboBox1.setBackground(new java.awt.Color(240, 240, 240));
-        jComboBox1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Subject" }));
-        jPanel8.add(jComboBox1);
-
-        jComboBox2.setBackground(new java.awt.Color(240, 240, 240));
-        jComboBox2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grade", " ", " " }));
-        jPanel8.add(jComboBox2);
-
-        jComboBox3.setBackground(new java.awt.Color(240, 240, 240));
-        jComboBox3.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status" }));
-        jComboBox3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jPanel8.add(jComboBox3);
-        jPanel8.add(jLabel19);
+        eClassStudentNicField.setBackground(new java.awt.Color(240, 240, 240));
+        eClassStudentNicField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        eClassStudentNicField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel16.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setText("Subject");
-        jPanel8.add(jLabel16);
+        jLabel16.setText("Search Class ID");
 
-        jLabel17.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
-        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel17.setText("Grade");
-        jPanel8.add(jLabel17);
+        classEnrolStatusComboBox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        classEnrolStatusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
 
         jLabel18.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel18.setText("Status");
-        jPanel8.add(jLabel18);
+        jLabel18.setText("Search Status");
 
-        jButton8.setBackground(new java.awt.Color(204, 255, 204));
-        jButton8.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton8.setText("Update");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        findClassEnrollmentButton.setBackground(new java.awt.Color(204, 255, 204));
+        findClassEnrollmentButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        findClassEnrollmentButton.setText("Find");
+        findClassEnrollmentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                findClassEnrollmentButtonActionPerformed(evt);
             }
         });
-        jPanel8.add(jButton8);
 
-        jTable2.setBackground(new java.awt.Color(240, 240, 240));
-        jTable2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(eClassIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(eClassStudentNicField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(eClassStudentIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 48, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(classEnrolStatusComboBox, 0, 150, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addComponent(findClassEnrollmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(eClassStudentIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(eClassIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(classEnrolStatusComboBox)
+                            .addComponent(findClassEnrollmentButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(eClassStudentNicField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(6, 6, 6))
+        );
+
+        eCoursePrintButton.setBackground(new java.awt.Color(255, 255, 153));
+        eCoursePrintButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        eCoursePrintButton.setText("Export PDF");
+        eCoursePrintButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eCoursePrintButtonActionPerformed(evt);
+            }
+        });
+
+        jPanel9.setBackground(new java.awt.Color(234, 238, 244));
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Course Enrollment View", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Poppins", 0, 18))); // NOI18N
+        jPanel9.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+
+        eCourseIdField.setBackground(new java.awt.Color(240, 240, 240));
+        eCourseIdField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        eCourseIdField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        eCourseStudentIdField.setBackground(new java.awt.Color(240, 240, 240));
+        eCourseStudentIdField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        eCourseStudentIdField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jLabel15.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel15.setText("Search Course ID");
+
+        jLabel19.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel19.setText("Search Student ID");
+
+        jLabel17.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel17.setText("Search Student NIC");
+
+        eCourseStudentNicField.setBackground(new java.awt.Color(240, 240, 240));
+        eCourseStudentNicField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        eCourseStudentNicField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        courseEnrolStatusCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        courseEnrolStatusCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+
+        jLabel22.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel22.setText("Search Status");
+
+        FindCourseEnrollmentButton.setBackground(new java.awt.Color(204, 255, 204));
+        FindCourseEnrollmentButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        FindCourseEnrollmentButton.setText("Find");
+        FindCourseEnrollmentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FindCourseEnrollmentButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(eCourseIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(eCourseStudentNicField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(eCourseStudentIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(courseEnrolStatusCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(FindCourseEnrollmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel9Layout.createSequentialGroup()
+                            .addComponent(eCourseStudentNicField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel9Layout.createSequentialGroup()
+                            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(eCourseStudentIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(eCourseIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(courseEnrolStatusCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(FindCourseEnrollmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        enrollmentCourseReportTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "EID", "Course ID", "Student ID ", "Student NIC", "Student Name", "Teacher ID", "Teacher Name", "Subject ID", "Subject", "Status", "Register Date", "Employee", "Payment Model", "Course Fee"
             }
-        ));
-        jScrollPane2.setViewportView(jTable2);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false
+            };
 
-        jButton6.setBackground(new java.awt.Color(255, 255, 153));
-        jButton6.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton6.setText("Print");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        enrollmentCourseReportTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane7.setViewportView(enrollmentCourseReportTable);
+
+        enrollmentClassReportTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "EID", "Class ID", "Student ID ", "Student NIC", "Student Name", "Teacher ID", "Teacher Name", "Subject ID", "Subject", "Status", "Register Date", "Employee", "Payment Model", "Class Fee"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        enrollmentClassReportTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane6.setViewportView(enrollmentClassReportTable);
+
+        eCourseViewButton.setBackground(new java.awt.Color(102, 255, 204));
+        eCourseViewButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        eCourseViewButton.setText("View");
+        eCourseViewButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                eCourseViewButtonActionPerformed(evt);
+            }
+        });
+
+        eCourseReportClearButton.setBackground(new java.awt.Color(255, 204, 204));
+        eCourseReportClearButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        eCourseReportClearButton.setText("Reset");
+        eCourseReportClearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eCourseReportClearButtonActionPerformed(evt);
+            }
+        });
+
+        eClassPrintButton.setBackground(new java.awt.Color(255, 255, 204));
+        eClassPrintButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        eClassPrintButton.setText("Export PDF");
+        eClassPrintButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eClassPrintButtonActionPerformed(evt);
+            }
+        });
+
+        eClassViewButton.setBackground(new java.awt.Color(102, 255, 204));
+        eClassViewButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        eClassViewButton.setText("View");
+        eClassViewButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eClassViewButtonActionPerformed(evt);
+            }
+        });
+
+        eReportClassClearButton.setBackground(new java.awt.Color(255, 204, 204));
+        eReportClassClearButton.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        eReportClassClearButton.setText("Reset");
+        eReportClassClearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eReportClassClearButtonActionPerformed(evt);
             }
         });
 
@@ -463,26 +840,51 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             .addGroup(EnrollmentViewLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(EnrollmentViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 955, Short.MAX_VALUE)
+                    .addComponent(jScrollPane6)
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(EnrollmentViewLayout.createSequentialGroup()
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 955, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EnrollmentViewLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(EnrollmentViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(EnrollmentViewLayout.createSequentialGroup()
+                                .addComponent(eCourseReportClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(eCourseViewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(eCoursePrintButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(EnrollmentViewLayout.createSequentialGroup()
+                                .addComponent(eReportClassClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(eClassViewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(eClassPrintButton, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         EnrollmentViewLayout.setVerticalGroup(
             EnrollmentViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(EnrollmentViewLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addGroup(EnrollmentViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(eReportClassClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(eClassViewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(eClassPrintButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(EnrollmentViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(eCoursePrintButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(eCourseViewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(eCourseReportClearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jTabbedPaneEnrollment.addTab("View & Report", EnrollmentView);
+        jTabbedPaneEnrollment.addTab("View & Report", new javax.swing.ImageIcon(getClass().getResource("/source/reports.png")), EnrollmentView); // NOI18N
 
         jLabel1.setBackground(new java.awt.Color(234, 238, 244));
         jLabel1.setFont(new java.awt.Font("Poppins", 0, 24)); // NOI18N
@@ -495,44 +897,128 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jTabbedPaneEnrollment)
+            .addComponent(jTabbedPaneEnrollment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPaneEnrollment))
+                .addComponent(jTabbedPaneEnrollment, javax.swing.GroupLayout.PREFERRED_SIZE, 621, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    private void eCoursePrintButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eCoursePrintButtonActionPerformed
+        try {
+            printReportCourseEnrollment();
+        } catch (JRException ex) {
+            Logger.getLogger(EnrollmentManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_eCoursePrintButtonActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        UpdateEnrollment ue = new UpdateEnrollment();
-        ue.setVisible(true);
-    }//GEN-LAST:event_jButton8ActionPerformed
+    private void makeEnrollmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeEnrollmentActionPerformed
+        setNewEnrollment();
+    }//GEN-LAST:event_makeEnrollmentActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this); // Get the JFrame ancestor of the JPanel
+
+        EnrollmentSelectStudent uc = new EnrollmentSelectStudent(this, true); // Create the dialog, setting parentFrame as its owner
+        uc.setVisible(true);
+        uc.setEnrollment(uc);
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this); // Get the JFrame ancestor of the JPanel
+
+        EnrollmentClassSelection uc = new EnrollmentClassSelection(this, true); // Create the dialog, setting parentFrame as its owner
+        uc.setVisible(true);
+        uc.setEnrollment(uc);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void resetEnrollmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetEnrollmentActionPerformed
+        resetData();
+    }//GEN-LAST:event_resetEnrollmentActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this); // Get the JFrame ancestor of the JPanel
+
+        EnrollmentCourseSelection uc = new EnrollmentCourseSelection(this, true); // Create the dialog, setting parentFrame as its owner
+        uc.setVisible(true);
+        uc.setEnrollment(uc);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void updateEnrollmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateEnrollmentActionPerformed
+        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this); // Get the JFrame ancestor of the JPanel
+
+        UpdateEnrollments uc = new UpdateEnrollments(parentFrame, true); // Create the dialog, setting parentFrame as its owner
+        uc.setVisible(true);
+
+        resetData();
+
+    }//GEN-LAST:event_updateEnrollmentActionPerformed
+
+    private void eReportClassClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eReportClassClearButtonActionPerformed
+        resetclassrepot();
+    }//GEN-LAST:event_eReportClassClearButtonActionPerformed
+
+    private void eCourseReportClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eCourseReportClearButtonActionPerformed
+        resetcoursereport();
+    }//GEN-LAST:event_eCourseReportClearButtonActionPerformed
+
+    private void findClassEnrollmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findClassEnrollmentButtonActionPerformed
+        searchclassEnrollmentReport();
+    }//GEN-LAST:event_findClassEnrollmentButtonActionPerformed
+
+    private void FindCourseEnrollmentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindCourseEnrollmentButtonActionPerformed
+        searchCourseEnrollmentReport();
+    }//GEN-LAST:event_FindCourseEnrollmentButtonActionPerformed
+
+    private void eClassPrintButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eClassPrintButtonActionPerformed
+        try {
+            printReportClassEnrollment();
+        } catch (JRException ex) {
+            Logger.getLogger(EnrollmentManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_eClassPrintButtonActionPerformed
+
+    private void eClassViewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eClassViewButtonActionPerformed
+        viweReportClassEnrollment();
+    }//GEN-LAST:event_eClassViewButtonActionPerformed
+
+    private void eCourseViewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eCourseViewButtonActionPerformed
+        viweReportCourseEnrollment();
+    }//GEN-LAST:event_eCourseViewButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Enrollment;
     private javax.swing.JPanel EnrollmentView;
+    private javax.swing.JButton FindCourseEnrollmentButton;
+    private javax.swing.JComboBox<String> classEnrolStatusComboBox;
+    private javax.swing.JPanel classEnroll;
+    private javax.swing.JComboBox<String> courseEnrolStatusCombobox;
+    private javax.swing.JTextField eClassIdField;
+    private javax.swing.JButton eClassPrintButton;
+    private javax.swing.JTextField eClassStudentIdField;
+    private javax.swing.JTextField eClassStudentNicField;
+    private javax.swing.JButton eClassViewButton;
+    private javax.swing.JTextField eCourseIdField;
+    private javax.swing.JButton eCoursePrintButton;
+    private javax.swing.JButton eCourseReportClearButton;
+    private javax.swing.JTextField eCourseStudentIdField;
+    private javax.swing.JTextField eCourseStudentNicField;
+    private javax.swing.JButton eCourseViewButton;
+    private javax.swing.JButton eReportClassClearButton;
+    private javax.swing.JTable enTable;
+    private javax.swing.JTable enTable1;
+    private javax.swing.JTable enrollmentClassReportTable;
+    private javax.swing.JTable enrollmentCourseReportTable;
+    private javax.swing.JComboBox<String> enrollmentStatusCombobox;
+    private javax.swing.JButton findClassEnrollmentButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -545,36 +1031,627 @@ public class EnrollmentManagement extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPaneEnrollment;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
+    private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
+    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField jTextField9;
+    private javax.swing.JButton makeEnrollment;
+    private javax.swing.JComboBox<String> paymentModelCombobox;
+    private javax.swing.JButton resetEnrollment;
+    private javax.swing.JButton updateEnrollment;
     // End of variables declaration//GEN-END:variables
+
+    private Admin admin;
+
+    private static HashMap<String, String> paymentModelMap = new HashMap<>(); //for get id from payment model
+    private static HashMap<String, String> enrollmentStatusMap = new HashMap<>(); //for get id from status
+
+    public JTextField getjTextField1() {
+        return jTextField1;
+    }
+
+    public JTextField getjTextField2() {
+        return jTextField2;
+    }
+
+    public JTextField getjTextField3() {
+        return jTextField3;
+    }
+
+    public JTextField getjTextField4() {
+        return jTextField4;
+    }
+
+    public JTextField getjTextField5() {
+        return jTextField5;
+    }
+
+    public JTextField getjTextField6() {
+        return jTextField6;
+    }
+
+    public JTextField getjTextField7() {
+        return jTextField7;
+    }
+
+    public JTextField getjTextField8() {
+        return jTextField8;
+    }
+
+    public JTextField getjTextField9() {
+        return jTextField9;
+    }
+
+    public JTextField getjTextField10() {
+        return jTextField10;
+    }
+
+    private void loadClassesEnrollment() {
+
+        try {
+
+            ResultSet resultSet = DB.search("SELECT * FROM `class_enrollment`"
+                    + "INNER JOIN `class` ON `class`.`id` = `class_enrollment`.`class_id`"
+                    + "INNER JOIN `student` ON `student`.`id` = `class_enrollment`.`student_id`"
+                    + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `class_enrollment`.`enrollment_status_id`"
+                    + "INNER JOIN `employee` ON `employee`.`id` = `class_enrollment`.`employee_id`"
+                    + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `class_enrollment`.`payment_modal_id` "
+                    + "ORDER BY `class_enrollment`.`id` ASC");
+
+            DefaultTableModel tableModel = (DefaultTableModel) enTable.getModel();
+            tableModel.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector vector = new Vector();
+                vector.add(resultSet.getString("id"));
+                vector.add(resultSet.getString("class.id"));
+                vector.add(resultSet.getString("student.id"));
+                vector.add(resultSet.getString("enrollment_status.name"));
+                vector.add(resultSet.getString("register_date"));
+                vector.add(resultSet.getString("employee.fname") + " " + resultSet.getString("employee.lname"));
+                vector.add(resultSet.getString("payment_modal.modal"));
+
+                tableModel.addRow(vector);
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void loadPaymentModel() {
+
+        try {
+
+            ResultSet resultSet = DB.search("SELECT * FROM `payment_modal`");
+
+            Vector<String> vector = new Vector<>();
+
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("modal"));
+                paymentModelMap.put(resultSet.getString("modal"), resultSet.getString("id"));
+
+            }
+
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(vector);
+            paymentModelCombobox.setModel(comboBoxModel);
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void loadStatus() {
+        try {
+
+            ResultSet resultSet = DB.search("SELECT * FROM `enrollment_status`");
+
+            Vector<String> vector = new Vector<>();
+
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("name"));
+                enrollmentStatusMap.put(resultSet.getString("name"), resultSet.getString("id"));
+
+            }
+
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(vector);
+
+            DefaultComboBoxModel<String> comboBoxModelclassReport = new DefaultComboBoxModel<>(vector);// class report
+            DefaultComboBoxModel<String> comboBoxModelcourseReport = new DefaultComboBoxModel<>(vector);//course report
+
+            enrollmentStatusCombobox.setModel(comboBoxModel);
+
+            classEnrolStatusComboBox.setModel(comboBoxModelclassReport);// class report
+            courseEnrolStatusCombobox.setModel(comboBoxModelcourseReport);//course report
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void loadCoursesEnrollment() {
+        try {
+
+            ResultSet resultSet = DB.search("SELECT * FROM `course_enrollment`"
+                    + "INNER JOIN `course` ON `course`.`id` = `course_enrollment`.`course_id`"
+                    + "INNER JOIN `student` ON `student`.`id` = `course_enrollment`.`student_id`"
+                    + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `course_enrollment`.`enrollment_status_id`"
+                    + "INNER JOIN `employee` ON `employee`.`id` = `course_enrollment`.`employee_id`"
+                    + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `course_enrollment`.`payment_modal_id` "
+                    + "ORDER BY `course_enrollment`.`id` ASC");
+
+            DefaultTableModel tableModel = (DefaultTableModel) enTable1.getModel();
+            tableModel.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector vector = new Vector();
+                vector.add(resultSet.getString("id"));
+                vector.add(resultSet.getString("course.id"));
+                vector.add(resultSet.getString("student.id"));
+                vector.add(resultSet.getString("enrollment_status.name"));
+                vector.add(resultSet.getString("register_date"));
+                vector.add(resultSet.getString("employee.fname") + " " + resultSet.getString("employee.lname"));
+                vector.add(resultSet.getString("payment_modal.modal"));
+
+                tableModel.addRow(vector);
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void setNewEnrollment() {
+        try {
+
+            String sID = jTextField1.getText();
+            String cID = jTextField6.getText();
+            String pModel = String.valueOf(paymentModelCombobox.getSelectedItem());
+            String eStatus = String.valueOf(enrollmentStatusCombobox.getSelectedItem());
+
+            String curruntDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+            if (sID.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Select A Student.", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (cID.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Select A Class.", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (pModel.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Select A Payment Model.", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (eStatus.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Select Status.", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                //insert class enrollment
+                if (cID.matches("CL\\d{6}")) {
+                    ResultSet resultset = DB.search("SELECT * FROM `class_enrollment` WHERE `class_id` = '" + cID + "' AND `student_id` = '" + sID + "'");
+
+                    if (resultset.next()) {
+                        JOptionPane.showMessageDialog(this, "Already Exists.", "Warning", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        DB.IUD("INSERT INTO `class_enrollment` (`class_id`, `student_id`, `enrollment_status_id`, `register_date`, `employee_id`, `payment_modal_id`)"
+                                + "VALUES ('" + cID + "', '" + sID + "', '" + enrollmentStatusMap.get(eStatus) + "', '" + curruntDate + "', '" + admin.getUserID() + "', '" + paymentModelMap.get(pModel) + "') ");
+
+                        JOptionPane.showMessageDialog(this, "Insert Class Enrollment is Successfull.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        resetData();
+                    }
+
+                    //inert course enrollment
+                } else if (cID.matches("CO\\d{6}")) {
+
+                    ResultSet resultset = DB.search("SELECT * FROM `course_enrollment` WHERE `course_id` = '" + cID + "' AND `student_id` = '" + sID + "'");
+
+                    if (resultset.next()) {
+                        JOptionPane.showMessageDialog(this, "Already Exists.", "Warning", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        DB.IUD("INSERT INTO `course_enrollment` (`student_id`, `course_id`, `enrollment_status_id`, `register_date`, `employee_id`, `payment_modal_id`)"
+                                + "VALUES ('" + sID + "', '" + cID + "', '" + enrollmentStatusMap.get(eStatus) + "', '" + curruntDate + "', '" + admin.getUserID() + "', '" + paymentModelMap.get(pModel) + "') ");
+
+                        JOptionPane.showMessageDialog(this, "Insert Course Enrollment is Successfull..", "Information", JOptionPane.INFORMATION_MESSAGE);
+                        resetData();
+
+                    }
+
+                }
+
+            }
+
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void resetData() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextField6.setText("");
+        jTextField7.setText("");
+        jTextField8.setText("");
+        jTextField9.setText("");
+        jTextField10.setText("");
+        paymentModelCombobox.setSelectedIndex(0);
+        enrollmentStatusCombobox.setSelectedIndex(0);
+        loadClassesEnrollment();
+        loadCoursesEnrollment();
+    }
+
+    //reporting-------------
+    // class enrollment reporting------------------------------------------------------------------------------------------------------------------
+    private String generateClassScheduleQuery(String condition) {
+        return "SELECT * FROM `class_enrollment`"
+                + "INNER JOIN `class` ON `class`.`id` = `class_enrollment`.`class_id`"
+                + "INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` "
+                + "INNER JOIN `student` ON `student`.`id` = `class_enrollment`.`student_id`"
+                + "INNER JOIN `subject` ON `subject`.`id` = `class`.`subject_id`"
+                + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `class_enrollment`.`enrollment_status_id`"
+                + "INNER JOIN `employee` ON `employee`.`id` = `class_enrollment`.`employee_id`"
+                + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `class_enrollment`.`payment_modal_id`"
+                + "WHERE "
+                + condition
+                + " ORDER BY `class_enrollment`.`id` ASC";
+    }
+
+    private void loadViewClassData(String query) {
+        try {
+
+            ResultSet resultSet = DB.search(query);
+
+            DefaultTableModel tableModel = (DefaultTableModel) enrollmentClassReportTable.getModel();
+            tableModel.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector vector = new Vector();
+                vector.add(resultSet.getString("id"));
+                vector.add(resultSet.getString("class.id"));
+                vector.add(resultSet.getString("student.id"));
+                vector.add(resultSet.getString("student.nic"));
+                vector.add(resultSet.getString("student.fname") + " " + resultSet.getString("student.lname"));
+                vector.add(resultSet.getString("teacher.nic"));
+                vector.add(resultSet.getString("teacher.lname") + " " + resultSet.getString("teacher.lname"));
+                vector.add(resultSet.getString("subject.id"));
+                vector.add(resultSet.getString("subject.name"));
+                vector.add(resultSet.getString("enrollment_status.name"));
+                vector.add(resultSet.getString("register_date"));
+                vector.add(resultSet.getString("employee.fname") + " " + resultSet.getString("employee.lname"));
+                vector.add(resultSet.getString("payment_modal.modal"));
+                vector.add(resultSet.getString("class.fee"));
+
+                tableModel.addRow(vector);
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void classQueryMethod() {
+
+        loadViewClassData("SELECT * FROM `class_enrollment`"
+                + "INNER JOIN `class` ON `class`.`id` = `class_enrollment`.`class_id`"
+                + "INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic` "
+                + "INNER JOIN `student` ON `student`.`id` = `class_enrollment`.`student_id`"
+                + "INNER JOIN `subject` ON `subject`.`id` = `class`.`subject_id`"
+                + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `class_enrollment`.`enrollment_status_id`"
+                + "INNER JOIN `employee` ON `employee`.`id` = `class_enrollment`.`employee_id`"
+                + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `class_enrollment`.`payment_modal_id` "
+                + "ORDER BY `class_enrollment`.`id` ASC");
+
+    }
+
+    private void searchclassEnrollmentReport() {
+        // Capture search inputs from the UI (ensure these fields are initialized in your form)
+        String classID = eClassIdField.getText().trim();
+        String studentNIC = eClassStudentNicField.getText().trim();
+        String studentID = eClassStudentIdField.getText().trim();
+        String status = classEnrolStatusComboBox.getSelectedItem().toString().trim();
+
+        // Build condition dynamically
+        StringBuilder condition = new StringBuilder("1=1"); // Default condition to allow all results
+
+        // Add conditions based on input fields, ensuring no extra AND if condition is empty
+        if (!classID.isEmpty()) {
+            condition.append(" AND `class`.`id` LIKE '%").append(classID).append("%'");
+        }
+        if (!studentNIC.isEmpty()) {
+            condition.append(" AND `student`.`nic` LIKE '%").append(studentNIC).append("%'");
+        }
+        if (!studentID.isEmpty()) {
+            condition.append(" AND `student`.`id` LIKE '%").append(studentID).append("%'");
+        }
+        if (!status.equals("Select")) {
+            condition.append(" AND `enrollment_status`.`name` = '").append(status).append("'");
+        }
+
+        // Generate query with dynamic conditions
+        String query = generateClassScheduleQuery(condition.toString());
+
+        // Load data into the table using the generated query
+        loadViewClassData(query);
+
+    }
+
+    private void resetclassrepot() {
+        eClassIdField.setText("");
+        eClassStudentIdField.setText("");
+        eClassStudentNicField.setText("");
+        classEnrolStatusComboBox.setSelectedIndex(0);
+        classQueryMethod();
+    }
+    // class enrollment reporting-----------------------------------------------------------------------------------------------------------
+
+    // course Enrollment Reporting----------------------------------------------------------------------------------------------------------
+    private String generateCourseScheduleQuery(String condition) {
+        return "SELECT * FROM `course_enrollment`"
+                + "INNER JOIN `course` ON `course`.`id` = `course_enrollment`.`course_id`"
+                + "INNER JOIN `teacher` ON `teacher`.`nic` = `course`.`teacher_nic` "
+                + "INNER JOIN `student` ON `student`.`id` = `course_enrollment`.`student_id`"
+                + "INNER JOIN `subject` ON `subject`.`id` = `course`.`subject_id`"
+                + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `course_enrollment`.`enrollment_status_id`"
+                + "INNER JOIN `employee` ON `employee`.`id` = `course_enrollment`.`employee_id`"
+                + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `course_enrollment`.`payment_modal_id` "
+                + "WHERE "
+                + condition
+                + " ORDER BY `course_enrollment`.`id` ASC";
+    }
+
+    private void loadViewCoursData(String query) {
+        try {
+
+            ResultSet resultSet = DB.search(query);
+
+            DefaultTableModel tableModel = (DefaultTableModel) enrollmentCourseReportTable.getModel();
+            tableModel.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector vector = new Vector();
+                vector.add(resultSet.getString("id"));
+                vector.add(resultSet.getString("course.id"));
+                vector.add(resultSet.getString("student.id"));
+                vector.add(resultSet.getString("student.nic"));
+                vector.add(resultSet.getString("student.fname") + " " + resultSet.getString("student.lname"));
+                vector.add(resultSet.getString("teacher.nic"));
+                vector.add(resultSet.getString("teacher.lname") + " " + resultSet.getString("teacher.lname"));
+                vector.add(resultSet.getString("subject.id"));
+                vector.add(resultSet.getString("subject.name"));
+                vector.add(resultSet.getString("enrollment_status.name"));
+                vector.add(resultSet.getString("register_date"));
+                vector.add(resultSet.getString("employee.fname") + " " + resultSet.getString("employee.lname"));
+                vector.add(resultSet.getString("payment_modal.modal"));
+                vector.add(resultSet.getString("course.fee"));
+                tableModel.addRow(vector);
+            }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void courseQueryMethod() {
+
+        loadViewCoursData("SELECT * FROM `course_enrollment`"
+                + "INNER JOIN `course` ON `course`.`id` = `course_enrollment`.`course_id`"
+                + "INNER JOIN `teacher` ON `teacher`.`nic` = `course`.`teacher_nic` "
+                + "INNER JOIN `student` ON `student`.`id` = `course_enrollment`.`student_id`"
+                + "INNER JOIN `subject` ON `subject`.`id` = `course`.`subject_id`"
+                + "INNER JOIN `enrollment_status` ON `enrollment_status`.`id` = `course_enrollment`.`enrollment_status_id`"
+                + "INNER JOIN `employee` ON `employee`.`id` = `course_enrollment`.`employee_id`"
+                + "INNER JOIN `payment_modal` ON `payment_modal`.`id` = `course_enrollment`.`payment_modal_id` "
+                + "ORDER BY `course_enrollment`.`id` ASC");
+
+    }
+
+    private void searchCourseEnrollmentReport() {
+        // Capture search inputs
+        String courseID = eCourseIdField.getText().trim();
+        String studentNIC = eCourseStudentNicField.getText().trim();
+        String studentID = eCourseStudentIdField.getText().trim();
+        String status = courseEnrolStatusCombobox.getSelectedItem().toString().trim();
+
+        // Build condition dynamically
+        StringBuilder condition = new StringBuilder("1=1"); // Default condition to allow all results
+
+        // Add conditions based on input fields, ensuring no extra AND if condition is empty
+        if (!courseID.isEmpty()) {
+            condition.append(" AND `course`.`id` LIKE '%").append(courseID).append("%'");
+        }
+        if (!studentNIC.isEmpty()) {
+            condition.append(" AND `student`.`nic` LIKE '%").append(studentNIC).append("%'");
+        }
+        if (!studentID.isEmpty()) {
+            condition.append(" AND `student`.`id` LIKE '%").append(studentID).append("%'");
+        }
+        if (!status.equals("Select")) {
+            condition.append(" AND `enrollment_status`.`name` = '").append(status).append("'");
+        }
+
+        // Generate query with dynamic conditions
+        String query = generateCourseScheduleQuery(condition.toString());
+
+        // Load data into the table using the generated query
+        loadViewCoursData(query);
+
+    }
+
+    private void resetcoursereport() {
+        eCourseIdField.setText("");
+        eCourseStudentIdField.setText("");
+        eCourseStudentNicField.setText("");
+        courseEnrolStatusCombobox.setSelectedIndex(0);
+        courseQueryMethod();
+    }
+    // course Enrollment Reporting----------------------------------------------------------------------------------------------------------
+
+    //class Enrollment reporting print------------------------------------------------------------------------------------------------------
+    private void printReportClassEnrollment() throws JRException {
+
+        try {
+            // Use JRTableModelDataSource from jTable1's model
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(enrollmentClassReportTable.getModel());
+
+            // Get system data
+            Home home = new HomeInfo().getHome();
+
+            // Parameters for the report
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("title", "Student Class Enrollment Report");
+
+            // Create an Admin instance (assuming you have access to it in this context)
+            // Use saveReport method to save the report
+            Reporting reporting = new Reporting();
+            boolean isSaved = reporting.saveReport("Student_Class_Enrollment_Report", params, dataSource, admin);
+
+            if (isSaved) {
+                JOptionPane.showMessageDialog(this, "Student Class Enrollment Report saved successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Student Class Enrollment Report saving was canceled");
+            }
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
+        } catch (JRException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
+        } catch (Exception ex) {
+            // Catch any other unexpected exceptions
+            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
+        }
+    }
+    //class Enrollment reporting print------------------------------------------------------------------------------------------------------
+    
+    
+    //class Enrollment reporting view-------------------------------------------------------------------------------------------------------
+    
+    private void viweReportClassEnrollment() {
+        Home home;
+        try {
+            home = new HomeInfo().getHome();
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(enrollmentClassReportTable.getModel());
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
+            params.put("title", "Student Class Enrollment Report");
+
+            new Reporting().viewReport("Student_Class_Enrollment_Report", params, dataSource, admin);
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (JRException ex) {
+            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //class Enrollment reporting view-------------------------------------------------------------------------------------------------------
+    
+    
+    //course Enrollment reporting print-----------------------------------------------------------------------------------------------------
+    
+    private void printReportCourseEnrollment() throws JRException {
+
+        try {
+            // Use JRTableModelDataSource from jTable1's model
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(enrollmentCourseReportTable.getModel());
+
+            // Get system data
+            Home home = new HomeInfo().getHome();
+
+            // Parameters for the report
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("title", "Student Course Enrollment Report");
+
+            // Create an Admin instance (assuming you have access to it in this context)
+            // Use saveReport method to save the report
+            Reporting reporting = new Reporting();
+            boolean isSaved = reporting.saveReport("Student_Course_Enrollment_Report", params, dataSource, admin);
+
+            if (isSaved) {
+                JOptionPane.showMessageDialog(this, "Student Course Enrollment Report saved successfully");
+            } else {
+                JOptionPane.showMessageDialog(this, "Student Course Enrollment Report saving was canceled");
+            }
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
+        } catch (JRException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
+        } catch (Exception ex) {
+            // Catch any other unexpected exceptions
+            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
+        }
+    }
+    
+    //course Enrollment reporting print-----------------------------------------------------------------------------------------------------
+    
+    
+    //course Enrollment reporting view------------------------------------------------------------------------------------------------------
+    
+    private void viweReportCourseEnrollment() {
+        Home home;
+        try {
+            home = new HomeInfo().getHome();
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(enrollmentCourseReportTable.getModel());
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
+            params.put("title", "Student Course Enrollment Report");
+
+            new Reporting().viewReport("Student_Course_Enrollment_Report", params, dataSource, admin);
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (ClassNotFoundException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
+        } catch (JRException ex) {
+            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //course Enrollment reporting view------------------------------------------------------------------------------------------------------
 }

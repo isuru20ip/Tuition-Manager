@@ -9,6 +9,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.Level;
 import javax.swing.JFrame;
@@ -20,6 +23,17 @@ import modal.LogCenter;
 import modal.beans.Admin;
 import modal.DB;
 import java.sql.ResultSet;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import modal.HomeInfo;
+import modal.beans.Home;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import raven.toast.Notifications;
 
 /**
@@ -35,6 +49,7 @@ public class systemAccess extends javax.swing.JPanel {
         this.admin = bean;
         loadEmployee();
         employeeAccessSearch();
+        loadLoging();
 
         txtEmployeeID.setEditable(true);
         txtFirstName.setEditable(true);
@@ -140,7 +155,7 @@ public class systemAccess extends javax.swing.JPanel {
         // Validation: Ensure at least one search field is filled
         if (employeeID.isEmpty() && firstName.isEmpty() && lastName.isEmpty() && employeeType.equals("Select")) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please fill in at least one search field!");
+                    "Please fill in at least one search field!");
             return;
         }
 
@@ -148,7 +163,7 @@ public class systemAccess extends javax.swing.JPanel {
         String query = "SELECT `employee`.id, `employee`.fname, `employee`.lname, `emp_type`.name AS emp_type, `emp_access`.user_name, `emp_access`.password "
                 + "FROM employee INNER JOIN emp_access ON `employee`.id = `emp_access`.employee_id "
                 + "INNER JOIN emp_type ON `employee`.emp_type_id = `emp_type`.id WHERE 1=1 "; // Base query
-                
+
         if (!employeeID.isEmpty()) {
             query += " AND `employee`.id = '" + employeeID + "'";
         }
@@ -250,6 +265,17 @@ public class systemAccess extends javax.swing.JPanel {
         table2 = new javaswingdev.swing.table.Table();
         jButton1 = new javax.swing.JButton();
         jPanel1 = new RoundedPanel(20, new Color(234,238,244));
+        jScrollPane3 = new javax.swing.JScrollPane();
+        logingDataTable = new javaswingdev.swing.table.Table();
+        jButton2 = new javax.swing.JButton();
+        filterComboBox = new javax.swing.JComboBox<>();
+        jDateChooser4 = new com.toedter.calendar.JDateChooser();
+        jButton3 = new javax.swing.JButton();
+        jDateChooser5 = new com.toedter.calendar.JDateChooser();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jDateChooser6 = new com.toedter.calendar.JDateChooser();
+        jButton4 = new javax.swing.JButton();
         jPanel4 = new RoundedPanel(20, new Color(234,238,244));
         jLabel1 = new javax.swing.JLabel();
 
@@ -779,6 +805,11 @@ public class systemAccess extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Print");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -828,15 +859,105 @@ public class systemAccess extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(200, 200, 198));
 
+        logingDataTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "#", "Employee ID", "Name", "Username", "Date & Time", "Type"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        logingDataTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(logingDataTable);
+        if (logingDataTable.getColumnModel().getColumnCount() > 0) {
+            logingDataTable.getColumnModel().getColumn(1).setPreferredWidth(40);
+        }
+
+        jButton2.setBackground(new java.awt.Color(255, 51, 51));
+        jButton2.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Print");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        filterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Today", "Yesterday", "This Week", "This Month" }));
+
+        jButton3.setText("Search");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("TO");
+
+        jLabel3.setText("FROM");
+
+        jButton4.setText("Search");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1003, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 979, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(filterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(73, 73, 73)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jDateChooser5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jDateChooser6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(75, 75, 75)
+                        .addComponent(jDateChooser4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 591, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jDateChooser4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                    .addComponent(jDateChooser6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDateChooser5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(filterComboBox, javax.swing.GroupLayout.Alignment.LEADING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
         );
 
         jTabbedPane1.addTab("Login History", jPanel1);
@@ -1097,6 +1218,30 @@ public class systemAccess extends javax.swing.JPanel {
         employeeAccessSearch();
     }//GEN-LAST:event_clearActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            printReportAccess();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            printReportLogin();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     private void setNotification(JFrame parent) {
         Notifications.getInstance().setJFrame(parent);
     }
@@ -1113,7 +1258,14 @@ public class systemAccess extends javax.swing.JPanel {
     private javax.swing.JTextField empname;
     private javax.swing.JTextField empstatus;
     private javax.swing.JTextField emptype;
+    private javax.swing.JComboBox<String> filterComboBox;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private com.toedter.calendar.JDateChooser jDateChooser4;
+    private com.toedter.calendar.JDateChooser jDateChooser5;
+    private com.toedter.calendar.JDateChooser jDateChooser6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1125,6 +1277,8 @@ public class systemAccess extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -1140,8 +1294,10 @@ public class systemAccess extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField joineddate;
+    private javaswingdev.swing.table.Table logingDataTable;
     private javax.swing.JTextField password;
     private javax.swing.JButton search;
     private javaswingdev.swing.table.Table table1;
@@ -1235,6 +1391,42 @@ public class systemAccess extends javax.swing.JPanel {
         }
     }
 
+    private void loadLoging() {
+        try {
+            DefaultTableModel defaultTableModel = (DefaultTableModel) logingDataTable.getModel();
+            defaultTableModel.setRowCount(0);
+
+            // Center alignment for table cells
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+            renderer.setHorizontalAlignment(SwingConstants.CENTER);
+            logingDataTable.setDefaultRenderer(Object.class, renderer);
+
+            Vector<String[]> vector = new HomeInfo().getlog();
+            int row = 1;
+            int vLength = vector.size();
+            for (String[] log : vector) {
+
+                if (row == vLength) {
+                    break;
+                }
+
+                Vector<String> v = new Vector<>();
+                v.add(String.valueOf(row)); // #
+                v.add(log[0]); // ID
+                v.add(log[1]); // name
+                v.add(log[2]); // username
+                v.add(log[3]); // datetime
+                v.add(log[4]); // type
+                defaultTableModel.addRow(v);
+                row++;
+            }
+            logingDataTable.setModel(defaultTableModel);
+        } catch (Exception e) {
+            LogCenter.logger.log(Level.WARNING, "loadLoging", e);
+        }
+    }
+
+
 //rounded panel
     class RoundedPanel extends JPanel {
 
@@ -1266,6 +1458,83 @@ public class systemAccess extends javax.swing.JPanel {
             graphics.setColor(getForeground());
 //            graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height); //paint border
 //             
+        }
+    }
+
+    //Reporting 
+    private void printReportAccess() throws JRException {
+
+        try {
+            // Use JRTableModelDataSource from jTable1's model
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(table2.getModel());
+
+            // Get system data
+            Home home = new HomeInfo().getHome();
+
+            // Parameters for the report
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("title", "System Access Report");
+
+            // Create an Admin instance (assuming you have access to it in this context)
+            // Use saveReport method to save the report
+            modal.Reporting reporting = new modal.Reporting();
+            boolean isSaved = reporting.saveReport("System_Access_Report", params, dataSource, admin);
+
+            if (isSaved) {
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "System Access saved successfully");
+            } else {
+                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "System Access saving was cancelled");
+            }
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
+        } catch (JRException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
+        } catch (Exception ex) {
+            // Catch any other unexpected exceptions
+            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
+        }
+    }
+
+    private void printReportLogin() throws JRException {
+
+        try {
+            // Use JRTableModelDataSource from jTable1's model
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(logingDataTable.getModel());
+
+            // Get system data
+            Home home = new HomeInfo().getHome();
+
+            // Parameters for the report
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("landLine", home.getLandLine());
+            params.put("email", home.getEmail());
+            params.put("mobile", home.getMobile());
+            params.put("title", "System Login Report");
+
+            // Create an Admin instance (assuming you have access to it in this context)
+            // Use saveReport method to save the report
+            modal.Reporting reporting = new modal.Reporting();
+            boolean isSaved = reporting.saveReport("System_Login_Report", params, dataSource, admin);
+
+            if (isSaved) {
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "System Login Report saved successfully");
+            } else {
+                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "System Login Report saving was cancelled");
+            }
+
+        } catch (IOException ex) {
+            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
+        } catch (JRException ex) {
+            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
+        } catch (Exception ex) {
+            // Catch any other unexpected exceptions
+            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
         }
     }
 

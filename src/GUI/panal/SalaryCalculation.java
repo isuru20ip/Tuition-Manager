@@ -724,73 +724,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
-        try {
-            Double sallaryPerDay = null;
-            Double bonus = null;
-            Double total = null;
-            java.sql.Date today;
-
-            String employeId = jTextField3.getText();
-            String eName;
-
-            if (sallaryPerDay == null) {
-                String salary = jLabel19.getText();
-                sallaryPerDay = Double.parseDouble(salary);
-            }
-
-            if (bonus == null) {
-                String bonusString = jFormattedTextField6.getText();
-                bonus = Double.parseDouble(bonusString);
-            }
-
-            if (total == null) {
-                String totalString = jFormattedTextField7.getText();
-                total = Double.parseDouble(totalString);
-            }
-
-            today = java.sql.Date.valueOf(jLabel18.getText());
-            String workedDays = this.attendedDates;
-
-            if (employeId == null || employeId.trim().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Employee ID is required.", "Warning", JOptionPane.ERROR_MESSAGE);
-            } else if (total < 0) {
-                JOptionPane.showMessageDialog(this, "Total must be a non-negative number.", "Warning", JOptionPane.ERROR_MESSAGE);
-            } else {
-
-                ResultSet rs = DB.search("SELECT (`fname`) FROM `employee` WHERE `id` = '" + employeId + "'");
-
-                if (rs.next()) {
-                    eName = rs.getString("fname"); // Concatenate first and last name
-
-                    DB.IUD("INSERT INTO `emp_sallary` (`payment_day`,`sallay_per_day`,`working_day`,`bonus`,`sub_total`,`employee_id`)"
-                            + "VALUES ('" + today + "','" + sallaryPerDay + "','" + workedDays + "','" + bonus + "','" + total + "','" + employeId + "')");
-
-                    JOptionPane.showMessageDialog(this, "Successfully Paid", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    loadSallary("", "");
-
-                    // Parameters for the report
-                    HashMap<String, Object> data = new HashMap<>();
-
-                    data.put("t0", "Employee Name :");
-                    data.put("t1", "Worked Days :");
-                    data.put("t2", "Bonus :");
-                    data.put("t3", "Total :");
-
-                    data.put("p0", eName);
-                    data.put("p1", workedDays);
-                    data.put("p2", bonus);
-                    data.put("p3", total);
-
-                    printPayment(data);
-                    reset();
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        employeePayment();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -809,25 +743,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jFormattedTextField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField6KeyReleased
-
-        String totalText = jFormattedTextField5.getText();
-
-        if (totalText == null || totalText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Calculate Total Salary For Employee", "Warning", JOptionPane.WARNING_MESSAGE);
-            jFormattedTextField6.setText("0.00");
-
-        } else {
-
-            String num = jFormattedTextField6.getText();
-
-            if (num.matches(".*[a-zA-Z!@#$%^&*()_+=\\[\\]{}|;:',<>,./?`~].*") || num.isEmpty() || num.isBlank()) {
-                JOptionPane.showMessageDialog(this, "You can't add Letters or Special Characters here", "Warning", JOptionPane.WARNING_MESSAGE);
-                jFormattedTextField6.setText("0.00");
-
-            } else {
-                calculate();
-            }
-        }
+        giveBonus();
     }//GEN-LAST:event_jFormattedTextField6KeyReleased
 
     private void jLabel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MouseClicked
@@ -835,41 +751,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
     }//GEN-LAST:event_jLabel16MouseClicked
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-
-        try {
-
-            String emp_id = jTextField3.getText();
-
-            if (emp_id.isEmpty() || emp_id.isBlank()) {
-                JOptionPane.showMessageDialog(this, "Please Enter An Employee ID", "Attention", JOptionPane.WARNING_MESSAGE);
-
-            } else {
-                ResultSet resultSet = DB.search("SELECT * FROM `employee` INNER JOIN `emp_type` ON `employee`.`emp_type_id` = `emp_type`.`id` WHERE "
-                        + "`employee`.`id` = '" + emp_id + "'");
-
-                if (resultSet.next()) {
-                    String employeeType = resultSet.getString("emp_type_id");
-
-                    if (employeeType.equals("1")) {
-                        JOptionPane.showMessageDialog(this, "This Id Owns For Master Admin, Enter Another One", "Attention", JOptionPane.WARNING_MESSAGE);
-                        reset();
-
-                    } else {
-                        jLabel19.setText(resultSet.getString("emp_type.salary"));
-                        jButton7.setEnabled(true);
-                        jButton7.grabFocus();
-                        loadLastPaidDate(emp_id);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Please Enter Valid Employee ID", "Attention", JOptionPane.WARNING_MESSAGE);
-                    reset();
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        searchEmployee();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -881,27 +763,11 @@ public class SalaryCalculation extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField5KeyReleased
 
     private void jDateChooser4PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDateChooser4PropertyChange
-
-        // if (evt.getPropertyName().equals("date")) {
-        java.util.Date selectedDate = jDateChooser4.getDate();
-
-        if (selectedDate != null) {
-            String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(selectedDate);
-            loadSallary("", formattedDate);
-        }
-        // }
-
+        searchBydate();
     }//GEN-LAST:event_jDateChooser4PropertyChange
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-
-        String teacherNic = jTextField1.getText();
-
-        if (teacherNic.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter A Teacher NIC to Calculate Payment", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else {
-            loadTeacherSalaryData(teacherNic);
-        }
+        teachersalaryData();
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -928,64 +794,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-        String Earningfee = jFormattedTextField1.getText();
-
-        try {
-
-            Double comission = null;
-            Double earn = null;
-            String employeeUserName = admin.getUserName();
-            String tNic = jTextField1.getText();
-            String tName = null;
-
-            ResultSet rs = DB.search("SELECT `fname` AS tname FROM teacher WHERE nic = '" + tNic + "'");
-            if (rs.next()) {
-                tName = rs.getString("tname");
-            }
-            ResultSet resultSet = DB.search("SELECT * FROM emp_access WHERE user_name = '" + employeeUserName + "'");
-
-            if (resultSet.next()) {
-
-                String empID = resultSet.getString("employee_id");
-                String today = this.teacherSalaryDate;
-
-                if (comission == null) {
-                    String commissionS = jFormattedTextField2.getText();
-                    comission = Double.parseDouble(commissionS);
-                }
-
-                if (earn == null) {
-                    String earnS = jFormattedTextField3.getText();
-                    earn = Double.parseDouble(earnS);
-                }
-
-                DB.IUD("INSERT INTO `teacher_paymet` (`teacher_nic`,`employee_id`,`date`,`commission`,`earn`)"
-                        + "VALUES ('" + tNic + "','" + empID + "','" + today + "','" + comission + "','" + earn + "')");
-
-                JOptionPane.showMessageDialog(this, "Payment Succeed", "Payment", JOptionPane.INFORMATION_MESSAGE);
-
-                // Parameters for the report
-                HashMap<String, Object> data = new HashMap<>();
-
-                data.put("t0", "Teacher Name :");
-                data.put("t1", "Monthly Earn :");
-                data.put("t2", "Comission :");
-                data.put("t3", "Total :");
-
-                data.put("p0", tName);
-                data.put("p1", Earningfee);
-                data.put("p2", comission);
-                data.put("p3", earn);
-
-                printPayment(data);
-                refresh();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        teacherPay();
     }//GEN-LAST:event_jButton2ActionPerformed
 
 
@@ -1275,7 +1084,6 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
     }
 
-    //2024-11-17
     private void loadTeacherSalaryData(String teacherNic) {
 
         try {
@@ -1519,6 +1327,211 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
         } catch (IOException | ClassNotFoundException | JRException e) {
             Logger.getLogger(SalaryCalculation.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+    }
+
+    private void employeePayment() {
+        try {
+            Double sallaryPerDay = null;
+            Double bonus = null;
+            Double total = null;
+            java.sql.Date today;
+
+            String employeId = jTextField3.getText();
+            String eName;
+
+            if (sallaryPerDay == null) {
+                String salary = jLabel19.getText();
+                sallaryPerDay = Double.parseDouble(salary);
+            }
+
+            if (bonus == null) {
+                String bonusString = jFormattedTextField6.getText();
+                bonus = Double.parseDouble(bonusString);
+            }
+
+            if (total == null) {
+                String totalString = jFormattedTextField7.getText();
+                total = Double.parseDouble(totalString);
+            }
+
+            today = java.sql.Date.valueOf(jLabel18.getText());
+            String workedDays = this.attendedDates;
+
+            if (employeId == null || employeId.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Employee ID is required.", "Warning", JOptionPane.ERROR_MESSAGE);
+            } else if (total < 0) {
+                JOptionPane.showMessageDialog(this, "Total must be a non-negative number.", "Warning", JOptionPane.ERROR_MESSAGE);
+            } else {
+
+                ResultSet rs = DB.search("SELECT (`fname`) FROM `employee` WHERE `id` = '" + employeId + "'");
+
+                if (rs.next()) {
+                    eName = rs.getString("fname"); // Concatenate first and last name
+
+                    DB.IUD("INSERT INTO `emp_sallary` (`payment_day`,`sallay_per_day`,`working_day`,`bonus`,`sub_total`,`employee_id`)"
+                            + "VALUES ('" + today + "','" + sallaryPerDay + "','" + workedDays + "','" + bonus + "','" + total + "','" + employeId + "')");
+
+                    JOptionPane.showMessageDialog(this, "Successfully Paid", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    loadSallary("", "");
+
+                    // Parameters for the report
+                    HashMap<String, Object> data = new HashMap<>();
+
+                    data.put("t0", "Employee Name :");
+                    data.put("t1", "Worked Days :");
+                    data.put("t2", "Bonus :");
+                    data.put("t3", "Total :");
+
+                    data.put("p0", eName);
+                    data.put("p1", workedDays);
+                    data.put("p2", bonus);
+                    data.put("p3", total);
+
+                    printPayment(data);
+                    reset();
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void giveBonus() {
+
+        String totalText = jFormattedTextField5.getText();
+
+        if (totalText == null || totalText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Calculate Total Salary For Employee", "Warning", JOptionPane.WARNING_MESSAGE);
+            jFormattedTextField6.setText("0.00");
+
+        } else {
+
+            String num = jFormattedTextField6.getText();
+
+            if (num.matches(".*[a-zA-Z!@#$%^&*()_+=\\[\\]{}|;:',<>,./?`~].*") || num.isEmpty() || num.isBlank()) {
+                JOptionPane.showMessageDialog(this, "You can't add Letters or Special Characters here", "Warning", JOptionPane.WARNING_MESSAGE);
+                jFormattedTextField6.setText("0.00");
+
+            } else {
+                calculate();
+            }
+        }
+    }
+
+    private void searchEmployee() {
+        try {
+
+            String emp_id = jTextField3.getText();
+
+            if (emp_id.isEmpty() || emp_id.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Please Enter An Employee ID", "Attention", JOptionPane.WARNING_MESSAGE);
+
+            } else {
+                ResultSet resultSet = DB.search("SELECT * FROM `employee` INNER JOIN `emp_type` ON `employee`.`emp_type_id` = `emp_type`.`id` WHERE "
+                        + "`employee`.`id` = '" + emp_id + "'");
+
+                if (resultSet.next()) {
+                    String employeeType = resultSet.getString("emp_type_id");
+
+                    if (employeeType.equals("1")) {
+                        JOptionPane.showMessageDialog(this, "This Id Owns For Master Admin, Enter Another One", "Attention", JOptionPane.WARNING_MESSAGE);
+                        reset();
+
+                    } else {
+                        jLabel19.setText(resultSet.getString("emp_type.salary"));
+                        jButton7.setEnabled(true);
+                        jButton7.grabFocus();
+                        loadLastPaidDate(emp_id);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Please Enter Valid Employee ID", "Attention", JOptionPane.WARNING_MESSAGE);
+                    reset();
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void searchBydate() {
+        java.util.Date selectedDate = jDateChooser4.getDate();
+
+        if (selectedDate != null) {
+            String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(selectedDate);
+            loadSallary("", formattedDate);
+        }
+    }
+
+    private void teachersalaryData() {
+        String teacherNic = jTextField1.getText();
+
+        if (teacherNic.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter A Teacher NIC to Calculate Payment", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            loadTeacherSalaryData(teacherNic);
+        }
+    }
+
+    private void teacherPay() {
+        String Earningfee = jFormattedTextField1.getText();
+
+        try {
+
+            Double comission = null;
+            Double earn = null;
+            String employeeUserName = admin.getUserName();
+            String tNic = jTextField1.getText();
+            String tName = null;
+
+            ResultSet rs = DB.search("SELECT `fname` AS tname FROM teacher WHERE nic = '" + tNic + "'");
+            if (rs.next()) {
+                tName = rs.getString("tname");
+            }
+            ResultSet resultSet = DB.search("SELECT * FROM emp_access WHERE user_name = '" + employeeUserName + "'");
+
+            if (resultSet.next()) {
+
+                String empID = resultSet.getString("employee_id");
+                String today = this.teacherSalaryDate;
+
+                if (comission == null) {
+                    String commissionS = jFormattedTextField2.getText();
+                    comission = Double.parseDouble(commissionS);
+                }
+
+                if (earn == null) {
+                    String earnS = jFormattedTextField3.getText();
+                    earn = Double.parseDouble(earnS);
+                }
+
+                DB.IUD("INSERT INTO `teacher_paymet` (`teacher_nic`,`employee_id`,`date`,`commission`,`earn`)"
+                        + "VALUES ('" + tNic + "','" + empID + "','" + today + "','" + comission + "','" + earn + "')");
+
+                JOptionPane.showMessageDialog(this, "Payment Succeed", "Payment", JOptionPane.INFORMATION_MESSAGE);
+
+                // Parameters for the report
+                HashMap<String, Object> data = new HashMap<>();
+
+                data.put("t0", "Teacher Name :");
+                data.put("t1", "Monthly Earn :");
+                data.put("t2", "Comission :");
+                data.put("t3", "Total :");
+
+                data.put("p0", tName);
+                data.put("p1", Earningfee);
+                data.put("p2", comission);
+                data.put("p3", earn);
+
+                printPayment(data);
+                refresh();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }

@@ -60,10 +60,11 @@ public class ClassManagement extends javax.swing.JPanel {
         generateClassID();
         reset();
         loadClassesTable("");
-        
+
         SearchReport();
         documentListner();
         jButton4.setEnabled(false);
+        jComboBox6.setEnabled(false);
 
     }
 
@@ -886,11 +887,11 @@ public class ClassManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "NIC", "Teacher Name", "Class ID", "Grade", "Subject", "Language", "Method", "Type", "Status", "Hall Type", "Fee", "Day", "Time"
+                "NIC", "Teacher Name", "Class ID", "Grade", "Subject", "Language", "Method", "Modal", "Status", "Hall Type", "Type", "Fee", "Day", "Time"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -961,8 +962,12 @@ public class ClassManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        TeacherSelectionClass tsc = new TeacherSelectionClass(this, true);
-        tsc.setVisible(true);
+        if (tsc == null || !tsc.isVisible()) {
+            tsc = new TeacherSelectionClass(this, true); // Create dialog instance if not already created
+            tsc.setVisible(true); // Show the dialog
+        } else {
+            tsc.toFront(); // Bring the dialog to the front if it’s already open
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -975,9 +980,15 @@ public class ClassManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox33ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-        dayVector = null;
-        ClassDayTime cdt = new ClassDayTime(this, true);
-        cdt.setVisible(true);
+        if (cdt == null || !cdt.isVisible()) {
+            dayVector = null; // Reset dayVector
+            cdt = new ClassDayTime(this, true); // Use the class-level cdt variable
+            cdt.setVisible(true); // Show the dialog
+        } else {
+            cdt.toFront(); // Bring the dialog to the front if it’s already open
+        }
+
+
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -996,6 +1007,7 @@ public class ClassManagement extends javax.swing.JPanel {
 
         jButton4.setEnabled(true);
         jButton5.setEnabled(false);
+        jComboBox6.setEnabled(true);
         int row = jTable4.getSelectedRow();
         try {
 
@@ -1108,14 +1120,14 @@ public class ClassManagement extends javax.swing.JPanel {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         try {
-            printReportEnrollement();
+            printReportClass();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-viewReport();        // TODO add your handling code here:
+        viewReportClass();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
 
@@ -1213,6 +1225,8 @@ viewReport();        // TODO add your handling code here:
     private HashMap<String, String> classStatusMap = new HashMap<>();
 
     private Admin admin;
+    private TeacherSelectionClass tsc;
+    private ClassDayTime cdt;
 
     //generate ClassId;
     private void generateClassID() {
@@ -1374,7 +1388,6 @@ viewReport();        // TODO add your handling code here:
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `class_status`");
             Vector<String> vector = new Vector<>();
-            vector.add("Select");
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("status"));
@@ -1522,7 +1535,7 @@ viewReport();        // TODO add your handling code here:
                         String time24hr = format24hr.format(day);
                         DB.IUD("INSERT INTO `class_day` (`time`,`week_day_id`,`class_id`) VALUES ('" + time24hr + "','" + vnm.getId() + "','" + jTextField1.getText() + "')");
                     }
-
+                    JOptionPane.showMessageDialog(this, "Register Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                     reset();
 
                 }
@@ -1616,6 +1629,8 @@ viewReport();        // TODO add your handling code here:
                                 + "`room_type_id` = '" + hallMap.get(hall) + "', `employee_id` ='" + admin.getUserID() + "' ,`class_modal_id`='" + classModalMap.get(model) + "'"
                                 + "WHERE `id`='" + classID + "'");
 
+                        JOptionPane.showMessageDialog(this, "Update Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+
                     }
 
                     if (dayVector != null) {
@@ -1627,7 +1642,7 @@ viewReport();        // TODO add your handling code here:
                             Date day = format12hr.parse(time12hr);
                             String time24hr = format24hr.format(day);
                             DB.IUD("INSERT INTO `class_day` (`time`,`week_day_id`,`class_id`) VALUES ('" + time24hr + "','" + vnm.getId() + "','" + jTextField1.getText() + "')");
-
+                            //JOptionPane.showMessageDialog(this, "Update Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     }
@@ -1769,7 +1784,7 @@ viewReport();        // TODO add your handling code here:
         jComboBox6.setSelectedItem("Select");
         jComboBox33.setSelectedItem("Select");
         jComboBox34.setSelectedItem("Select");
-
+        jComboBox6.setEnabled(false);
         loadClassesTable("");
         generateClassID();
         jButton5.setEnabled(true);
@@ -1970,8 +1985,8 @@ viewReport();        // TODO add your handling code here:
             e.printStackTrace();
         }
     }
-    
-    private void reportClear(){
+
+    private void reportClear() {
         jTextField11.setText("");
         jTextField3.setText("");
         jComboBox9.setSelectedItem("Select");
@@ -1985,8 +2000,8 @@ viewReport();        // TODO add your handling code here:
         jComboBox17.setSelectedItem("Select");
         SearchReport();
     }
-    
-    private void printReportEnrollement() throws JRException {
+
+    private void printReportClass() throws JRException {
 
         try {
             // Use JRTableModelDataSource from jTable1's model
@@ -2009,9 +2024,9 @@ viewReport();        // TODO add your handling code here:
             boolean isSaved = reporting.saveReport("ClassManagementReport", params, dataSource, admin);
 
             if (isSaved) {
-                JOptionPane.showMessageDialog(this, "Student Enrollement saved successfully");
+                JOptionPane.showMessageDialog(this, "Class Management Report saved successfully");
             } else {
-                JOptionPane.showMessageDialog(this, "Student Enrollement saving was canceled");
+                JOptionPane.showMessageDialog(this, "Class Management Report saving was canceled");
             }
 
         } catch (IOException ex) {
@@ -2023,13 +2038,14 @@ viewReport();        // TODO add your handling code here:
             LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
         }
     }
-    private void viewReport(){
-     Home home;
+
+    private void viewReportClass() {
+        Home home;
         try {
             home = new HomeInfo().getHome();
             JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
             HashMap<String, Object> params = new HashMap<>();
-             params.put("Parameter1", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
+            params.put("Parameter1", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
             params.put("Parameter2", home.getLandLine());
             params.put("Parameter3", home.getEmail());
             params.put("Parameter4", home.getMobile());
@@ -2046,7 +2062,5 @@ viewReport();        // TODO add your handling code here:
         }
 
     }
-    
-
 
 }

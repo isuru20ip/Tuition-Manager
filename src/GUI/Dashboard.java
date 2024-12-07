@@ -46,7 +46,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import modal.beans.Admin;
 import modal.SVGImage;
+import modal.SetDate;
 import modal.beans.Home;
+import modal.HomeInfo;
 
 public class Dashboard extends javax.swing.JFrame {
 
@@ -67,6 +69,8 @@ public class Dashboard extends javax.swing.JFrame {
         sVGImage2.setSvgImage("source/notification.svg", 30, 30);
         sVGImage3.setSvgImage("source/userprofile.svg", 28, 28);
         sVGImage1.setSvgImage("source/search.svg", 28, 28);
+        
+        saveLog();
     }
 
     SignIn lg = new SignIn();
@@ -468,7 +472,7 @@ public class Dashboard extends javax.swing.JFrame {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sVGImage3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(sVGImage3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jPanel12.setBackground(new java.awt.Color(200, 200, 198));
@@ -479,8 +483,8 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
-                .addGap(7, 7, 7)
-                .addComponent(sVGImage1, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addComponent(sVGImage1, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -526,7 +530,7 @@ public class Dashboard extends javax.swing.JFrame {
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 50, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -630,15 +634,15 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_attendanceActionPerformed
 
     private void classSManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classSManagementActionPerformed
-        loadPanal(new ClassScheduleManagement(this));
+        loadPanal(new ClassScheduleManagement(admin));
     }//GEN-LAST:event_classSManagementActionPerformed
 
     private void studentEnrollmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentEnrollmentActionPerformed
-        loadPanal(new EnrollmentManagement(this));
+        loadPanal(new EnrollmentManagement(admin));
     }//GEN-LAST:event_studentEnrollmentActionPerformed
 
     private void hallManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hallManagementActionPerformed
-        loadPanal(new HallManagement());
+        loadPanal(new HallManagement(admin));
     }//GEN-LAST:event_hallManagementActionPerformed
 
     private void courseManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseManagementActionPerformed
@@ -801,6 +805,36 @@ public class Dashboard extends javax.swing.JFrame {
     //title and logo
     private void setIconImage() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("Mainlogo.png")));
+    }
+    
+    // contrall loging history
+    private void saveLog() {
+        try {
+
+            // ser access Obj
+            HomeInfo serObj = new HomeInfo();
+
+            // get log info sofar
+            Vector<String[]> v = serObj.getlog();
+
+            // make current loged data array
+            String[] currentLog = {
+                admin.getUserID(),
+                admin.getFname() + " " + admin.getLname(),
+                admin.getUserName(),
+                SetDate.getDate("yyyy/MM/dd hh:mm:ss a"),
+                admin.getType(),
+            };
+
+            // add current loging date 
+            v.add(currentLog);
+            
+            //save updated log list
+            serObj.setlog(v);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     //rounded panel

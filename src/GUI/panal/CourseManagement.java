@@ -59,6 +59,7 @@ public class CourseManagement extends javax.swing.JPanel {
         loadCourseTable("");
         SearchReport();
         jButton4.setEnabled(false);
+        jComboBox5.setEnabled(false);
     }
 
     /**
@@ -893,8 +894,12 @@ public class CourseManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        TeacherSelectionCourse tsc = new TeacherSelectionCourse(this, true);
-        tsc.setVisible(true);
+        if (tsc == null || !tsc.isVisible()) {
+            tsc = new TeacherSelectionCourse(this, true); // Create instance if null or not visible
+            tsc.setVisible(true); // Show the dialog
+        } else {
+            tsc.toFront(); // Bring the dialog to the front if already open
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
@@ -906,9 +911,14 @@ public class CourseManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox6ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-        dayVector = null;
-        CourseDayTime cdt = new CourseDayTime(this, true);
-        cdt.setVisible(true);
+ 
+        if (cdt == null || !cdt.isVisible()) {
+            dayVector = null; // Reset dayVector if needed
+            cdt = new CourseDayTime(this, true); // Create a new instance if it doesn't exist or is not visible
+            cdt.setVisible(true); // Show the dialog
+        } else {
+            cdt.toFront(); // Bring the dialog to the front if already open
+        }
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -922,6 +932,7 @@ public class CourseManagement extends javax.swing.JPanel {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         jButton4.setEnabled(true);
         jButton5.setEnabled(false);
+        jComboBox5.setEnabled(true);
         int row = jTable1.getSelectedRow();
         try {
 
@@ -1011,7 +1022,7 @@ public class CourseManagement extends javax.swing.JPanel {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         try {
-            printReport();
+            printReportCourse();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1019,7 +1030,7 @@ public class CourseManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        viewReport();        // TODO add your handling code here:
+        viewReportCourse();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
 
@@ -1117,6 +1128,8 @@ public class CourseManagement extends javax.swing.JPanel {
     private HashMap<String, String> classStatusMap = new HashMap<>();
 
     private Admin admin;
+    private TeacherSelectionCourse tsc;
+    private CourseDayTime cdt;
 
     //jdialog side to pass nic
     public JTextField getjTextField7() {
@@ -1253,7 +1266,6 @@ public class CourseManagement extends javax.swing.JPanel {
         try {
             ResultSet resultSet = DB.search("SELECT * FROM `class_status`");
             Vector<String> vector = new Vector<>();
-            vector.add("Select");
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("status"));
@@ -1380,7 +1392,7 @@ public class CourseManagement extends javax.swing.JPanel {
                         String time24hr = format24hr.format(day);
                         DB.IUD("INSERT INTO `course_day` (`time`,`week_day_id`,`course_id`) VALUES ('" + time24hr + "','" + vnm.getId() + "','" + jTextField1.getText() + "')");
                     }
-                    System.out.println("success");
+                    JOptionPane.showMessageDialog(this, "Register Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                     reset();
 
                 }
@@ -1472,7 +1484,7 @@ public class CourseManagement extends javax.swing.JPanel {
                                 + "`class_language_id` = '" + classLanguageMap.get(language) + "', `class_status_id` = '" + classStatusMap.get(status) + "', "
                                 + "`room_type_id` = '" + hallMap.get(hall) + "', `employee_id` ='" + employeeID + "' "
                                 + "WHERE `id`='" + courseID + "'");
-
+                        JOptionPane.showMessageDialog(this, "Update Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                     }
 
                     if (dayVector != null) {
@@ -1484,7 +1496,7 @@ public class CourseManagement extends javax.swing.JPanel {
                             Date day = format12hr.parse(time12hr);
                             String time24hr = format24hr.format(day);
                             DB.IUD("INSERT INTO `course_day` (`time`,`week_day_id`,`course_id`) VALUES ('" + time24hr + "','" + vnm.getId() + "','" + jTextField1.getText() + "')");
-
+                            //JOptionPane.showMessageDialog(this, "Update Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                         }
 
                     }
@@ -1622,6 +1634,7 @@ public class CourseManagement extends javax.swing.JPanel {
         generateCourseID();
         jButton5.setEnabled(true);
         jButton4.setEnabled(false);
+        jComboBox5.setEnabled(false);
 
     }
 
@@ -1813,7 +1826,7 @@ public class CourseManagement extends javax.swing.JPanel {
         SearchReport();
     }
 
-    private void printReport() throws JRException {
+    private void printReportCourse() throws JRException {
 
         try {
             // Use JRTableModelDataSource from jTable1's model
@@ -1836,9 +1849,9 @@ public class CourseManagement extends javax.swing.JPanel {
             boolean isSaved = reporting.saveReport("CourseManagementReport", params, dataSource, admin);
 
             if (isSaved) {
-                JOptionPane.showMessageDialog(this, "Student Enrollement saved successfully");
+                JOptionPane.showMessageDialog(this, "Course Management Report saved successfully");
             } else {
-                JOptionPane.showMessageDialog(this, "Student Enrollement saving was canceled");
+                JOptionPane.showMessageDialog(this, "Course Management Report saving was canceled");
             }
 
         } catch (IOException ex) {
@@ -1851,7 +1864,7 @@ public class CourseManagement extends javax.swing.JPanel {
         }
     }
 
-    private void viewReport() {
+    private void viewReportCourse() {
         Home home;
         try {
             home = new HomeInfo().getHome();
