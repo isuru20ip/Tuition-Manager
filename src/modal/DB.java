@@ -1,9 +1,11 @@
 package modal;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import modal.beans.Home;
 
 /**
  *
@@ -11,37 +13,33 @@ import java.sql.SQLException;
  */
 public class DB {
 
-    private static enum DBState {
-        Local, Cloud;
-    }
-
-    // Set DB state
-    private static final DBState STATE = DBState.Cloud;
-
     // DB Connection
     private static Connection connection;
 
-    private static void setConnection() throws ClassNotFoundException, SQLException {
+    private static void setConnection() throws ClassNotFoundException, SQLException, IOException {
         if (connection == null) {
+            // set Driver
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            if (STATE == DBState.Cloud) {
-                connection = DriverManager.getConnection("jdbc:mysql://final-project-final-project.i.aivencloud.com:19332/tution_db", "avnadmin", "AVNS_1AEuyZC9iNXKbvo72Mv");
-            } else if (STATE == DBState.Local) {
+            // get Host data
+            Home dbc = new HomeInfo().getHome();
+            String host = dbc.getHost();
+            String port = dbc.getPort();
+            String dataBase = dbc.getDatabase();
+            String admin = dbc.getAdmin();
+            String password = dbc.getPassword();
 
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/tution_db", "root", "thanuja123");
-
-            }
+            // set onnection 
+            connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + dataBase, admin, password);
         }
     }
-    
 
-    public static Integer IUD(String q) throws ClassNotFoundException, SQLException {
+    public static Integer IUD(String q) throws ClassNotFoundException, SQLException, IOException {
         setConnection();
         return connection.createStatement().executeUpdate(q);
     }
 
-    public static ResultSet search(String q) throws ClassNotFoundException, SQLException {
+    public static ResultSet search(String q) throws ClassNotFoundException, SQLException, IOException {
         setConnection();
         return connection.createStatement().executeQuery(q);
     }
