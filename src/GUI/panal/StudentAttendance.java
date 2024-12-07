@@ -1158,6 +1158,8 @@ public class StudentAttendance extends javax.swing.JPanel {
         toDateChooser.setEnabled(false);
 
         Student_Name_TextField.setEditable(false);
+        CourseSTName.setEditable(false);
+        
 
         loadClassAttnTable();
         searchClassAttnChecBox();
