@@ -8,7 +8,10 @@ import modal.DB;
 import modal.beans.Admin;
 import javax.swing.Timer;
 import java.awt.event.*;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.UIManager;
 import modal.LogCenter;
 
@@ -217,6 +220,8 @@ public class SignIn extends javax.swing.JFrame {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
             } catch (SQLException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+            } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
             }
 
         }

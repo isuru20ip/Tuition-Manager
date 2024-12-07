@@ -6,6 +6,7 @@ package GUI.popup;
 
 import GUI.panal.StudentManagement;
 import GUI.panal.TeacherManagement;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -319,6 +320,8 @@ public class TeacherAddress extends javax.swing.JDialog {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -375,7 +378,9 @@ public class TeacherAddress extends javax.swing.JDialog {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
             } catch (SQLException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
-            }
+            } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        }
         }
 
     }
@@ -402,6 +407,8 @@ public class TeacherAddress extends javax.swing.JDialog {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -450,6 +457,8 @@ public class TeacherAddress extends javax.swing.JDialog {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
+        } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
