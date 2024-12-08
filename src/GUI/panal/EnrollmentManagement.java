@@ -1152,6 +1152,8 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1177,6 +1179,8 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1208,6 +1212,8 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1241,6 +1247,8 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1300,6 +1308,8 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
         } catch (HeadlessException | ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1366,6 +1376,8 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1468,6 +1480,8 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        } catch (IOException ex) {
+                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
