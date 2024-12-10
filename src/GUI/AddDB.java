@@ -41,12 +41,14 @@ public class AddDB extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel16.setText("Host");
 
-        host.setText("final-project-final-project.i.aivencloud.com");
-
         jLabel17.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel17.setText("Port");
 
-        port.setText("19332");
+        port.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                portActionPerformed(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel18.setText("Database");
@@ -54,14 +56,8 @@ public class AddDB extends javax.swing.JFrame {
         jLabel19.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel19.setText("UserName");
 
-        username.setText("avnadmin");
-
-        password.setText("AVNS_1AEuyZC9iNXKbvo72Mv");
-
         jLabel20.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel20.setText("Password");
-
-        database.setText("tution_db");
 
         jButton1.setBackground(new java.awt.Color(204, 204, 204));
         jButton1.setText("Save");
@@ -157,6 +153,10 @@ public class AddDB extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         saveData();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void portActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_portActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_portActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField database;
