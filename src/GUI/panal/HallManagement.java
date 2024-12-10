@@ -39,6 +39,7 @@ public class HallManagement extends javax.swing.JPanel {
 
     private static HashMap<String, String> hallTypeMap = new HashMap<>();
     Admin admin;
+
     public HallManagement(Admin admin) {
         initComponents();
         hallType();
@@ -71,7 +72,7 @@ public class HallManagement extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(234, 238, 244));
 
-        jLabel1.setFont(new java.awt.Font("Poppins Medium", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Poppins", 1, 24)); // NOI18N
         jLabel1.setText("Hall Management");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -93,14 +94,14 @@ public class HallManagement extends javax.swing.JPanel {
 
         jPanel2.setBackground(new java.awt.Color(234, 238, 244));
 
-        jLabel2.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel2.setText("Hall Type");
 
-        jLabel3.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel3.setText("Hall Capacity :");
 
         jButton1.setBackground(new java.awt.Color(51, 204, 0));
-        jButton1.setFont(new java.awt.Font("Poppins Medium", 0, 18)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Poppins", 0, 18)); // NOI18N
         jButton1.setText("Add New Hall");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,7 +110,7 @@ public class HallManagement extends javax.swing.JPanel {
         });
 
         jButton2.setBackground(new java.awt.Color(0, 102, 204));
-        jButton2.setFont(new java.awt.Font("Poppins Medium", 0, 18)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Poppins", 0, 18)); // NOI18N
         jButton2.setText("Update Hall");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,7 +119,7 @@ public class HallManagement extends javax.swing.JPanel {
         });
 
         jButton3.setBackground(new java.awt.Color(255, 51, 51));
-        jButton3.setFont(new java.awt.Font("Poppins Medium", 0, 18)); // NOI18N
+        jButton3.setFont(new java.awt.Font("Poppins", 0, 18)); // NOI18N
         jButton3.setText("Clear All");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,7 +132,7 @@ public class HallManagement extends javax.swing.JPanel {
 
         jTextField1.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
 
-        jTable1.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -155,7 +156,7 @@ public class HallManagement extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel4.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jLabel4.setText("Search :");
 
         jTextField2.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
@@ -171,7 +172,7 @@ public class HallManagement extends javax.swing.JPanel {
         });
 
         jButton4.setBackground(new java.awt.Color(234, 238, 244));
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton4.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/icons8-print-48.png"))); // NOI18N
         jButton4.setText("Print");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -181,7 +182,7 @@ public class HallManagement extends javax.swing.JPanel {
         });
 
         jButton5.setBackground(new java.awt.Color(255, 255, 153));
-        jButton5.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jButton5.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         jButton5.setText("Save");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -210,7 +211,7 @@ public class HallManagement extends javax.swing.JPanel {
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(41, 41, 41)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -299,9 +300,9 @@ public class HallManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-   
+
         print();
-        
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -438,9 +439,24 @@ public class HallManagement extends javax.swing.JPanel {
 
                 } else {
 
-                    DB.IUD("UPDATE `class_room` SET `capacity` = '" + capacity + "', "
-                            + "`room_type_id` = '" + hallTypeMap.get(type) + "'"
-                            + " WHERE `id` = '" + hID + "' ");
+                    String[] options = {"Accept", "Cancel"};
+
+                    int response = JOptionPane.showOptionDialog(
+                            null,
+                            "Do you want to update Hall Num:" + hID + "?",
+                            "Confirmation",
+                            JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null, // default icon
+                            options, // custom button texts
+                            options[0]); // default button
+
+                    if (response == 0) { // First button (Accept)
+                        DB.IUD("UPDATE `class_room` SET `capacity` = '" + capacity + "', "
+                                + "`room_type_id` = '" + hallTypeMap.get(type) + "'"
+                                + " WHERE `id` = '" + hID + "' ");
+
+                    }
 
                     loadHall();
                     reset();
@@ -528,7 +544,6 @@ public class HallManagement extends javax.swing.JPanel {
         jButton1.setEnabled(true); //add new hall button enable
     }
 
-    
     //save class room report as a pdf
     private void save() {
 
@@ -548,8 +563,7 @@ public class HallManagement extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Hall Report saving was canceled");
             }
 
-            
-        }  catch (JRException e) {
+        } catch (JRException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error generating report: " + e.getMessage());
         } catch (Exception e) {
@@ -558,16 +572,14 @@ public class HallManagement extends javax.swing.JPanel {
         }
 
     }
-    
-    
 
     //print class room reports
     private void print() {
-        
+
         try {
 
             JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
-            
+
             // Parameters (empty in this case)
             HashMap<String, Object> params = new HashMap<>();
 
