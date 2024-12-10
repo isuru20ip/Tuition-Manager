@@ -107,20 +107,6 @@ public class Home implements Serializable{
     }
 
     /**
-     * @return the logo
-     */
-    public String getLogo() {
-        return logo;
-    }
-
-    /**
-     * @param logo the logo to set
-     */
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
-    /**
      * @return the host
      */
     public String getHost() {
@@ -197,7 +183,6 @@ public class Home implements Serializable{
     private String landLine;
     private String mobile;
     private String email;
-    private String logo;
     
     private String host;
     private String port;
