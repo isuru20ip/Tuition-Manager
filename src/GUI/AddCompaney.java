@@ -16,12 +16,15 @@ import modal.beans.Home;
  */
 public class AddCompaney extends javax.swing.JFrame {
 
+    private Home home;
+
     /**
      * Creates new form MasterSetUp
      */
-    public AddCompaney() {
+    public AddCompaney(Home home) {
         initComponents();
-        //loardCity();
+        this.home = home;
+        loardCity();
     }
 
     @SuppressWarnings("unchecked")
@@ -257,7 +260,7 @@ public class AddCompaney extends javax.swing.JFrame {
         } else if (mail.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Email is required");
         } else {
-            Home home = new Home();
+            
             home.setHomeName(name);
             home.setLine01(line1);
             home.setLine02(line2);
@@ -265,7 +268,7 @@ public class AddCompaney extends javax.swing.JFrame {
             home.setLandLine(landline);
             home.setMobile(phone);
             home.setEmail(mail);
-
+            
             try {
                 new HomeInfo().setHome(home);
                 new SignIn().setVisible(true);

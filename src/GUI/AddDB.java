@@ -56,7 +56,7 @@ public class AddDB extends javax.swing.JFrame {
 
         username.setText("avnadmin");
 
-        password.setText("JANINDU@23829");
+        password.setText("AVNS_1AEuyZC9iNXKbvo72Mv");
 
         jLabel20.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel20.setText("Password");
@@ -229,7 +229,7 @@ public class AddDB extends javax.swing.JFrame {
 
                     try {
                         new HomeInfo().setHome(home);
-                        new AddCompaney().setVisible(true);
+                        new AddCompaney(home).setVisible(true);
                         this.dispose();
                     } catch (IOException ex) {
                         JOptionPane.showMessageDialog(this, "Process Incompeted Please Try Again");
