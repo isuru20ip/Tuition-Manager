@@ -8,8 +8,6 @@ import GUI.popup.ClassDayTime;
 import GUI.popup.TeacherSelectionClass;
 import java.io.IOException;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -994,19 +992,11 @@ public class ClassManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        try {
-            registerClass();
-        } catch (ParseException ex) {
-            Logger.getLogger(ClassManagement.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        registerClass();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        try {
-            updateClass();
-        } catch (ParseException ex) {
-            Logger.getLogger(ClassManagement.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        updateClass();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
@@ -1131,7 +1121,7 @@ public class ClassManagement extends javax.swing.JPanel {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         try {
             printReportClass();
-        } catch (JRException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton9ActionPerformed
@@ -1456,7 +1446,7 @@ public class ClassManagement extends javax.swing.JPanel {
     }
     //register a class
 
-    private void registerClass() throws ParseException {
+    private void registerClass() {
         try {
             String teacherID = jTextField7.getText();
             String classID = jTextField1.getText();
@@ -1550,17 +1540,13 @@ public class ClassManagement extends javax.swing.JPanel {
 
                 }
             }
-        }catch (ClassNotFoundException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
-        } catch (SQLException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
-        } catch (IOException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     //update registered class
-    private void updateClass() throws ParseException {
+    private void updateClass() {
         try {
             String teacherID = jTextField7.getText();
             String classID = jTextField1.getText();
@@ -1665,12 +1651,8 @@ public class ClassManagement extends javax.swing.JPanel {
                     loadClassesTable("");
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
-        } catch (SQLException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
-        } catch (IOException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -1729,12 +1711,8 @@ public class ClassManagement extends javax.swing.JPanel {
                 model.addRow(vector);
 
             }
-        } catch (ClassNotFoundException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
-        } catch (SQLException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
-        } catch (IOException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
