@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import modal.DB;
@@ -106,7 +108,6 @@ public class Settings extends javax.swing.JPanel {
         city = new javax.swing.JComboBox<>();
         jLabel15 = new javax.swing.JLabel();
         email = new javax.swing.JTextField();
-        logo = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel16 = new javax.swing.JLabel();
@@ -525,16 +526,6 @@ public class Settings extends javax.swing.JPanel {
         jLabel15.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel15.setText("Email");
 
-        logo.setBackground(new java.awt.Color(0, 0, 0));
-        logo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        logo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        logo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        logo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                logoMouseClicked(evt);
-            }
-        });
-
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel12.setText(" Information setup");
 
@@ -561,8 +552,7 @@ public class Settings extends javax.swing.JPanel {
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jSeparator3)
                                 .addComponent(homeName, javax.swing.GroupLayout.DEFAULT_SIZE, 799, Short.MAX_VALUE)))
-                        .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6))
+                        .addGap(132, 132, 132))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -598,18 +588,15 @@ public class Settings extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel16)
-                        .addGap(8, 8, 8)
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(homeName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel16)
+                .addGap(8, 8, 8)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(homeName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -848,10 +835,6 @@ public class Settings extends javax.swing.JPanel {
         newSubject();
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void logoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoMouseClicked
-        pickLogo();
-    }//GEN-LAST:event_logoMouseClicked
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         SaveHomeData();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -861,7 +844,6 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> city;
     private javax.swing.JButton clean;
-    private javax.swing.JTextField database;
     private javax.swing.JTextField database1;
     private javax.swing.JTextField email;
     private javax.swing.JFormattedTextField empSalary;
@@ -872,9 +854,7 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField hallFee;
     private javax.swing.JComboBox<String> hallTypes;
     private javax.swing.JTextField homeName;
-    private javax.swing.JTextField host;
     private javax.swing.JTextField host1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
@@ -887,13 +867,7 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
@@ -911,7 +885,6 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
@@ -924,18 +897,14 @@ public class Settings extends javax.swing.JPanel {
     private javax.swing.JTextField landLine;
     private javax.swing.JTextField line01;
     private javax.swing.JTextField line02;
-    private javax.swing.JLabel logo;
     private javax.swing.JTextField mobile;
-    private javax.swing.JTextField password;
     private javax.swing.JTextField password1;
-    private javax.swing.JTextField port;
     private javax.swing.JTextField port1;
     private javax.swing.JFormattedTextField sCharge;
     private javax.swing.JButton salaryBtn;
     private javax.swing.JButton serviceBtn;
     private javax.swing.JTextField subjectName;
     private javax.swing.JTable subjectTable;
-    private javax.swing.JTextField username;
     private javax.swing.JTextField username1;
     // End of variables declaration//GEN-END:variables
 
@@ -1318,6 +1287,7 @@ public class Settings extends javax.swing.JPanel {
 
     // update homeifo.ser file
     private void SaveHomeData() {
+
         String name = homeName.getText();
         String line1 = line01.getText();
         String line2 = line02.getText();
@@ -1359,7 +1329,7 @@ public class Settings extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Password is required");
         } else {
 
-            //create bean that include data
+            //Create bean that include data
             Home home = new Home();
             home.setHomeName(name);
             home.setLine01(line1);
@@ -1374,17 +1344,13 @@ public class Settings extends javax.swing.JPanel {
             home.setAdmin(admin);
             home.setPassword(password);
 
-            if (logopath != null) {
-                // get system image
-                String img = setLogo(logopath);
-                home.setLogo(img);
-            }
-
             try {
                 // ceate and save data
-                new HomeInfo().setHome(home);
-                loardHome();
-                JOptionPane.showMessageDialog(this, "Update Success");
+                if (ValidateConnection(host, port, database, admin, password)) {
+                    new HomeInfo().setHome(home);
+                    loardHome();
+                    JOptionPane.showMessageDialog(this, "Update Success");
+                }
             } catch (IOException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while copying image", ex);
             }
@@ -1410,9 +1376,6 @@ public class Settings extends javax.swing.JPanel {
             username1.setText(home.getAdmin());
             password1.setText(home.getPassword());
 
-            logo.setIcon(new ImageIcon(home.getLogo()));
-            SwingUtilities.updateComponentTreeUI(logo);
-
         } catch (IOException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while Loarding Homeinfo", ex);
         } catch (ClassNotFoundException ex) {
@@ -1420,38 +1383,19 @@ public class Settings extends javax.swing.JPanel {
         }
     }
 
-    //validate and pic a image
-    private void pickLogo() {
-        JFileChooser chooser = new JFileChooser();
-        int showOpenDialog = chooser.showOpenDialog(this);
-
-        if (showOpenDialog == 0) {
-            String filePath = chooser.getSelectedFile().getAbsolutePath();
-            if (filePath.endsWith(".jpg") || filePath.endsWith(".png") || filePath.endsWith(".jpeg")) {
-                String path = filePath.replace("\\", "/");
-                logo.setIcon(new ImageIcon(filePath));
-                logopath = path;
-            } else {
-                JOptionPane.showMessageDialog(this, "Please select a PNG,JPG,JPEG image file.", "Invalid File Type", JOptionPane.WARNING_MESSAGE);
+    private boolean ValidateConnection(String host, String port, String db, String admin, String ps) {
+        String url = "jdbc:mysql://" + host + ":" + port + "/" + db;
+        String user = admin;
+        String password = ps;
+        
+        try (Connection conn = DriverManager.getConnection(url, user, password)) {
+            if (conn != null) {
+                return true;
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Wrong Database Connection");
+            return false;
         }
-    }
-
-    //  copy picked image into system data folders
-    private String setLogo(String logo) {
-        try {
-
-            //Copy New Image and Send Path
-            Path sourcePath = Path.of(logo);
-            String[] imageName = logo.split("/");
-            String newPath = System.getProperty("user.dir") + "\\img\\" + imageName[imageName.length - 1];
-            Path targetPath = Path.of(newPath);
-            Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
-            return newPath;
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while copying image", ex);
-        }
-        return null;
+        return false;
     }
 }
