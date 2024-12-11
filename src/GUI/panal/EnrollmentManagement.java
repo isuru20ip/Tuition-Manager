@@ -20,7 +20,6 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -921,7 +920,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_makeEnrollmentActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       if (uc == null || !uc.isVisible()) {
+        if (uc == null || !uc.isVisible()) {
             uc = new EnrollmentSelectStudent(this, true); // Create the dialog, setting parentFrame as its owner
             uc.setVisible(true);
             uc.setEnrollment(uc);
@@ -1153,7 +1152,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1178,9 +1177,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             paymentModelCombobox.setModel(comboBoxModel);
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadPaymentModel", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1211,9 +1210,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             courseEnrolStatusCombobox.setModel(comboBoxModelcourseReport);//course report
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadStatus", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1246,9 +1245,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             }
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadCoursesEnrollment", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1307,9 +1306,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             }
 
         } catch (HeadlessException | ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "setNewEnrollment", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1375,9 +1374,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             }
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadViewClassData", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1479,9 +1478,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             }
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadViewCoursData", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
