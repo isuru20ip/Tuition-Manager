@@ -7,7 +7,6 @@ import GUI.panal.PaymentManagement;
 
 //import GUI.panal.Reporting;
 //import GUI.panal.Settings;
-import GUI.panal.Settings;
 
 //  import GUI.panal.Reporting;
 import GUI.panal.Settings;
@@ -32,10 +31,6 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -45,9 +40,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import modal.beans.Admin;
-import modal.SVGImage;
 import modal.SetDate;
-import modal.beans.Home;
 import modal.HomeInfo;
 
 public class Dashboard extends javax.swing.JFrame {

@@ -476,6 +476,7 @@ public class systemAccess extends javax.swing.JPanel {
         updateclass.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         updateclass.setText("Update Access");
         updateclass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        updateclass.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         updateclass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateclassActionPerformed(evt);
@@ -486,6 +487,7 @@ public class systemAccess extends javax.swing.JPanel {
         addaccess.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         addaccess.setText("Add Access");
         addaccess.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        addaccess.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addaccess.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addaccessActionPerformed(evt);
@@ -496,6 +498,7 @@ public class systemAccess extends javax.swing.JPanel {
         deleteclass.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         deleteclass.setText("Delete Access");
         deleteclass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        deleteclass.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         deleteclass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteclassActionPerformed(evt);
@@ -530,6 +533,7 @@ public class systemAccess extends javax.swing.JPanel {
         clearall.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         clearall.setText("Clear All");
         clearall.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        clearall.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         clearall.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 clearallMouseClicked(evt);
@@ -700,6 +704,7 @@ public class systemAccess extends javax.swing.JPanel {
         search.setBackground(new java.awt.Color(51, 255, 51));
         search.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
         search.setText("Search");
+        search.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         search.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchActionPerformed(evt);
@@ -709,6 +714,7 @@ public class systemAccess extends javax.swing.JPanel {
         clear.setBackground(new java.awt.Color(255, 255, 255));
         clear.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
         clear.setText("Clear All");
+        clear.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         clear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clearActionPerformed(evt);
@@ -805,6 +811,7 @@ public class systemAccess extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Print");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -1226,6 +1233,14 @@ public class systemAccess extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
             printReportLogin();
@@ -1233,14 +1248,6 @@ public class systemAccess extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void setNotification(JFrame parent) {
         Notifications.getInstance().setJFrame(parent);

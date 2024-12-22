@@ -150,7 +150,6 @@ public class StudentManagement extends javax.swing.JPanel {
         jLabel15.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         jLabel15.setText("First Name");
 
-        jTextField1.setEditable(false);
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -162,7 +161,6 @@ public class StudentManagement extends javax.swing.JPanel {
         jLabel16.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         jLabel16.setText("Last Name");
 
-        jTextField2.setEditable(false);
         jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -177,7 +175,6 @@ public class StudentManagement extends javax.swing.JPanel {
         jLabel18.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         jLabel18.setText("Mobile");
 
-        jTextField4.setEditable(false);
         jTextField4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField4.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
@@ -189,7 +186,6 @@ public class StudentManagement extends javax.swing.JPanel {
         jLabel19.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
         jLabel19.setText("Email");
 
-        jTextField5.setEditable(false);
         jTextField5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField5.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
@@ -202,6 +198,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jLabel20.setText("Status");
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active" }));
+        jComboBox2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jDateChooser1.setDateFormatString("yyyy-MM-dd");
 
@@ -284,15 +281,18 @@ public class StudentManagement extends javax.swing.JPanel {
 
         buttonGroup2.add(jRadioButton4);
         jRadioButton4.setText("No NIC");
+        jRadioButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         buttonGroup2.add(jRadioButton3);
         jRadioButton3.setSelected(true);
         jRadioButton3.setText("NIC");
+        jRadioButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jButton1.setBackground(new java.awt.Color(0, 204, 204));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton1.setText("Address");
         jButton1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -304,6 +304,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jLabel23.setText("Gender");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -314,6 +315,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jButton2.setText("Guardian");
         jButton2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -418,6 +420,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jButton3.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jButton3.setText("Add Student");
         jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -428,6 +431,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jButton4.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jButton4.setText("Update Student");
         jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -438,6 +442,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jButton5.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jButton5.setText("Clear All");
         jButton5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -486,6 +491,7 @@ public class StudentManagement extends javax.swing.JPanel {
 
         jComboBox3.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "New to Old", "Old to New" }));
+        jComboBox3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jComboBox3.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBox3ItemStateChanged(evt);
@@ -494,6 +500,7 @@ public class StudentManagement extends javax.swing.JPanel {
 
         jComboBox4.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Status", "Item 2", "Item 3", "Item 4" }));
+        jComboBox4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jComboBox4.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jComboBox4ItemStateChanged(evt);
@@ -504,6 +511,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jButton6.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jButton6.setText("Print");
         jButton6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
@@ -562,6 +570,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jButton7.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jButton7.setText("Clear All");
         jButton7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -606,17 +615,20 @@ public class StudentManagement extends javax.swing.JPanel {
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jRadioButton1.setText("Enrollment");
+        jRadioButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jRadioButton1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jRadioButton2.setText("Payment History");
+        jRadioButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jRadioButton2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jButton8.setBackground(new java.awt.Color(0, 102, 204));
         jButton8.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
         jButton8.setText("View");
         jButton8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
@@ -857,7 +869,7 @@ public class StudentManagement extends javax.swing.JPanel {
             String dob = jTable1.getValueAt(row, 3).toString();
             jDateChooser1.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(dob));
         } catch (ParseException e) {
-            e.printStackTrace(); // Optional: log or handle the error as needed
+            LogCenter.logger.log(Level.WARNING, "Error occurred while jtable1 mouse clicked", e);
         }
 
         String nic = String.valueOf(jTable1.getValueAt(row, 4));
@@ -926,10 +938,11 @@ public class StudentManagement extends javax.swing.JPanel {
                     }
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LogCenter.logger.log(Level.WARNING, "MouseClick", e);
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Please select a row to view details.", "Warning", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please select a row to view details.");
             }
         }
 
@@ -961,10 +974,10 @@ public class StudentManagement extends javax.swing.JPanel {
                 printReportPayment();
             } else {
                 // Display a warning if no selection is made
-                JOptionPane.showMessageDialog(this, "Please select a report to print.", "Selection Required", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please select a report to print.");
             }
         } catch (JRException ex) {
-            // Log the JRException if it occurs during report generation
             LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -1204,49 +1217,63 @@ public class StudentManagement extends javax.swing.JPanel {
 
             // Basic field validations
             if (fname.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Your First Name");
             } else if (lname.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Your Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Your Last Name");
             } else if (dob == null) {
-                JOptionPane.showMessageDialog(this, "Please Enter Your Date of Birth", "Warning", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Your Date of Birth");
             } else {
                 // Calculate age based on date of birth
                 int age = Period.between(dob.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).getYears();
 
                 // Ensure age is more than 5 years
                 if (age < 5) {
-                    JOptionPane.showMessageDialog(this, "Date of birth must indicate an age of at least 5 years", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Date of birth must indicate an age of at least 5 years");
                     return;
                 }
 
                 // Check age for NIC requirement if age >= 18
                 if (age >= 18) {
                     if (nic.isEmpty()) {
-                        JOptionPane.showMessageDialog(this, "Please Enter Your NIC for students 18 and older", "Warning", JOptionPane.WARNING_MESSAGE);
+                        Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Your NIC for students 18 and older");
                         return;
                     } else if (!Validator.NIC.validate(nic)) {
-                        JOptionPane.showMessageDialog(this, "Invalid NIC format", "Warning", JOptionPane.WARNING_MESSAGE);
+                        Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Invalid NIC format");
                         return;
                     }
                 }
 
                 // Additional field validations
                 if (gender.equals("Select")) {
-                    JOptionPane.showMessageDialog(this, "Please Select a Gender", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Select a Gender");
                 } else if (mobile.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Your Mobile");
                 } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
-                    JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Valid Mobile");
                 } else if (email.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Your Email");
                 } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
-                    JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Invalid Email");
                 } else if (status.equals("Select")) {
-                    JOptionPane.showMessageDialog(this, "Please Select a Status", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Select a Status");
                 } else if (StudentAddressId == null) {
-                    JOptionPane.showMessageDialog(this, "Please Enter an Address", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter an Address");
                 } else if (GuardianId == null) {
-                    JOptionPane.showMessageDialog(this, "Please Enter Guardian Information", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Guardian Information");
                 } else {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -1262,13 +1289,14 @@ public class StudentManagement extends javax.swing.JPanel {
                             + "'" + studentGender.get(gender) + "','" + GuardianId + "','" + StudentAddressId + "',"
                             + "'" + EmployeeID + "','" + studentStatus.get(status) + "')");
 
-                    JOptionPane.showMessageDialog(this, "New Student Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
+                        "New Student Added Successfully");
 
                     clearAll();
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "InsertStudent", e);
         }
 
     }
@@ -1277,7 +1305,8 @@ public class StudentManagement extends javax.swing.JPanel {
     private void UpdateStudent() {
         int row = jTable1.getSelectedRow();
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Please Select a Student to Update", "Warning", JOptionPane.WARNING_MESSAGE);
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Select a Student to Update");
         } else {
             String StudentId = String.valueOf(jTable1.getValueAt(row, 0));
 
@@ -1292,21 +1321,29 @@ public class StudentManagement extends javax.swing.JPanel {
 
                 // Validate the fields
                 if (fname.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Please Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Your First Name");
                 } else if (lname.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Please Enter Your Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Your Last Name");
                 } else if (nic.isEmpty() && !nic.isEmpty() && !Validator.NIC.validate(nic)) {
-                    JOptionPane.showMessageDialog(this, "Invalid NIC format", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Invalid NIC format");
                 } else if (mobile.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Your Mobile");
                 } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
-                    JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Valid Mobile");
                 } else if (email.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Please Enter Your Email", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Your Email");
                 } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
-                    JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Invalid Email");
                 } else if (status.equals("Select")) {
-                    JOptionPane.showMessageDialog(this, "Please Select a Status", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Select a Status");
                 } else {
                     // Check for duplicates in the table, except for the current row
                     boolean isFound = false;
@@ -1319,7 +1356,8 @@ public class StudentManagement extends javax.swing.JPanel {
 
                         // Check if this entry matches the data for the student, avoiding duplication
                         if (getFname.equals(fname) && getLname.equals(lname) && getMobile.equals(mobile) && (nic.isEmpty() || getNic.equals(nic)) && i != row) {
-                            JOptionPane.showMessageDialog(this, "This Student has already been added", "Warning", JOptionPane.WARNING_MESSAGE);
+                            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "This Student has already been added");
                             isFound = true;
                             break;
                         }
@@ -1336,14 +1374,15 @@ public class StudentManagement extends javax.swing.JPanel {
                         // Execute the update query
                         DB.IUD(query);
 
-                        JOptionPane.showMessageDialog(this, "Student Details Successfully Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
+                        "Student Details Successfully Updated");
 
                         // Refresh table data and clear input fields
                         clearAll();
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                LogCenter.logger.log(Level.WARNING, "UpdateStudent", e);
             }
         }
     }
@@ -1353,7 +1392,8 @@ public class StudentManagement extends javax.swing.JPanel {
 
         // Check if the Address ID already exists
         if (StudentAddressId != null) {
-            JOptionPane.showMessageDialog(this, "Address ID already exists", "Warning", JOptionPane.WARNING_MESSAGE);
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Address ID already exists");
             return; // Exit if the ID exists
         }
 
@@ -1371,7 +1411,8 @@ public class StudentManagement extends javax.swing.JPanel {
     private void ViweGuardian() {
         // Check if the Guardian ID already exists
         if (GuardianId != null) {
-            JOptionPane.showMessageDialog(this, "Guradian ID already exists", "Warning", JOptionPane.WARNING_MESSAGE);
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Guradian ID already exists");
             return; // Exit if the ID exists
         }
 
@@ -1697,9 +1738,11 @@ public class StudentManagement extends javax.swing.JPanel {
             boolean isSaved = reporting.saveReport("ST_Enrollement_Report", params, dataSource, admin);
 
             if (isSaved) {
-                JOptionPane.showMessageDialog(this, "Student Enrollement saved successfully");
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
+                        "Student Enrollement saved successfully");
             } else {
-                JOptionPane.showMessageDialog(this, "Student Enrollement saving was canceled");
+                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER,
+                        "Student Enrollement saving was canceled");
             }
 
         } catch (IOException ex) {
@@ -1761,9 +1804,11 @@ public class StudentManagement extends javax.swing.JPanel {
             boolean isSaved = reporting.saveReport("ST_Payment_Report", params, dataSource, admin);
 
             if (isSaved) {
-                JOptionPane.showMessageDialog(this, "Student Payment Report saved successfully");
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
+                        "Student Payment Report saved successfully");
             } else {
-                JOptionPane.showMessageDialog(this, "Student Payment Report saving was canceled");
+                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER,
+                        "Student Payment Report saving was canceled");
             }
 
         } catch (IOException ex) {
