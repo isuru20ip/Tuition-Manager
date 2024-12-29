@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
 import modal.LogCenter;
-import table.TableCustom;
+import raven.toast.Notifications;
 
 /**
  *
@@ -71,10 +71,10 @@ public class StudentAddress extends javax.swing.JDialog {
         jLabel1.setText("Student Address");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("Address Line 01   :");
+        jLabel2.setText("Address Line 01");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Address Line 02   :");
+        jLabel3.setText("Address Line 02");
 
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -83,7 +83,7 @@ public class StudentAddress extends javax.swing.JDialog {
         });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("                   City   :");
+        jLabel4.setText("                   City");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -137,6 +137,11 @@ public class StudentAddress extends javax.swing.JDialog {
             }
         });
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -147,18 +152,19 @@ public class StudentAddress extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(15, 15, 15)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(20, 20, 20)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -168,7 +174,7 @@ public class StudentAddress extends javax.swing.JDialog {
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18))
+                .addGap(12, 12, 12))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,10 +198,9 @@ public class StudentAddress extends javax.swing.JDialog {
                         .addGap(1, 1, 1)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                         .addComponent(jLabel4))
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -234,6 +239,40 @@ public class StudentAddress extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int row = jTable1.getSelectedRow();
+
+// Check if a row is actually selected
+        if (row != -1) {
+            // Ensure no `NullPointerException` when accessing jTable1 values
+            jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 1)));
+            jTextField2.setText(String.valueOf(jTable1.getValueAt(row, 2)));
+            jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(row, 3)));
+            //jButton1.setEnabled(false);
+
+            // Check for double-click event
+            if (evt.getClickCount() == 2) {
+                String Said = String.valueOf(jTable1.getValueAt(row, 0));
+
+                // Ensure `em` is not null before calling `setAddressId`
+                if (sm != null) {
+                    sm.setStudentAddressId(Said);
+
+                } else {
+//                    System.out.println("Error: Employee object (em) is null. Cannot set address ID.");
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Employee Object is null");
+                }
+
+                // Close the current window
+                this.dispose();
+
+            }
+        } else {
+            System.out.println("No row selected in the table.");
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -266,11 +305,14 @@ public class StudentAddress extends javax.swing.JDialog {
             String city = (String) jComboBox1.getSelectedItem();
 
             if (line1.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter Address Line 1", "Warning", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please enter Address Line 1");
             } else if (line2.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter Address Line 2", "Warning", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please enter Address Line 2");
             } else if (city.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please select a city", "Warning", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please select a city");
             } else {
 
                 int confirmation = JOptionPane.showConfirmDialog(this, "Are You Sure Want To add", "Alert!", JOptionPane.YES_NO_OPTION);
@@ -286,7 +328,8 @@ public class StudentAddress extends javax.swing.JDialog {
                     if (rs.next()) {
                         String lastInsertedId = rs.getString("last_id");
 
-                        JOptionPane.showMessageDialog(this, "Address saved successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
+                        "Address saved successfully");
 
                         // Load only the newly added address using the last inserted ID
                         loadAddress(lastInsertedId);
@@ -296,7 +339,8 @@ public class StudentAddress extends javax.swing.JDialog {
                         if (sm != null) {
                             sm.setStudentAddressId(lastInsertedId);  // Use the last inserted ID
                         } else {
-                            JOptionPane.showMessageDialog(this, "Student Object is null", "WARNING", JOptionPane.WARNING_MESSAGE);
+                            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Student Object is null");
                         }
 
                         // Close the current window after successful insertion
@@ -322,7 +366,8 @@ public class StudentAddress extends javax.swing.JDialog {
         int row = jTable1.getSelectedRow();
 
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Please Select a Row", "Warning", JOptionPane.WARNING_MESSAGE);
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Select a Row");
         } else {
             String id = String.valueOf(jTable1.getValueAt(row, 0));
 
@@ -332,11 +377,14 @@ public class StudentAddress extends javax.swing.JDialog {
                 String city = String.valueOf(jComboBox1.getSelectedItem());
 
                 if (line1.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Please enter Address line1", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please enter Address line1");
                 } else if (line2.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Please enter Address line2", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please enter Address line2");
                 } else if (city.equals("Select")) {
-                    JOptionPane.showMessageDialog(this, "Please Select a City", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Select a City");
                 } else {
 
                     //check if the address already exists
@@ -348,7 +396,8 @@ public class StudentAddress extends javax.swing.JDialog {
                         String getCity1 = String.valueOf(jTable1.getValueAt(i, 3));
 
                         if (getLine1.equals(line1) && getLine2.equals(line2) && getCity1.equals(city)) {
-                            JOptionPane.showMessageDialog(this, "This Address has been already used", "Warning", JOptionPane.WARNING_MESSAGE);
+                            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "This Address has been already used");
                             isFound = true;
                             break;
                         }
@@ -358,7 +407,8 @@ public class StudentAddress extends javax.swing.JDialog {
                         DB.IUD("UPDATE `address` SET `line_01`='" + line1 + "', `line_02` = '" + line2 + "', "
                                 + " `city_id`='" + ScityMap.get(city) + "' WHERE `id`='" + id + "'");
 
-                        JOptionPane.showMessageDialog(this, "Address Successfully Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
+                        "Address Successfully Updated");
 
                         loadAddress(Sid);
                         refresh();

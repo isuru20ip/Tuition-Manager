@@ -10,11 +10,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
 import modal.LogCenter;
+import raven.toast.Notifications;
 
 /**
  *
@@ -160,9 +164,12 @@ public class GuardianDetails extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane5))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -174,20 +181,17 @@ public class GuardianDetails extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, 0, 255, Short.MAX_VALUE)
                             .addComponent(jTextField3))
                         .addGap(30, 30, 30)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -229,9 +233,7 @@ public class GuardianDetails extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -261,7 +263,39 @@ public class GuardianDetails extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        // TODO add your handling code here:
+        int row = jTable1.getSelectedRow();
+
+        // Check if a row is actually selected
+        if (row != -1) {
+            // Ensure no `NullPointerException` when accessing jTable1 values
+            jTextField3.setText(String.valueOf(jTable1.getValueAt(row, 1)));//Fname
+            jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 2)));//Lname
+            jTextField2.setText(String.valueOf(jTable1.getValueAt(row, 3)));//Mobile
+            jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(row, 4)));//Type
+            //jButton1.setEnabled(false);
+
+            // Check for double-click event
+            if (evt.getClickCount() == 2) {
+                String Gid = String.valueOf(jTable1.getValueAt(row, 0));
+
+                // Ensure `sm` is not null before calling `setGuardianId`
+                if (sm != null) {
+                    sm.setGuardianId(Gid);
+
+                } else {
+//                    System.out.println("Error: Employee object (em) is null. Cannot set address ID.");
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Guardian Object is null");
+                }
+
+                // Close the current window
+                this.dispose();
+
+            }
+        } else {
+            System.out.println("No row selected in the table.");
+        }
+
     }//GEN-LAST:event_jTable1MouseClicked
 
 
@@ -310,6 +344,11 @@ private void loadGuardianType() {
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0); // Clear all previous rows in the table
 
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+            renderer.setHorizontalAlignment(SwingConstants.CENTER);
+            jTable1.setDefaultRenderer(Object.class, renderer);
+            renderer.setHorizontalAlignment(SwingConstants.CENTER);
+
             ResultSet resultSet;
 
             if (Gid1 != null && !Gid1.isEmpty()) {
@@ -347,7 +386,7 @@ private void loadGuardianType() {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadGuardian", e);
         }
 
     }
@@ -362,23 +401,28 @@ private void loadGuardianType() {
 
             // Input validation
             if (Gfname.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please nter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter First Name");
                 return; // Exit if validation fails
             }
             if (Glname.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Last Name");
                 return; // Exit if validation fails
             }
             if (Gmobile.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Your Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Your Mobile");
                 return; // Exit if validation fails
             }
             if (!Gmobile.matches("^07[012345678]{1}[0-9]{7}$")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Valid Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Valid Mobile");
                 return; // Exit if validation fails
             }
             if (Gtype == null || Gtype.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please select a Guardian Type", "Warning", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please select a Guardian Type");
                 return; // Exit if validation fails
             }
 
@@ -389,7 +433,8 @@ private void loadGuardianType() {
                 ResultSet resultSet = DB.search(checkSQL);
 
                 if (resultSet.next()) {
-                    JOptionPane.showMessageDialog(this, "Guardian Already Registered", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Guardian Already Registered");
                 } else {
                     int confirmation = JOptionPane.showConfirmDialog(this, "Are You Sure Want To add", "Alert!", JOptionPane.YES_NO_OPTION);
 
@@ -400,7 +445,8 @@ private void loadGuardianType() {
 
                         // Execute the insert
                         DB.IUD(insertSQL);
-                        JOptionPane.showMessageDialog(this, "Guardian Registered Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
+                        "Guardian Registered Successfully");
 
                         // Now get the last inserted ID
                         ResultSet rs = DB.search("SELECT LAST_INSERT_ID() AS last_id");
@@ -417,7 +463,8 @@ private void loadGuardianType() {
 
                             } else {
 //                    System.out.println("Error: Guardian object (sm) is null. Cannot set address ID.");
-                                JOptionPane.showMessageDialog(this, "Guardian Object is null", "WARNING", JOptionPane.WARNING_MESSAGE);
+                                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Guardian Object is null");
                             }
                             // Close the current window after successful insertion
                             this.dispose();
@@ -425,10 +472,12 @@ private void loadGuardianType() {
                     }
                 }
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "Error checking registration: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
+                        "Error checking registration: " + e.getMessage());
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "An unexpected error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
+                        "An unexpected error occurred: " + e.getMessage());
         }
 
     }
@@ -438,7 +487,8 @@ private void loadGuardianType() {
         int row = jTable1.getSelectedRow();
 
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Please Select a Row", "Warning", JOptionPane.WARNING_MESSAGE);
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Select a Row");
         } else {
             String id = String.valueOf(jTable1.getValueAt(row, 0));
 
@@ -449,13 +499,17 @@ private void loadGuardianType() {
                 String type = String.valueOf(jComboBox1.getSelectedItem());
 
                 if (fname.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter First Name");
                 } else if (lname.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Last Name");
                 } else if (mobile.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Please Enter Mobile", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Enter Mobile");
                 } else if (type.equals("Select")) {
-                    JOptionPane.showMessageDialog(this, "Please Select a Type", "Warning", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Please Select a Type");
                 } else {
 
                     //check if the address already exists
@@ -468,7 +522,8 @@ private void loadGuardianType() {
                         String getType = String.valueOf(jTable1.getValueAt(i, 4));
 
                         if (getFname.equals(fname) && getLname.equals(lname) && getMobile.equals(mobile) && getType.equals(type)) {
-                            JOptionPane.showMessageDialog(this, "This Guardian has been already used", "Warning", JOptionPane.WARNING_MESSAGE);
+                            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "This Guardian has been already used");
                             isFound = true;
                             break;
                         }
@@ -478,7 +533,8 @@ private void loadGuardianType() {
                         DB.IUD("UPDATE `guardian` SET `fname`='" + fname + "', `lname` = '" + lname + "',"
                                 + " `mobile` ='" + mobile + "', `guardian_type_id`='" + guardianTypeMap.get(type) + "' WHERE `id`='" + id + "'");
 
-                        JOptionPane.showMessageDialog(this, "Guardian Details Successfully Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
+                        "Guardian Details Successfully Updated");
 
                         loadGuardian(Gid);
 
@@ -490,7 +546,7 @@ private void loadGuardianType() {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
             } catch (IOException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
-        }
+            }
         }
 
     }
@@ -501,7 +557,7 @@ private void loadGuardianType() {
         jTextField3.setText("");
         jComboBox1.setSelectedIndex(0);
         jTable1.clearSelection();
-        jTextField1.grabFocus();
+        jTextField3.grabFocus();
         loadGuardianType();
 
     }
