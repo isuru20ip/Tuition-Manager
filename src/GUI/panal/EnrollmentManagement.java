@@ -20,7 +20,6 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -921,20 +920,25 @@ public class EnrollmentManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_makeEnrollmentActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this); // Get the JFrame ancestor of the JPanel
-
-        EnrollmentSelectStudent uc = new EnrollmentSelectStudent(this, true); // Create the dialog, setting parentFrame as its owner
-        uc.setVisible(true);
-        uc.setEnrollment(uc);
+        if (uc == null || !uc.isVisible()) {
+            uc = new EnrollmentSelectStudent(this, true); // Create the dialog, setting parentFrame as its owner
+            uc.setVisible(true);
+            uc.setEnrollment(uc);
+        } else {
+            uc.toFront(); // Bring the dialog to the front if already open
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this); // Get the JFrame ancestor of the JPanel
 
-        EnrollmentClassSelection uc = new EnrollmentClassSelection(this, true); // Create the dialog, setting parentFrame as its owner
-        uc.setVisible(true);
-        uc.setEnrollment(uc);
+        if (eCS == null || !eCS.isVisible()) {
+            eCS = new EnrollmentClassSelection(this, true); // Create the dialog, setting parentFrame as its owner
+            eCS.setVisible(true);
+            eCS.setEnrollment(eCS);
+        } else {
+            eCS.toFront(); // Bring the dialog to the front if already open
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void resetEnrollmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetEnrollmentActionPerformed
@@ -942,18 +946,20 @@ public class EnrollmentManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_resetEnrollmentActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this); // Get the JFrame ancestor of the JPanel
-
-        EnrollmentCourseSelection uc = new EnrollmentCourseSelection(this, true); // Create the dialog, setting parentFrame as its owner
-        uc.setVisible(true);
-        uc.setEnrollment(uc);
+        if (eCoS == null || !eCoS.isVisible()) {
+            eCoS = new EnrollmentCourseSelection(this, true); // Create the dialog, setting parentFrame as its owner
+            eCoS.setVisible(true);
+            eCoS.setEnrollment(eCoS);
+        } else {
+            eCoS.toFront(); // Bring the dialog to the front if already open
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void updateEnrollmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateEnrollmentActionPerformed
         JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this); // Get the JFrame ancestor of the JPanel
 
-        UpdateEnrollments uc = new UpdateEnrollments(parentFrame, true); // Create the dialog, setting parentFrame as its owner
-        uc.setVisible(true);
+        UpdateEnrollments ue = new UpdateEnrollments(parentFrame, true); // Create the dialog, setting parentFrame as its owner
+        ue.setVisible(true);
 
         resetData();
 
@@ -1068,6 +1074,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private Admin admin;
+    private EnrollmentSelectStudent uc;
+    private EnrollmentClassSelection eCS;
+    private EnrollmentCourseSelection eCoS;
 
     private static HashMap<String, String> paymentModelMap = new HashMap<>(); //for get id from payment model
     private static HashMap<String, String> enrollmentStatusMap = new HashMap<>(); //for get id from status
@@ -1143,7 +1152,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1168,9 +1177,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             paymentModelCombobox.setModel(comboBoxModel);
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadPaymentModel", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1201,9 +1210,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             courseEnrolStatusCombobox.setModel(comboBoxModelcourseReport);//course report
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadStatus", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1236,9 +1245,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             }
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadCoursesEnrollment", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1297,9 +1306,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             }
 
         } catch (HeadlessException | ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "setNewEnrollment", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1365,9 +1374,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             }
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadViewClassData", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1469,9 +1478,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             }
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadViewCoursData", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1569,10 +1578,8 @@ public class EnrollmentManagement extends javax.swing.JPanel {
         }
     }
     //class Enrollment reporting print------------------------------------------------------------------------------------------------------
-    
-    
+
     //class Enrollment reporting view-------------------------------------------------------------------------------------------------------
-    
     private void viweReportClassEnrollment() {
         Home home;
         try {
@@ -1595,12 +1602,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     //class Enrollment reporting view-------------------------------------------------------------------------------------------------------
-    
-    
     //course Enrollment reporting print-----------------------------------------------------------------------------------------------------
-    
     private void printReportCourseEnrollment() throws JRException {
 
         try {
@@ -1638,12 +1642,9 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
         }
     }
-    
+
     //course Enrollment reporting print-----------------------------------------------------------------------------------------------------
-    
-    
     //course Enrollment reporting view------------------------------------------------------------------------------------------------------
-    
     private void viweReportCourseEnrollment() {
         Home home;
         try {
@@ -1666,6 +1667,6 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     //course Enrollment reporting view------------------------------------------------------------------------------------------------------
 }

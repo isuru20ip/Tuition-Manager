@@ -26,12 +26,15 @@ public class EnrollmentSelectStudent extends javax.swing.JDialog {
      */
     public EnrollmentSelectStudent(EnrollmentManagement parent, boolean modal) {
         em = (EnrollmentManagement) parent;
+      
         initComponents();
         loadStudents("SELECT * FROM `student` ORDER BY `student`.`id` ASC");
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         studentTable.setDefaultRenderer(Object.class, renderer);
+        
+        studentIDField.grabFocus();
     }
 
     /**
