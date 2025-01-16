@@ -180,6 +180,7 @@ public class Dashboard extends javax.swing.JFrame {
         systemAManagement.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         systemAManagement.setContentAreaFilled(false);
         systemAManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        systemAManagement.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         systemAManagement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 systemAManagementActionPerformed(evt);
@@ -192,6 +193,7 @@ public class Dashboard extends javax.swing.JFrame {
         salaryCalculation.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         salaryCalculation.setContentAreaFilled(false);
         salaryCalculation.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        salaryCalculation.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         salaryCalculation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 salaryCalculationActionPerformed(evt);
@@ -204,6 +206,7 @@ public class Dashboard extends javax.swing.JFrame {
         employeeManagement.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         employeeManagement.setContentAreaFilled(false);
         employeeManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        employeeManagement.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         employeeManagement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 employeeManagementActionPerformed(evt);
@@ -216,6 +219,7 @@ public class Dashboard extends javax.swing.JFrame {
         paymentManagement.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         paymentManagement.setContentAreaFilled(false);
         paymentManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        paymentManagement.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         paymentManagement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 paymentManagementActionPerformed(evt);
@@ -228,6 +232,7 @@ public class Dashboard extends javax.swing.JFrame {
         attendance.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         attendance.setContentAreaFilled(false);
         attendance.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        attendance.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         attendance.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 attendanceActionPerformed(evt);
@@ -240,6 +245,7 @@ public class Dashboard extends javax.swing.JFrame {
         classSManagement.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         classSManagement.setContentAreaFilled(false);
         classSManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        classSManagement.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         classSManagement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 classSManagementActionPerformed(evt);
@@ -252,6 +258,7 @@ public class Dashboard extends javax.swing.JFrame {
         studentEnrollment.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         studentEnrollment.setContentAreaFilled(false);
         studentEnrollment.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        studentEnrollment.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         studentEnrollment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 studentEnrollmentActionPerformed(evt);
@@ -264,6 +271,7 @@ public class Dashboard extends javax.swing.JFrame {
         hallManagement.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         hallManagement.setContentAreaFilled(false);
         hallManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        hallManagement.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         hallManagement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hallManagementActionPerformed(evt);
@@ -276,6 +284,7 @@ public class Dashboard extends javax.swing.JFrame {
         courseManagement.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         courseManagement.setContentAreaFilled(false);
         courseManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        courseManagement.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         courseManagement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 courseManagementActionPerformed(evt);
@@ -288,6 +297,7 @@ public class Dashboard extends javax.swing.JFrame {
         classManagement.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         classManagement.setContentAreaFilled(false);
         classManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        classManagement.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         classManagement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 classManagementActionPerformed(evt);
@@ -300,6 +310,7 @@ public class Dashboard extends javax.swing.JFrame {
         teacherManagement.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         teacherManagement.setContentAreaFilled(false);
         teacherManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        teacherManagement.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         teacherManagement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 teacherManagementActionPerformed(evt);
@@ -312,18 +323,28 @@ public class Dashboard extends javax.swing.JFrame {
         studentManagement.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         studentManagement.setContentAreaFilled(false);
         studentManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        studentManagement.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         studentManagement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 studentManagementActionPerformed(evt);
             }
         });
 
+        subDashboard.setBackground(new java.awt.Color(255, 255, 255));
         subDashboard.setFont(new java.awt.Font("SchulbuchNord", 0, 14)); // NOI18N
         subDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/dashboard icon.png"))); // NOI18N
         subDashboard.setText(" Dashboard");
         subDashboard.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        subDashboard.setContentAreaFilled(false);
         subDashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        subDashboard.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        subDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                subDashboardMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                subDashboardMouseExited(evt);
+            }
+        });
         subDashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 subDashboardActionPerformed(evt);
@@ -336,6 +357,7 @@ public class Dashboard extends javax.swing.JFrame {
         settings.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         settings.setContentAreaFilled(false);
         settings.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        settings.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         settings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 settingsActionPerformed(evt);
@@ -348,24 +370,25 @@ public class Dashboard extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(settings))
-                    .addComponent(subDashboard)
-                    .addComponent(systemAManagement)
-                    .addComponent(studentEnrollment)
-                    .addComponent(classSManagement)
-                    .addComponent(attendance)
-                    .addComponent(employeeManagement)
-                    .addComponent(paymentManagement)
-                    .addComponent(studentManagement)
-                    .addComponent(teacherManagement)
-                    .addComponent(classManagement)
-                    .addComponent(hallManagement)
-                    .addComponent(courseManagement)
-                    .addComponent(salaryCalculation))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(systemAManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(subDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(studentManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(teacherManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(classManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(courseManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(hallManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(studentEnrollment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(classSManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(attendance, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(paymentManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(employeeManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(salaryCalculation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(settings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -510,7 +533,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 169, Short.MAX_VALUE)
+            .addGap(0, 168, Short.MAX_VALUE)
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -523,7 +546,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 247, Short.MAX_VALUE)
+            .addGap(0, 246, Short.MAX_VALUE)
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -658,6 +681,27 @@ public class Dashboard extends javax.swing.JFrame {
         loadPanal(new StudentManagement(admin));
     }//GEN-LAST:event_studentManagementActionPerformed
 
+    private void jButton15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton15MouseClicked
+        this.dispose();
+        lg.setVisible(true);
+    }//GEN-LAST:event_jButton15MouseClicked
+
+    private void systemAManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_systemAManagementActionPerformed
+        loadPanal(new systemAccess(admin));
+    }//GEN-LAST:event_systemAManagementActionPerformed
+
+    private void settingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsActionPerformed
+        loadPanal(new Settings());
+    }//GEN-LAST:event_settingsActionPerformed
+
+    private void subDashboardMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subDashboardMouseExited
+        subDashboard.setBackground(Color.white); // Change color on hover
+    }//GEN-LAST:event_subDashboardMouseExited
+
+    private void subDashboardMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subDashboardMouseEntered
+        subDashboard.setBackground(Color.green); // Change color on hover
+    }//GEN-LAST:event_subDashboardMouseEntered
+
     private void subDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subDashboardActionPerformed
         loadPanal(new sub_dashboard());
 
@@ -675,19 +719,6 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
     }//GEN-LAST:event_subDashboardActionPerformed
-
-    private void jButton15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton15MouseClicked
-        this.dispose();
-        lg.setVisible(true);
-    }//GEN-LAST:event_jButton15MouseClicked
-
-    private void systemAManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_systemAManagementActionPerformed
-        loadPanal(new systemAccess(admin));
-    }//GEN-LAST:event_systemAManagementActionPerformed
-
-    private void settingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsActionPerformed
-        loadPanal(new Settings());
-    }//GEN-LAST:event_settingsActionPerformed
 
     private void pageStart() {
 
@@ -883,4 +914,5 @@ public class Dashboard extends javax.swing.JFrame {
 //             
         }
     }
+    
 }
