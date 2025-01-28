@@ -1729,8 +1729,8 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     private void printCourseReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printCourseReportButtonActionPerformed
         try {
             printReportCourseSchedule();
-        } catch (JRException ex) {
-            Logger.getLogger(ClassScheduleManagement.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            LogCenter.logger.log(Level.WARNING, "printCourseReportButton", e);
         }
     }//GEN-LAST:event_printCourseReportButtonActionPerformed
 

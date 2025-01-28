@@ -15,7 +15,6 @@ import java.util.Vector;
 import java.util.logging.Level;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import modal.LogCenter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -48,7 +47,7 @@ public class sub_dashboard extends javax.swing.JPanel {
 
             String query = "SELECT * FROM `class_schedule`"
                     + "INNER JOIN `schedule_status` ON `class_schedule`.`schedule_status_id` = `schedule_status`.`id` "
-                    + "WHERE `class_schedule`.class_date = '" + date + "';";
+                    + "WHERE `class_schedule`.class_date = '" + date + "'";
 
             ResultSet resultSet = DB.search(query);
 
