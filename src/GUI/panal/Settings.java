@@ -47,10 +47,11 @@ public class Settings extends javax.swing.JPanel {
 
     public Settings() {
         initComponents();
+        city.setEnabled(false);
         loardHallType();
         loardEMPypes();
         loardserviceCharge();
-        loardSubjects();
+        loadSubjects();
         loardGrades();
         loardCity();
         loardHome();
@@ -338,7 +339,6 @@ public class Settings extends javax.swing.JPanel {
         jLabel6.setText("Grades");
 
         gradeCombo.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
-        gradeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         subjectName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -778,6 +778,11 @@ public class Settings extends javax.swing.JPanel {
         });
 
         jButton2.setText("Save");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -928,7 +933,7 @@ public class Settings extends javax.swing.JPanel {
 
     //  subject Name Text Feild
     private void subjectNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_subjectNameKeyReleased
-        loardSubjects();
+        loadSubjects();
     }//GEN-LAST:event_subjectNameKeyReleased
 
     // Clear Button of Subject Panal Data
@@ -1022,6 +1027,10 @@ public class Settings extends javax.swing.JPanel {
     private void homenameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homenameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_homenameActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        SaveHomeData();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addGrade;
@@ -1283,18 +1292,18 @@ public class Settings extends javax.swing.JPanel {
     }
 
     //view Subjects In jTable [subjectTable]
-    private void loardSubjects() {
+    private void loadSubjects() {
         String name = subjectName.getText();
         try {
-            ResultSet resultSet = DB.search("SELECT `name` FROM `subject` WHERE `name` LIKE '%" + name + "%' ");
+            ResultSet resultSet = DB.search("SELECT `name` FROM `subject` WHERE `name` LIKE '%" + name + "%' ORDER BY `name` ASC ");
             DefaultTableModel model = (DefaultTableModel) subjectTable.getModel();
             model.setRowCount(0);
-            
+
             DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
             renderer.setHorizontalAlignment(SwingConstants.CENTER);
             subjectTable.setDefaultRenderer(Object.class, renderer);
             renderer.setHorizontalAlignment(SwingConstants.CENTER);
-            
+
             while (resultSet.next()) {
                 Vector v = new Vector();
                 v.add(resultSet.getString("name"));
@@ -1370,7 +1379,7 @@ public class Settings extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) gradeTable.getModel();
         model.setRowCount(0);
         subjectName.setText("");
-        loardSubjects();
+        loadSubjects();
         loardGrades();
     }
 
@@ -1447,6 +1456,8 @@ public class Settings extends javax.swing.JPanel {
             try {
                 DB.IUD("INSERT INTO `subject` (`name`) VALUES ('" + WordFormat.capitalizedStart(subjectName.getText()) + "')");
                 JOptionPane.showMessageDialog(this, "New Subject Added [" + WordFormat.capitalizedStart(subjectName.getText()) + "]", "Success", JOptionPane.INFORMATION_MESSAGE);
+                subjectName.setText("");
+                loadSubjects();
             } catch (ClassNotFoundException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
             } catch (SQLException ex) {
