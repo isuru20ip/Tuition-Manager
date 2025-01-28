@@ -1590,7 +1590,8 @@ public class Settings extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while Loarding Homeinfo", ex);
         }
     }
-
+    
+    // vslidate datbase Connection 
     private boolean ValidateConnection(String host, String port, String db, String admin, String ps) {
         String url = "jdbc:mysql://" + host + ":" + port + "/" + db;
         String user = admin;
