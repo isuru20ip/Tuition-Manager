@@ -881,7 +881,7 @@
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Component id="jPanel10" alignment="1" max="32767" attributes="0"/>
-                              <Component id="jPanel9" alignment="1" pref="158" max="32767" attributes="0"/>
+                              <Component id="jPanel9" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -1112,7 +1112,7 @@
                                       <Component id="jButton5" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                       <Component id="jCheckBox2" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="paying_fee" alignment="1" pref="31" max="32767" attributes="0"/>
+                                  <Component id="paying_fee" alignment="1" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                           </Group>
