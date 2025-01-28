@@ -1848,7 +1848,7 @@ public class CourseManagement extends javax.swing.JPanel {
         jComboBox12.setSelectedItem("Select");
         jComboBox13.setSelectedItem("Select");
         jComboBox14.setSelectedItem("Select");
-        jComboBox16.setSelectedItem("Select");
+        jComboBox16.setSelectedItem("Ongoing");
         SearchReport();
     }
 
