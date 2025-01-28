@@ -6,9 +6,7 @@ package GUI.panal;
 
 import GUI.popup.UpdateClasses;
 import GUI.popup.UpdateCourses;
-import cambodia.raven.Time;
 import java.awt.HeadlessException;
-import java.awt.Panel;
 import java.io.IOException;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
@@ -83,6 +81,11 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         endTimeField.setText("");
         courseStartTimeField.setText("");
         courseEndTimeField.setText("");
+
+        searchClassSubjectField.grabFocus();
+        searchCourseSubjectField.grabFocus();
+        jDateChooser3.grabFocus();
+        jDateChooser4.grabFocus();
     }
 
     /**
@@ -1504,8 +1507,8 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this); // Get the JFrame ancestor of the JPanel
 
-        UpdateClasses uc = new UpdateClasses(parentFrame, true); // Create the dialog, setting parentFrame as its owner
-        uc.setVisible(true);
+        UpdateClasses ucl = new UpdateClasses(parentFrame, true); // Create the dialog, setting parentFrame as its owner
+        ucl.setVisible(true);
 
         classQueryMethod();
         reset();
@@ -1625,7 +1628,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 resetCourseAutoLoadTable();
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "courseTableMouseClicked", e);
         }
     }//GEN-LAST:event_courseTableMouseClicked
 
@@ -1691,8 +1694,8 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     private void courseUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseUpdateButtonActionPerformed
         JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this); // Get the JFrame ancestor of the JPanel
 
-        UpdateCourses uc = new UpdateCourses(parentFrame, true); // Create the dialog, setting parentFrame as its owner
-        uc.setVisible(true);
+        UpdateCourses uco = new UpdateCourses(parentFrame, true); // Create the dialog, setting parentFrame as its owner
+        uco.setVisible(true);
 
         courseQueryMethod();
         resetCourse();
@@ -1735,7 +1738,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_printCourseReportButtonActionPerformed
 
     private void viewCourseReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewCourseReportButtonActionPerformed
-       viweReportCourseSchedule();
+        viweReportCourseSchedule();
     }//GEN-LAST:event_viewCourseReportButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1901,7 +1904,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -1927,7 +1930,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1963,7 +1966,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -1995,7 +1998,7 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -2028,9 +2031,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             courseReportScheduleStatusCombobox.setModel(comboBoxModel1ClassReport);//course report
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadScheduleStatus", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -2070,9 +2073,10 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             courseReportHallTypeCombobox.setModel(ComboBoxModelCourseReport1);//course report
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadHallType", e);
+
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -2101,9 +2105,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             hallLoadCombobox.setModel(model);
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadroomdata", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -2124,9 +2128,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 courseHallCapacityField.setText(resultSet.getString("capacity"));//course
             }
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "changeCapacity", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -2143,6 +2147,10 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         students.setText("Null");
         jDateChooser1.setDate(null);
 
+        searchClassSubjectField.grabFocus();
+        searchCourseSubjectField.grabFocus();
+        jDateChooser3.grabFocus();
+
         classQueryMethod();
         loadHall();
         resetAutoLoadTable();
@@ -2155,6 +2163,11 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         searchClassSubjectField.setText("");
         searchGradeField.setText("");
         searchTeacherIdField.setText("");
+
+        searchClassSubjectField.grabFocus();
+        searchCourseSubjectField.grabFocus();
+        jDateChooser3.grabFocus();
+
         loadTableAuto();
     }
 
@@ -2371,9 +2384,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             searchCourseIdCombobox.setModel(ComboBoxModel1);
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadCourseId", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -2406,9 +2419,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             }
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadCourseSchedulTable", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -2538,9 +2551,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 tableModel.addRow(vector);
             }
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadAutoCourseTable", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -2563,9 +2576,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             }
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "changecourseCapacity", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -2594,9 +2607,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(vector);
             courseHallCombobox.setModel(model);
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadcourseroomdata", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -2618,9 +2631,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             courseHallCombobox.setModel(ComboBoxModel2);
 
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadCourseHall", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -2716,9 +2729,9 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 reset();
             }
         } catch (HeadlessException | ClassNotFoundException | SQLException | ParseException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "scheduleClasses", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -2815,10 +2828,11 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
                 resetCourse();
             }
         } catch (HeadlessException | ClassNotFoundException | SQLException | ParseException e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "scheduleCourses", e);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
+        searchCourseSubjectField.grabFocus();
     }
 
     private void resetCourse() {
@@ -2833,6 +2847,8 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         courseStudents.setText("Null");
         jDateChooser2.setDate(null);
 
+        searchCourseSubjectField.grabFocus();
+
         courseQueryMethod();
         loadCourseHall();
         resetCourseAutoLoadTable();
@@ -2844,6 +2860,10 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         searchCourseSubjectField.setText("");
         searchCourseGradeField.setText("");
         searchCourseTeacherField.setText("");
+
+        searchClassSubjectField.grabFocus();
+        searchCourseSubjectField.grabFocus();
+        jDateChooser3.grabFocus();
 
         loadTableAutoCourse();
     }
@@ -2911,6 +2931,10 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         classReportIDField.setText("");
         classReportScheduleStatusCombobox.setSelectedIndex(0);
         jDateChooser3.setDate(null);
+
+        jDateChooser3.grabFocus();
+        jDateChooser4.grabFocus();
+
         classQueryMethod();
     }
     // Class reporting-----------------------------------------------------------------------------------------------------------
@@ -2977,6 +3001,10 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         courseReportIDField.setText("");
         courseReportScheduleStatusCombobox.setSelectedIndex(0);
         jDateChooser4.setDate(null);
+
+        jDateChooser3.grabFocus();
+        jDateChooser4.grabFocus();
+
         courseQueryMethod();
     }
 
@@ -3018,6 +3046,8 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             // Catch any other unexpected exceptions
             LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
         }
+
+        jDateChooser3.grabFocus();
     }
     //class schedule reporting print-------------------------------------------------------------------------------------------
 
@@ -3044,10 +3074,10 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        jDateChooser3.grabFocus();
     }
     // class schedule reporting view------------------------------------------------------------------------------------------------
 
-    
     // course schedule repoting print------------------------------------------------------------------------------------------------
     private void printReportCourseSchedule() throws JRException {
 
@@ -3085,11 +3115,10 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             // Catch any other unexpected exceptions
             LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
         }
+        jDateChooser4.grabFocus();
     }
-    
-  // course schedule repoting print------------------------------------------------------------------------------------------------
-    
-    
+
+    // course schedule repoting print------------------------------------------------------------------------------------------------
     // course schedule reporting view----------------------------------------------------------------------------------------------
     private void viweReportCourseSchedule() {
         Home home;
@@ -3112,8 +3141,8 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         } catch (JRException ex) {
             Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
+        jDateChooser4.grabFocus();
     }
-        // course schedule reporting view----------------------------------------------------------------------------------------------
-
+    // course schedule reporting view----------------------------------------------------------------------------------------------
 
 }
