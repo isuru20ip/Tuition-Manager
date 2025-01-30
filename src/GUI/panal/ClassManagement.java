@@ -1129,15 +1129,15 @@ public class ClassManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox17ItemStateChanged
 
     private void jComboBox15ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox15ItemStateChanged
-        // TODO add your handling code here:
+      SearchReport();
     }//GEN-LAST:event_jComboBox15ItemStateChanged
 
     private void jComboBox14ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox14ItemStateChanged
-        // TODO add your handling code here:
+        SearchReport();
     }//GEN-LAST:event_jComboBox14ItemStateChanged
 
     private void jComboBox13ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox13ItemStateChanged
-        // TODO add your handling code here:
+        SearchReport();
     }//GEN-LAST:event_jComboBox13ItemStateChanged
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
@@ -1724,7 +1724,7 @@ public class ClassManagement extends javax.swing.JPanel {
             DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
 
             model.setRowCount(0);
-            
+
             DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
             renderer.setHorizontalAlignment(SwingConstants.CENTER);
             jTable4.setDefaultRenderer(Object.class, renderer);
@@ -1881,12 +1881,12 @@ public class ClassManagement extends javax.swing.JPanel {
         String gradeValue = String.valueOf(jComboBox9.getSelectedItem()).trim();
         String subjectValue = String.valueOf(jComboBox10.getSelectedItem()).trim();
         String languageValue = String.valueOf(jComboBox11.getSelectedItem()).trim();
-        String methodValue = String.valueOf(jComboBox13.getSelectedItem()).trim();
+        String methodValue = String.valueOf(jComboBox17.getSelectedItem()).trim();
         String modalValue = String.valueOf(jComboBox16.getSelectedItem()).trim();
         String typeValue = String.valueOf(jComboBox12.getSelectedItem()).trim();
-        String statusValue = String.valueOf(jComboBox14.getSelectedItem()).trim();
-        String hallValue = String.valueOf(jComboBox15.getSelectedItem()).trim();
-        String dayValue = String.valueOf(jComboBox17.getSelectedItem()).trim();
+        String statusValue = String.valueOf(jComboBox13.getSelectedItem()).trim();
+        String hallValue = String.valueOf(jComboBox14.getSelectedItem()).trim();
+        String dayValue = String.valueOf(jComboBox15.getSelectedItem()).trim();
 
         // Pass all values to loadTableReport
         loadTableReport(teacherValue, classValue, gradeValue, subjectValue, languageValue, methodValue,
@@ -1972,7 +1972,7 @@ public class ClassManagement extends javax.swing.JPanel {
                 query.append("`class_type`.`type` = '").append(typeValue).append("'");
             }
 
-            if (!statusValue.equals("Select")) {
+            if (statusValue != null && !statusValue.isEmpty() && !statusValue.equals("Select")) {
                 query.append(hasCondition ? " AND " : " WHERE ");
                 hasCondition = true;
                 query.append("`class_status`.`status` = '").append(statusValue).append("'");
@@ -2029,12 +2029,12 @@ public class ClassManagement extends javax.swing.JPanel {
         jComboBox9.setSelectedItem("Select");
         jComboBox10.setSelectedItem("Select");
         jComboBox11.setSelectedItem("Select");
+        jComboBox17.setSelectedItem("Select");
+        jComboBox16.setSelectedItem("Select");
         jComboBox12.setSelectedItem("Select");
-        jComboBox13.setSelectedItem("Select");
+        jComboBox13.setSelectedItem("Ongoing");
         jComboBox14.setSelectedItem("Select");
         jComboBox15.setSelectedItem("Select");
-        jComboBox16.setSelectedItem("Select");
-        jComboBox17.setSelectedItem("Select");
         SearchReport();
     }
 
