@@ -1159,7 +1159,6 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         Student_Name_TextField.setEditable(false);
         CourseSTName.setEditable(false);
-        
 
         loadClassAttnTable();
         searchClassAttnChecBox();
@@ -1302,81 +1301,85 @@ public class StudentAttendance extends javax.swing.JPanel {
             String subject = String.valueOf(jComboBox_classLoad.getSelectedItem());
             String SubjectID = classMap.get(subject);
 
-            ResultSet resultSet = DB.search("SELECT * FROM `class_schedule` "
-                    + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
-                    + "WHERE `class_schedule`.`class_date` = '" + dateFormat + "' "
-                    + "AND `class`.`grade_id` = '" + gradeId + "' "
-                    + "AND `class`.`subject_id` = '" + SubjectID + "'");
+            if (gradeId == null) {
+                JOptionPane.showMessageDialog(this, "Grade is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (SubjectID == null) {
+                JOptionPane.showMessageDialog(this, "Class is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
 
-            if (resultSet.next()) {
+                ResultSet resultSet = DB.search("SELECT * FROM `class_schedule` "
+                        + "INNER JOIN `class` ON `class_schedule`.`class_id` = `class`.`id` "
+                        + "WHERE `class_schedule`.`class_date` = '" + dateFormat + "' "
+                        + "AND `class`.`grade_id` = '" + gradeId + "' "
+                        + "AND `class`.`subject_id` = '" + SubjectID + "'");
 
-                String scheduleID = resultSet.getString("id");
-                String StudenID = Studen_ID_TextField.getText();
+                if (resultSet.next()) {
 
-                ResultSet resultSet1 = DB.search("SELECT * FROM class_attendance "
-                        + "WHERE class_schedule_id = '" + scheduleID + "' "
-                        + "AND DATE(`marked_time`) = '" + dateFormat + "' "
-                        + "AND student_id = '" + StudenID + "'");
+                    String scheduleID = resultSet.getString("id");
+                    String StudenID = Studen_ID_TextField.getText();
 
-                if (resultSet1.next()) {
-                    Studen_ID_TextField.grabFocus();
-                    JOptionPane.showMessageDialog(this, "This Student Attendance Alredy Marked", "Warning", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
-                    String employeeUserName = admin.getUserName();
+                    ResultSet resultSet1 = DB.search("SELECT * FROM class_attendance "
+                            + "WHERE class_schedule_id = '" + scheduleID + "' "
+                            + "AND DATE(`marked_time`) = '" + dateFormat + "' "
+                            + "AND student_id = '" + StudenID + "'");
 
-                    ResultSet resultSet2 = DB.search("SELECT * FROM emp_access WHERE user_name = '" + employeeUserName + "'");
+                    if (resultSet1.next()) {
+                        Studen_ID_TextField.grabFocus();
+                        JOptionPane.showMessageDialog(this, "This Student Attendance Alredy Marked", "Warning", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
+                        String employeeUserName = admin.getUserName();
 
-                    if (resultSet2.next()) {
-                        String empID = resultSet2.getString("employee_id");
-                        String StudenName = Student_Name_TextField.getText();
+                        ResultSet resultSet2 = DB.search("SELECT * FROM emp_access WHERE user_name = '" + employeeUserName + "'");
 
-                        if (gradeId == null) {
-                            JOptionPane.showMessageDialog(this, "Grade is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
-                        } else if (SubjectID == null) {
-                            JOptionPane.showMessageDialog(this, "Class is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
-                        } else if (StudenName.isEmpty()) {
-                            JOptionPane.showMessageDialog(this, "Please Enter Student ID", "Warning", JOptionPane.WARNING_MESSAGE);
-                        } else {
+                        if (resultSet2.next()) {
+                            String empID = resultSet2.getString("employee_id");
+                            String StudenName = Student_Name_TextField.getText();
 
-                            boolean cnaMark = false;
-
-                            ResultSet resultSet3 = DB.search("SELECT * FROM class_pay "
-                                    + "INNER JOIN payment ON class_pay.payment_id = payment.id "
-                                    + "WHERE class_pay.class_id = '" + resultSet.getString("class_id") + "' "
-                                    + "AND MONTH(class_pay.due_month) = MONTH('" + dateFormat + "') "
-                                    + "AND student_id = '" + StudenID + "';");
-
-                            if (resultSet3.next()) {
-                                cnaMark = true;
+                            if (StudenName.isEmpty()) {
+                                JOptionPane.showMessageDialog(this, "Please Enter Student ID", "Warning", JOptionPane.WARNING_MESSAGE);
                             } else {
-                                int option = JOptionPane.showConfirmDialog(this, "The student has not completed the class payment for this month. However, would you still like to mark his attendance?",
-                                        "Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 
-                                if (option == JOptionPane.YES_OPTION) {
+                                boolean cnaMark = false;
+
+                                ResultSet resultSet3 = DB.search("SELECT * FROM class_pay "
+                                        + "INNER JOIN payment ON class_pay.payment_id = payment.id "
+                                        + "WHERE class_pay.class_id = '" + resultSet.getString("class_id") + "' "
+                                        + "AND MONTH(class_pay.due_month) = MONTH('" + dateFormat + "') "
+                                        + "AND student_id = '" + StudenID + "';");
+
+                                if (resultSet3.next()) {
                                     cnaMark = true;
                                 } else {
-                                    cnaMark = false;
-                                    clearClassFieldMarkin();
+                                    int option = JOptionPane.showConfirmDialog(this, "The student has not completed the class payment for this month. However, would you still like to mark his attendance?",
+                                            "Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+                                    if (option == JOptionPane.YES_OPTION) {
+                                        cnaMark = true;
+                                    } else {
+                                        cnaMark = false;
+                                        clearClassFieldMarkin();
+                                    }
                                 }
+
+                                if (cnaMark) {
+                                    DB.IUD("INSERT INTO class_attendance "
+                                            + "(`marked_time`,`class_schedule_id`,`student_id`,`employee_id`) "
+                                            + "VALUES('" + dateFormat + "','" + scheduleID + "','" + StudenID + "','" + empID + "')");
+                                    
+                                     JOptionPane.showMessageDialog(this, "Successfully Marked ", "Success", JOptionPane.INFORMATION_MESSAGE);
+                                }
+                                Studen_ID_TextField.grabFocus();
+                                clearClassFieldMarkin();
+                                loadClassAttnTable();
                             }
 
-                            if (cnaMark) {
-                                DB.IUD("INSERT INTO class_attendance "
-                                        + "(`marked_time`,`class_schedule_id`,`student_id`,`employee_id`) "
-                                        + "VALUES('" + dateFormat + "','" + scheduleID + "','" + StudenID + "','" + empID + "')");
-                            }
-                            Studen_ID_TextField.grabFocus();
-                            clearClassFieldMarkin();
-                            loadClassAttnTable();
                         }
 
                     }
 
                 }
-
             }
-
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "MarkClassAttn", e);
         }
@@ -1687,87 +1690,93 @@ public class StudentAttendance extends javax.swing.JPanel {
             String subject = String.valueOf(CourseSubject.getSelectedItem());
             String SubjectID = CourseeMap.get(subject);
 
-            ResultSet resultSet = DB.search("SELECT * FROM `course_schedule` "
-                    + "INNER JOIN `course` ON `course_schedule`.course_id = `course`.`id`"
-                    + " WHERE `course_schedule`.`class_date` = '" + dateFormat + "' "
-                    + "AND `course`.`grade_id` = '" + gradeId + "' "
-                    + "AND `course`.`subject_id` = '" + SubjectID + "'");
+            if (gradeId == null) {
+                JOptionPane.showMessageDialog(this, "Grade is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (SubjectID == null) {
+                JOptionPane.showMessageDialog(this, "Class is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
 
-            if (resultSet.next()) {
+                ResultSet resultSet = DB.search("SELECT * FROM `course_schedule` "
+                        + "INNER JOIN `course` ON `course_schedule`.course_id = `course`.`id`"
+                        + " WHERE `course_schedule`.`class_date` = '" + dateFormat + "' "
+                        + "AND `course`.`grade_id` = '" + gradeId + "' "
+                        + "AND `course`.`subject_id` = '" + SubjectID + "'");
 
-                String scheduleID = resultSet.getString("id");
-                String StudenID = CourseSTID.getText();
+                if (resultSet.next()) {
 
-                ResultSet resultSet1 = DB.search("SELECT * FROM course_attendance "
-                        + "WHERE course_schedule_id = '" + scheduleID + "' "
-                        + "AND DATE(`marked_time`) = '" + dateFormat + "' "
-                        + "AND student_id = '" + StudenID + "'");
+                    String scheduleID = resultSet.getString("id");
+                    String StudenID = CourseSTID.getText();
 
-                if (resultSet1.next()) {
-                    CourseSTID.grabFocus();
-                    JOptionPane.showMessageDialog(this, "This Student Attendance Alredy Marked", "Warning", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
-                    String employeeUserName = admin.getUserName();
+                    ResultSet resultSet1 = DB.search("SELECT * FROM course_attendance "
+                            + "WHERE course_schedule_id = '" + scheduleID + "' "
+                            + "AND DATE(`marked_time`) = '" + dateFormat + "' "
+                            + "AND student_id = '" + StudenID + "'");
 
-                    ResultSet resultSet2 = DB.search("SELECT * FROM emp_access WHERE user_name = '" + employeeUserName + "'");
+                    if (resultSet1.next()) {
+                        CourseSTID.grabFocus();
+                        JOptionPane.showMessageDialog(this, "This Student Attendance Alredy Marked", "Warning", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
+                        String employeeUserName = admin.getUserName();
 
-                    if (resultSet2.next()) {
-                        String empID = resultSet2.getString("employee_id");
-                        String StudenName = CourseSTName.getText();
+                        ResultSet resultSet2 = DB.search("SELECT * FROM emp_access WHERE user_name = '" + employeeUserName + "'");
 
-                        if (gradeId == null) {
-                            JOptionPane.showMessageDialog(this, "Grade is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
-                        } else if (SubjectID == null) {
-                            JOptionPane.showMessageDialog(this, "Class is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
-                        } else if (StudenName.isEmpty()) {
-                            JOptionPane.showMessageDialog(this, "Please Enter Student ID", "Warning", JOptionPane.WARNING_MESSAGE);
-                        } else {
+                        if (resultSet2.next()) {
+                            String empID = resultSet2.getString("employee_id");
+                            String StudenName = CourseSTName.getText();
 
-                            boolean cnaMark = false;
+                            if (StudenName.isEmpty()) {
+                                JOptionPane.showMessageDialog(this, "Please Enter Student ID", "Warning", JOptionPane.WARNING_MESSAGE);
+                            } else {
 
-                            ResultSet resultSet3 = DB.search("SELECT SUM(`fee`) AS `fee` FROM `course_pay`"
-                                    + "INNER JOIN `payment` ON `course_pay`.`payment_id` = `payment`.`id` "
-                                    + "WHERE `course_pay`.`course_id` = '" + resultSet.getString("course_id") + "' "
-                                    + "AND `payment`.`student_id` = '" + StudenID + "'");
+                                boolean cnaMark = false;
 
-                            if (resultSet3.next()) {
+                                ResultSet resultSet3 = DB.search("SELECT SUM(`fee`) AS `fee` FROM `course_pay`"
+                                        + "INNER JOIN `payment` ON `course_pay`.`payment_id` = `payment`.`id` "
+                                        + "WHERE `course_pay`.`course_id` = '" + resultSet.getString("course_id") + "' "
+                                        + "AND `payment`.`student_id` = '" + StudenID + "'");
 
-                                double CourseFee = Double.parseDouble(resultSet.getString("fee"));
-                                double PaidAmmount = resultSet3.getDouble("fee");
+                                if (resultSet3.next()) {
 
-                                double balance = CourseFee - PaidAmmount;
+                                    double CourseFee = Double.parseDouble(resultSet.getString("fee"));
+                                    double PaidAmmount = resultSet3.getDouble("fee");
 
-                                String message = "Total Payment: " + CourseFee + "\n"
-                                        + "paid: " + PaidAmmount + "\n"
-                                        + "Balance Payment: " + balance + "\n"
-                                        + "Do you want to mark the attendance?";
+                                    double balance = CourseFee - PaidAmmount;
 
-                                int option = JOptionPane.showConfirmDialog(this, message, "Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                                    String message = "Total Payment: " + CourseFee + "\n"
+                                            + "paid: " + PaidAmmount + "\n"
+                                            + "Balance Payment: " + balance + "\n"
+                                            + "Do you want to mark the attendance?";
 
-                                if (option == JOptionPane.YES_OPTION) {
-                                    cnaMark = true;
+                                    int option = JOptionPane.showConfirmDialog(this, message, "Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+                                    if (option == JOptionPane.YES_OPTION) {
+                                        cnaMark = true;
+                                    } else {
+                                        cnaMark = false;
+                                    }
                                 } else {
                                     cnaMark = false;
                                 }
-                            } else {
-                                cnaMark = false;
+
+                                if (cnaMark) {
+                                    DB.IUD("INSERT INTO course_attendance "
+                                            + "(`marked_time`,`course_schedule_id`,`student_id`,`employee_id`) "
+                                            + "VALUES('" + dateFormat + "','" + scheduleID + "','" + StudenID + "','" + empID + "')");
+                                    
+                                     JOptionPane.showMessageDialog(this, "Successfully Marked ", "Success", JOptionPane.INFORMATION_MESSAGE);
+                                    
+                                }
+                                loadCourseAttnTable();
+                                CourseSTID.grabFocus();
+                                clearCourseField();
                             }
 
-                            if (cnaMark) {
-                                DB.IUD("INSERT INTO course_attendance "
-                                        + "(`marked_time`,`course_schedule_id`,`student_id`,`employee_id`) "
-                                        + "VALUES('" + dateFormat + "','" + scheduleID + "','" + StudenID + "','" + empID + "')");
-                            }
-                            loadCourseAttnTable();
-                            CourseSTID.grabFocus();
-                            clearCourseField();
                         }
 
                     }
 
                 }
-
             }
 
         } catch (Exception e) {
@@ -2033,6 +2042,8 @@ public class StudentAttendance extends javax.swing.JPanel {
                 DB.IUD("INSERT INTO emp_attendance "
                         + "(`date`,`ontime`,`offtime`,`employee_id`) "
                         + "VALUES('" + dateFormat + "','" + timeFormat + "','00:00:00','" + empID + "')");
+                
+                 JOptionPane.showMessageDialog(this, "Successfully Marked", "Success", JOptionPane.INFORMATION_MESSAGE);
 
                 loadEmpAttnTabel();
                 resetEmployeePage();
@@ -2061,6 +2072,8 @@ public class StudentAttendance extends javax.swing.JPanel {
                 DB.IUD("UPDATE `emp_attendance` SET "
                         + "`offtime`='" + timeFormat + "' WHERE employee_id= '" + empID + "' AND `date`='" + dateFormat + "'");
 
+                JOptionPane.showMessageDialog(this, "Successfully Updating", "Success", JOptionPane.INFORMATION_MESSAGE);
+                
                 loadEmpAttnTabel();
                 resetEmployeePage();
                 employee_ID_Field.grabFocus();
@@ -2183,6 +2196,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
 
             resetEmployeePage();
+            ifrecordCheckBox.setSelected(true);
 
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "searchEmployeeRecord", e);
