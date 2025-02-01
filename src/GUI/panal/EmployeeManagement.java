@@ -1,22 +1,13 @@
 package GUI.panal;
 
 import GUI.popup.Employee_Address;
-import GUI.popup.StudentAddress;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.HeadlessException;
-import java.awt.RenderingHints;
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -31,10 +22,8 @@ import modal.beans.Admin;
 import modal.beans.Home;
 import modal.RoundedPanel;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import raven.toast.Notifications;
 
 public class EmployeeManagement extends javax.swing.JPanel {
 
@@ -50,10 +39,6 @@ public class EmployeeManagement extends javax.swing.JPanel {
         loadGender();
         loadEmployeeType();
         loadEmployee("");
-
-        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setHorizontalAlignment(SwingConstants.CENTER);
-        jTable1.setDefaultRenderer(Object.class, renderer);
     }
 
     private String AddressId;
@@ -204,13 +189,16 @@ public class EmployeeManagement extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel4.setText(" Gender");
 
+        jComboBox1.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel5.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel5.setText(" Employee Type");
 
+        jComboBox2.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jComboBox3.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active" }));
 
         jLabel6.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
@@ -342,7 +330,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
         });
         jScrollPane3.setViewportView(jTable1);
 
-        jButton2.setBackground(new java.awt.Color(51, 255, 51));
+        jButton2.setBackground(new java.awt.Color(204, 204, 204));
         jButton2.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton2.setText("Print");
         jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -370,22 +358,20 @@ public class EmployeeManagement extends javax.swing.JPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3)
-                        .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -510,11 +496,12 @@ public class EmployeeManagement extends javax.swing.JPanel {
                     }
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LogCenter.logger.log(Level.WARNING, "jTable1MouseClicked", e);
                 }
 
             } else {
-                JOptionPane.showMessageDialog(this, "Please select a row to view the address.", "Warning", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please select a row to view the address");
             }
         }
     }//GEN-LAST:event_jTable1MouseClicked
@@ -522,8 +509,8 @@ public class EmployeeManagement extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
             printReport();
-        } catch (JRException ex) {
-            Logger.getLogger(EmployeeManagement.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            LogCenter.logger.log(Level.WARNING, "jButton2ActionPerformed", e);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -599,6 +586,10 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
+            
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+            renderer.setHorizontalAlignment(SwingConstants.CENTER);
+            jTable1.setDefaultRenderer(Object.class, renderer);
 
             while (resultSet.next()) {
                 Vector vector = new Vector();
@@ -615,7 +606,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadEmployee", e);
         }
     }
 
@@ -635,7 +626,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
             jComboBox1.setModel(model);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadGender", e);
         }
     }
 
@@ -660,7 +651,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
             jComboBox2.setModel(model);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadEmployeeType", e);
         }
 
     }
@@ -681,7 +672,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
             jComboBox3.setModel(model);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "loadEmployeeStatus", e);
         }
 
     }
@@ -708,13 +699,15 @@ public class EmployeeManagement extends javax.swing.JPanel {
             boolean isSaved = reporting.saveReport("EMP_Report", params, dataSource, this.admin);
 
             if (isSaved) {
-                JOptionPane.showMessageDialog(this, "Employee Report saved successfully");
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
+                    "Employee Report saved successfully");
             } else {
-                JOptionPane.showMessageDialog(this, "Employee Report saving was canceled");
+                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
+                    "Employee Report saving was canceled");
             }
 
-        } catch (HeadlessException | IOException | ClassNotFoundException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error occurred while printing the report", ex);
+        } catch (Exception e) {
+            LogCenter.logger.log(Level.WARNING, "printReport", e);
         }
 
     }
@@ -754,31 +747,38 @@ public class EmployeeManagement extends javax.swing.JPanel {
             String employee_status = String.valueOf(jComboBox3.getSelectedItem());
 
             if (employee_id == null) {
-                JOptionPane.showMessageDialog(this, "Please Select An Employee First", "Alert!", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please Select An Employee First");
                 jTable1.grabFocus();
 
             } else if (fname.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter the Employee's First Name", "Alert!", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please Enter the Employee's First Name");
                 jTextField1.grabFocus();
 
             } else if (!Validator.NAME.validate(fname)) {
-                JOptionPane.showMessageDialog(this, "First Name Must Contaion Only Letters", "Alert!", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "First Name Must Contaion Only Letters");
                 jTextField1.grabFocus();
 
             } else if (lname.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter the Employee's Last Name", "Alert!", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please Enter the Employee's Last Name");
                 jTextField2.grabFocus();
 
             } else if (!Validator.NAME.validate(lname)) {
-                JOptionPane.showMessageDialog(this, "Last Name Must Contaion Only Letters", "Alert!", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Last Name Must Contaion Only Letters");
                 jTextField2.grabFocus();
 
             } else if (mobile.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter A Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please Enter A Mobile Number");
                 jTextField2.grabFocus();
 
             } else if (!Validator.MOBILE_NUMBER.validate(mobile)) {
-                JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please Enter A Valid Mobile Number");
                 jTextField2.grabFocus();
 
             } else {
@@ -799,7 +799,8 @@ public class EmployeeManagement extends javax.swing.JPanel {
                         Update = true;
 
                     } else {
-                        JOptionPane.showMessageDialog(this, "No changes detected. Please Update at least one Detail.", "Same Details", JOptionPane.WARNING_MESSAGE);
+                        Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "No changes detected. Please Update at least one Detail");
 
                     }
 
@@ -810,14 +811,15 @@ public class EmployeeManagement extends javax.swing.JPanel {
                             + "`emp_status_id` = '" + employeeStatusMap.get(employee_status) + "',`gender_id` = '" + genderMap.get(gender) + "',"
                             + "`emp_type_id` ='" + employeeTypeMap.get(employee_type) + "' WHERE `id` = '" + employee_id + "' ");
 
-                    JOptionPane.showMessageDialog(this, "Employee Details Updated Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
+                    "Employee Details Updated Successfully");
                     refresh();
                 }
 
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "update", e);
         }
     }
 
@@ -834,39 +836,48 @@ public class EmployeeManagement extends javax.swing.JPanel {
             String Date = SetDate.getDate("yyyy-MM-dd HH:mm:ss");
 
             if (fname.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter the Employee's First Name", "Alert!", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please Enter the Employee's First Name");
                 jTextField1.grabFocus();
 
             } else if (!Validator.NAME.validate(fname)) {
-                JOptionPane.showMessageDialog(this, "First Name Must Contaion Only Letters", "Alert!", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "First Name Must Contaion Only Letters");
                 jTextField1.grabFocus();
 
             } else if (lname.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter the Employee's Last Name", "Alert!", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please Enter the Employee's Last Name");
                 jTextField2.grabFocus();
 
             } else if (!Validator.NAME.validate(lname)) {
-                JOptionPane.showMessageDialog(this, "Last Name Must Contaion Only Letters", "Alert!", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Last Name Must Contaion Only Letters");
                 jTextField2.grabFocus();
 
             } else if (mobile.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter A Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please Enter A Mobile Number");
                 jTextField2.grabFocus();
 
             } else if (!Validator.MOBILE_NUMBER.validate(mobile)) {
-                JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Alert!", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please Enter A Valid Mobile Number");
                 jTextField2.grabFocus();
 
             } else if (gender.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please Select A Gender", "Alert!", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please Select A Gender");
                 jComboBox1.grabFocus();
 
             } else if (employee_type.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please Select An Employee Type", "Alert!", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please Select An Employee Type");
                 jComboBox2.grabFocus();
 
             } else if (this.AddressId == null) {
-                JOptionPane.showMessageDialog(this, "Please Enter An Address", "Alert!", JOptionPane.WARNING_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Please Enter An Address");
                 jButton3.grabFocus();
 
             } else {
@@ -874,7 +885,8 @@ public class EmployeeManagement extends javax.swing.JPanel {
                 ResultSet resultSet = DB.search("SELECT * FROM `employee` WHERE `mobile` ='" + mobile + "' ");
 
                 if (resultSet.next()) {
-                    JOptionPane.showMessageDialog(this, "This Provided Mobile Number Already Have Been Used", "Warning!", JOptionPane.WARNING_MESSAGE);
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "This Provided Mobile Number Already Have Been Used");
                     jTextField2.grabFocus();
 
                 } else {
@@ -886,10 +898,12 @@ public class EmployeeManagement extends javax.swing.JPanel {
                         DB.IUD("INSERT INTO `employee` (`id`,`fname`,`lname`,`mobile`,`join_date`,`address_id`,`emp_status_id`,`gender_id`,`emp_type_id`) VALUES"
                                 + "('" + newID + "','" + fname + "','" + lname + "','" + mobile + "','" + Date + "','" + AddressId + "','" + emp_status + "','" + genderMap.get(gender) + "','" + employeeTypeMap.get(employee_type) + "')");
 
-                        JOptionPane.showMessageDialog(this, "New Employee Added Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
+                    "New Employee Added Successfully");
                         refresh();
                     } else {
-                        JOptionPane.showMessageDialog(this, "There is No Employee Status Like That In the database", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                        Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER,
+                    "There is No Employee Status Like That In the database");
                         refresh();
                     }
                 }
@@ -897,7 +911,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(Level.WARNING, "add", e);
         }
     }
 
@@ -905,7 +919,8 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
         // Check if the Address ID already exists
         if (AddressId != null) {
-            JOptionPane.showMessageDialog(this, "Address ID already exists", "Warning", JOptionPane.WARNING_MESSAGE);
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Address ID already exists");
             return; // Exit if the ID exists
         }
 

@@ -5,15 +5,10 @@
 package GUI.panal;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.Level;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -31,6 +26,7 @@ import modal.beans.Home;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import raven.toast.Notifications;
+import modal.RoundedPanel;
 
 /**
  *
@@ -698,7 +694,7 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        search.setBackground(new java.awt.Color(204, 255, 204));
+        search.setBackground(new java.awt.Color(102, 255, 153));
         search.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         search.setText("Search");
         search.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -709,7 +705,7 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        clear.setBackground(new java.awt.Color(255, 255, 255));
+        clear.setBackground(new java.awt.Color(255, 51, 51));
         clear.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         clear.setText("Clear All");
         clear.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -806,7 +802,7 @@ public class systemAccess extends javax.swing.JPanel {
         table2.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(table2);
 
-        jButton1.setBackground(new java.awt.Color(51, 255, 51));
+        jButton1.setBackground(new java.awt.Color(204, 204, 204));
         jButton1.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton1.setText("Print");
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -899,6 +895,7 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
+        jButton5.setBackground(new java.awt.Color(255, 51, 51));
         jButton5.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton5.setText("Clear All");
         jButton5.setToolTipText("");
@@ -947,7 +944,7 @@ public class systemAccess extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("TO");
 
-        jButton4.setBackground(new java.awt.Color(204, 255, 204));
+        jButton4.setBackground(new java.awt.Color(102, 255, 153));
         jButton4.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton4.setText("Search");
         jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -957,7 +954,7 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(204, 255, 204));
+        jButton3.setBackground(new java.awt.Color(102, 255, 153));
         jButton3.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton3.setText("Search");
         jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -1197,7 +1194,7 @@ public class systemAccess extends javax.swing.JPanel {
         int row = table1.getSelectedRow();
         if (row == -1) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                "Please select a row to update Access");
+                    "Please select a row to update Access");
             return;
         }
 
@@ -1208,21 +1205,21 @@ public class systemAccess extends javax.swing.JPanel {
         // Check for empty username
         if (usern.isEmpty()) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                "Please enter Username");
+                    "Please enter Username");
             return;
         }
 
         // Check for empty password
         if (passw.isEmpty()) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                "Please enter Password");
+                    "Please enter Password");
             return;
         }
 
         // Check if new username and password are the same as the current ones
         if (selectedun.equals(usern) && selectedpw.equals(passw)) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                "Please change username or password to update");
+                    "Please change username or password to update");
             return;
         }
 
@@ -1233,7 +1230,7 @@ public class systemAccess extends javax.swing.JPanel {
 
             // Notify success
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                "Access updated successfully");
+                    "Access updated successfully");
 
             // Reload employee table and reset inputs
             loadEmployee();
@@ -1242,7 +1239,7 @@ public class systemAccess extends javax.swing.JPanel {
             // Log and notify error
             LogCenter.logger.log(Level.WARNING, "Error updating access", e);
             Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                "Failed to update access. Please try again.");
+                    "Failed to update access. Please try again.");
         }
     }//GEN-LAST:event_updateclassActionPerformed
 
@@ -1258,19 +1255,19 @@ public class systemAccess extends javax.swing.JPanel {
             int row = table1.getSelectedRow();
             if (row == -1) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please select a row to add Access");
+                        "Please select a row to add Access");
                 return;
             }
 
             // Validate input fields
             if (usern.isEmpty()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please enter Username");
+                        "Please enter Username");
                 return;
             }
             if (passw.isEmpty()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please enter Password");
+                        "Please enter Password");
                 return;
             }
 
@@ -1279,7 +1276,7 @@ public class systemAccess extends javax.swing.JPanel {
             try (ResultSet rs = DB.search(queryCheck)) {
                 if (rs.next() && rs.getInt(1) > 0) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Username or password already exists. Please try different credentials.");
+                            "Username or password already exists. Please try different credentials.");
                     return;
                 }
             }
@@ -1289,7 +1286,7 @@ public class systemAccess extends javax.swing.JPanel {
             DB.IUD(queryInsert);
 
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                "Access added successfully");
+                    "Access added successfully");
 
             // Reload employee table and reset input fields
             loadEmployee();
@@ -1298,7 +1295,7 @@ public class systemAccess extends javax.swing.JPanel {
             // Log and notify error
             LogCenter.logger.log(Level.WARNING, "Error adding access", e);
             Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                "Failed to add access. Please try again.");
+                    "Failed to add access. Please try again.");
         }
     }//GEN-LAST:event_addaccessActionPerformed
 
@@ -1466,40 +1463,6 @@ public class systemAccess extends javax.swing.JPanel {
         }
     }
 
-//rounded panel
-    class RoundedPanel extends JPanel {
-
-        private Color backgroundColor;
-        private int cornerRadius = 15;
-        private Color boarder;
-
-        public RoundedPanel(int radius, Color bgColor) {
-            super();
-            cornerRadius = radius;
-            backgroundColor = bgColor;
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Dimension arcs = new Dimension(cornerRadius, cornerRadius);
-            int width = getWidth();
-            int height = getHeight();
-            Graphics2D graphics = (Graphics2D) g;
-            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            //Draws the rounded panel with borders.
-            if (backgroundColor != null) {
-                graphics.setColor(backgroundColor);
-            } else {
-                graphics.setColor(getBackground());
-            }
-            graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height); //paint background
-            graphics.setColor(getForeground());
-//            graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height); //paint border
-//             
-        }
-    }
-
     //Reporting 
     private void printReportAccess() throws JRException {
 
@@ -1629,10 +1592,9 @@ public class systemAccess extends javax.swing.JPanel {
                             defaultTableModel.addRow(v);
                             row++;
                         }
-                    }else{
-                    
+                    } else {
+
                         // yesterday and othere items 
-                    
                     }
 
                 } else if (to != null && from != null) {

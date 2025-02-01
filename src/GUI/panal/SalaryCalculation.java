@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -118,6 +117,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Employee Salary", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
+        jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField3.setToolTipText("Employee ID");
 
@@ -213,7 +213,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
             }
         });
 
-        jButton6.setBackground(new java.awt.Color(0, 102, 204));
+        jButton6.setBackground(new java.awt.Color(102, 255, 153));
         jButton6.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton6.setText("Search");
         jButton6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -361,7 +361,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(51, 255, 51));
+        jButton4.setBackground(new java.awt.Color(204, 204, 204));
         jButton4.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton4.setText("Print");
         jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -418,10 +418,11 @@ public class SalaryCalculation extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDateChooser4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jDateChooser4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -462,7 +463,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel2.setText("Teacher NIC :");
 
-        jTextField1.setFont(new java.awt.Font("Poppins Medium", 1, 12)); // NOI18N
+        jTextField1.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/icons8-search-client-24.png"))); // NOI18N
@@ -477,7 +478,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel3.setText("Name :");
 
-        jTextField2.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        jTextField2.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel4.setText("Last Payement Date :");
@@ -516,6 +517,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jButton8.setBackground(new java.awt.Color(255, 51, 51));
         jButton8.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton8.setText("Clear All");
+        jButton8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jButton8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -526,6 +528,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jButton2.setBackground(new java.awt.Color(51, 255, 51));
         jButton2.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton2.setText("Pay");
+        jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -536,6 +539,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
         jButton1.setBackground(new java.awt.Color(51, 153, 255));
         jButton1.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton1.setText("Calculate");
+        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -615,7 +619,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
         jPanel7.setBackground(new java.awt.Color(234, 238, 244));
 
-        jButton9.setBackground(new java.awt.Color(51, 255, 51));
+        jButton9.setBackground(new java.awt.Color(204, 204, 204));
         jButton9.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton9.setText("Print");
         jButton9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
