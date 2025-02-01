@@ -520,7 +520,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         jLabel20.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel20.setText("Student ID :");
 
-        CourseAttnMark.setBackground(new java.awt.Color(0, 153, 51));
+        CourseAttnMark.setBackground(new java.awt.Color(51, 255, 51));
         CourseAttnMark.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         CourseAttnMark.setText("Mark Attendance");
         CourseAttnMark.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
