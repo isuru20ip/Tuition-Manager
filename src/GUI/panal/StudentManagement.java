@@ -7,10 +7,6 @@ package GUI.panal;
 import GUI.popup.GuardianDetails;
 import GUI.popup.StudentAddress;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.util.HashMap;
 import modal.DB;
 import java.sql.ResultSet;
@@ -34,13 +30,13 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import modal.HomeInfo;
 import modal.Reporting;
 import modal.beans.Home;
 import raven.toast.Notifications;
+import modal.RoundedPanel;
 
 /**
  *
@@ -151,7 +147,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "More Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
         jPanel14.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
 
-        jLabel21.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel21.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel21.setText("Search Student :");
 
@@ -162,18 +158,20 @@ public class StudentManagement extends javax.swing.JPanel {
         });
 
         buttonGroup2.add(jRadioButton4);
+        jRadioButton4.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
         jRadioButton4.setText("No NIC");
         jRadioButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         buttonGroup2.add(jRadioButton3);
+        jRadioButton3.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
         jRadioButton3.setText("NIC");
         jRadioButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel23.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel23.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel23.setText(" Gender");
 
-        jComboBox1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jComboBox1.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -246,7 +244,7 @@ public class StudentManagement extends javax.swing.JPanel {
                     .addComponent(jRadioButton4)
                     .addComponent(jLabel23))
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(jComboBox1))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -259,7 +257,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Employee Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
         jPanel15.setFont(new java.awt.Font("Poppins SemiBold", 0, 12)); // NOI18N
 
-        jLabel15.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel15.setText(" First Name");
 
         jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -270,7 +268,7 @@ public class StudentManagement extends javax.swing.JPanel {
             }
         });
 
-        jLabel22.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel22.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel22.setText(" Mobile");
 
         jTextField4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -281,7 +279,7 @@ public class StudentManagement extends javax.swing.JPanel {
             }
         });
 
-        jLabel24.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel24.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel24.setText(" Email");
 
         jTextField5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -292,7 +290,7 @@ public class StudentManagement extends javax.swing.JPanel {
             }
         });
 
-        jLabel18.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel18.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel18.setText(" Last Name");
 
         jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -303,13 +301,13 @@ public class StudentManagement extends javax.swing.JPanel {
             }
         });
 
-        jLabel12.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel12.setText(" Joined Date");
 
-        jLabel25.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel25.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel25.setText(" Status");
 
-        jComboBox2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jComboBox2.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active" }));
         jComboBox2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
@@ -328,7 +326,7 @@ public class StudentManagement extends javax.swing.JPanel {
                             .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 121, Short.MAX_VALUE)))
+                        .addGap(0, 110, Short.MAX_VALUE)))
                 .addGap(32, 32, 32)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel15Layout.createSequentialGroup()
@@ -343,7 +341,7 @@ public class StudentManagement extends javax.swing.JPanel {
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, 0, 241, Short.MAX_VALUE))
+                            .addComponent(jComboBox2, 0, 230, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         jPanel15Layout.setVerticalGroup(
@@ -369,7 +367,7 @@ public class StudentManagement extends javax.swing.JPanel {
                     .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE))
                 .addGap(1, 1, 1)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                     .addComponent(jComboBox2))
                 .addGap(13, 13, 13))
         );
@@ -475,7 +473,7 @@ public class StudentManagement extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -531,7 +529,7 @@ public class StudentManagement extends javax.swing.JPanel {
             }
         });
 
-        jButton6.setBackground(new java.awt.Color(51, 255, 51));
+        jButton6.setBackground(new java.awt.Color(204, 204, 204));
         jButton6.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton6.setText("Print");
         jButton6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -569,7 +567,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(234, 238, 244));
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Search Student", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Search Student", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         jButton7.setBackground(new java.awt.Color(255, 51, 51));
         jButton7.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
@@ -582,7 +580,7 @@ public class StudentManagement extends javax.swing.JPanel {
             }
         });
 
-        jLabel16.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel16.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel16.setText(" Student ID");
 
         jTextField7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -598,7 +596,7 @@ public class StudentManagement extends javax.swing.JPanel {
             }
         });
 
-        jLabel17.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel17.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel17.setText(" Email");
 
         jTextField8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -641,7 +639,7 @@ public class StudentManagement extends javax.swing.JPanel {
                 .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -666,16 +664,16 @@ public class StudentManagement extends javax.swing.JPanel {
         jPanel5.setBackground(new java.awt.Color(234, 238, 244));
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Select Reports", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
+        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Select Reports", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jRadioButton1.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jRadioButton1.setText("Enrollment");
         jRadioButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jRadioButton1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jRadioButton2.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jRadioButton2.setText("Payment History");
         jRadioButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jRadioButton2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -716,7 +714,7 @@ public class StudentManagement extends javax.swing.JPanel {
                 .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1008,7 +1006,7 @@ public class StudentManagement extends javax.swing.JPanel {
             // Display a warning if no selection is made
 
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                "Please select a report to view.");
+                    "Please select a report to view.");
         }
     }//GEN-LAST:event_jButton8ActionPerformed
 
@@ -1027,7 +1025,7 @@ public class StudentManagement extends javax.swing.JPanel {
             } else {
                 // Display a warning if no selection is made
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please select a report to print.");
+                        "Please select a report to print.");
             }
         } catch (JRException ex) {
             LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
@@ -1340,7 +1338,7 @@ public class StudentManagement extends javax.swing.JPanel {
                 // Ensure age is more than 5 years
                 if (age < 5) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Date of birth must indicate an age of at least 5 years");
+                            "Date of birth must indicate an age of at least 5 years");
                     return;
                 }
 
@@ -1348,11 +1346,11 @@ public class StudentManagement extends javax.swing.JPanel {
                 if (age >= 18) {
                     if (nic.isEmpty()) {
                         Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Your NIC for students 18 and older");
+                                "Please Enter Your NIC for students 18 and older");
                         return;
                     } else if (!Validator.NIC.validate(nic)) {
                         Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Invalid NIC format");
+                                "Invalid NIC format");
                         return;
                     }
                 }
@@ -1360,28 +1358,28 @@ public class StudentManagement extends javax.swing.JPanel {
                 // Additional field validations
                 if (gender.equals("Select")) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Select a Gender");
+                            "Please Select a Gender");
                 } else if (mobile.isEmpty()) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Your Mobile");
+                            "Please Enter Your Mobile");
                 } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Valid Mobile");
+                            "Please Enter Valid Mobile");
                 } else if (email.isEmpty()) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Your Email");
+                            "Please Enter Your Email");
                 } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Invalid Email");
+                            "Invalid Email");
                 } else if (status.equals("Select")) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Select a Status");
+                            "Please Select a Status");
                 } else if (StudentAddressId == null) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter an Address");
+                            "Please Enter an Address");
                 } else if (GuardianId == null) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Guardian Information");
+                            "Please Enter Guardian Information");
                 } else {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -1398,7 +1396,7 @@ public class StudentManagement extends javax.swing.JPanel {
                             + "'" + EmployeeID + "','" + studentStatus.get(status) + "')");
 
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                        "New Student Added Successfully");
+                            "New Student Added Successfully");
 
                     clearAll();
                 }
@@ -1414,7 +1412,7 @@ public class StudentManagement extends javax.swing.JPanel {
         int row = jTable1.getSelectedRow();
         if (row == -1) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Select a Student to Update");
+                    "Please Select a Student to Update");
         } else {
             String StudentId = String.valueOf(jTable1.getValueAt(row, 0));
 
@@ -1430,28 +1428,28 @@ public class StudentManagement extends javax.swing.JPanel {
                 // Validate the fields
                 if (fname.isEmpty()) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Your First Name");
+                            "Please Enter Your First Name");
                 } else if (lname.isEmpty()) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Your Last Name");
+                            "Please Enter Your Last Name");
                 } else if (nic.isEmpty() && !nic.isEmpty() && !Validator.NIC.validate(nic)) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Invalid NIC format");
+                            "Invalid NIC format");
                 } else if (mobile.isEmpty()) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Your Mobile");
+                            "Please Enter Your Mobile");
                 } else if (!mobile.matches("^07[012345678]{1}[0-9]{7}$")) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Valid Mobile");
+                            "Please Enter Valid Mobile");
                 } else if (email.isEmpty()) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Your Email");
+                            "Please Enter Your Email");
                 } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-Za-z0-9\\+_-]+)*@[^-][A-Za-z0-9\\+-]+(\\.[A-Za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Invalid Email");
+                            "Invalid Email");
                 } else if (status.equals("Select")) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Select a Status");
+                            "Please Select a Status");
                 } else {
                     // Check for duplicates in the table, except for the current row
                     boolean isFound = false;
@@ -1465,7 +1463,7 @@ public class StudentManagement extends javax.swing.JPanel {
                         // Check if this entry matches the data for the student, avoiding duplication
                         if (getFname.equals(fname) && getLname.equals(lname) && getMobile.equals(mobile) && (nic.isEmpty() || getNic.equals(nic)) && i != row) {
                             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "This Student has already been added");
+                                    "This Student has already been added");
                             isFound = true;
                             break;
                         }
@@ -1483,7 +1481,7 @@ public class StudentManagement extends javax.swing.JPanel {
                         DB.IUD(query);
 
                         Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                        "Student Details Successfully Updated");
+                                "Student Details Successfully Updated");
 
                         // Refresh table data and clear input fields
                         clearAll();
@@ -1501,7 +1499,7 @@ public class StudentManagement extends javax.swing.JPanel {
         // Check if the Address ID already exists
         if (StudentAddressId != null) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Address ID already exists");
+                    "Address ID already exists");
             return; // Exit if the ID exists
         }
 
@@ -1520,7 +1518,7 @@ public class StudentManagement extends javax.swing.JPanel {
         // Check if the Guardian ID already exists
         if (GuardianId != null) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Guradian ID already exists");
+                    "Guradian ID already exists");
             return; // Exit if the ID exists
         }
 
@@ -1601,7 +1599,7 @@ public class StudentManagement extends javax.swing.JPanel {
         jButton3.setEnabled(true); // Add Button Enable
         jComboBox1.setEnabled(true); //Gender Not Updated
         jDateChooser1.setEnabled(true); // BirthDay Not Updated
-         jTextField3.setEditable(true); // NIC Visible
+        jTextField3.setEditable(true); // NIC Visible
         loadStudent("");
         loadSStatus();
 
@@ -1784,44 +1782,10 @@ public class StudentManagement extends javax.swing.JPanel {
         jComboBox4.setSelectedItem("Select");
         buttonGroup1.clearSelection();
         jTextField7.grabFocus();
-        
+
         StudentReportLoad("", "", "", "");
         StudentPaymentReportLoad("");
 
-    }
-
-    //rounded panel
-    class RoundedPanel extends JPanel {
-
-        private Color backgroundColor;
-        private int cornerRadius = 15;
-        private Color boarder;
-
-        public RoundedPanel(int radius, Color bgColor) {
-            super();
-            cornerRadius = radius;
-            backgroundColor = bgColor;
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Dimension arcs = new Dimension(cornerRadius, cornerRadius);
-            int width = getWidth();
-            int height = getHeight();
-            Graphics2D graphics = (Graphics2D) g;
-            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            //Draws the rounded panel with borders.
-            if (backgroundColor != null) {
-                graphics.setColor(backgroundColor);
-            } else {
-                graphics.setColor(getBackground());
-            }
-            graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height); //paint background
-            graphics.setColor(getForeground());
-//            graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height); //paint border
-//             
-        }
     }
 
     //REPORTING

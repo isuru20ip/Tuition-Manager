@@ -5,15 +5,10 @@
 package GUI.panal;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.Level;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -31,6 +26,7 @@ import modal.beans.Home;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import raven.toast.Notifications;
+import modal.RoundedPanel;
 
 /**
  *
@@ -323,7 +319,7 @@ public class systemAccess extends javax.swing.JPanel {
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Employee Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
         jPanel8.setFont(new java.awt.Font("Meta", 0, 12)); // NOI18N
 
-        jLabel10.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel10.setText(" Employee Name");
 
         empname.setEditable(false);
@@ -335,7 +331,7 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        jLabel11.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel11.setText(" Employee Contact");
 
         contact.setEditable(false);
@@ -347,7 +343,7 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        jLabel12.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel12.setText(" Joined Date");
 
         joineddate.setEditable(false);
@@ -359,7 +355,7 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        jLabel20.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel20.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel20.setText(" Employee Status");
 
         empstatus.setEditable(false);
@@ -371,7 +367,7 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        jLabel21.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel21.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel21.setText(" Employee Gender");
 
         empgender.setEditable(false);
@@ -383,7 +379,7 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        jLabel22.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel22.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel22.setText(" Employee Type");
 
         emptype.setEditable(false);
@@ -404,29 +400,29 @@ public class systemAccess extends javax.swing.JPanel {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(contact, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(empname, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(joineddate)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 96, Short.MAX_VALUE))
-                    .addComponent(joineddate))
+                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(0, 89, Short.MAX_VALUE)))
                 .addGap(32, 32, 32)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(emptype)
                             .addComponent(empgender)
+                            .addComponent(empstatus)
                             .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(empstatus))
+                                .addComponent(jLabel20)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(12, 12, 12))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(109, Short.MAX_VALUE))))
+                            .addComponent(jLabel22)
+                            .addComponent(jLabel21))
+                        .addContainerGap(103, Short.MAX_VALUE))))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -517,7 +513,7 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        jLabel9.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel9.setText(" Password");
 
         username.setEditable(false);
@@ -529,10 +525,10 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel8.setText(" Username");
 
-        jLabel7.setFont(new java.awt.Font("Meta", 0, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel7.setText(" Employee ID");
 
         password.setEditable(false);
@@ -698,8 +694,8 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        search.setBackground(new java.awt.Color(204, 255, 204));
-        search.setFont(new java.awt.Font("Poppins SemiBold", 1, 18)); // NOI18N
+        search.setBackground(new java.awt.Color(102, 255, 153));
+        search.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         search.setText("Search");
         search.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         search.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -709,8 +705,8 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        clear.setBackground(new java.awt.Color(255, 255, 255));
-        clear.setFont(new java.awt.Font("Poppins SemiBold", 1, 18)); // NOI18N
+        clear.setBackground(new java.awt.Color(255, 51, 51));
+        clear.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         clear.setText("Clear All");
         clear.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         clear.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -806,8 +802,8 @@ public class systemAccess extends javax.swing.JPanel {
         table2.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(table2);
 
-        jButton1.setBackground(new java.awt.Color(51, 255, 51));
-        jButton1.setFont(new java.awt.Font("Poppins SemiBold", 1, 18)); // NOI18N
+        jButton1.setBackground(new java.awt.Color(204, 204, 204));
+        jButton1.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton1.setText("Print");
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -834,8 +830,8 @@ public class systemAccess extends javax.swing.JPanel {
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -890,7 +886,7 @@ public class systemAccess extends javax.swing.JPanel {
         }
 
         jButton2.setBackground(new java.awt.Color(51, 255, 51));
-        jButton2.setFont(new java.awt.Font("Poppins SemiBold", 1, 18)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton2.setText("Print");
         jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -899,7 +895,8 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        jButton5.setFont(new java.awt.Font("Poppins SemiBold", 1, 18)); // NOI18N
+        jButton5.setBackground(new java.awt.Color(255, 51, 51));
+        jButton5.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton5.setText("Clear All");
         jButton5.setToolTipText("");
         jButton5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -947,8 +944,8 @@ public class systemAccess extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("TO");
 
-        jButton4.setBackground(new java.awt.Color(204, 255, 204));
-        jButton4.setFont(new java.awt.Font("Poppins SemiBold", 1, 18)); // NOI18N
+        jButton4.setBackground(new java.awt.Color(102, 255, 153));
+        jButton4.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton4.setText("Search");
         jButton4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -957,8 +954,8 @@ public class systemAccess extends javax.swing.JPanel {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(204, 255, 204));
-        jButton3.setFont(new java.awt.Font("Poppins SemiBold", 1, 18)); // NOI18N
+        jButton3.setBackground(new java.awt.Color(102, 255, 153));
+        jButton3.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton3.setText("Search");
         jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -1197,7 +1194,7 @@ public class systemAccess extends javax.swing.JPanel {
         int row = table1.getSelectedRow();
         if (row == -1) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                "Please select a row to update Access");
+                    "Please select a row to update Access");
             return;
         }
 
@@ -1208,21 +1205,21 @@ public class systemAccess extends javax.swing.JPanel {
         // Check for empty username
         if (usern.isEmpty()) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                "Please enter Username");
+                    "Please enter Username");
             return;
         }
 
         // Check for empty password
         if (passw.isEmpty()) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                "Please enter Password");
+                    "Please enter Password");
             return;
         }
 
         // Check if new username and password are the same as the current ones
         if (selectedun.equals(usern) && selectedpw.equals(passw)) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                "Please change username or password to update");
+                    "Please change username or password to update");
             return;
         }
 
@@ -1233,7 +1230,7 @@ public class systemAccess extends javax.swing.JPanel {
 
             // Notify success
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                "Access updated successfully");
+                    "Access updated successfully");
 
             // Reload employee table and reset inputs
             loadEmployee();
@@ -1242,7 +1239,7 @@ public class systemAccess extends javax.swing.JPanel {
             // Log and notify error
             LogCenter.logger.log(Level.WARNING, "Error updating access", e);
             Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                "Failed to update access. Please try again.");
+                    "Failed to update access. Please try again.");
         }
     }//GEN-LAST:event_updateclassActionPerformed
 
@@ -1258,19 +1255,19 @@ public class systemAccess extends javax.swing.JPanel {
             int row = table1.getSelectedRow();
             if (row == -1) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please select a row to add Access");
+                        "Please select a row to add Access");
                 return;
             }
 
             // Validate input fields
             if (usern.isEmpty()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please enter Username");
+                        "Please enter Username");
                 return;
             }
             if (passw.isEmpty()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please enter Password");
+                        "Please enter Password");
                 return;
             }
 
@@ -1279,7 +1276,7 @@ public class systemAccess extends javax.swing.JPanel {
             try (ResultSet rs = DB.search(queryCheck)) {
                 if (rs.next() && rs.getInt(1) > 0) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Username or password already exists. Please try different credentials.");
+                            "Username or password already exists. Please try different credentials.");
                     return;
                 }
             }
@@ -1289,7 +1286,7 @@ public class systemAccess extends javax.swing.JPanel {
             DB.IUD(queryInsert);
 
             Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                "Access added successfully");
+                    "Access added successfully");
 
             // Reload employee table and reset input fields
             loadEmployee();
@@ -1298,7 +1295,7 @@ public class systemAccess extends javax.swing.JPanel {
             // Log and notify error
             LogCenter.logger.log(Level.WARNING, "Error adding access", e);
             Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                "Failed to add access. Please try again.");
+                    "Failed to add access. Please try again.");
         }
     }//GEN-LAST:event_addaccessActionPerformed
 
@@ -1466,40 +1463,6 @@ public class systemAccess extends javax.swing.JPanel {
         }
     }
 
-//rounded panel
-    class RoundedPanel extends JPanel {
-
-        private Color backgroundColor;
-        private int cornerRadius = 15;
-        private Color boarder;
-
-        public RoundedPanel(int radius, Color bgColor) {
-            super();
-            cornerRadius = radius;
-            backgroundColor = bgColor;
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Dimension arcs = new Dimension(cornerRadius, cornerRadius);
-            int width = getWidth();
-            int height = getHeight();
-            Graphics2D graphics = (Graphics2D) g;
-            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            //Draws the rounded panel with borders.
-            if (backgroundColor != null) {
-                graphics.setColor(backgroundColor);
-            } else {
-                graphics.setColor(getBackground());
-            }
-            graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height); //paint background
-            graphics.setColor(getForeground());
-//            graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height); //paint border
-//             
-        }
-    }
-
     //Reporting 
     private void printReportAccess() throws JRException {
 
@@ -1629,10 +1592,9 @@ public class systemAccess extends javax.swing.JPanel {
                             defaultTableModel.addRow(v);
                             row++;
                         }
-                    }else{
-                    
+                    } else {
+
                         // yesterday and othere items 
-                    
                     }
 
                 } else if (to != null && from != null) {
