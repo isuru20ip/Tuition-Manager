@@ -205,7 +205,7 @@
                                   <Component id="jLabel23" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jTextField3" pref="34" max="32767" attributes="0"/>
+                                  <Component id="jTextField3" pref="35" max="32767" attributes="0"/>
                                   <Component id="jComboBox1" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
@@ -222,7 +222,7 @@
                     <Component class="javax.swing.JLabel" name="jLabel21">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Segoe UI" size="14" style="0"/>
+                          <Font name="Poppins Medium" size="14" style="0"/>
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="0"/>
                         <Property name="text" type="java.lang.String" value="Search Student :"/>
@@ -238,6 +238,9 @@
                         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                           <ComponentRef name="buttonGroup2"/>
                         </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Poppins Medium" size="12" style="0"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="No NIC"/>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                           <Color id="Hand Cursor"/>
@@ -249,6 +252,9 @@
                         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                           <ComponentRef name="buttonGroup2"/>
                         </Property>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Poppins Medium" size="12" style="0"/>
+                        </Property>
                         <Property name="text" type="java.lang.String" value="NIC"/>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                           <Color id="Hand Cursor"/>
@@ -258,7 +264,7 @@
                     <Component class="javax.swing.JLabel" name="jLabel23">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Segoe UI" size="14" style="0"/>
+                          <Font name="Poppins Medium" size="14" style="0"/>
                         </Property>
                         <Property name="horizontalAlignment" type="int" value="2"/>
                         <Property name="text" type="java.lang.String" value=" Gender"/>
@@ -267,7 +273,7 @@
                     <Component class="javax.swing.JComboBox" name="jComboBox1">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Poppins" size="12" style="0"/>
+                          <Font name="Poppins" size="14" style="0"/>
                         </Property>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="4">
@@ -368,7 +374,7 @@
                                           <Component id="jLabel15" alignment="0" min="-2" pref="109" max="-2" attributes="0"/>
                                           <Component id="jLabel18" alignment="0" min="-2" pref="129" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="121" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="110" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
@@ -388,7 +394,7 @@
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jLabel24" alignment="0" min="-2" pref="124" max="-2" attributes="0"/>
                                           <Component id="jLabel25" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
-                                          <Component id="jComboBox2" alignment="0" pref="241" max="32767" attributes="0"/>
+                                          <Component id="jComboBox2" alignment="0" pref="230" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
@@ -424,7 +430,7 @@
                               </Group>
                               <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jDateChooser1" alignment="0" pref="34" max="32767" attributes="0"/>
+                                  <Component id="jDateChooser1" alignment="0" pref="36" max="32767" attributes="0"/>
                                   <Component id="jComboBox2" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
@@ -436,7 +442,7 @@
                     <Component class="javax.swing.JLabel" name="jLabel15">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Meta" size="14" style="0"/>
+                          <Font name="Poppins Medium" size="14" style="0"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value=" First Name"/>
                       </Properties>
@@ -455,7 +461,7 @@
                     <Component class="javax.swing.JLabel" name="jLabel22">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Meta" size="14" style="0"/>
+                          <Font name="Poppins Medium" size="14" style="0"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value=" Mobile"/>
                       </Properties>
@@ -474,7 +480,7 @@
                     <Component class="javax.swing.JLabel" name="jLabel24">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Meta" size="14" style="0"/>
+                          <Font name="Poppins Medium" size="14" style="0"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value=" Email"/>
                       </Properties>
@@ -493,7 +499,7 @@
                     <Component class="javax.swing.JLabel" name="jLabel18">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Meta" size="14" style="0"/>
+                          <Font name="Poppins Medium" size="14" style="0"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value=" Last Name"/>
                       </Properties>
@@ -512,7 +518,7 @@
                     <Component class="javax.swing.JLabel" name="jLabel12">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Meta" size="14" style="0"/>
+                          <Font name="Poppins Medium" size="14" style="0"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value=" Joined Date"/>
                       </Properties>
@@ -520,7 +526,7 @@
                     <Component class="javax.swing.JLabel" name="jLabel25">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Meta" size="14" style="0"/>
+                          <Font name="Poppins Medium" size="14" style="0"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value=" Status"/>
                       </Properties>
@@ -528,7 +534,7 @@
                     <Component class="javax.swing.JComboBox" name="jComboBox2">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Poppins" size="12" style="0"/>
+                          <Font name="Poppins" size="14" style="0"/>
                         </Property>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="1">
@@ -583,7 +589,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="220" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="218" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="103" alignment="0" groupAlignment="3" attributes="0">
@@ -913,7 +919,7 @@
                 <Component class="javax.swing.JButton" name="jButton6">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="33" green="ff" red="33" type="rgb"/>
+                      <Color blue="cc" green="cc" red="cc" type="rgb"/>
                     </Property>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Poppins SemiBold" size="14" style="1"/>
@@ -973,7 +979,7 @@
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder justification="1" title="Search Student">
-                          <Font PropertyName="font" name="Segoe UI" size="14" style="1"/>
+                          <Font PropertyName="font" name="Segoe UI" size="12" style="1"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -1010,7 +1016,7 @@
                               <Component id="jLabel17" min="-2" pref="24" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
                               <Component id="jTextField8" min="-2" pref="34" max="-2" attributes="0"/>
-                              <EmptySpace pref="17" max="32767" attributes="0"/>
+                              <EmptySpace pref="21" max="32767" attributes="0"/>
                               <Component id="jButton7" min="-2" pref="34" max="-2" attributes="0"/>
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -1043,7 +1049,7 @@
                     <Component class="javax.swing.JLabel" name="jLabel16">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Meta" size="14" style="0"/>
+                          <Font name="Poppins Medium" size="14" style="0"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value=" Student ID"/>
                       </Properties>
@@ -1063,7 +1069,7 @@
                     <Component class="javax.swing.JLabel" name="jLabel17">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Meta" size="14" style="0"/>
+                          <Font name="Poppins Medium" size="14" style="0"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value=" Email"/>
                       </Properties>
@@ -1123,7 +1129,7 @@
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                         <TitledBorder justification="1" title="Select Reports">
-                          <Font PropertyName="font" name="Segoe UI" size="14" style="1"/>
+                          <Font PropertyName="font" name="Segoe UI" size="12" style="1"/>
                         </TitledBorder>
                       </Border>
                     </Property>
@@ -1159,7 +1165,7 @@
                               <Component id="jRadioButton1" min="-2" pref="32" max="-2" attributes="0"/>
                               <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                               <Component id="jRadioButton2" min="-2" pref="33" max="-2" attributes="0"/>
-                              <EmptySpace pref="34" max="32767" attributes="0"/>
+                              <EmptySpace pref="38" max="32767" attributes="0"/>
                               <Component id="jButton8" min="-2" pref="34" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -1173,7 +1179,7 @@
                           <ComponentRef name="buttonGroup1"/>
                         </Property>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Segoe UI" size="14" style="0"/>
+                          <Font name="Poppins Medium" size="14" style="0"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Enrollment"/>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -1188,7 +1194,7 @@
                           <ComponentRef name="buttonGroup1"/>
                         </Property>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Segoe UI" size="14" style="0"/>
+                          <Font name="Poppins Medium" size="14" style="0"/>
                         </Property>
                         <Property name="text" type="java.lang.String" value="Payment History"/>
                         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
