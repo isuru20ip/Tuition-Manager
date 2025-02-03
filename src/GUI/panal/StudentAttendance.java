@@ -953,6 +953,18 @@ public class StudentAttendance extends javax.swing.JPanel {
         clearClassAllFieldMarkin();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void classAttnMarkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classAttnMarkButtonActionPerformed
+        MarkClassAttn();
+    }//GEN-LAST:event_classAttnMarkButtonActionPerformed
+
+    private void CourseClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CourseClearAllActionPerformed
+        clearCourseAllField();
+    }//GEN-LAST:event_CourseClearAllActionPerformed
+
+    private void CourseFieldClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CourseFieldClearActionPerformed
+        clearCourseField();
+    }//GEN-LAST:event_CourseFieldClearActionPerformed
+
     private void jTabbedPane2MouseClicked(java.awt.event.MouseEvent evt) {
         SelectTab2();
     }
@@ -967,10 +979,6 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     private void class_CheckBoxActionPerformed(java.awt.event.ActionEvent evt) {
         searchClassAttnChecBox();
-    }
-
-    private void classAttnMarkButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        MarkClassAttn();
     }
 
     private void Studen_ID_TextFieldKeyReleased(java.awt.event.KeyEvent evt) {
@@ -1038,9 +1046,6 @@ public class StudentAttendance extends javax.swing.JPanel {
         }
     }
 
-    private void CourseFieldClearActionPerformed(java.awt.event.ActionEvent evt) {
-        clearCourseField();
-    }
 
     private void CourseSTIDKeyReleased(java.awt.event.KeyEvent evt) {
         searchCourseEnrolment();
@@ -1048,10 +1053,6 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     private void CourseAttnMarkActionPerformed(java.awt.event.ActionEvent evt) {
         MarkCourseAttn();
-    }
-
-    private void CourseClearAllActionPerformed(java.awt.event.ActionEvent evt) {
-        clearCourseAllField();
     }
 
     private void CourseRecordCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {
@@ -1526,6 +1527,10 @@ public class StudentAttendance extends javax.swing.JPanel {
 
             DefaultTableModel tableModel = (DefaultTableModel) Class_Attn_Table.getModel();
             tableModel.setRowCount(0);
+            
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+            renderer.setHorizontalAlignment(SwingConstants.CENTER);
+            Class_Attn_Table.setDefaultRenderer(Object.class, renderer);
 
             while (resultSet.next()) {
                 Vector<String> ClassVector = new Vector<>();
@@ -1581,6 +1586,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         class_to_DateChooser.setEnabled(false);
         class_attn_record_find_button.setEnabled(false);
         CourseRecordFind.setEnabled(false);
+        classAttnMarkButton.setEnabled(true);
 
         loadClassAttnTable();
     }
@@ -1824,6 +1830,10 @@ public class StudentAttendance extends javax.swing.JPanel {
 
             DefaultTableModel tableModel = (DefaultTableModel) CourseTabel.getModel();
             tableModel.setRowCount(0);
+            
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+            renderer.setHorizontalAlignment(SwingConstants.CENTER);
+            CourseTabel.setDefaultRenderer(Object.class, renderer);
 
             while (resultSet.next()) {
                 Vector<String> ClassVector = new Vector<>();
@@ -1990,6 +2000,9 @@ public class StudentAttendance extends javax.swing.JPanel {
         CourseRecordCheckBox.setSelected(false);
         CourseFromDate.setEnabled(false);
         CourseToDate.setEnabled(false);
+        CourseAttnMark.setEnabled(true);
+        
+        searchCourseAttnChecBox();
 
         loadCourseAttnTable();
     }
