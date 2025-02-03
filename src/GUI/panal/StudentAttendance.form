@@ -1116,8 +1116,8 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="toDateChooser" max="32767" attributes="0"/>
-                                      <Component id="fromDateChooser" max="32767" attributes="0"/>
+                                      <Component id="emp_toDateChooser" max="32767" attributes="0"/>
+                                      <Component id="emp_fromDateChooser" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                                   <Component id="searchRecorButton" max="32767" attributes="0"/>
@@ -1171,12 +1171,12 @@
                                   <Component id="ifrecordCheckBox" min="-2" pref="18" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="fromDateChooser" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="emp_fromDateChooser" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jLabel9" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="toDateChooser" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="emp_toDateChooser" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jLabel10" alignment="0" max="32767" attributes="0"/>
                                       <Component id="searchRecorButton" alignment="1" min="-2" pref="35" max="-2" attributes="0"/>
                                   </Group>
@@ -1347,14 +1347,14 @@
                     <Property name="text" type="java.lang.String" value="From :"/>
                   </Properties>
                 </Component>
-                <Component class="com.toedter.calendar.JDateChooser" name="fromDateChooser">
+                <Component class="com.toedter.calendar.JDateChooser" name="emp_fromDateChooser">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Poppins Medium" size="14" style="1"/>
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="com.toedter.calendar.JDateChooser" name="toDateChooser">
+                <Component class="com.toedter.calendar.JDateChooser" name="emp_toDateChooser">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Poppins Medium" size="14" style="1"/>
