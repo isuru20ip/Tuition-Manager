@@ -122,8 +122,8 @@ public class StudentAttendance extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         ifrecordCheckBox = new javax.swing.JCheckBox();
         jLabel9 = new javax.swing.JLabel();
-        fromDateChooser = new com.toedter.calendar.JDateChooser();
-        toDateChooser = new com.toedter.calendar.JDateChooser();
+        emp_fromDateChooser = new com.toedter.calendar.JDateChooser();
+        emp_toDateChooser = new com.toedter.calendar.JDateChooser();
         jLabel10 = new javax.swing.JLabel();
         searchRecorButton = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -756,9 +756,9 @@ public class StudentAttendance extends javax.swing.JPanel {
         jLabel9.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel9.setText("From :");
 
-        fromDateChooser.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        emp_fromDateChooser.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
 
-        toDateChooser.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
+        emp_toDateChooser.setFont(new java.awt.Font("Poppins Medium", 1, 14)); // NOI18N
 
         jLabel10.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel10.setText("To :");
@@ -819,8 +819,8 @@ public class StudentAttendance extends javax.swing.JPanel {
                                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(toDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(fromDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(emp_toDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(emp_fromDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(14, 14, 14)
                         .addComponent(searchRecorButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
@@ -861,11 +861,11 @@ public class StudentAttendance extends javax.swing.JPanel {
                         .addComponent(ifrecordCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(fromDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(emp_fromDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(toDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(emp_toDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(searchRecorButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(27, 27, 27))))
@@ -1085,13 +1085,14 @@ public class StudentAttendance extends javax.swing.JPanel {
     private javax.swing.JButton class_attn_print_button;
     private javax.swing.JButton class_attn_record_find_button;
     private com.toedter.calendar.JDateChooser class_to_DateChooser;
+    private com.toedter.calendar.JDateChooser emp_fromDateChooser;
+    private com.toedter.calendar.JDateChooser emp_toDateChooser;
     private javax.swing.JTextField employee_ID_Field;
     private javax.swing.JTextField employee_Name_Field;
     private javax.swing.JTextField employee_OffTime_Field;
     private javax.swing.JTextField employee_OnTime_Field;
     private javax.swing.JPanel employee_attn_main_panel;
     private javaswingdev.swing.table.Table employee_attn_table;
-    private com.toedter.calendar.JDateChooser fromDateChooser;
     private javax.swing.JCheckBox ifrecordCheckBox;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
@@ -1135,7 +1136,6 @@ public class StudentAttendance extends javax.swing.JPanel {
     private javax.swing.JPanel student_attn_class_panel;
     private javax.swing.JPanel student_attn_course_panel;
     private javax.swing.JPanel student_attn_main_panel;
-    private com.toedter.calendar.JDateChooser toDateChooser;
     private javax.swing.JButton updateAttn;
     // End of variables declaration//GEN-END:variables
 
@@ -1164,11 +1164,15 @@ public class StudentAttendance extends javax.swing.JPanel {
         employee_OnTime_Field.setEditable(false);
         employee_OffTime_Field.setEditable(false);
         searchRecorButton.setEnabled(false);
-        fromDateChooser.setEnabled(false);
-        toDateChooser.setEnabled(false);
+        emp_fromDateChooser.setEnabled(false);
+        emp_toDateChooser.setEnabled(false);
 
         Student_Name_TextField.setEditable(false);
         CourseSTName.setEditable(false);
+
+        CourseRecordFind.setEnabled(false);
+        CourseFromDate.setEnabled(false);
+        CourseToDate.setEnabled(false);
 
         loadClassAttnTable();
         searchClassAttnChecBox();
@@ -1180,6 +1184,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         loadCourseGrade();
         loadCourseAttnTable();
+
     }
 
     // <<..........................................Studen Class Attendance
@@ -1382,8 +1387,8 @@ public class StudentAttendance extends javax.swing.JPanel {
                                     DB.IUD("INSERT INTO class_attendance "
                                             + "(`marked_time`,`class_schedule_id`,`student_id`,`employee_id`) "
                                             + "VALUES('" + dateFormat + "','" + scheduleID + "','" + StudenID + "','" + empID + "')");
-                                    
-                                     JOptionPane.showMessageDialog(this, "Successfully Marked ", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                                    JOptionPane.showMessageDialog(this, "Successfully Marked ", "Success", JOptionPane.INFORMATION_MESSAGE);
                                 }
                                 Studen_ID_TextField.grabFocus();
                                 clearClassFieldMarkin();
@@ -1399,7 +1404,6 @@ public class StudentAttendance extends javax.swing.JPanel {
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "MarkClassAttn", e);
         }
-
 
     }
 
@@ -1789,9 +1793,9 @@ public class StudentAttendance extends javax.swing.JPanel {
                                     DB.IUD("INSERT INTO course_attendance "
                                             + "(`marked_time`,`course_schedule_id`,`student_id`,`employee_id`) "
                                             + "VALUES('" + dateFormat + "','" + scheduleID + "','" + StudenID + "','" + empID + "')");
-                                    
-                                     JOptionPane.showMessageDialog(this, "Successfully Marked ", "Success", JOptionPane.INFORMATION_MESSAGE);
-                                    
+
+                                    JOptionPane.showMessageDialog(this, "Successfully Marked ", "Success", JOptionPane.INFORMATION_MESSAGE);
+
                                 }
                                 loadCourseAttnTable();
                                 CourseSTID.grabFocus();
@@ -1808,7 +1812,6 @@ public class StudentAttendance extends javax.swing.JPanel {
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "MarkCourseAttn", e);
         }
-
 
     }
 
@@ -2160,12 +2163,12 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         if (ifrecordCheckBox.isSelected()) {
             searchRecorButton.setEnabled(true);
-            fromDateChooser.setEnabled(true);
-            toDateChooser.setEnabled(true);
+            emp_fromDateChooser.setEnabled(true);
+            emp_toDateChooser.setEnabled(true);
         } else {
             searchRecorButton.setEnabled(false);
-            fromDateChooser.setEnabled(false);
-            toDateChooser.setEnabled(false);
+            emp_fromDateChooser.setEnabled(false);
+            emp_toDateChooser.setEnabled(false);
         }
 
     }
@@ -2186,30 +2189,30 @@ public class StudentAttendance extends javax.swing.JPanel {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
             if (emp_name.isEmpty()) {
-                if (fromDateChooser.getDate() != null) {
-                    fromDate = fromDateChooser.getDate();
+                if (emp_fromDateChooser.getDate() != null) {
+                    fromDate = emp_fromDateChooser.getDate();
                     query += "'" + format.format(fromDate) + "' AND ";
                 } else {
                     query += "'2024-01-01' AND ";
                 }
 
-                if (toDateChooser.getDate() != null) {
-                    toDate = toDateChooser.getDate();
+                if (emp_toDateChooser.getDate() != null) {
+                    toDate = emp_toDateChooser.getDate();
                     query += "'" + format.format(toDate) + "' ";
                 } else {
                     query += "'" + format.format(new Date()) + "' ";
                 }
 
             } else {
-                if (fromDateChooser.getDate() != null) {
-                    fromDate = fromDateChooser.getDate();
+                if (emp_fromDateChooser.getDate() != null) {
+                    fromDate = emp_fromDateChooser.getDate();
                     query += "'" + format.format(fromDate) + "' AND ";
                 } else {
                     query += "'2024-01-01' AND ";
                 }
 
-                if (toDateChooser.getDate() != null) {
-                    toDate = toDateChooser.getDate();
+                if (emp_toDateChooser.getDate() != null) {
+                    toDate = emp_toDateChooser.getDate();
                     query += "'" + format.format(toDate) + "' AND ";
                 } else {
                     query += "'" + format.format(new Date()) + "' AND ";
@@ -2256,11 +2259,11 @@ public class StudentAttendance extends javax.swing.JPanel {
         markAttn.setEnabled(true);
         updateAttn.setEnabled(true);
 
-        fromDateChooser.setDate(null);
-        toDateChooser.setDate(null);
+        emp_fromDateChooser.setDate(null);
+        emp_toDateChooser.setDate(null);
 
-        fromDateChooser.setEnabled(true);
-        toDateChooser.setEnabled(true);
+        emp_fromDateChooser.setEnabled(true);
+        emp_toDateChooser.setEnabled(true);
         ifrecordCheckBox.setSelected(false);
 
         employee_attn_table.clearSelection();
@@ -2296,6 +2299,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         } else {
             clearCourseAllField();
             clearClassAllFieldMarkin();
+            ifcheckrecord();
         }
 
     }
@@ -2303,9 +2307,10 @@ public class StudentAttendance extends javax.swing.JPanel {
     private void SelectTab2() {
         if (jTabbedPane2.getSelectedIndex() == 0) {
             clearCourseAllField();
+
         } else {
             clearClassAllFieldMarkin();
-        }
+                   }
     }
 
 }
