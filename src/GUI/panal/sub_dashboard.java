@@ -536,6 +536,7 @@ public class sub_dashboard extends javax.swing.JPanel {
 
         jLabel16.setText("\"Inspiring Learning, Empowering Success.\"");
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jTextArea1.setRows(5);
