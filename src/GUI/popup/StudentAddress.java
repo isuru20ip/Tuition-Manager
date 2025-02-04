@@ -78,7 +78,7 @@ public class StudentAddress extends javax.swing.JDialog {
         jPanel11.setBackground(new java.awt.Color(200, 200, 198));
 
         jLabel14.setBackground(new java.awt.Color(250, 249, 246));
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Poppins SemiBold", 1, 20)); // NOI18N
         jLabel14.setText("Student Address");
         jLabel14.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 

@@ -520,7 +520,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         jLabel20.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel20.setText("Student ID :");
 
-        CourseAttnMark.setBackground(new java.awt.Color(0, 153, 51));
+        CourseAttnMark.setBackground(new java.awt.Color(51, 255, 51));
         CourseAttnMark.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         CourseAttnMark.setText("Mark Attendance");
         CourseAttnMark.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -949,118 +949,119 @@ public class StudentAttendance extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTabbedPane2MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jTabbedPane2MouseClicked
-        SelectTab2();
-    }// GEN-LAST:event_jTabbedPane2MouseClicked
-
-    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jTabbedPane1MouseClicked
-        SelectTab1();
-    }// GEN-LAST:event_jTabbedPane1MouseClicked
-
-    private void class_attn_record_find_buttonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_class_attn_record_find_buttonActionPerformed
-        searchClassAttn();
-    }// GEN-LAST:event_class_attn_record_find_buttonActionPerformed
-
-    private void class_CheckBoxActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_class_CheckBoxActionPerformed
-        searchClassAttnChecBox();
-    }// GEN-LAST:event_class_CheckBoxActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton4ActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         clearClassAllFieldMarkin();
-    }// GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void classAttnMarkButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_classAttnMarkButtonActionPerformed
+    private void classAttnMarkButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classAttnMarkButtonActionPerformed
         MarkClassAttn();
-    }// GEN-LAST:event_classAttnMarkButtonActionPerformed
+    }//GEN-LAST:event_classAttnMarkButtonActionPerformed
 
-    private void Studen_ID_TextFieldKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_Studen_ID_TextFieldKeyReleased
+    private void CourseClearAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CourseClearAllActionPerformed
+        clearCourseAllField();
+    }//GEN-LAST:event_CourseClearAllActionPerformed
+
+    private void CourseFieldClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CourseFieldClearActionPerformed
+        clearCourseField();
+    }//GEN-LAST:event_CourseFieldClearActionPerformed
+
+    private void jTabbedPane2MouseClicked(java.awt.event.MouseEvent evt) {
+        SelectTab2();
+    }
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {
+        SelectTab1();
+    }
+
+    private void class_attn_record_find_buttonActionPerformed(java.awt.event.ActionEvent evt) {
+        searchClassAttn();
+    }
+
+    private void class_CheckBoxActionPerformed(java.awt.event.ActionEvent evt) {
+        searchClassAttnChecBox();
+    }
+
+    private void Studen_ID_TextFieldKeyReleased(java.awt.event.KeyEvent evt) {
         searchClassEnrolment();
-    }// GEN-LAST:event_Studen_ID_TextFieldKeyReleased
+    }
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         clearClassFieldMarkin();
-    }// GEN-LAST:event_jButton1ActionPerformed
+    }
 
-    private void class_attn_print_buttonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_class_attn_print_buttonActionPerformed
+    private void class_attn_print_buttonActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             ClassReport();
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "ClassReportButton", e);
         }
-    }// GEN-LAST:event_class_attn_print_buttonActionPerformed
+    }
 
-    private void jComboBox_gradeLoardItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_jComboBox_gradeLoardItemStateChanged
+    private void jComboBox_gradeLoardItemStateChanged(java.awt.event.ItemEvent evt) {
 
         loadClass();
-    }// GEN-LAST:event_jComboBox_gradeLoardItemStateChanged
+    }
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton7ActionPerformed
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {
         resetEmployeePage();
-    }// GEN-LAST:event_jButton7ActionPerformed
+    }
 
-    private void employee_ID_FieldKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_employee_ID_FieldKeyReleased
+    private void employee_ID_FieldKeyReleased(java.awt.event.KeyEvent evt) {
         searchEmployee();
-    }// GEN-LAST:event_employee_ID_FieldKeyReleased
+    }
 
-    private void markAttnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_markAttnActionPerformed
+    private void markAttnActionPerformed(java.awt.event.ActionEvent evt) {
         markAttendance();
-    }// GEN-LAST:event_markAttnActionPerformed
+    }
 
-    private void updateAttnActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_updateAttnActionPerformed
+    private void updateAttnActionPerformed(java.awt.event.ActionEvent evt) {
         updateAttendance();
-    }// GEN-LAST:event_updateAttnActionPerformed
+    }
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton6ActionPerformed
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             EmployeeReport();
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "EmployeeReportButton", e);
         }
-    }// GEN-LAST:event_jButton6ActionPerformed
+    }
 
-    private void ifrecordCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_ifrecordCheckBoxActionPerformed
+    private void ifrecordCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {
         ifcheckrecord();
-    }// GEN-LAST:event_ifrecordCheckBoxActionPerformed
+    }
 
-    private void searchRecorButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_searchRecorButtonActionPerformed
+    private void searchRecorButtonActionPerformed(java.awt.event.ActionEvent evt) {
         searchEmployeeRecord();
-    }// GEN-LAST:event_searchRecorButtonActionPerformed
+    }
 
-    private void CourseGradeItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_CourseGradeItemStateChanged
+    private void CourseGradeItemStateChanged(java.awt.event.ItemEvent evt) {
         loadCourse();
-    }// GEN-LAST:event_CourseGradeItemStateChanged
+    }
 
-    private void CourseReportPrintActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_CourseReportPrintActionPerformed
+    private void CourseReportPrintActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             CourseReport();
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "CourseReport Button", e);
         }
-    }// GEN-LAST:event_CourseReportPrintActionPerformed
+    }
 
-    private void CourseFieldClearActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_CourseFieldClearActionPerformed
-        clearCourseField();
-    }// GEN-LAST:event_CourseFieldClearActionPerformed
 
-    private void CourseSTIDKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_CourseSTIDKeyReleased
+    private void CourseSTIDKeyReleased(java.awt.event.KeyEvent evt) {
         searchCourseEnrolment();
-    }// GEN-LAST:event_CourseSTIDKeyReleased
+    }
 
-    private void CourseAttnMarkActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_CourseAttnMarkActionPerformed
+    private void CourseAttnMarkActionPerformed(java.awt.event.ActionEvent evt) {
         MarkCourseAttn();
-    }// GEN-LAST:event_CourseAttnMarkActionPerformed
+    }
 
-    private void CourseClearAllActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_CourseClearAllActionPerformed
-        clearCourseAllField();
-    }// GEN-LAST:event_CourseClearAllActionPerformed
-
-    private void CourseRecordCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_CourseRecordCheckBoxActionPerformed
+    private void CourseRecordCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {
         searchCourseAttnChecBox();
-    }// GEN-LAST:event_CourseRecordCheckBoxActionPerformed
+    }
 
-    private void CourseRecordFindActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_CourseRecordFindActionPerformed
+    private void CourseRecordFindActionPerformed(java.awt.event.ActionEvent evt) {
         searchCourseAttn();
-    }// GEN-LAST:event_CourseRecordFindActionPerformed
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javaswingdev.swing.table.Table Class_Attn_Table;
@@ -1271,11 +1272,9 @@ public class StudentAttendance extends javax.swing.JPanel {
                 String SubjectID = classMap.get(subject);
 
                 if (gradeId == null) {
-                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                            "Grade is not Selected");
+                    JOptionPane.showMessageDialog(this, "Grade is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else if (SubjectID == null) {
-                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                            "Class is not Selected");
+                    JOptionPane.showMessageDialog(this, "Class is not Selected", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else {
                     if (st_ID.length() >= 8) {
 
@@ -1419,11 +1418,9 @@ public class StudentAttendance extends javax.swing.JPanel {
             String SubjectID = classMap.get(subject);
 
             if (gradeId == null) {
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Select Grade");
+                JOptionPane.showMessageDialog(this, "Please Select Grade", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (SubjectID == null) {
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Select Class");
+                JOptionPane.showMessageDialog(this, "Please Select Class", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
 
                 ResultSet resultSet = DB.search("SELECT * FROM `class_schedule` "
@@ -1530,6 +1527,10 @@ public class StudentAttendance extends javax.swing.JPanel {
 
             DefaultTableModel tableModel = (DefaultTableModel) Class_Attn_Table.getModel();
             tableModel.setRowCount(0);
+            
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+            renderer.setHorizontalAlignment(SwingConstants.CENTER);
+            Class_Attn_Table.setDefaultRenderer(Object.class, renderer);
 
             while (resultSet.next()) {
                 Vector<String> ClassVector = new Vector<>();
@@ -1828,6 +1829,10 @@ public class StudentAttendance extends javax.swing.JPanel {
 
             DefaultTableModel tableModel = (DefaultTableModel) CourseTabel.getModel();
             tableModel.setRowCount(0);
+            
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+            renderer.setHorizontalAlignment(SwingConstants.CENTER);
+            CourseTabel.setDefaultRenderer(Object.class, renderer);
 
             while (resultSet.next()) {
                 Vector<String> ClassVector = new Vector<>();
@@ -1996,6 +2001,11 @@ public class StudentAttendance extends javax.swing.JPanel {
         CourseToDate.setEnabled(false);
 CourseAttnMark.setEnabled(true);
         
+
+        CourseAttnMark.setEnabled(true);
+        
+        searchCourseAttnChecBox();
+
         loadCourseAttnTable();
         searchCourseAttnChecBox();
     }
