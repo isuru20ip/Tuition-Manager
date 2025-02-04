@@ -1583,6 +1583,8 @@ public class StudentAttendance extends javax.swing.JPanel {
         class_CheckBox.setSelected(false);
         class_From_DateChooser.setEnabled(false);
         class_to_DateChooser.setEnabled(false);
+        
+        classAttnMarkButton.setEnabled(true);
 
         loadClassAttnTable();
     }
@@ -1992,8 +1994,10 @@ public class StudentAttendance extends javax.swing.JPanel {
         CourseRecordCheckBox.setSelected(false);
         CourseFromDate.setEnabled(false);
         CourseToDate.setEnabled(false);
-
+CourseAttnMark.setEnabled(true);
+        
         loadCourseAttnTable();
+        searchCourseAttnChecBox();
     }
 
     // <<..........................................Studen Course Attendance
