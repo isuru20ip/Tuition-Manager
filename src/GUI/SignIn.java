@@ -12,15 +12,21 @@ import modal.LogCenter;
 import raven.toast.Notifications;
 import modal.RoundedPanel;
 import java.awt.Color;
+import javax.swing.JFrame;
 
 public class SignIn extends javax.swing.JFrame {
     
     
     public SignIn() {
         initComponents();
+        setNotification(this);
         jTextField1.setText("HashanoSA");
         jPasswordField1.setText("Hashan99");
         icon();
+    }
+    
+    private void setNotification(JFrame parent) {
+        Notifications.getInstance().setJFrame(parent);
     }
 
     @SuppressWarnings("unchecked")
