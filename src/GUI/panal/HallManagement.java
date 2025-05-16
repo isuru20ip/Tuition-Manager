@@ -1,10 +1,6 @@
 package GUI.panal;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Vector;
@@ -15,7 +11,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -26,6 +21,7 @@ import modal.beans.Admin;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.engine.JRException;
 import raven.toast.Notifications;
+import modal.RoundedPanel;
 
 public class HallManagement extends javax.swing.JPanel {
 
@@ -69,10 +65,9 @@ public class HallManagement extends javax.swing.JPanel {
 
         jPanel3.setBackground(new java.awt.Color(234, 238, 244));
 
-        jLabel4.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel4.setText("Search :");
 
-        jTextField2.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
         jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField2KeyReleased(evt);
@@ -114,7 +109,7 @@ public class HallManagement extends javax.swing.JPanel {
             }
         });
 
-        jButton6.setBackground(new java.awt.Color(51, 255, 51));
+        jButton6.setBackground(new java.awt.Color(204, 204, 204));
         jButton6.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton6.setText("Print");
         jButton6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -132,7 +127,7 @@ public class HallManagement extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,7 +149,7 @@ public class HallManagement extends javax.swing.JPanel {
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -167,15 +162,13 @@ public class HallManagement extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Hall Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
-        jLabel2.setText("Hall Type");
+        jLabel2.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jLabel2.setText("Hall Type         :");
 
-        jComboBox1.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        jComboBox1.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jTextField1.setFont(new java.awt.Font("Poppins Light", 0, 12)); // NOI18N
-
-        jLabel3.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel3.setText("Hall Capacity :");
 
         jButton1.setBackground(new java.awt.Color(51, 255, 51));
@@ -219,9 +212,9 @@ public class HallManagement extends javax.swing.JPanel {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField1)
@@ -399,7 +392,7 @@ public class HallManagement extends javax.swing.JPanel {
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -413,12 +406,11 @@ public class HallManagement extends javax.swing.JPanel {
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
-            
+
             DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
             renderer.setHorizontalAlignment(SwingConstants.CENTER);
             jTable1.setDefaultRenderer(Object.class, renderer);
             renderer.setHorizontalAlignment(SwingConstants.CENTER);
-
 
             while (resultSet.next()) {
                 Vector<String> vector = new Vector<>();
@@ -435,7 +427,7 @@ public class HallManagement extends javax.swing.JPanel {
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -460,7 +452,7 @@ public class HallManagement extends javax.swing.JPanel {
 
                 DB.IUD("INSERT INTO `class_room` (`id`, `capacity`, `room_type_id`) "
                         + "VALUES ('" + generatedID + "', '" + capacity + "', '" + hallTypeMap.get(type) + "') ");
-                
+
                 Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
                         "Hall added successfully");
 
@@ -474,7 +466,7 @@ public class HallManagement extends javax.swing.JPanel {
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -492,11 +484,11 @@ public class HallManagement extends javax.swing.JPanel {
 
                 if (capacity.isEmpty()) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Hall Capacity");
+                            "Please Enter Hall Capacity");
 
                 } else if (type.equals("Select")) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please select Hall Type");
+                            "Please select Hall Type");
 
                 } else {
 
@@ -518,9 +510,9 @@ public class HallManagement extends javax.swing.JPanel {
                                 + " WHERE `id` = '" + hID + "' ");
 
                     }
-                    
+
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                        "Hall updated successfully");
+                            "Hall updated successfully");
 
                     loadHall();
                     reset();
@@ -538,7 +530,7 @@ public class HallManagement extends javax.swing.JPanel {
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
 
     }
@@ -582,7 +574,7 @@ public class HallManagement extends javax.swing.JPanel {
         } catch (SQLException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
         }
     }
 
@@ -609,40 +601,6 @@ public class HallManagement extends javax.swing.JPanel {
 
         jButton1.setEnabled(true); //add new hall button enable
     }
-    
-    //rounded panel
-    class RoundedPanel extends JPanel {
-
-        private Color backgroundColor;
-        private int cornerRadius = 15;
-        private Color boarder;
-
-        public RoundedPanel(int radius, Color bgColor) {
-            super();
-            cornerRadius = radius;
-            backgroundColor = bgColor;
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Dimension arcs = new Dimension(cornerRadius, cornerRadius);
-            int width = getWidth();
-            int height = getHeight();
-            Graphics2D graphics = (Graphics2D) g;
-            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            //Draws the rounded panel with borders.
-            if (backgroundColor != null) {
-                graphics.setColor(backgroundColor);
-            } else {
-                graphics.setColor(getBackground());
-            }
-            graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height); //paint background
-            graphics.setColor(getForeground());
-//            graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height); //paint border
-//             
-        }
-    }
 
     //save class room report as a pdf
     private void save() {
@@ -668,11 +626,11 @@ public class HallManagement extends javax.swing.JPanel {
         } catch (JRException e) {
             e.printStackTrace();
             Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                        "Error generating report: " + e.getMessage());
+                    "Error generating report: " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
             Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                        "Error generating report: " + e.getMessage());
+                    "Error generating report: " + e.getMessage());
         }
 
     }

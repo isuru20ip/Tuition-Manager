@@ -1,25 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package GUI.panal;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import modal.DB;
 import java.sql.ResultSet;
 import java.util.Vector;
 import java.util.logging.Level;
-import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import modal.LogCenter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import modal.SetDate;
+import modal.RoundedPanel;
 
 /**
  *
@@ -48,7 +39,7 @@ public class sub_dashboard extends javax.swing.JPanel {
 
             String query = "SELECT * FROM `class_schedule`"
                     + "INNER JOIN `schedule_status` ON `class_schedule`.`schedule_status_id` = `schedule_status`.`id` "
-                    + "WHERE `class_schedule`.class_date = '" + date + "';";
+                    + "WHERE `class_schedule`.class_date = '" + date + "'";
 
             ResultSet resultSet = DB.search(query);
 
@@ -545,6 +536,7 @@ public class sub_dashboard extends javax.swing.JPanel {
 
         jLabel16.setText("\"Inspiring Learning, Empowering Success.\"");
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jTextArea1.setRows(5);
@@ -700,38 +692,5 @@ public class sub_dashboard extends javax.swing.JPanel {
     private javaswingdev.swing.table.Table table1;
     // End of variables declaration//GEN-END:variables
 
-    //rounded panel
-    class RoundedPanel extends JPanel {
-
-        private Color backgroundColor;
-        private int cornerRadius = 15;
-        private Color boarder;
-
-        public RoundedPanel(int radius, Color bgColor) {
-            super();
-            cornerRadius = radius;
-            backgroundColor = bgColor;
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Dimension arcs = new Dimension(cornerRadius, cornerRadius);
-            int width = getWidth();
-            int height = getHeight();
-            Graphics2D graphics = (Graphics2D) g;
-            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            //Draws the rounded panel with borders.
-            if (backgroundColor != null) {
-                graphics.setColor(backgroundColor);
-            } else {
-                graphics.setColor(getBackground());
-            }
-            graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height); //paint background
-            graphics.setColor(getForeground());
-//            graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height); //paint border
-//             
-        }
-    }
 
 }

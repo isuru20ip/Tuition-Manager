@@ -4,14 +4,7 @@ import GUI.panal.ClassManagement;
 import GUI.panal.ClassScheduleManagement;
 import GUI.panal.CourseManagement;
 import GUI.panal.PaymentManagement;
-
-//import GUI.panal.Reporting;
-//import GUI.panal.Settings;
-
-//  import GUI.panal.Reporting;
 import GUI.panal.Settings;
-// import GUI.panal.Settings;
-
 import GUI.panal.StudentAttendance;
 import GUI.panal.StudentManagement;
 import GUI.panal.TeacherManagement;
@@ -22,12 +15,6 @@ import GUI.panal.SalaryCalculation;
 import GUI.panal.sub_dashboard;
 import GUI.panal.systemAccess;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.LayoutManager;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,6 +29,9 @@ import javax.swing.Timer;
 import modal.beans.Admin;
 import modal.SetDate;
 import modal.HomeInfo;
+import modal.RoundedPanel;
+import java.awt.Color;
+import modal.LogCenter;
 
 public class Dashboard extends javax.swing.JFrame {
 
@@ -101,10 +91,6 @@ public class Dashboard extends javax.swing.JFrame {
 
         String userName = admin.getFname();
         jLabel3.setText(userName);
-    }
-
-    private void changeColor() {
-
     }
 
     @SuppressWarnings("unchecked")
@@ -337,14 +323,6 @@ public class Dashboard extends javax.swing.JFrame {
         subDashboard.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         subDashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         subDashboard.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        subDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                subDashboardMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                subDashboardMouseExited(evt);
-            }
-        });
         subDashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 subDashboardActionPerformed(evt);
@@ -419,7 +397,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(salaryCalculation, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(systemAManagement, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(settings, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -694,14 +672,6 @@ public class Dashboard extends javax.swing.JFrame {
         loadPanal(new Settings());
     }//GEN-LAST:event_settingsActionPerformed
 
-    private void subDashboardMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subDashboardMouseExited
-        subDashboard.setBackground(Color.white); // Change color on hover
-    }//GEN-LAST:event_subDashboardMouseExited
-
-    private void subDashboardMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subDashboardMouseEntered
-        subDashboard.setBackground(Color.green); // Change color on hover
-    }//GEN-LAST:event_subDashboardMouseEntered
-
     private void subDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subDashboardActionPerformed
         loadPanal(new sub_dashboard());
 
@@ -861,57 +831,7 @@ public class Dashboard extends javax.swing.JFrame {
             serObj.setlog(v);
             
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    //rounded panel
-    class RoundedPanel extends JPanel {
-
-        private Color backgroundColor;
-        private int cornerRadius = 15;
-
-        public RoundedPanel(LayoutManager layout, int radius) {
-            super(layout);
-            cornerRadius = radius;
-        }
-
-        public RoundedPanel(LayoutManager layout, int radius, Color bgColor) {
-            super(layout);
-            cornerRadius = radius;
-            backgroundColor = bgColor;
-        }
-
-        public RoundedPanel(int radius) {
-            super();
-            cornerRadius = radius;
-
-        }
-
-        public RoundedPanel(int radius, Color bgColor) {
-            super();
-            cornerRadius = radius;
-            backgroundColor = bgColor;
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Dimension arcs = new Dimension(cornerRadius, cornerRadius);
-            int width = getWidth();
-            int height = getHeight();
-            Graphics2D graphics = (Graphics2D) g;
-            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            //Draws the rounded panel with borders.
-            if (backgroundColor != null) {
-                graphics.setColor(backgroundColor);
-            } else {
-                graphics.setColor(getBackground());
-            }
-            graphics.fillRoundRect(0, 0, width - 1, height - 1, arcs.width, arcs.height); //paint background
-            graphics.setColor(getForeground());
-//            graphics.drawRoundRect(0, 0, width-1, height-1, arcs.width, arcs.height); //paint border
-//             
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "saveLog", e);
         }
     }
     

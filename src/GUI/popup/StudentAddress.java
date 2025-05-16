@@ -78,7 +78,7 @@ public class StudentAddress extends javax.swing.JDialog {
         jPanel11.setBackground(new java.awt.Color(200, 200, 198));
 
         jLabel14.setBackground(new java.awt.Color(250, 249, 246));
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Poppins SemiBold", 1, 20)); // NOI18N
         jLabel14.setText("Student Address");
         jLabel14.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
@@ -125,8 +125,8 @@ public class StudentAddress extends javax.swing.JDialog {
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(30);
         }
 
-        jButton1.setBackground(new java.awt.Color(102, 204, 0));
-        jButton1.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
+        jButton1.setBackground(new java.awt.Color(51, 255, 51));
+        jButton1.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton1.setText("Add");
         jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -136,11 +136,11 @@ public class StudentAddress extends javax.swing.JDialog {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel3.setText("Address Line 02");
 
         jButton3.setBackground(new java.awt.Color(255, 51, 51));
-        jButton3.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
+        jButton3.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton3.setText("Clear");
         jButton3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -151,7 +151,7 @@ public class StudentAddress extends javax.swing.JDialog {
         });
 
         jButton2.setBackground(new java.awt.Color(255, 255, 102));
-        jButton2.setFont(new java.awt.Font("Meta", 1, 14)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton2.setText("Update");
         jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -161,6 +161,7 @@ public class StudentAddress extends javax.swing.JDialog {
             }
         });
 
+        jComboBox1.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -169,10 +170,10 @@ public class StudentAddress extends javax.swing.JDialog {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel2.setText("Address Line 01");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel4.setText("                   City");
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);

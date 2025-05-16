@@ -214,7 +214,7 @@
                           <Component id="salaryCalculation" min="-2" pref="24" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Component id="systemAManagement" min="-2" pref="24" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="settings" min="-2" pref="24" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -532,8 +532,6 @@
                     <Property name="horizontalAlignment" type="int" value="2"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="subDashboardMouseEntered"/>
-                    <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="subDashboardMouseExited"/>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subDashboardActionPerformed"/>
                   </Events>
                 </Component>

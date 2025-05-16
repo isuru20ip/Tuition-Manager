@@ -6,13 +6,15 @@ package GUI.popup;
 
 import GUI.panal.EnrollmentManagement;
 import java.sql.ResultSet;
-import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
+import modal.RoundedPanel;
+import java.awt.Color;
+import modal.LogCenter;
 
 /**
  *
@@ -50,17 +52,58 @@ public class EnrollmentCourseSelection extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        enrollmentCourseTable = new javax.swing.JTable();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new RoundedPanel(20, new Color(250,249,246));
         jLabel2 = new javax.swing.JLabel();
         searchClassIdField = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         searchSubjectCombobox = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        enrollmentCourseTable = new javaswingdev.swing.table.Table();
+        jPanel11 = new RoundedPanel(20, new Color(234,238,244));
+        jLabel14 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
+
+        jPanel2.setBackground(new java.awt.Color(200, 200, 198));
+
+        jPanel3.setBackground(new java.awt.Color(200, 200, 198));
+
+        jLabel2.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Search By ID");
+
+        searchClassIdField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        searchClassIdField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        searchClassIdField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchClassIdFieldKeyReleased(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Search By Subject");
+
+        searchSubjectCombobox.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
+        searchSubjectCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
+        searchSubjectCombobox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                searchSubjectComboboxItemStateChanged(evt);
+            }
+        });
+
+        jButton1.setBackground(new java.awt.Color(255, 51, 51));
+        jButton1.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
+        jButton1.setText("Clear");
+        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         enrollmentCourseTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -86,114 +129,99 @@ public class EnrollmentCourseSelection extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(enrollmentCourseTable);
 
-        jLabel1.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Search By Subject");
-
-        jLabel2.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Search By ID");
-
-        searchClassIdField.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        searchClassIdField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        searchClassIdField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                searchClassIdFieldKeyReleased(evt);
-            }
-        });
-
-        searchSubjectCombobox.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        searchSubjectCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
-        searchSubjectCombobox.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                searchSubjectComboboxItemStateChanged(evt);
-            }
-        });
-
-        jButton1.setBackground(new java.awt.Color(255, 204, 204));
-        jButton1.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
-        jButton1.setText("Reset");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(searchClassIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(searchSubjectCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18))
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(searchClassIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(80, 80, 80)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(searchSubjectCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21))))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchClassIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchSubjectCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel11.setBackground(new java.awt.Color(200, 200, 198));
+
+        jLabel14.setBackground(new java.awt.Color(250, 249, 246));
+        jLabel14.setFont(new java.awt.Font("Poppins SemiBold", 1, 20)); // NOI18N
+        jLabel14.setText("Select Course");
+        jLabel14.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void enrollmentCourseTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enrollmentCourseTableMouseClicked
-        try {
-            int selectedRow = enrollmentCourseTable.getSelectedRow();
-
-            // Check if the row is selected and if it's a double-click event
-            if (selectedRow != -1 && evt.getClickCount() == 2) {
-                if (enrollmentCourseSelection != null) {
-                    //             Set the selected student ID to the text field
-                    em.getjTextField6().setText(String.valueOf(enrollmentCourseTable.getValueAt(selectedRow, 0)));
-                    em.getjTextField7().setText(String.valueOf(enrollmentCourseTable.getValueAt(selectedRow, 1)));
-                    em.getjTextField8().setText(String.valueOf(enrollmentCourseTable.getValueAt(selectedRow, 2)));
-                    em.getjTextField9().setText(String.valueOf(enrollmentCourseTable.getValueAt(selectedRow, 3)));
-                    em.getjTextField10().setText(String.valueOf(enrollmentCourseTable.getValueAt(selectedRow, 4)));
-                }
-                this.dispose();
-            }
-        } catch (Exception e) {
-            // Log the exception for debugging (avoid leaving it empty)
-            e.printStackTrace();
-
-        }
-    }//GEN-LAST:event_enrollmentCourseTableMouseClicked
 
     private void searchClassIdFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchClassIdFieldKeyReleased
         search();
@@ -213,16 +241,42 @@ public class EnrollmentCourseSelection extends javax.swing.JDialog {
                 + "INNER JOIN `grade` ON `grade`.`id` = `course`.`grade_id` ORDER BY `course`.`id` ASC");
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void enrollmentCourseTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_enrollmentCourseTableMouseClicked
+        try {
+            int selectedRow = enrollmentCourseTable.getSelectedRow();
+
+            // Check if the row is selected and if it's a double-click event
+            if (selectedRow != -1 && evt.getClickCount() == 2) {
+                if (enrollmentCourseSelection != null) {
+                    //             Set the selected student ID to the text field
+                    em.getjTextField6().setText(String.valueOf(enrollmentCourseTable.getValueAt(selectedRow, 0)));
+                    em.getjTextField7().setText(String.valueOf(enrollmentCourseTable.getValueAt(selectedRow, 1)));
+                    em.getjTextField8().setText(String.valueOf(enrollmentCourseTable.getValueAt(selectedRow, 2)));
+                    em.getjTextField9().setText(String.valueOf(enrollmentCourseTable.getValueAt(selectedRow, 3)));
+                    em.getjTextField10().setText(String.valueOf(enrollmentCourseTable.getValueAt(selectedRow, 4)));
+                }
+                this.dispose();
+            }
+        } catch (Exception e) {
+            // Log the exception for debugging (avoid leaving it empty)
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "enrollmentCourseTableMouseClicked", e);
+
+        }
+    }//GEN-LAST:event_enrollmentCourseTableMouseClicked
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable enrollmentCourseTable;
+    private javaswingdev.swing.table.Table enrollmentCourseTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField searchClassIdField;
     private javax.swing.JComboBox<String> searchSubjectCombobox;
@@ -251,7 +305,7 @@ public class EnrollmentCourseSelection extends javax.swing.JDialog {
             searchSubjectCombobox.setModel(ComboBoxModel);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "loadSubject", e);
         }
     }
 
@@ -271,12 +325,12 @@ public class EnrollmentCourseSelection extends javax.swing.JDialog {
                 vector.add(resultSet.getString("room_type.type"));
                 vector.add(resultSet.getString("subject.name"));
                 vector.add(resultSet.getString("grade.name"));
-                
+
                 tableModel.addRow(vector);
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogCenter.logger.log(java.util.logging.Level.WARNING, "loadClasses", e);
         }
 
     }
