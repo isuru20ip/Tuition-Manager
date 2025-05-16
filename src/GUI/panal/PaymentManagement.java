@@ -1408,7 +1408,8 @@ public class PaymentManagement extends javax.swing.JPanel {
                         + "INNER JOIN `teacher` ON `teacher`.`nic` = `class`.`teacher_nic`"
                         + "INNER JOIN `room_type` ON `room_type`.`id` = `class`.`room_type_id`"
                         + "INNER JOIN `class_enrollment` ON `class_enrollment`.`class_id` = `class`.`id`"
-                        + "WHERE `class`.`id` = '" + classID + "'AND `class_enrollment`.`student_id` = '" + studentID.getText() + "'");
+                        + "WHERE `class`.`id` = '" + classID + "' AND `class_enrollment`.`student_id` = '"+studentID.getText()+"' ");
+
                 if (rs.next()) {
                     loardDue(classID);
                     classFee01.setText(rs.getString("fee"));
