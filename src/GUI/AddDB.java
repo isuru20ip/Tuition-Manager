@@ -6,13 +6,20 @@ import javax.swing.JOptionPane;
 import modal.LogCenter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import javax.swing.JFrame;
 import modal.HomeInfo;
 import modal.beans.Home;
+import raven.toast.Notifications;
 
 public class AddDB extends javax.swing.JFrame {
 
     public AddDB() {
         initComponents();
+        setNotification(this);
+    }
+    
+    private void setNotification(JFrame parent) {
+        Notifications.getInstance().setJFrame(parent);
     }
 
     @SuppressWarnings("unchecked")
@@ -43,12 +50,6 @@ public class AddDB extends javax.swing.JFrame {
 
         jLabel17.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel17.setText("Port");
-
-        port.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                portActionPerformed(evt);
-            }
-        });
 
         jLabel18.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel18.setText("Database");
@@ -154,10 +155,6 @@ public class AddDB extends javax.swing.JFrame {
         saveData();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void portActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_portActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_portActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField database;
     private javax.swing.JTextField host;
@@ -204,15 +201,20 @@ public class AddDB extends javax.swing.JFrame {
         String password = this.password.getText();
 
         if (host.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Host is required");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Host is required");
         } else if (port.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Port is required");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Port is required");
         } else if (database.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Database name is required");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Database name is required");
         } else if (admin.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Admin username is required");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Admin username is required");
         } else if (password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Password is required");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Password is required");
         } else {
             boolean isConnection = ValidateConnection(host, port, database, admin, password);
 
@@ -232,11 +234,13 @@ public class AddDB extends javax.swing.JFrame {
                         new AddCompaney(home).setVisible(true);
                         this.dispose();
                     } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(this, "Process Incompeted Please Try Again");
+                        Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Process Incompeted Please Try Again");
                     }
 
                 } else {
-                    JOptionPane.showMessageDialog(this, "File Creation Faild, Try Again");
+                    Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
+                    "File Creation Faild, Try Again");
                 }
             }
         }
@@ -253,7 +257,8 @@ public class AddDB extends javax.swing.JFrame {
                 return true;
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Wrong Database Connection");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Wrong Database Connection");
             this.host.setText("");
             this.port.setText("");
             this.database.setText("");

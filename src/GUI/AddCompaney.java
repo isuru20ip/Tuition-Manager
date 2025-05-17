@@ -1,14 +1,15 @@
 package GUI;
 
 import java.io.IOException;
-import javax.swing.JOptionPane;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import modal.DB;
 import modal.HomeInfo;
 import modal.LogCenter;
 import modal.beans.Home;
+import raven.toast.Notifications;
 
 /**
  *
@@ -23,8 +24,13 @@ public class AddCompaney extends javax.swing.JFrame {
      */
     public AddCompaney(Home home) {
         initComponents();
+        setNotification(this);
         this.home = home;
         loardCity();
+    }
+    
+    private void setNotification(JFrame parent) {
+        Notifications.getInstance().setJFrame(parent);
     }
 
     @SuppressWarnings("unchecked")
@@ -246,19 +252,26 @@ public class AddCompaney extends javax.swing.JFrame {
         String mail = email.getText();
 
         if (name.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Institute name is required");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Institute name is required");
         } else if (line1.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Address Line 1 is required");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Address Line 1 is required");
         } else if (line2.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Address Line 2 is required");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Address Line 2 is required");
         } else if (city.equals("Select City")) {
-            JOptionPane.showMessageDialog(this, "City is required");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "City is required");
         } else if (landline.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "landline  is required");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "landline  is required");
         } else if (phone.isEmpty()) {
-            JOptionPane.showMessageDialog(this, " mobile is required");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "mobile is required");
         } else if (mail.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Email is required");
+            Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Email is required");
         } else {
             
             home.setHomeName(name);
@@ -274,7 +287,8 @@ public class AddCompaney extends javax.swing.JFrame {
                 new SignIn().setVisible(true);
                 this.dispose();
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Process Incompeted Please Try Again");
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                    "Process Incompeted Please Try Again");
             }
         }
     }
