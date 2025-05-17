@@ -534,11 +534,6 @@ public class systemAccess extends javax.swing.JPanel {
         password.setEditable(false);
         password.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         password.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        password.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -900,6 +895,11 @@ public class systemAccess extends javax.swing.JPanel {
         jButton5.setText("Clear All");
         jButton5.setToolTipText("");
         jButton5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -1299,10 +1299,6 @@ public class systemAccess extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_addaccessActionPerformed
 
-    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordActionPerformed
-
     private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameActionPerformed
@@ -1310,6 +1306,10 @@ public class systemAccess extends javax.swing.JPanel {
     private void empidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empidActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_empidActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void setNotification(JFrame parent) {
         Notifications.getInstance().setJFrame(parent);
