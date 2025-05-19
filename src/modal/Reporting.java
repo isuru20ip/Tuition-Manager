@@ -40,7 +40,11 @@ public class Reporting {
         if (path == null) {
             return false;
         }
-        JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm, dataSource);
+        JasperPrint print = JasperFillManager.fillReport(
+                this.getClass().getResource("/report/" + reportName + ".jasper").openStream(),
+                parm,
+                dataSource
+        );
         JasperExportManager.exportReportToPdfFile(print, path + "/" + reportName + modal.SetDate.getDate("yyyy-MM-dd HH.mm").replace(" ", "_") + ".pdf");
 
         // send Email
@@ -54,7 +58,9 @@ public class Reporting {
         if (path == null) {
             return false;
         }
-        JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm, new JREmptyDataSource());
+        JasperPrint print = JasperFillManager.fillReport(
+                this.getClass().getResource("/report/" + reportName + ".jasper").openStream(),
+                parm, new JREmptyDataSource());
         JasperExportManager.exportReportToPdfFile(print, path + "/" + reportName + modal.SetDate.getDate("yyyy-MM-dd HH.mm").replace(" ", "_") + ".pdf");
         // send Email
         Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + " report is Saved by " + admin.getUserName() + "\n Path: " + path);
@@ -63,7 +69,7 @@ public class Reporting {
 
     // viwe reports
     public void viewReport(String reportName, HashMap parm, JRDataSource dataSourse, Admin admin) throws JRException, IOException, FileNotFoundException, ClassNotFoundException {
-        JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm, dataSourse);
+        JasperPrint print = JasperFillManager.fillReport(this.getClass().getResource("/report/" + reportName + ".jasper").openStream(), parm, dataSourse);
         JasperViewer.viewReport(print, false);
 
         // send Email
@@ -72,7 +78,7 @@ public class Reporting {
 
     // viwe reports
     public void viewReport(String reportName, HashMap parm, Admin admin) throws JRException, IOException, FileNotFoundException, ClassNotFoundException {
-        JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm, new JREmptyDataSource());
+        JasperPrint print = JasperFillManager.fillReport(this.getClass().getResource("/report/" + reportName + ".jasper").openStream(), parm, new JREmptyDataSource());
         JasperViewer.viewReport(print, false);
 
         // send Email
@@ -80,15 +86,15 @@ public class Reporting {
     }
 
     // print reports
-    public boolean printReport(String reportName, HashMap parm, JRDataSource dataSourse) throws JRException {
-        JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm, dataSourse);
+    public boolean printReport(String reportName, HashMap parm, JRDataSource dataSourse) throws JRException, IOException {
+        JasperPrint print = JasperFillManager.fillReport(this.getClass().getResource("/report/" + reportName + ".jasper").openStream(), parm, dataSourse);
         return JasperPrintManager.printReport(print, true);
 
     }
 
     // print reports
-    public boolean printReport(String reportName, HashMap parm) throws JRException {
-        JasperPrint print = JasperFillManager.fillReport("src//report//" + reportName + ".jasper", parm, new JREmptyDataSource());
+    public boolean printReport(String reportName, HashMap parm) throws JRException, IOException {
+        JasperPrint print = JasperFillManager.fillReport(this.getClass().getResource("/report/" + reportName + ".jasper").openStream(), parm, new JREmptyDataSource());
         return JasperPrintManager.printReport(print, true);
 
     }

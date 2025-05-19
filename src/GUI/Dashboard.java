@@ -31,6 +31,7 @@ import modal.SetDate;
 import modal.HomeInfo;
 import modal.RoundedPanel;
 import java.awt.Color;
+import raven.toast.Notifications;
 import modal.LogCenter;
 
 public class Dashboard extends javax.swing.JFrame {
@@ -48,6 +49,8 @@ public class Dashboard extends javax.swing.JFrame {
         setName();
 
         setIconImage();
+        
+      Notifications.getInstance().setJFrame(this);
 
         sVGImage2.setSvgImage("source/notification.svg", 30, 30);
         sVGImage3.setSvgImage("source/userprofile.svg", 28, 28);
