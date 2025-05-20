@@ -1308,14 +1308,9 @@ public class systemAccess extends javax.swing.JPanel {
     }//GEN-LAST:event_empidActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-<<<<<<< Updated upstream
 
-        // TODO add your handling code here:
-
-       reset();
-=======
         reset();
->>>>>>> Stashed changes
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void setNotification(JFrame parent) {
