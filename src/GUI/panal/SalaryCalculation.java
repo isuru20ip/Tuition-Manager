@@ -1,6 +1,7 @@
 package GUI.panal;
 
 import java.awt.Color;
+import java.io.IOException;
 import modal.RoundedPanel;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -790,7 +791,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
             printEmployeeSalaryReport();
-        } catch (Exception e) {
+        } catch (JRException e) {
             LogCenter.logger.log(Level.WARNING, "jButton4", e);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -798,7 +799,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         try {
             printTeacherSalaryReport();
-        } catch (Exception e) {
+        } catch (JRException e) {
             LogCenter.logger.log(Level.WARNING, "jButton9", e);
         }
     }//GEN-LAST:event_jButton9ActionPerformed
@@ -899,8 +900,12 @@ public class SalaryCalculation extends javax.swing.JPanel {
                 model.addRow(vector);
             }
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "loadSallary", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (SQLException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
         }
 
     }
@@ -946,7 +951,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
                     jRadioButton2.setSelected(false);
                     jRadioButton2.setEnabled(false);
                     Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER,
-                    "This Months' Salary Has Paid For This Employee");
+                            "This Months' Salary Has Paid For This Employee");
 
                 } else {
 
@@ -971,8 +976,12 @@ public class SalaryCalculation extends javax.swing.JPanel {
                 jRadioButton1.setSelected(false);
             }
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "loadLastPaidDate", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (SQLException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
         }
 
     }
@@ -1005,7 +1014,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
             if (employee_id.isEmpty() || employee_id.isBlank()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please Enter An Employee ID");
+                        "Please Enter An Employee ID");
 
             } else {
                 // Convert fDate to java.sql.Date
@@ -1032,13 +1041,19 @@ public class SalaryCalculation extends javax.swing.JPanel {
                     jButton3.setEnabled(true);
                 } else {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "This employee hasn't attended work during the above period");
+                            "This employee hasn't attended work during the above period");
                     reset();
                 }
             }
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "total", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (SQLException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (NumberFormatException e) {
+            LogCenter.logger.log(Level.WARNING, "Error", e);
         }
     }
 
@@ -1087,8 +1102,12 @@ public class SalaryCalculation extends javax.swing.JPanel {
                 model.addRow(vector);
             }
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "loadTeacherSallary", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (SQLException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
         }
 
     }
@@ -1120,7 +1139,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
                 } else if (lastPaidDate.equals(toady)) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "The salary has already been paid for this teacher");
+                            "The salary has already been paid for this teacher");
                     refresh();
 
                 } else {
@@ -1136,11 +1155,15 @@ public class SalaryCalculation extends javax.swing.JPanel {
             } else {
                 //if there is no valid teacher nic
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please enter a Valid Teacher NIC");
+                        "Please enter a Valid Teacher NIC");
             }
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "loadTeacherSalaryData", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (SQLException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
         }
 
     }
@@ -1174,7 +1197,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
                 if (count == null || count.isEmpty()) {
                     Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER,
-                    "No payment records found for this teacher's Classes or Courses");
+                            "No payment records found for this teacher's Classes or Courses");
                     refresh();
                 } else {
                     jFormattedTextField1.setText(count);
@@ -1184,8 +1207,12 @@ public class SalaryCalculation extends javax.swing.JPanel {
             }
             //Calculate Payment
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "calculateTeacherSalary", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (SQLException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
         }
 
     }
@@ -1247,14 +1274,18 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
             if (isSaved) {
                 Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                    "Employee Salary Report saved successfully");
+                        "Employee Salary Report saved successfully");
             } else {
                 Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Employee Salary Report saving was canceled");
+                        "Employee Salary Report saving was canceled");
             }
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "printEmployeeSalaryReport", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (JRException e) {
+            LogCenter.logger.log(Level.WARNING, "Error", e);
         }
 
     }
@@ -1282,14 +1313,18 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
             if (isSaved) {
                 Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                    "Teacher Salary Report saved successfully");
+                        "Teacher Salary Report saved successfully");
             } else {
                 Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Teacher Salary Report saving was canceled");
+                        "Teacher Salary Report saving was canceled");
             }
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "printTeacherSalaryReport", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (JRException e) {
+            LogCenter.logger.log(Level.WARNING, "Error", e);
         }
 
     }
@@ -1336,15 +1371,19 @@ public class SalaryCalculation extends javax.swing.JPanel {
             // Display the report
             if (print) {
                 Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                    "Invoice Printing Success");
+                        "Invoice Printing Success");
 
             } else {
                 Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Invoice Printing Failed");
+                        "Invoice Printing Failed");
             }
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "printPayment", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (JRException e) {
+            LogCenter.logger.log(Level.WARNING, "Error", e);
         }
 
     }
@@ -1379,10 +1418,10 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
             if (employeId == null || employeId.trim().isEmpty()) {
                 Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Employee ID is required");
+                        "Employee ID is required");
             } else if (total < 0) {
                 Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Total must be a non-negative number");
+                        "Total must be a non-negative number");
             } else {
 
                 ResultSet rs = DB.search("SELECT (`fname`) FROM `employee` WHERE `id` = '" + employeId + "'");
@@ -1394,7 +1433,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
                             + "VALUES ('" + today + "','" + sallaryPerDay + "','" + workedDays + "','" + bonus + "','" + total + "','" + employeId + "')");
 
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                    "Successfully Paid");
+                            "Successfully Paid");
                     loadSallary("", "");
 
                     // Parameters for the report
@@ -1415,8 +1454,16 @@ public class SalaryCalculation extends javax.swing.JPanel {
                 }
             }
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "employeePayment", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (SQLException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (NumberFormatException e) {
+            LogCenter.logger.log(Level.WARNING, "Error", e);
+        } catch (JRException e) {
+            LogCenter.logger.log(Level.WARNING, "Error", e);
         }
     }
 
@@ -1435,7 +1482,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
             if (num.matches(".*[a-zA-Z!@#$%^&*()_+=\\[\\]{}|;:',<>,./?`~].*") || num.isEmpty() || num.isBlank()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "You can't add Letters or Special Characters here");
+                        "You can't add Letters or Special Characters here");
                 jFormattedTextField6.setText("0.00");
 
             } else {
@@ -1451,7 +1498,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
             if (emp_id.isEmpty() || emp_id.isBlank()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please Enter An Employee ID");
+                        "Please Enter An Employee ID");
 
             } else {
                 ResultSet resultSet = DB.search("SELECT * FROM `employee` INNER JOIN `emp_type` ON `employee`.`emp_type_id` = `emp_type`.`id` WHERE "
@@ -1462,7 +1509,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
                     if (employeeType.equals("1")) {
                         Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "This Id Owns For Master Admin, Enter Another One");
+                                "This Id Owns For Master Admin, Enter Another One");
                         reset();
 
                     } else {
@@ -1473,13 +1520,17 @@ public class SalaryCalculation extends javax.swing.JPanel {
                     }
                 } else {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please Enter Valid Employee ID");
+                            "Please Enter Valid Employee ID");
                     reset();
                 }
             }
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "searchEmployee", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (SQLException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
         }
     }
 
@@ -1539,7 +1590,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
                         + "VALUES ('" + tNic + "','" + empID + "','" + today + "','" + comission + "','" + earn + "')");
 
                 Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                    "Payment Succeed");
+                        "Payment Succeed");
 
                 // Parameters for the report
                 HashMap<String, Object> data = new HashMap<>();
@@ -1558,8 +1609,18 @@ public class SalaryCalculation extends javax.swing.JPanel {
                 refresh();
             }
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "teacherPay", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (SQLException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (NumberFormatException e) {
+            LogCenter.logger.log(Level.WARNING, "Error", e);
+        } catch (JRException e) {
+            LogCenter.logger.log(Level.WARNING, "Error", e);
+        } catch (NullPointerException e) {
+            LogCenter.logger.log(Level.WARNING, "Error", e);
         }
     }
 }
