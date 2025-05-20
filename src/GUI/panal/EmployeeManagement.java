@@ -2,12 +2,13 @@ package GUI.panal;
 
 import GUI.popup.Employee_Address;
 import java.awt.Color;
+import java.io.IOException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -495,13 +496,17 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
                     }
 
-                } catch (Exception e) {
-                    LogCenter.logger.log(Level.WARNING, "jTable1MouseClicked", e);
+                } catch (IOException e) {
+                    LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+                } catch (ClassNotFoundException e) {
+                    LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+                } catch (SQLException e) {
+                    LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
                 }
 
             } else {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please select a row to view the address");
+                        "Please select a row to view the address");
             }
         }
     }//GEN-LAST:event_jTable1MouseClicked
@@ -509,7 +514,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
             printReport();
-        } catch (Exception e) {
+        } catch (JRException e) {
             LogCenter.logger.log(Level.WARNING, "jButton2ActionPerformed", e);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -586,7 +591,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
-            
+
             DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
             renderer.setHorizontalAlignment(SwingConstants.CENTER);
             jTable1.setDefaultRenderer(Object.class, renderer);
@@ -605,8 +610,12 @@ public class EmployeeManagement extends javax.swing.JPanel {
                 model.addRow(vector);
             }
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "loadEmployee", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (SQLException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
         }
     }
 
@@ -625,8 +634,12 @@ public class EmployeeManagement extends javax.swing.JPanel {
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
             jComboBox1.setModel(model);
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "loadGender", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (SQLException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
         }
     }
 
@@ -650,8 +663,12 @@ public class EmployeeManagement extends javax.swing.JPanel {
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
             jComboBox2.setModel(model);
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "loadEmployeeType", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (SQLException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
         }
 
     }
@@ -671,8 +688,12 @@ public class EmployeeManagement extends javax.swing.JPanel {
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
             jComboBox3.setModel(model);
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "loadEmployeeStatus", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (SQLException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
         }
 
     }
@@ -700,14 +721,18 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
             if (isSaved) {
                 Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                    "Employee Report saved successfully");
+                        "Employee Report saved successfully");
             } else {
                 Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Employee Report saving was canceled");
+                        "Employee Report saving was canceled");
             }
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "printReport", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (JRException e) {
+            LogCenter.logger.log(Level.WARNING, "Error", e);
         }
 
     }
@@ -748,37 +773,37 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
             if (employee_id == null) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please Select An Employee First");
+                        "Please Select An Employee First");
                 jTable1.grabFocus();
 
             } else if (fname.isEmpty()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please Enter the Employee's First Name");
+                        "Please Enter the Employee's First Name");
                 jTextField1.grabFocus();
 
             } else if (!Validator.NAME.validate(fname)) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "First Name Must Contaion Only Letters");
+                        "First Name Must Contaion Only Letters");
                 jTextField1.grabFocus();
 
             } else if (lname.isEmpty()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please Enter the Employee's Last Name");
+                        "Please Enter the Employee's Last Name");
                 jTextField2.grabFocus();
 
             } else if (!Validator.NAME.validate(lname)) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Last Name Must Contaion Only Letters");
+                        "Last Name Must Contaion Only Letters");
                 jTextField2.grabFocus();
 
             } else if (mobile.isEmpty()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please Enter A Mobile Number");
+                        "Please Enter A Mobile Number");
                 jTextField2.grabFocus();
 
             } else if (!Validator.MOBILE_NUMBER.validate(mobile)) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please Enter A Valid Mobile Number");
+                        "Please Enter A Valid Mobile Number");
                 jTextField2.grabFocus();
 
             } else {
@@ -800,7 +825,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
                     } else {
                         Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "No changes detected. Please Update at least one Detail");
+                                "No changes detected. Please Update at least one Detail");
 
                     }
 
@@ -812,14 +837,18 @@ public class EmployeeManagement extends javax.swing.JPanel {
                             + "`emp_type_id` ='" + employeeTypeMap.get(employee_type) + "' WHERE `id` = '" + employee_id + "' ");
 
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                    "Employee Details Updated Successfully");
+                            "Employee Details Updated Successfully");
                     refresh();
                 }
 
             }
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "update", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (SQLException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
         }
     }
 
@@ -837,47 +866,47 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
             if (fname.isEmpty()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please Enter the Employee's First Name");
+                        "Please Enter the Employee's First Name");
                 jTextField1.grabFocus();
 
             } else if (!Validator.NAME.validate(fname)) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "First Name Must Contaion Only Letters");
+                        "First Name Must Contaion Only Letters");
                 jTextField1.grabFocus();
 
             } else if (lname.isEmpty()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please Enter the Employee's Last Name");
+                        "Please Enter the Employee's Last Name");
                 jTextField2.grabFocus();
 
             } else if (!Validator.NAME.validate(lname)) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Last Name Must Contaion Only Letters");
+                        "Last Name Must Contaion Only Letters");
                 jTextField2.grabFocus();
 
             } else if (mobile.isEmpty()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please Enter A Mobile Number");
+                        "Please Enter A Mobile Number");
                 jTextField2.grabFocus();
 
             } else if (!Validator.MOBILE_NUMBER.validate(mobile)) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please Enter A Valid Mobile Number");
+                        "Please Enter A Valid Mobile Number");
                 jTextField2.grabFocus();
 
             } else if (gender.equals("Select")) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please Select A Gender");
+                        "Please Select A Gender");
                 jComboBox1.grabFocus();
 
             } else if (employee_type.equals("Select")) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please Select An Employee Type");
+                        "Please Select An Employee Type");
                 jComboBox2.grabFocus();
 
             } else if (this.AddressId == null) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Please Enter An Address");
+                        "Please Enter An Address");
                 jButton3.grabFocus();
 
             } else {
@@ -886,7 +915,7 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
                 if (resultSet.next()) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "This Provided Mobile Number Already Have Been Used");
+                            "This Provided Mobile Number Already Have Been Used");
                     jTextField2.grabFocus();
 
                 } else {
@@ -899,19 +928,23 @@ public class EmployeeManagement extends javax.swing.JPanel {
                                 + "('" + newID + "','" + fname + "','" + lname + "','" + mobile + "','" + Date + "','" + AddressId + "','" + emp_status + "','" + genderMap.get(gender) + "','" + employeeTypeMap.get(employee_type) + "')");
 
                         Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                    "New Employee Added Successfully");
+                                "New Employee Added Successfully");
                         refresh();
                     } else {
                         Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER,
-                    "There is No Employee Status Like That In the database");
+                                "There is No Employee Status Like That In the database");
                         refresh();
                     }
                 }
 
             }
 
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "add", e);
+        } catch (IOException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
+        } catch (ClassNotFoundException e) {
+            LogCenter.logger.log(Level.WARNING, "SQL Query Problem", e);
+        } catch (SQLException e) {
+            LogCenter.logger.log(Level.WARNING, "Database Connecting Problem", e);
         }
     }
 
