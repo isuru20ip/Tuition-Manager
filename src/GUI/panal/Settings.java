@@ -43,10 +43,11 @@ public class Settings extends javax.swing.JPanel {
 
     public Settings() {
         initComponents();
+        city.setEnabled(false);
         loardHallType();
         loardEMPypes();
         loardserviceCharge();
-        loardSubjects();
+        loadSubjects();
         loardGrades();
         loardCity();
         loardHome();
@@ -335,7 +336,6 @@ public class Settings extends javax.swing.JPanel {
         jLabel6.setText("Grades");
 
         gradeCombo.setFont(new java.awt.Font("Poppins", 0, 14)); // NOI18N
-        gradeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         subjectName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         subjectName.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -705,7 +705,12 @@ public class Settings extends javax.swing.JPanel {
         jButton2.setBackground(new java.awt.Color(51, 255, 51));
         jButton2.setFont(new java.awt.Font("Poppins SemiBold", 1, 14)); // NOI18N
         jButton2.setText("Save");
-        jButton2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -863,7 +868,7 @@ public class Settings extends javax.swing.JPanel {
 
     //  subject Name Text Feild
     private void subjectNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_subjectNameKeyReleased
-        loardSubjects();
+        loadSubjects();
     }//GEN-LAST:event_subjectNameKeyReleased
 
     // Clear Button of Subject Panal Data
@@ -913,6 +918,54 @@ public class Settings extends javax.swing.JPanel {
             dropGrade();
         }
     }//GEN-LAST:event_gradeTableMouseClicked
+
+    private void host1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_host1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_host1ActionPerformed
+
+    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameActionPerformed
+
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordActionPerformed
+
+    private void port1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_port1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_port1ActionPerformed
+
+    private void database1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_database1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_database1ActionPerformed
+
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailActionPerformed
+
+    private void mobileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mobileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mobileActionPerformed
+
+    private void line02ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_line02ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_line02ActionPerformed
+
+    private void landLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_landLineActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_landLineActionPerformed
+
+    private void line01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_line01ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_line01ActionPerformed
+
+    private void homenameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homenameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_homenameActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        SaveHomeData();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addGrade;
@@ -1175,10 +1228,10 @@ public class Settings extends javax.swing.JPanel {
     }
 
     //view Subjects In jTable [subjectTable]
-    private void loardSubjects() {
+    private void loadSubjects() {
         String name = subjectName.getText();
         try {
-            ResultSet resultSet = DB.search("SELECT `name` FROM `subject` WHERE `name` LIKE '%" + name + "%' ");
+            ResultSet resultSet = DB.search("SELECT `name` FROM `subject` WHERE `name` LIKE '%" + name + "%' ORDER BY `name` ASC ");
             DefaultTableModel model = (DefaultTableModel) subjectTable.getModel();
             model.setRowCount(0);
 
@@ -1262,7 +1315,7 @@ public class Settings extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) gradeTable.getModel();
         model.setRowCount(0);
         subjectName.setText("");
-        loardSubjects();
+        loadSubjects();
         loardGrades();
     }
 
@@ -1339,6 +1392,8 @@ public class Settings extends javax.swing.JPanel {
             try {
                 DB.IUD("INSERT INTO `subject` (`name`) VALUES ('" + WordFormat.capitalizedStart(subjectName.getText()) + "')");
                 JOptionPane.showMessageDialog(this, "New Subject Added [" + WordFormat.capitalizedStart(subjectName.getText()) + "]", "Success", JOptionPane.INFORMATION_MESSAGE);
+                subjectName.setText("");
+                loadSubjects();
             } catch (ClassNotFoundException ex) {
                 LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
             } catch (SQLException ex) {
@@ -1471,7 +1526,8 @@ public class Settings extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while Loarding Homeinfo", ex);
         }
     }
-
+    
+    // vslidate datbase Connection 
     private boolean ValidateConnection(String host, String port, String db, String admin, String ps) {
         String url = "jdbc:mysql://" + host + ":" + port + "/" + db;
         String user = admin;

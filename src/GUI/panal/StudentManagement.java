@@ -302,7 +302,7 @@ public class StudentManagement extends javax.swing.JPanel {
         });
 
         jLabel12.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jLabel12.setText(" Joined Date");
+        jLabel12.setText(" Birthday");
 
         jLabel25.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
         jLabel25.setText(" Status");

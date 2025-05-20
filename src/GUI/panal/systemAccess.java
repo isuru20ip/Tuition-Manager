@@ -900,6 +900,11 @@ public class systemAccess extends javax.swing.JPanel {
         jButton5.setText("Clear All");
         jButton5.setToolTipText("");
         jButton5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -1310,6 +1315,10 @@ public class systemAccess extends javax.swing.JPanel {
     private void empidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empidActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_empidActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+       reset();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void setNotification(JFrame parent) {
         Notifications.getInstance().setJFrame(parent);
