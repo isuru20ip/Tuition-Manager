@@ -1308,10 +1308,14 @@ public class systemAccess extends javax.swing.JPanel {
     }//GEN-LAST:event_empidActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+<<<<<<< Updated upstream
 
         // TODO add your handling code here:
 
        reset();
+=======
+        reset();
+>>>>>>> Stashed changes
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void setNotification(JFrame parent) {
@@ -1399,6 +1403,11 @@ public class systemAccess extends javax.swing.JPanel {
         addaccess.setEnabled(true);
         updateclass.setEnabled(true);
         deleteclass.setEnabled(true);
+        filterComboBox.setSelectedIndex(0);
+        jDateChooser5.setDate(null);
+        jDateChooser6.setDate(null);
+        jDateChooser4.setDate(null);
+        loardLoging();
 
     }
 
@@ -1544,9 +1553,7 @@ public class systemAccess extends javax.swing.JPanel {
     }
 
     private void loardLoging() {
-
         try {
-
             String dateCombo = String.valueOf(filterComboBox.getSelectedItem());
             Date singleDate = jDateChooser4.getDate();
             Date from = jDateChooser5.getDate();
@@ -1561,95 +1568,62 @@ public class systemAccess extends javax.swing.JPanel {
             logingDataTable.setDefaultRenderer(Object.class, renderer);
 
             Vector<String[]> vector = new HomeInfo().getlog();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             int row = 1;
             int vLength = vector.size();
 
             for (String[] log : vector) {
-
                 if (row == vLength) {
                     break;
                 }
 
-                String result = log[3].substring(0, 10); // Extract the date part (yyyy/MM/dd)
+                String result = log[3].substring(0, 10); // Extract date (yyyy/MM/dd)
+                LocalDate logDate = LocalDate.parse(result, formatter);
+                boolean shouldAdd = false;
 
                 if (!dateCombo.equals("Select")) {
+                    LocalDate today = LocalDate.now();
 
-                    if (dateCombo.equals("Today")) {
-                        // Convert the extracted date to LocalDate
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-                        LocalDate logDate = LocalDate.parse(result, formatter);
+                    switch (dateCombo) {
+                        case "Today":
+                            shouldAdd = logDate.isEqual(today);
+                            break;
 
-                        String startDateStr = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+                        case "Yesterday":
+                            LocalDate yesterday = today.minusDays(1);
+                            shouldAdd = logDate.isEqual(yesterday);
+                            break;
 
-                        // Parse the start and end dates
-                        LocalDate startDate = LocalDate.parse(startDateStr, formatter);
+                        case "This Week":
+                            LocalDate startOfWeek = today.with(java.time.DayOfWeek.MONDAY);
+                            LocalDate endOfWeek = today.with(java.time.DayOfWeek.SUNDAY);
+                            shouldAdd = (logDate.isEqual(startOfWeek) || logDate.isAfter(startOfWeek))
+                                    && (logDate.isEqual(endOfWeek) || logDate.isBefore(endOfWeek));
+                            break;
 
-                        if (logDate.isEqual(startDate)) {
-                            Vector<String> v = new Vector<>();
-                            v.add(String.valueOf(row)); // #
-                            v.add(log[0]); // ID
-                            v.add(log[1]); // name
-                            v.add(log[2]); // username
-                            v.add(log[3]); // datetime
-                            v.add(log[4]); // type
-                            defaultTableModel.addRow(v);
-                            row++;
-                        }
-                    } else {
+                        case "This Month":
+                            shouldAdd = (logDate.getYear() == today.getYear())
+                                    && (logDate.getMonth() == today.getMonth());
+                            break;
 
-                        // yesterday and othere items 
+                        default:
+                            // If other values, don't filter by dateCombo
+                            shouldAdd = true;
+                            break;
                     }
-
-                } else if (to != null && from != null) {
-
-                    // Convert the extracted date to LocalDate
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-                    LocalDate logDate = LocalDate.parse(result, formatter);
-
-                    String startDateStr = new SimpleDateFormat("yyyy/MM/dd").format(to);
-                    String endDateStr = new SimpleDateFormat("yyyy/MM/dd").format(from);
-
-                    // Parse the start and end dates
-                    LocalDate startDate = LocalDate.parse(startDateStr, formatter);
-                    LocalDate endDate = LocalDate.parse(endDateStr, formatter);
-
-                    // Check if the log date is between the start and end dates (inclusive)
-                    if ((logDate.isEqual(startDate) || logDate.isAfter(startDate))
-                            && (logDate.isEqual(endDate) || logDate.isBefore(endDate))) {
-
-                        Vector<String> v = new Vector<>();
-                        v.add(String.valueOf(row)); // #
-                        v.add(log[0]); // ID
-                        v.add(log[1]); // name
-                        v.add(log[2]); // username
-                        v.add(log[3]); // datetime
-                        v.add(log[4]); // type
-                        defaultTableModel.addRow(v);
-                        row++;
-                    }
-
+                } else if (from != null && to != null) {
+                    LocalDate startDate = LocalDate.parse(new SimpleDateFormat("yyyy/MM/dd").format(from), formatter);
+                    LocalDate endDate = LocalDate.parse(new SimpleDateFormat("yyyy/MM/dd").format(to), formatter);
+                    shouldAdd = (logDate.isEqual(startDate) || logDate.isAfter(startDate))
+                            && (logDate.isEqual(endDate) || logDate.isBefore(endDate));
                 } else if (singleDate != null) {
-                    // Convert the extracted date to LocalDate
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-                    LocalDate logDate = LocalDate.parse(result, formatter);
-
-                    String startDateStr = new SimpleDateFormat("yyyy/MM/dd").format(singleDate);
-
-                    // Parse the start and end dates
-                    LocalDate startDate = LocalDate.parse(startDateStr, formatter);
-
-                    if (logDate.isEqual(startDate)) {
-                        Vector<String> v = new Vector<>();
-                        v.add(String.valueOf(row)); // #
-                        v.add(log[0]); // ID
-                        v.add(log[1]); // name
-                        v.add(log[2]); // username
-                        v.add(log[3]); // datetime
-                        v.add(log[4]); // type
-                        defaultTableModel.addRow(v);
-                        row++;
-                    }
+                    LocalDate selectedDate = LocalDate.parse(new SimpleDateFormat("yyyy/MM/dd").format(singleDate), formatter);
+                    shouldAdd = logDate.isEqual(selectedDate);
                 } else {
+                    shouldAdd = true; // No filters, show all
+                }
+
+                if (shouldAdd) {
                     Vector<String> v = new Vector<>();
                     v.add(String.valueOf(row)); // #
                     v.add(log[0]); // ID
@@ -1661,10 +1635,10 @@ public class systemAccess extends javax.swing.JPanel {
                     row++;
                 }
             }
+
             logingDataTable.setModel(defaultTableModel);
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "loadLoging", e);
         }
-
     }
 }
