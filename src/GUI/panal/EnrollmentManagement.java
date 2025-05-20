@@ -1312,7 +1312,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
     private void setNewEnrollment() {
         try {
 
-            String sID = jTextField5.getText();
+            String sID = jTextField1.getText();
             String cID = jTextField6.getText();
             String pModel = String.valueOf(paymentModelCombobox.getSelectedItem());
             String eStatus = String.valueOf(enrollmentStatusCombobox.getSelectedItem());
