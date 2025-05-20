@@ -31,6 +31,7 @@ import modal.SetDate;
 import modal.HomeInfo;
 import modal.RoundedPanel;
 import java.awt.Color;
+import javax.swing.JFrame;
 import raven.toast.Notifications;
 import modal.LogCenter;
 
@@ -49,14 +50,18 @@ public class Dashboard extends javax.swing.JFrame {
         setName();
 
         setIconImage();
-        
-      Notifications.getInstance().setJFrame(this);
+
+        setNotification(this);
 
         sVGImage2.setSvgImage("source/notification.svg", 30, 30);
         sVGImage3.setSvgImage("source/userprofile.svg", 28, 28);
         sVGImage1.setSvgImage("source/search.svg", 28, 28);
-        
+
         saveLog();
+    }
+
+    private void setNotification(JFrame parent) {
+        Notifications.getInstance().setJFrame(parent);
     }
 
     SignIn lg = new SignIn();
@@ -807,7 +812,7 @@ public class Dashboard extends javax.swing.JFrame {
     private void setIconImage() {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("Mainlogo.png")));
     }
-    
+
     // contrall loging history
     private void saveLog() {
         try {
@@ -824,18 +829,17 @@ public class Dashboard extends javax.swing.JFrame {
                 admin.getFname() + " " + admin.getLname(),
                 admin.getUserName(),
                 SetDate.getDate("yyyy/MM/dd hh:mm:ss a"),
-                admin.getType(),
-            };
+                admin.getType(),};
 
             // add current loging date 
             v.add(currentLog);
-            
+
             //save updated log list
             serObj.setlog(v);
-            
+
         } catch (Exception e) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "saveLog", e);
         }
     }
-    
+
 }

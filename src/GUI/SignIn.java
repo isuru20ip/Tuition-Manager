@@ -19,10 +19,10 @@ public class SignIn extends javax.swing.JFrame {
     
     public SignIn() {
         initComponents();
-        setNotification(this);
         jTextField1.setText("HashanoSA");
         jPasswordField1.setText("Hashan99");
         icon();
+        setNotification(this);
     }
     
     private void setNotification(JFrame parent) {
