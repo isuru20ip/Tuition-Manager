@@ -1331,7 +1331,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                     DefaultComboBoxModel boxModel = new DefaultComboBoxModel(v);
 
                     classIdCombo.setModel(boxModel);
-                    stName.setText(rs.getString("fname") + " " + rs.getString("fname"));
+                    stName.setText(rs.getString("fname") + " " + rs.getString("lname"));
                     classIdCombo.setEnabled(true);
                 } else {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
