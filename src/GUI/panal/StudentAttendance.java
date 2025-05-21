@@ -1895,8 +1895,6 @@ public class StudentAttendance extends javax.swing.JPanel {
 
                     String scheduleID = resultSet.getString("id");
 
-                    System.out.println(scheduleID);
-
                     Date fromDate;
                     Date toDate;
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -2262,7 +2260,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
                 defaultTableModel.addRow(vector);
             }
-           
+
             ifrecordCheckBox.setSelected(true);
             employee_ID_Field.setText("");
             employee_Name_Field.setText("");
@@ -2294,7 +2292,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         ifrecordCheckBox.setSelected(false);
 
         employee_attn_table.clearSelection();
-        
+
         searchRecorButton.setEnabled(false);
 
         loadEmpAttnTabel();
