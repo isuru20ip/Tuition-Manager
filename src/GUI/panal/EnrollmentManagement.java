@@ -1378,11 +1378,11 @@ public class EnrollmentManagement extends javax.swing.JPanel {
     }
 
     private void resetData() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
         jTextField5.setText("");
-        jTextField6.setText("");
-        jTextField7.setText("");
-        jTextField8.setText("");
-        jTextField9.setText("");
         jTextField6.setText("");
         jTextField7.setText("");
         jTextField8.setText("");
