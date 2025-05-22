@@ -55,6 +55,7 @@ public class StudentManagement extends javax.swing.JPanel {
         setupRadioButtons();
         StudentReportLoad("", "", "", "");
         StudentPaymentReportLoad("");
+        
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
