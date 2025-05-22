@@ -624,13 +624,11 @@ public class HallManagement extends javax.swing.JPanel {
             }
 
         } catch (JRException e) {
-            e.printStackTrace();
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Error generating report: " + e.getMessage());
+            LogCenter.logger.log(Level.WARNING, "Error", e);
+
         } catch (Exception e) {
-            e.printStackTrace();
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Error generating report: " + e.getMessage());
+            LogCenter.logger.log(Level.WARNING, "Error", e);
+
         }
 
     }
@@ -652,7 +650,7 @@ public class HallManagement extends javax.swing.JPanel {
         } catch (ClassNotFoundException ex) {
             LogCenter.logger.log(Level.WARNING, "Error", ex);
         } catch (JRException ex) {
-            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
+            LogCenter.logger.log(Level.WARNING, "Error", ex);
         }
 
     }
