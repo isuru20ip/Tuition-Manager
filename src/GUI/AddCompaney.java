@@ -60,14 +60,32 @@ public class AddCompaney extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(234, 238, 244));
 
+        homeName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                homeNameActionPerformed(evt);
+            }
+        });
+
         jLabel8.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel8.setText("Institute Name");
 
         jLabel9.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel9.setText("Address 01");
 
+        line01.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                line01ActionPerformed(evt);
+            }
+        });
+
         jLabel10.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel10.setText("Address 02");
+
+        line02.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                line02ActionPerformed(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel11.setText("City");
@@ -75,13 +93,36 @@ public class AddCompaney extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel13.setText("LandLine");
 
+        landLine.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                landLineActionPerformed(evt);
+            }
+        });
+
+        mobile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mobileActionPerformed(evt);
+            }
+        });
+
         jLabel14.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel14.setText("Mobile");
 
         city.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        city.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cityActionPerformed(evt);
+            }
+        });
 
         jLabel15.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel15.setText("Email");
+
+        email.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText(" Information setup");
@@ -179,7 +220,6 @@ public class AddCompaney extends javax.swing.JFrame {
                     .addComponent(line01, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(line02, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(city, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -219,6 +259,34 @@ public class AddCompaney extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         saveData();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void homeNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeNameActionPerformed
+        email.grabFocus();
+    }//GEN-LAST:event_homeNameActionPerformed
+
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
+        line01.grabFocus();
+    }//GEN-LAST:event_emailActionPerformed
+
+    private void line02ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_line02ActionPerformed
+        city.grabFocus();
+    }//GEN-LAST:event_line02ActionPerformed
+
+    private void line01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_line01ActionPerformed
+        line02.grabFocus();
+    }//GEN-LAST:event_line01ActionPerformed
+
+    private void mobileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mobileActionPerformed
+        saveData();
+    }//GEN-LAST:event_mobileActionPerformed
+
+    private void cityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cityActionPerformed
+        landLine.grabFocus();
+    }//GEN-LAST:event_cityActionPerformed
+
+    private void landLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_landLineActionPerformed
+        mobile.grabFocus();
+    }//GEN-LAST:event_landLineActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> city;

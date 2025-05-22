@@ -17,7 +17,7 @@ public class AddDB extends javax.swing.JFrame {
         initComponents();
         setNotification(this);
     }
-    
+
     private void setNotification(JFrame parent) {
         Notifications.getInstance().setJFrame(parent);
     }
@@ -48,8 +48,20 @@ public class AddDB extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel16.setText("Host");
 
+        host.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hostActionPerformed(evt);
+            }
+        });
+
         jLabel17.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel17.setText("Port");
+
+        port.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                portActionPerformed(evt);
+            }
+        });
 
         jLabel18.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel18.setText("Database");
@@ -57,8 +69,26 @@ public class AddDB extends javax.swing.JFrame {
         jLabel19.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel19.setText("UserName");
 
+        username.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameActionPerformed(evt);
+            }
+        });
+
+        password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordActionPerformed(evt);
+            }
+        });
+
         jLabel20.setFont(new java.awt.Font("Advert", 0, 14)); // NOI18N
         jLabel20.setText("Password");
+
+        database.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                databaseActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(204, 204, 204));
         jButton1.setText("Save");
@@ -155,6 +185,26 @@ public class AddDB extends javax.swing.JFrame {
         saveData();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void hostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hostActionPerformed
+        port.grabFocus();
+    }//GEN-LAST:event_hostActionPerformed
+
+    private void portActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_portActionPerformed
+        database.grabFocus();
+    }//GEN-LAST:event_portActionPerformed
+
+    private void databaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_databaseActionPerformed
+        username.grabFocus();
+    }//GEN-LAST:event_databaseActionPerformed
+
+    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+        password.grabFocus();
+    }//GEN-LAST:event_usernameActionPerformed
+
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+        saveData();
+    }//GEN-LAST:event_passwordActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField database;
     private javax.swing.JTextField host;
@@ -235,12 +285,12 @@ public class AddDB extends javax.swing.JFrame {
                         this.dispose();
                     } catch (IOException ex) {
                         Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                    "Process Incompeted Please Try Again");
+                                "Process Incompeted Please Try Again");
                     }
 
                 } else {
                     Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "File Creation Faild, Try Again");
+                            "File Creation Faild, Try Again");
                 }
             }
         }

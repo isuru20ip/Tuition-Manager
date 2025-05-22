@@ -47,8 +47,6 @@ public class Reporting {
         );
         JasperExportManager.exportReportToPdfFile(print, path + "/" + reportName + modal.SetDate.getDate("yyyy-MM-dd HH.mm").replace(" ", "_") + ".pdf");
 
-        // send Email
-        Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + " report is Saved by " + admin.getUserName() + "\n Path: " + path);
         return true;
     }
 
@@ -62,8 +60,7 @@ public class Reporting {
                 this.getClass().getResource("/report/" + reportName + ".jasper").openStream(),
                 parm, new JREmptyDataSource());
         JasperExportManager.exportReportToPdfFile(print, path + "/" + reportName + modal.SetDate.getDate("yyyy-MM-dd HH.mm").replace(" ", "_") + ".pdf");
-        // send Email
-        Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + " report is Saved by " + admin.getUserName() + "\n Path: " + path);
+
         return true;
     }
 
@@ -72,8 +69,6 @@ public class Reporting {
         JasperPrint print = JasperFillManager.fillReport(this.getClass().getResource("/report/" + reportName + ".jasper").openStream(), parm, dataSourse);
         JasperViewer.viewReport(print, false);
 
-        // send Email
-        Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + " report is viewed by " + admin.getUserName());
     }
 
     // viwe reports
@@ -81,8 +76,6 @@ public class Reporting {
         JasperPrint print = JasperFillManager.fillReport(this.getClass().getResource("/report/" + reportName + ".jasper").openStream(), parm, new JREmptyDataSource());
         JasperViewer.viewReport(print, false);
 
-        // send Email
-        Mail.sendMail(new HomeInfo().getHome().getEmail(), "System Report Notification", "A new " + reportName + " report is viewed by " + admin.getUserName());
     }
 
     // print reports
