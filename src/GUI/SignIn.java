@@ -19,8 +19,8 @@ public class SignIn extends javax.swing.JFrame {
     
     public SignIn() {
         initComponents();
-        setNotification(this);
         icon();
+        setNotification(this);
     }
     
     private void setNotification(JFrame parent) {
