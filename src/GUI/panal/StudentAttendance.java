@@ -1046,7 +1046,6 @@ public class StudentAttendance extends javax.swing.JPanel {
         }
     }
 
-
     private void CourseSTIDKeyReleased(java.awt.event.KeyEvent evt) {
         searchCourseEnrolment();
     }
@@ -1527,7 +1526,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
             DefaultTableModel tableModel = (DefaultTableModel) Class_Attn_Table.getModel();
             tableModel.setRowCount(0);
-            
+
             DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
             renderer.setHorizontalAlignment(SwingConstants.CENTER);
             Class_Attn_Table.setDefaultRenderer(Object.class, renderer);
@@ -1584,8 +1583,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         class_CheckBox.setSelected(false);
         class_From_DateChooser.setEnabled(false);
         class_to_DateChooser.setEnabled(false);
-        class_attn_record_find_button.setEnabled(false);
-        CourseRecordFind.setEnabled(false);
+
         classAttnMarkButton.setEnabled(true);
 
         loadClassAttnTable();
@@ -1830,7 +1828,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
             DefaultTableModel tableModel = (DefaultTableModel) CourseTabel.getModel();
             tableModel.setRowCount(0);
-            
+
             DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
             renderer.setHorizontalAlignment(SwingConstants.CENTER);
             CourseTabel.setDefaultRenderer(Object.class, renderer);
@@ -2001,10 +1999,13 @@ public class StudentAttendance extends javax.swing.JPanel {
         CourseFromDate.setEnabled(false);
         CourseToDate.setEnabled(false);
         CourseAttnMark.setEnabled(true);
-        
+
+        CourseAttnMark.setEnabled(true);
+
         searchCourseAttnChecBox();
 
         loadCourseAttnTable();
+        searchCourseAttnChecBox();
     }
 
     // <<..........................................Studen Course Attendance
@@ -2190,6 +2191,7 @@ public class StudentAttendance extends javax.swing.JPanel {
         try {
             String emp_name = employee_Name_Field.getText();
             String emp_id = employee_ID_Field.getText();
+            System.out.println(emp_id);
 
             String query = "SELECT * FROM `emp_attendance` "
                     + "INNER JOIN `employee` ON `emp_attendance`.`employee_id` = `employee`.`id` "
@@ -2203,6 +2205,8 @@ public class StudentAttendance extends javax.swing.JPanel {
                 if (emp_fromDateChooser.getDate() != null) {
                     fromDate = emp_fromDateChooser.getDate();
                     query += "'" + format.format(fromDate) + "' AND ";
+
+                    System.out.println(fromDate);
                 } else {
                     query += "'2024-01-01' AND ";
                 }
@@ -2247,11 +2251,21 @@ public class StudentAttendance extends javax.swing.JPanel {
                 vector.add(resultSet.getString("ontime"));
                 vector.add(resultSet.getString("offtime"));
 
+                System.out.println(resultSet.getString("date"));
+                System.out.println(resultSet.getString("employee_id"));
+                System.out.println(resultSet.getString("employee.fname"));
+                System.out.println(resultSet.getString("employee.lname"));
+                System.out.println(resultSet.getString("ontime"));
+                System.out.println(resultSet.getString("offtime"));
+
                 defaultTableModel.addRow(vector);
             }
 
-            resetEmployeePage();
             ifrecordCheckBox.setSelected(true);
+            employee_ID_Field.setText("");
+            employee_Name_Field.setText("");
+            employee_OnTime_Field.setText("");
+            employee_OffTime_Field.setText("");
 
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "searchEmployeeRecord", e);
@@ -2278,6 +2292,8 @@ public class StudentAttendance extends javax.swing.JPanel {
         ifrecordCheckBox.setSelected(false);
 
         employee_attn_table.clearSelection();
+
+        searchRecorButton.setEnabled(false);
 
         loadEmpAttnTabel();
 
@@ -2321,7 +2337,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         } else {
             clearClassAllFieldMarkin();
-                   }
+        }
     }
 
 }
