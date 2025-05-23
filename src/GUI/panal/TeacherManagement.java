@@ -1163,14 +1163,24 @@ public class TeacherManagement extends javax.swing.JPanel {
             String status = String.valueOf(jComboBox2.getSelectedItem());
 
             if (fname.isEmpty()) {
-
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Your First Name");
+                        "Please Enter the Teacher's First Name");
+                jTextField1.grabFocus();
+
+            } else if (!Validator.NAME.validate(fname)) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "First Name Must Contaion Only Letters");
+                jTextField1.grabFocus();
 
             } else if (lname.isEmpty()) {
-
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Your Last Name");
+                        "Please Enter the Teacher's Last Name");
+                jTextField2.grabFocus();
+
+            } else if (!Validator.NAME.validate(lname)) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Last Name Must Contaion Only Letters");
+                jTextField2.grabFocus();
 
             } else if (nic.isEmpty()) {
 
@@ -1254,14 +1264,24 @@ public class TeacherManagement extends javax.swing.JPanel {
                 String status = String.valueOf(jComboBox2.getSelectedItem());
 
                 if (fname.isEmpty()) {
-
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                            "Please Enter Your First Name");
+                            "Please Enter the Teacher's First Name");
+                    jTextField1.grabFocus();
+
+                } else if (!Validator.NAME.validate(fname)) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                            "First Name Must Contaion Only Letters");
+                    jTextField1.grabFocus();
 
                 } else if (lname.isEmpty()) {
-
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                            "Please Enter Your Last Name");
+                            "Please Enter the Teacher's Last Name");
+                    jTextField2.grabFocus();
+
+                } else if (!Validator.NAME.validate(lname)) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                            "Last Name Must Contaion Only Letters");
+                    jTextField2.grabFocus();
 
                 } else if (nic.isEmpty()) {
 

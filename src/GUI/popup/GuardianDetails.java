@@ -335,7 +335,7 @@ public class GuardianDetails extends javax.swing.JDialog {
                 } else {
 //                    System.out.println("Error: Employee object (em) is null. Cannot set address ID.");
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Guardian Object is null");
+                            "Guardian Object is null");
                 }
 
                 // Close the current window
@@ -455,12 +455,23 @@ private void loadGuardianType() {
             if (Gfname.isEmpty()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
                         "Please Enter First Name");
-                return; // Exit if validation fails
+                return;
             }
+            if (!Gfname.matches("^[a-zA-Z]+$")) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "First Name must contain only letters");
+                return;
+            }
+
             if (Glname.isEmpty()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
                         "Please Enter Last Name");
-                return; // Exit if validation fails
+                return;
+            }
+            if (!Glname.matches("^[a-zA-Z]+$")) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Last Name must contain only letters");
+                return;
             }
             if (Gmobile.isEmpty()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
@@ -486,7 +497,7 @@ private void loadGuardianType() {
 
                 if (resultSet.next()) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Guardian Already Registered");
+                            "Guardian Already Registered");
                 } else {
                     int confirmation = JOptionPane.showConfirmDialog(this, "Are You Sure Want To add", "Alert!", JOptionPane.YES_NO_OPTION);
 
@@ -498,7 +509,7 @@ private void loadGuardianType() {
                         // Execute the insert
                         DB.IUD(insertSQL);
                         Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                        "Guardian Registered Successfully");
+                                "Guardian Registered Successfully");
 
                         // Now get the last inserted ID
                         ResultSet rs = DB.search("SELECT LAST_INSERT_ID() AS last_id");
@@ -516,7 +527,7 @@ private void loadGuardianType() {
                             } else {
 //                    System.out.println("Error: Guardian object (sm) is null. Cannot set address ID.");
                                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Guardian Object is null");
+                                        "Guardian Object is null");
                             }
                             // Close the current window after successful insertion
                             this.dispose();
@@ -529,7 +540,7 @@ private void loadGuardianType() {
             }
         } catch (Exception e) {
             Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                        "An unexpected error occurred: " + e.getMessage());
+                    "An unexpected error occurred: " + e.getMessage());
         }
 
     }
@@ -540,7 +551,7 @@ private void loadGuardianType() {
 
         if (row == -1) {
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Select a Row");
+                    "Please Select a Row");
         } else {
             String id = String.valueOf(jTable1.getValueAt(row, 0));
 
@@ -552,16 +563,22 @@ private void loadGuardianType() {
 
                 if (fname.isEmpty()) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter First Name");
+                            "Please Enter First Name");
+                } else if (!fname.matches("[a-zA-Z]+")) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                            "First Name should contain only letters");
                 } else if (lname.isEmpty()) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Last Name");
+                            "Please Enter Last Name");
+                } else if (!lname.matches("[a-zA-Z]+")) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                            "Last Name should contain only letters");
                 } else if (mobile.isEmpty()) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Mobile");
+                            "Please Enter Mobile");
                 } else if (type.equals("Select")) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Select a Type");
+                            "Please Select a Type");
                 } else {
 
                     //check if the address already exists
@@ -575,7 +592,7 @@ private void loadGuardianType() {
 
                         if (getFname.equals(fname) && getLname.equals(lname) && getMobile.equals(mobile) && getType.equals(type)) {
                             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "This Guardian has been already used");
+                                    "This Guardian has been already used");
                             isFound = true;
                             break;
                         }
@@ -586,7 +603,7 @@ private void loadGuardianType() {
                                 + " `mobile` ='" + mobile + "', `guardian_type_id`='" + guardianTypeMap.get(type) + "' WHERE `id`='" + id + "'");
 
                         Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                        "Guardian Details Successfully Updated");
+                                "Guardian Details Successfully Updated");
 
                         loadGuardian(Gid);
 
@@ -613,7 +630,7 @@ private void loadGuardianType() {
         loadGuardianType();
 
     }
-    
+
     //rounded panel
     class RoundedPanel extends JPanel {
 
