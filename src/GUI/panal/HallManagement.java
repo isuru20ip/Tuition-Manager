@@ -619,7 +619,7 @@ public class HallManagement extends javax.swing.JPanel {
                 Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
                         "Hall Report saved successfully");
             } else {
-                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER,
+                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
                         "Hall Report saving was canceled");
             }
 

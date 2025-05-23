@@ -254,7 +254,7 @@ public class StudentManagement extends javax.swing.JPanel {
         );
 
         jPanel15.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Employee Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
+        jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Student Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
         jPanel15.setFont(new java.awt.Font("Poppins SemiBold", 0, 12)); // NOI18N
 
         jLabel15.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N

@@ -369,7 +369,7 @@ public class CourseManagement extends javax.swing.JPanel {
         jLabel5.setText(" Grade");
 
         jLabel4.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
-        jLabel4.setText(" Class ID");
+        jLabel4.setText(" Course ID");
 
         jTextField1.setEditable(false);
         jTextField1.setFont(new java.awt.Font("Poppins Medium", 0, 14)); // NOI18N
