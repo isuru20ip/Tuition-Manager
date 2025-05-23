@@ -19,6 +19,8 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import modal.HomeInfo;
@@ -1564,6 +1566,21 @@ public class systemAccess extends javax.swing.JPanel {
 
             Vector<String[]> vector = new HomeInfo().getlog();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+
+            Collections.sort(vector, new Comparator<String[]>() {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+
+                public int compare(String[] a, String[] b) {
+                    try {
+                        LocalDate dateA = LocalDate.parse(a[3].substring(0, 10), formatter);
+                        LocalDate dateB = LocalDate.parse(b[3].substring(0, 10), formatter);
+                        return dateB.compareTo(dateA); // Descending
+                    } catch (Exception e) {
+                        return 0;
+                    }
+                }
+            });
+
             int row = 1;
             int vLength = vector.size();
 
