@@ -3099,10 +3099,10 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
             boolean isSaved = reporting.saveReport("Class_Schedule_Report", params, dataSource, admin);
 
             if (isSaved) {
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
                     "Class Schedule Report saved successfully");
             } else {
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
                     "Class Schedule Report saving was canceled");
             }
 
@@ -3141,8 +3141,6 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         } catch (JRException ex) {
             Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        jDateChooser3.grabFocus();
     }
     // class schedule reporting view------------------------------------------------------------------------------------------------
 
@@ -3211,7 +3209,6 @@ public class ClassScheduleManagement extends javax.swing.JPanel {
         } catch (JRException ex) {
             Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
         }
-        jDateChooser4.grabFocus();
     }
     // course schedule reporting view----------------------------------------------------------------------------------------------
 
