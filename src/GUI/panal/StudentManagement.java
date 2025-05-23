@@ -55,7 +55,6 @@ public class StudentManagement extends javax.swing.JPanel {
         setupRadioButtons();
         StudentReportLoad("", "", "", "");
         StudentPaymentReportLoad("");
-        
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1325,10 +1324,24 @@ public class StudentManagement extends javax.swing.JPanel {
             // Basic field validations
             if (fname.isEmpty()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Your First Name");
+                        "Please Enter the Student's First Name");
+                jTextField1.grabFocus();
+
+            } else if (!Validator.NAME.validate(fname)) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "First Name Must Contaion Only Letters");
+                jTextField1.grabFocus();
+
             } else if (lname.isEmpty()) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Please Enter Your Last Name");
+                        "Please Enter the Students's Last Name");
+                jTextField2.grabFocus();
+
+            } else if (!Validator.NAME.validate(lname)) {
+                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                        "Last Name Must Contaion Only Letters");
+                jTextField2.grabFocus();
+
             } else if (dob == null) {
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
                         "Please Enter Your Date of Birth");
@@ -1429,10 +1442,23 @@ public class StudentManagement extends javax.swing.JPanel {
                 // Validate the fields
                 if (fname.isEmpty()) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                            "Please Enter Your First Name");
+                            "Please Enter the Student's First Name");
+                    jTextField1.grabFocus();
+
+                } else if (!Validator.NAME.validate(fname)) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                            "First Name Must Contaion Only Letters");
+                    jTextField1.grabFocus();
+
                 } else if (lname.isEmpty()) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                            "Please Enter Your Last Name");
+                            "Please Enter the Students's Last Name");
+                    jTextField2.grabFocus();
+
+                } else if (!Validator.NAME.validate(lname)) {
+                    Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
+                            "Last Name Must Contaion Only Letters");
+                    jTextField2.grabFocus();
                 } else if (nic.isEmpty() && !nic.isEmpty() && !Validator.NIC.validate(nic)) {
                     Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
                             "Invalid NIC format");
