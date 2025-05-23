@@ -554,7 +554,7 @@
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Poppins SemiBold" size="20" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Class Enrollment"/>
+                    <Property name="text" type="java.lang.String" value="Course Enrollment"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
                   </Properties>
                 </Component>

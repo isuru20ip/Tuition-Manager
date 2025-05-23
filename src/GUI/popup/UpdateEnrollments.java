@@ -317,7 +317,7 @@ public class UpdateEnrollments extends javax.swing.JDialog {
 
         jLabel16.setBackground(new java.awt.Color(250, 249, 246));
         jLabel16.setFont(new java.awt.Font("Poppins SemiBold", 1, 20)); // NOI18N
-        jLabel16.setText("Class Enrollment");
+        jLabel16.setText("Course Enrollment");
         jLabel16.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
@@ -577,7 +577,6 @@ public class UpdateEnrollments extends javax.swing.JDialog {
     private javax.swing.JButton courseUpdateFindButton;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
@@ -588,7 +587,6 @@ public class UpdateEnrollments extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;

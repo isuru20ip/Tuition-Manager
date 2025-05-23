@@ -324,11 +324,11 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        subDashboard.setBackground(new java.awt.Color(255, 255, 255));
         subDashboard.setFont(new java.awt.Font("SchulbuchNord", 0, 14)); // NOI18N
         subDashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/dashboard icon.png"))); // NOI18N
         subDashboard.setText(" Dashboard");
         subDashboard.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        subDashboard.setContentAreaFilled(false);
         subDashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         subDashboard.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         subDashboard.addActionListener(new java.awt.event.ActionListener() {
@@ -370,7 +370,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(paymentManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(employeeManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(salaryCalculation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(settings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -682,20 +682,6 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void subDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subDashboardActionPerformed
         loadPanal(new sub_dashboard());
-
-        subDashboard.addActionListener(new ActionListener() {
-            private boolean isClicked = false;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (isClicked) {
-                    subDashboard.setBackground(new Color(240, 240, 240)); // Original color
-                } else {
-                    subDashboard.setBackground(Color.black); // New color
-                }
-                isClicked = !isClicked; // Toggle state
-            }
-        });
     }//GEN-LAST:event_subDashboardActionPerformed
 
     private void pageStart() {
