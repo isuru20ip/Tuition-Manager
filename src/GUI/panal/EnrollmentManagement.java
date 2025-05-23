@@ -481,7 +481,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Class Enrollment ID", "Class ID", "Student ID", "Enrollment Status", "Register Date", "Employee", "Payment Model"
+                "Coursse Enrollment ID", "Class ID", "Student ID", "Enrollment Status", "Register Date", "Employee", "Payment Model"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -1695,9 +1695,11 @@ public class EnrollmentManagement extends javax.swing.JPanel {
             boolean isSaved = reporting.saveReport("Student_Course_Enrollment_Report", params, dataSource, admin);
 
             if (isSaved) {
-                JOptionPane.showMessageDialog(this, "Student Course Enrollment Report saved successfully");
+                 Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
+                    "Student Course Enrollment Report saved successfully");
             } else {
-                JOptionPane.showMessageDialog(this, "Student Course Enrollment Report saving was canceled");
+                 Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
+                    "Student Course Enrollment Report saving was canceled");
             }
 
         } catch (IOException ex) {
